@@ -23,7 +23,7 @@ import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import type { Scene } from "@babylonjs/core/scene";
 import { audio, isSoundId } from "../../audio";
 import type { Quality } from "../../settings";
-import { encodeCastSpell, encodeEndSpell, type ServerMessage, type SpellErrorCode, type VisibleEffect, type Zone } from "../../wasm/sim_wasm";
+import { encodeCastSpell, encodeEndSpell, encodeSetHotbar, type ServerMessage, type SpellErrorCode, type VisibleEffect, type Zone } from "../../wasm/sim_wasm";
 import type { DormRoom } from "../dorm/room";
 import { furnitureDef } from "../dorm/catalog";
 import { gestureByKey, LEVITATION, WAND_LIGHT, spellById, spellRgb, targetsFriend, type SpellDef } from "./data";
@@ -43,6 +43,8 @@ export interface SpellbookState {
   learned: number[];
   loadout: number[];
   slots: number;
+  /** Protocol v16: the social hotbar, one spell id or null per slot (ui/hotbar-state.ts). */
+  hotbar: (number | null)[];
 }
 
 export interface SpellControllerOptions {
@@ -88,7 +90,7 @@ export class SpellController {
   private readonly wandLights: WandLights;
   private readonly floats = new Levitations();
   private readonly targeting: LevitationTargeting;
-  private book: SpellbookState = { learned: [], loadout: [], slots: 3 };
+  private book: SpellbookState = { learned: [], loadout: [], slots: 3, hotbar: [] };
   /** Local time each spell may be cast again (client-side pacing only). */
   private readonly ready = new Map<number, number>();
   private readonly lit: WandHolder[] = [];
@@ -151,7 +153,12 @@ export class SpellController {
   onMessage(msg: ServerMessage): boolean {
     switch (msg.type) {
       case "spellbook":
-        this.book = { learned: [...msg.learned], loadout: [...msg.loadout], slots: msg.slots };
+        this.book = { learned: [...msg.learned], loadout: [...msg.loadout], slots: msg.slots, hotbar: [...msg.hotbar] };
+        for (const fn of this.listeners) fn();
+        return true;
+      case "hotbar":
+        // The layout the server kept (ours, or the old one if it refused).
+        this.book = { ...this.book, hotbar: [...msg.slots] };
         for (const fn of this.listeners) fn();
         return true;
       case "spellCast":
@@ -274,6 +281,19 @@ export class SpellController {
   /** Whether our guardian is out (the server's word: our visible effects). */
   get guardianOut(): boolean {
     return this.opts.effectsOf(this.opts.selfId()).some((e) => e.kind === "guardian" && !e.guarding);
+  }
+
+  /** The hotbar: the fraction (0..1) of `spell`'s cooldown still to run (the client's own pacing). */
+  cooldownLeft(spell: SpellDef, now = performance.now()): number {
+    const left = (this.ready.get(spell.id) ?? 0) - now;
+    return left > 0 && spell.social.cooldown_ms > 0 ? left / spell.social.cooldown_ms : 0;
+  }
+
+  /** The hotbar: a new layout, shown at once and sent (`SetHotbar`); the server answers with the one it keeps. */
+  setHotbar(slots: readonly (number | null)[]): void {
+    this.book = { ...this.book, hotbar: [...slots] };
+    for (const fn of this.listeners) fn();
+    this.opts.send(encodeSetHotbar(Uint16Array.from(slots, (id) => id ?? 0)));
   }
 
   /** The floating piece nearest us within `range` (m), or null. */

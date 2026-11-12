@@ -22,7 +22,9 @@
 //! **Levels.** `Progress` (after `Welcome` and after every XP grant) is the
 //! character's own level and XP; viewers see the level in
 //! `EntityInfo.level` and `LevelChanged`. Learned spells and the dueling
-//! loadout come in `Spellbook`.
+//! loadout come in `Spellbook`, and so does the social **hotbar** (protocol
+//! v16): [`HOTBAR_SLOTS`] slots, each a learned spell that does something
+//! outside duels or empty, set with `SetHotbar` (answered by `Hotbar`).
 //!
 //! **Spells outside duels.** `CastSpell` / `EndSpell`: Lucerna lights the
 //! wand (`VisibleEffect::Lucerna`, seen by everyone who has the caster in
@@ -50,6 +52,9 @@ pub const TRACE_POINTS_MAX: usize = 128;
 /// Most spells in a dueling loadout at any level (`Spellbook.slots` is the
 /// character's own number, from `data/progression.json`).
 pub const LOADOUT_MAX: usize = 8;
+/// Slots on the social hotbar (protocol v16; keys 1-9 and 0): `Spellbook.hotbar`,
+/// `Hotbar.slots` and `SetHotbar.slots` hold this many (`None`: empty).
+pub const HOTBAR_SLOTS: usize = 10;
 /// Most beats in one practice round (`LessonRound.beats`).
 pub const LESSON_BEATS_MAX: usize = 32;
 /// Most options one pick beat offers (`BeatPrompt::Pick.options`), and so

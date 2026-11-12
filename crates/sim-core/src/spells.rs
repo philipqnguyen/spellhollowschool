@@ -27,10 +27,17 @@
 //! A character's dueling **loadout** is a fixed number of slots
 //! (`data/progression.json`, by level) filled from learned dueling spells
 //! ([`Spells::check_loadout`], [`Spells::default_loadout`]).
+//!
+//! The social **hotbar** (protocol v16) is [`HOTBAR_SLOTS`] slots of learned
+//! spells that do something outside a duel ([`SpellDef::on_hotbar`]: every
+//! spell but the flourishes), each at most once ([`Spells::check_hotbar`]).
+//! A character that never set one has its learned ones in spellbook order
+//! ([`Spells::default_hotbar`]); a spell learned later goes into the first
+//! empty slot ([`Spells::hotbar_add`]).
 
 use serde::{Deserialize, Serialize};
 
-use protocol::{GuardianAnimal, SpellId};
+use protocol::{GuardianAnimal, HOTBAR_SLOTS, SpellId};
 
 use crate::gesture::Gestures;
 
@@ -325,6 +332,34 @@ pub enum LoadoutError {
     NotLearned(SpellId),
 }
 
+/// A social hotbar: [`HOTBAR_SLOTS`] slots in key order (1-9, then 0).
+pub type Hotbar = [Option<SpellId>; HOTBAR_SLOTS];
+
+/// Why a hotbar is not allowed.
+#[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
+pub enum HotbarError {
+    #[error("more slots than the hotbar has")]
+    TooMany,
+    #[error("spell {0} is on the hotbar twice")]
+    Duplicate(SpellId),
+    #[error("spell {0} does nothing outside a duel")]
+    NotSocial(SpellId),
+    #[error("spell {0} is not learned")]
+    NotLearned(SpellId),
+}
+
+/// The spellbook's order of schools (the client's `SCHOOLS`,
+/// ui/spellbook-state.ts): the hotbar's default follows it.
+const SCHOOL_ORDER: [School; 3] = [School::Charms, School::Transfiguration, School::Defence];
+
+impl SpellDef {
+    /// Whether it may go on the social hotbar: it does something outside a
+    /// duel (every spell but the flourishes).
+    pub fn on_hotbar(&self) -> bool {
+        !matches!(self.social, Social::Flourish { .. })
+    }
+}
+
 /// `data/spells.json`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Spells {
@@ -369,6 +404,92 @@ impl Spells {
             .map(|s| s.id)
             .take(usize::from(slots))
             .collect()
+    }
+
+    /// The spells the hotbar can hold, in spellbook order: by school
+    /// (Charms, Transfiguration, Defence), in file order within each.
+    pub fn hotbar_spells(&self) -> impl Iterator<Item = &SpellDef> {
+        SCHOOL_ORDER.into_iter().flat_map(move |school| {
+            self.spells
+                .iter()
+                .filter(move |s| s.school == school && s.on_hotbar())
+        })
+    }
+
+    /// The hotbar of someone who never set one: their learned hotbar
+    /// spells in spellbook order, as many as fit.
+    pub fn default_hotbar(&self, learned: &[SpellId]) -> Hotbar {
+        let mut bar: Hotbar = [None; HOTBAR_SLOTS];
+        let ids = self
+            .hotbar_spells()
+            .filter(|s| learned.contains(&s.id))
+            .map(|s| s.id);
+        for (slot, id) in bar.iter_mut().zip(ids) {
+            *slot = Some(id);
+        }
+        bar
+    }
+
+    /// `slots` as a hotbar if someone who learned `learned` may set it: at
+    /// most [`HOTBAR_SLOTS`] (the rest empty), learned hotbar spells only,
+    /// none twice.
+    pub fn check_hotbar(
+        &self,
+        learned: &[SpellId],
+        slots: &[Option<SpellId>],
+    ) -> Result<Hotbar, HotbarError> {
+        if slots.len() > HOTBAR_SLOTS {
+            return Err(HotbarError::TooMany);
+        }
+        let mut bar: Hotbar = [None; HOTBAR_SLOTS];
+        for (k, &slot) in slots.iter().enumerate() {
+            let Some(id) = slot else { continue };
+            if slots[..k].contains(&Some(id)) {
+                return Err(HotbarError::Duplicate(id));
+            }
+            if !self.get(id).is_some_and(SpellDef::on_hotbar) {
+                return Err(HotbarError::NotSocial(id));
+            }
+            if !learned.contains(&id) {
+                return Err(HotbarError::NotLearned(id));
+            }
+            bar[k] = Some(id);
+        }
+        Ok(bar)
+    }
+
+    /// A stored hotbar with whatever is no longer allowed emptied (a spell
+    /// gone from the data or not learned, a repeat); the rest keep their slots.
+    pub fn trim_hotbar(&self, learned: &[SpellId], stored: &[Option<SpellId>]) -> Hotbar {
+        let mut bar: Hotbar = [None; HOTBAR_SLOTS];
+        for (k, &slot) in stored.iter().take(HOTBAR_SLOTS).enumerate() {
+            if let Some(id) = slot
+                && !bar.contains(&Some(id))
+                && learned.contains(&id)
+                && self.get(id).is_some_and(SpellDef::on_hotbar)
+            {
+                bar[k] = Some(id);
+            }
+        }
+        bar
+    }
+
+    /// Spells just learned go into the first empty slots, in the order
+    /// given (hotbar spells not already on it, while there is room).
+    /// Whether the hotbar changed.
+    pub fn hotbar_add(&self, bar: &mut Hotbar, new: &[SpellId]) -> bool {
+        let mut changed = false;
+        for &id in new {
+            if bar.contains(&Some(id)) || !self.get(id).is_some_and(SpellDef::on_hotbar) {
+                continue;
+            }
+            let Some(slot) = bar.iter_mut().find(|s| s.is_none()) else {
+                break;
+            };
+            *slot = Some(id);
+            changed = true;
+        }
+        changed
     }
 
     /// Tinctura's colours must be palette indices (below `palette_len`);
@@ -1043,6 +1164,121 @@ pub(crate) mod tests {
             Err(LoadoutError::TooMany)
         );
         assert_eq!(s.default_loadout(&learned, 1).len(), 1);
+    }
+
+    #[test]
+    fn the_hotbar_takes_every_spell_but_the_flourishes() {
+        let s = shipped();
+        let keys: Vec<&str> = s.hotbar_spells().map(|d| d.key.as_str()).collect();
+        // Spellbook order: Charms, then Transfiguration, then Defence.
+        assert_eq!(
+            keys,
+            [
+                "lucerna", "elevara", "tinctura", "adveni", "aperio", "volucra", "rigora",
+                "dissolvo", "tardara", "custodio"
+            ]
+        );
+        for d in &s.spells {
+            assert_eq!(d.on_hotbar(), !matches!(d.social, Social::Flourish { .. }));
+        }
+    }
+
+    #[test]
+    fn hotbars_hold_learned_social_spells_once() {
+        let s = shipped();
+        let id = |k: &str| s.by_key(k).unwrap().id;
+        let (lucerna, elevara, torpeo, custodio) =
+            (id("lucerna"), id("elevara"), id("torpeo"), id("custodio"));
+        let learned = [lucerna, elevara, torpeo];
+        let bar = s
+            .check_hotbar(&learned, &[None, Some(elevara), None, Some(lucerna)])
+            .unwrap();
+        assert_eq!(bar[1], Some(elevara));
+        assert_eq!(bar[3], Some(lucerna));
+        assert_eq!(bar.iter().flatten().count(), 2);
+        assert_eq!(
+            s.check_hotbar(&learned, &[Some(lucerna), Some(lucerna)]),
+            Err(HotbarError::Duplicate(lucerna))
+        );
+        assert_eq!(
+            s.check_hotbar(&learned, &[Some(torpeo)]),
+            Err(HotbarError::NotSocial(torpeo))
+        );
+        assert_eq!(
+            s.check_hotbar(&learned, &[Some(custodio)]),
+            Err(HotbarError::NotLearned(custodio))
+        );
+        assert_eq!(
+            s.check_hotbar(&learned, &[Some(999)]),
+            Err(HotbarError::NotSocial(999))
+        );
+        assert_eq!(
+            s.check_hotbar(&learned, &[None; HOTBAR_SLOTS + 1]),
+            Err(HotbarError::TooMany)
+        );
+        assert_eq!(s.check_hotbar(&learned, &[]), Ok([None; HOTBAR_SLOTS]));
+    }
+
+    #[test]
+    fn default_and_trimmed_hotbars() {
+        let s = shipped();
+        let id = |k: &str| s.by_key(k).unwrap().id;
+        // Learned out of order, with a dueling spell among them.
+        let learned = [id("rigora"), id("torpeo"), id("lucerna"), id("volucra")];
+        let bar = s.default_hotbar(&learned);
+        assert_eq!(
+            &bar[..4],
+            &[
+                Some(id("lucerna")),
+                Some(id("volucra")),
+                Some(id("rigora")),
+                None
+            ]
+        );
+        let every: Vec<SpellId> = s.spells.iter().map(|d| d.id).collect();
+        assert!(s.default_hotbar(&every).iter().all(Option::is_some));
+        // A stored bar keeps its slots; what is no longer allowed empties.
+        let stored = [
+            None,
+            Some(id("volucra")),
+            Some(id("torpeo")),
+            Some(id("custodio")),
+            Some(id("volucra")),
+            Some(id("lucerna")),
+        ];
+        let trimmed = s.trim_hotbar(&learned, &stored);
+        assert_eq!(
+            &trimmed[..6],
+            &[
+                None,
+                Some(id("volucra")),
+                None,
+                None,
+                None,
+                Some(id("lucerna"))
+            ]
+        );
+    }
+
+    #[test]
+    fn learned_spells_fill_the_first_empty_slots() {
+        let s = shipped();
+        let id = |k: &str| s.by_key(k).unwrap().id;
+        let mut bar: Hotbar = [None; HOTBAR_SLOTS];
+        bar[0] = Some(id("lucerna"));
+        bar[2] = Some(id("elevara"));
+        assert!(s.hotbar_add(
+            &mut bar,
+            &[id("torpeo"), id("tinctura"), id("lucerna"), id("adveni")]
+        ));
+        assert_eq!(bar[1], Some(id("tinctura")));
+        assert_eq!(bar[3], Some(id("adveni")));
+        assert_eq!(bar.iter().flatten().count(), 4);
+        // Nothing new: no change.
+        assert!(!s.hotbar_add(&mut bar, &[id("lucerna"), id("torpeo")]));
+        // A full bar takes nothing more.
+        let mut full: Hotbar = [Some(id("lucerna")); HOTBAR_SLOTS];
+        assert!(!s.hotbar_add(&mut full, &[id("custodio")]));
     }
 
     #[test]

@@ -61,6 +61,7 @@ fn join_as(
         xp: 0,
         learned,
         loadout: Vec::new(),
+        ..Default::default()
     };
     joining.dorm_open = true;
     setup(&mut joining);

@@ -35,6 +35,7 @@ fn join_knowing(
         xp: 0,
         learned,
         loadout: Vec::new(),
+        ..Default::default()
     };
     let (tx, rx) = mpsc::channel(256);
     let control = Arc::new(ConnControl::default());

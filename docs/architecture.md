@@ -356,7 +356,7 @@ are only appended. Asset keys match `[a-z0-9_/]`.
 
 - One WebSocket per player at `GET /ws`. Binary frames only, each one
   postcard-encoded `protocol::ClientMsg` or `ServerMsg`.
-  `PROTOCOL_VERSION` is **15**; it is bumped on any breaking change, and a
+  `PROTOCOL_VERSION` is **16**; it is bumped on any breaking change, and a
   client on another version is kicked with `VersionMismatch`.
 - The first client frame is `Hello { protocol_version, token, character_id }`:
   the session token from `POST /api/auth/login` and, optionally, the
@@ -410,7 +410,7 @@ every field):
 | Economy | `TradeRequest`, `TradeRespond`, `TradeSetOffer`, `TradeLock`, `TradeConfirm`, `TradeCancel` | `Wallet`, `MailNotice`, `StationOpened`, `FindResult`, `TradeRequested`, `TradeState`, `TradeResult`, `TradeError` |
 | Potions | `Drink`, `MimicDraughtAsk`, `MimicDraughtAnswer` | `OwnEffects`, `Drank`, `MimicDraughtRequest`, `MimicDraughtDeclined`, `PotionError` |
 | School | `TraceGesture`, `PickAnswer` | `Progress`, `ClassJoined`, `LessonPhaseChanged`, `LessonRound`, `BeatScored`, `ClassResult`, `ClassError`, `NpcEvent` |
-| Spells | `CastSpell`, `EndSpell` | `Spellbook`, `SpellCast`, `Levitating`, `Revealed`, `SpellError` |
+| Spells | `CastSpell`, `EndSpell`, `SetHotbar` | `Spellbook`, `SpellCast`, `Levitating`, `Revealed`, `SpellError`, `Hotbar` |
 | Dueling | `DuelChallenge`, `DuelChallengeName`, `DuelRespond`, `DuelCancel`, `DuelCast`, `DuelForfeit`, `DuelListRequest`, `DuelSpectate` | `DuelChallenged`, `DuelChallengeEnded`, `DuelError`, `DuelStart`, `DuelEvents`, `DuelResult`, `DuelList` |
 | Secrets | `EnterWishingRoom` | `WishingRoomDoor`, `Discovered` |
 | NPCs | `NpcInteract { id }` | `NpcReply { id, reply }` |
@@ -674,7 +674,7 @@ Main tables:
 | Area | Tables |
 | --- | --- |
 | Accounts | `accounts` (normalized email, Argon2id hash, adult attestation time, verified time, `is_bot`), `email_verifications`, `sessions` (token hash, expiry, the selected `character_id`: `ON DELETE SET NULL`), `password_resets` (token hashes only) |
-| Characters | `characters` (up to 5 per account, indexed by `characters_account_idx`; unique name, house, appearance, resume zone and position, Crowns, XP and level, timestamps) |
+| Characters | `characters` (up to 5 per account, indexed by `characters_account_idx`; unique name, house, appearance, resume zone and position, Crowns, XP and level, the social hotbar, timestamps) |
 | Items | `items` (owner, item definition, dyes, finish, quantity, maker, location: `inventory`, `equipped`, `dorm`, `mail`, `exchange`), `equipment`, `saved_outfits` |
 | Social | `friendships` (two rows per friendship), `friend_requests`, `blocks` |
 | Dorms | `dorms` (open to friends), `dorm_placements` |
@@ -929,6 +929,18 @@ green (`--club`); someone in the player's party and club shows party blue
   things, conjured birds, a guardian animal, and more, each with its
   cooldown, range and target rules from `data/spells.json`. Duel arenas
   refuse them.
+- **The social hotbar** (`server::spells::hotbar`, client `ui/hotbar.ts`):
+  ten slots at the bottom of the HUD, keys 1-9 then 0, each a learned spell
+  that does something outside duels (every spell whose `social.kind` is not
+  `flourish`: `Spells::check_hotbar`). The layout is stored with the
+  character (`characters.hotbar`, NULL until the player sets one: then the
+  learned ones in spellbook order), sent in `Spellbook` and set with
+  `SetHotbar` (answered by `Hotbar`; the world saves it through the position
+  saver). A spell is added to the first empty slot when it is learned, and
+  only then (`progression::learn_spells`, and the world for one learned
+  online), so a spell taken off stays off. A slot casts as the spellbook's
+  Cast button does. In a duel the bar hides and the duel's spell bar has the
+  number keys.
 - **Dueling** (`sim_core::duel`, fully server-side): two players in the
   Dueling Club's area challenge each other; the duel runs in an arena
   instance. Each duelist has Poise 100; the first at 0 loses, or the higher

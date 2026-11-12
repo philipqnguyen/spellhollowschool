@@ -167,6 +167,8 @@ pub enum Input {
     PartyPromote(i64),
     /// Protocol v15: the club messages (`club.rs`).
     Club(ClubInput),
+    /// Protocol v16: `ClientMsg::SetHotbar` (`crate::spells::hotbar`).
+    SetHotbar(Vec<Option<protocol::SpellId>>),
     DormPlace {
         item_id: i64,
         pos: QPos,
@@ -241,6 +243,7 @@ impl Input {
             ClientMsg::ClubRename { name, tag } => Input::Club(ClubInput::Rename { name, tag }),
             ClientMsg::ClubSetMotd { motd } => Input::Club(ClubInput::SetMotd(motd)),
             ClientMsg::ClubDisband => Input::Club(ClubInput::Disband),
+            ClientMsg::SetHotbar { slots } => Input::SetHotbar(slots),
             ClientMsg::Move {
                 seq,
                 pos,
@@ -1206,6 +1209,10 @@ impl WorldSim {
     }
 
     /// Stores character `i`'s spells and loadout and sends `Spellbook`.
+    /// The hotbar spells among `new` (just learned) go into the hotbar's
+    /// first empty slots, saved like a `SetHotbar` (the database did the
+    /// same in `learn_spells`; this keeps the world's copy, which may hold
+    /// a newer layout, the one that lasts).
     pub(super) fn set_spellbook(
         &mut self,
         i: usize,
@@ -1216,6 +1223,12 @@ impl WorldSim {
         let school = &mut self.ents.school[i];
         school.learned = learned;
         school.loadout = loadout;
+        if crate::catalog::shipped()
+            .spells
+            .hotbar_add(&mut school.hotbar, &new)
+        {
+            self.save_hotbar(i);
+        }
         self.send_spellbook(i, new);
     }
 
@@ -1227,8 +1240,43 @@ impl WorldSim {
             loadout: school.loadout.clone(),
             slots: school.slots(),
             new,
+            hotbar: crate::spells::hotbar::to_wire(&school.hotbar),
         };
         self.send_msg(i, &msg);
+    }
+
+    /// `SetHotbar`: learned hotbar spells only, none twice
+    /// (`Spells::check_hotbar`). Answered by `Hotbar` with the layout kept
+    /// (the old one when refused); a change is saved.
+    fn on_set_hotbar(&mut self, i: usize, slots: &[Option<protocol::SpellId>]) {
+        let school = &mut self.ents.school[i];
+        let checked = crate::catalog::shipped()
+            .spells
+            .check_hotbar(&school.learned, slots);
+        let changed = match checked {
+            Ok(bar) if bar != school.hotbar => {
+                school.hotbar = bar;
+                true
+            }
+            Ok(_) => false,
+            Err(e) => {
+                tracing::debug!(error = %e, "hotbar refused");
+                false
+            }
+        };
+        if changed {
+            self.save_hotbar(i);
+        }
+        let msg = ServerMsg::Hotbar {
+            slots: crate::spells::hotbar::to_wire(&self.ents.school[i].hotbar),
+        };
+        self.send_msg(i, &msg);
+    }
+
+    /// Hands character `i`'s hotbar to the saver.
+    fn save_hotbar(&self, i: usize) {
+        let batch = SaveBatch::hotbar(self.ents.info[i].character_id, self.ents.school[i].hotbar);
+        self.save(batch);
     }
 
     /// Sends `msg` to every player in `i`'s zone within `radius` of it.
@@ -2143,6 +2191,7 @@ impl WorldSim {
             Input::PartyKick(target) => self.on_party_kick(i, at, target),
             Input::PartyPromote(target) => self.on_party_promote(i, at, target),
             Input::Club(input) => self.on_club_input(i, at, input),
+            Input::SetHotbar(slots) => self.on_set_hotbar(i, &slots),
         }
     }
 
@@ -2764,6 +2813,7 @@ impl WorldSim {
                 .map(|i| self.resume_point(i))
                 .collect(),
             reveals: self.take_all_reveals(),
+            hotbars: Vec::new(),
         };
         for c in &self.ents.client {
             c.control.kick(KickCode::ServerRestart);
@@ -3242,3 +3292,7 @@ impl WorldHandle {
 #[cfg(test)]
 #[path = "world_tests.rs"]
 pub(crate) mod tests;
+
+#[cfg(test)]
+#[path = "hotbar_tests.rs"]
+mod hotbar_tests;

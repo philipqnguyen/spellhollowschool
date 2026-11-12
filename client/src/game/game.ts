@@ -716,6 +716,7 @@ class Game implements RunningGame {
         return !!name && this.friendState.friendList().some((f) => sameName(f.name, name));
       },
       onLevel: (level) => this.characters.setLevel(level),
+      inDuel: () => this.dueling.inDuel,
       viewProjection: () => this.view.scene.getTransformMatrix().m,
       canvasSize: () => [this.canvas.clientWidth, this.canvas.clientHeight],
     });

@@ -3,7 +3,7 @@
 // castle, the HUD's timetable), levels (the HUD badge, the level-up
 // flourish, school years on nameplates, required levels in the wardrobe),
 // classes (controller.ts), NPCs (speech bubbles, demonstrations), spells
-// outside duels (game/spells) and the wayfinding trail (the
+// outside duels (game/spells) with the social hotbar (ui/hotbar.ts), and the wayfinding trail (the
 // "Monstra Viam" charm: game/wayfinding, started from the timetable or the
 // Monstra Viam window) with the first-day tour and its one-time class prompt
 // (game/wayfinding/tour.ts). game.ts routes server messages here, calls
@@ -33,6 +33,7 @@ import { Wayfinding } from "../wayfinding/wayfinding";
 import type { StairEvents } from "../castle/stairs-state";
 import { promptDoor, promptText, standsAt, Tour, TOUR_ASK, TOUR_DONE, TOUR_INTRO, TOUR_SKIPPED, TOUR_VIA_LANDMARK, tourKey, tourStops, type TourStep } from "../wayfinding/tour";
 import { SpellbookWindow } from "../../ui/spellbook";
+import { HotbarBar } from "../../ui/hotbar";
 import type { MapMark } from "../../ui/map";
 import { h } from "../../ui/dom";
 import type { House, KeyPlaceView, NpcEvent, Period, Progress, ServerMessage, TimetableSlot, VisibleEffect, Zone } from "../../wasm/sim_wasm";
@@ -117,6 +118,8 @@ export interface SchoolHubOptions {
   isFriend: (id: number) => boolean;
   /** Our level changed (the wardrobe shows required levels against it). */
   onLevel: (level: number) => void;
+  /** We are dueling: the duel's spell bar has the number keys, and the hotbar hides. */
+  inDuel: () => boolean;
   /** Projection for the speech bubbles: the scene's view-projection and the canvas size. */
   viewProjection: () => ArrayLike<number>;
   canvasSize: () => [number, number];
@@ -143,6 +146,8 @@ export class SchoolHub {
   /** The latest schedule line of each class (for the Monstra Viam window). */
   private readonly views = new Map<string, ScheduleView>();
   private readonly book: SpellbookWindow;
+  /** The social hotbar (keys 1-9, 0), at the bottom centre. */
+  private readonly hotbar: HotbarBar;
   /** The level badge, the clock chip and the class bar, in a strip just below the name and counts (top right). */
   private readonly strip = h("div", { class: "school-strip" });
   /** The strip's bottom edge (px): speech bubbles keep below it. */
@@ -202,7 +207,8 @@ export class SchoolHub {
     this.daynight = new DayNight(opts.scene);
     this.bubbles = new SpeechBubbles(opts.hudRoot);
     this.badge = new LevelBadge(() => this.book.toggle());
-    this.book = new SpellbookWindow({ onCast: (s) => this.spells.cast(s) });
+    this.book = new SpellbookWindow({ onCast: (s) => this.spells.cast(s), onHotbar: (slots) => this.spells.setHotbar(slots) });
+    this.hotbar = new HotbarBar({ onCast: (s) => this.spells.cast(s), onChange: (slots) => this.spells.setHotbar(slots) });
     this.classes = new ClassController({
       hudRoot: opts.hudRoot,
       clock: this.clock,
@@ -251,7 +257,7 @@ export class SchoolHub {
     // Under the name and counts at the top right (in the HUD layer, first in the HUD, so toasts and windows cover it).
     this.strip.append(this.badge.root, this.chip.button, this.classBar.button, this.classBar.live);
     opts.stripHost.append(this.strip);
-    opts.hudRoot.append(this.chip.root, this.classBar.root, this.book.root, this.flourish.root, this.trailChip.root, this.monstraViam.root, this.toasts.root, this.lore.root);
+    opts.hudRoot.append(this.hotbar.root, this.hotbar.menu.root, this.chip.root, this.classBar.root, this.book.root, this.flourish.root, this.trailChip.root, this.monstraViam.root, this.toasts.root, this.lore.root);
     opts.hudActions.append(this.book.button);
     if (this.way) opts.hudActions.append(this.monstraViam.button);
     this.updateSchedule();
@@ -297,6 +303,8 @@ export class SchoolHub {
           this.opts.notify(`You learned ${listWords(names)}! Open your spellbook (Y) to see ${names.length > 1 ? "them" : "it"}.`);
         }
         return true;
+      // Protocol v16: the hotbar the server kept.
+      case "hotbar":
       case "spellCast":
       case "levitating":
       case "spellError":
@@ -435,7 +443,8 @@ export class SchoolHub {
   // ---------------------------------------------------------------- input
 
   handleKey(e: KeyboardEvent): boolean {
-    return this.spells.handleKey(e) || this.book.handleKey(e) || this.chip.handleKey(e) || this.classBar.handleKey(e) || this.classes.handleKey(e) || this.lore.handleKey(e) || (!!this.way && this.monstraViam.handleKey(e));
+    // The hotbar's digits come after the class (its pick keys) and never in a duel (the bar hides).
+    return this.spells.handleKey(e) || this.book.handleKey(e) || this.chip.handleKey(e) || this.classBar.handleKey(e) || this.classes.handleKey(e) || this.lore.handleKey(e) || (!!this.way && this.monstraViam.handleKey(e)) || this.hotbar.handleKey(e);
   }
 
   /** Esc ends the trail: asked last, after every window has had the key. */
@@ -750,6 +759,7 @@ export class SchoolHub {
   /** Before the scene renders: spells, the lesson, the clock and the lighting. */
   update(dt: number): void {
     this.spells.update(dt);
+    this.renderHotbar();
     this.updateClass(dt);
     this.props.update(this.classes.stage, this.clock.now());
     // Review fix: the one-time class prompt points at a door; inside a class it only covers
@@ -770,6 +780,7 @@ export class SchoolHub {
       this.scheduleTimer = SCHEDULE_INTERVAL;
       this.updateSchedule();
       this.refreshBook(); // cheap: the window only redraws while open, and only what changed
+      this.placeHotbar();
       this.toasts.tick(performance.now());
       this.monstraViam.refresh();
     }
@@ -955,8 +966,46 @@ export class SchoolHub {
 
   private refreshBook(): void {
     const b = this.spells.spellbook;
-    this.book.update({ progress: this.progress, learned: b.learned, loadout: b.loadout, slots: b.slots, lit: this.spells.wandLit, guardian: this.spells.guardianOut });
+    this.book.update({ progress: this.progress, learned: b.learned, loadout: b.loadout, slots: b.slots, lit: this.spells.wandLit, guardian: this.spells.guardianOut, hotbar: b.hotbar });
   }
+
+  /** The hotbar, every frame (it redraws only what changed): hidden in a duel. */
+  private renderHotbar(): void {
+    const b = this.spells.spellbook;
+    const now = performance.now();
+    this.hotbar.render(
+      b.hotbar,
+      {
+        learned: b.learned,
+        zone: this.opts.zone()?.kind ?? null,
+        lit: this.spells.wandLit,
+        guardian: this.spells.guardianOut,
+        aiming: this.spells.aiming,
+        cooldown: (id) => {
+          const s = spellById(id);
+          return s ? this.spells.cooldownLeft(s, now) : 0;
+        },
+      },
+      !this.opts.inDuel(),
+    );
+  }
+
+  /**
+   * Places the hotbar clear of the chat, the menu bar and the emote bar, and of the panels
+   * that open above them (the Dueling Club's, the trace pad, the decorating strip), twice
+   * a second: the chat can be resized and panels come and go.
+   */
+  private placeHotbar(): void {
+    const host = this.opts.hudRoot;
+    const boxes = [".chat", ".hud-dock", ".emote-bar", ".duel-club", ".trace-pad", ".decor-strip"].map((q) => {
+      const el = host.querySelector<HTMLElement>(q);
+      if (!el || el.hidden) return null;
+      const r = el.getBoundingClientRect();
+      return r.height > 0 ? r : null;
+    });
+    this.hotbar.place(boxes);
+  }
+
 
   /** Lines for the F3 overlay. */
   perfLines(): [string, string][] {
@@ -965,6 +1014,7 @@ export class SchoolHub {
 
   dispose(): void {
     this.spells.dispose();
+    this.hotbar.dispose();
     this.classes.dispose();
     this.props.dispose();
     this.classVfx?.dispose();

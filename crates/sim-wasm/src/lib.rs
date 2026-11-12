@@ -643,8 +643,11 @@ export type ServerMessage =
   | { type: "progress"; progress: Progress; gained: XpGain | null }
   /** A visible character's (or the client's own) level changed. */
   | { type: "levelChanged"; id: number; level: number; effectsVersion: number }
-  /** Learned spells, the dueling loadout and its slots; `new`: just learned. */
-  | { type: "spellbook"; learned: number[]; loadout: number[]; slots: number; new: number[] }
+  /**
+   * Learned spells, the dueling loadout and its slots; `new`: just learned. Protocol v16:
+   * `hotbar`, the social hotbar's 10 slots in key order (null: empty), the spells just learned already in it.
+   */
+  | { type: "spellbook"; learned: number[]; loadout: number[]; slots: number; new: number[]; hotbar: (number | null)[] }
   /** Someone cast a spell outside a duel: play its gesture and colour. */
   | { type: "spellCast"; caster: number; spell: number; target: SpellTarget }
   /** A furniture piece of this room floats and bobs for `durationMs`. */
@@ -707,7 +710,10 @@ export type ServerMessage =
   /** A member came online, went offline or changed level (that row only). */
   | { type: "clubPresence"; characterId: number; online: boolean; level: number }
   | { type: "clubNotice"; notice: ClubNotice }
-  | { type: "clubError"; code: ClubErrorCode };
+  | { type: "clubError"; code: ClubErrorCode }
+  // ---- Protocol v16: the social hotbar.
+  /** The social hotbar kept after `encodeSetHotbar` (the old one when refused): 10 slots, null empty. */
+  | { type: "hotbar"; slots: (number | null)[] };
 
 // ---- Protocol v14: parties.
 
@@ -2026,6 +2032,25 @@ pub fn encode_club_set_motd(motd: &str) -> Vec<u8> {
 #[wasm_bindgen(js_name = encodeClubDisband)]
 pub fn encode_club_disband() -> Vec<u8> {
     encode(ClientMsg::ClubDisband)
+}
+
+// ---- Protocol v16: the social hotbar.
+
+/// `ClientMsg::SetHotbar`: the social hotbar's slots in key order, a spell
+/// id or 0 for an empty slot (spell ids start at 1). Throws on more than
+/// `HOTBAR_SLOTS` slots.
+#[wasm_bindgen(js_name = encodeSetHotbar)]
+pub fn encode_set_hotbar(slots: &[u16]) -> Result<Vec<u8>, JsError> {
+    set_hotbar(slots).map(encode).map_err(js_err)
+}
+
+fn set_hotbar(slots: &[u16]) -> Result<ClientMsg, String> {
+    if slots.len() > protocol::HOTBAR_SLOTS {
+        return Err(format!("the hotbar has {} slots", protocol::HOTBAR_SLOTS));
+    }
+    Ok(ClientMsg::SetHotbar {
+        slots: slots.iter().map(|&id| (id != 0).then_some(id)).collect(),
+    })
 }
 
 // ---- Protocol v4.
@@ -3666,6 +3691,7 @@ fn school_msg_to_js(msg: &ServerMsg) -> Option<JsValue> {
             | M::ClubPresence { .. }
             | M::ClubNotice { .. }
             | M::ClubError { .. }
+            | M::Hotbar { .. }
     );
     if !school {
         return None;
@@ -4335,6 +4361,13 @@ mod tests {
             protocol::decode_client(&encode_club_disband()),
             Ok(ClientMsg::ClubDisband)
         );
+        assert_eq!(
+            set_hotbar(&[1, 0, 18]),
+            Ok(ClientMsg::SetHotbar {
+                slots: vec![Some(1), None, Some(18)]
+            })
+        );
+        assert!(set_hotbar(&[0; protocol::HOTBAR_SLOTS + 1]).is_err());
         assert!(chat_msg("say", None, &"a".repeat(CHAT_MAX_LEN), 0).is_ok());
         assert!(chat_msg("say", None, &"a".repeat(CHAT_MAX_LEN + 1), 0).is_err());
     }

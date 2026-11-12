@@ -43,8 +43,14 @@
 //! `Spells::check_loadout`, naming the spell), which stores `loadouts` and
 //! calls `WorldHandle::spellbook_changed`. A duel keeps the loadout it
 //! started with (the dueling code copies it at the start).
+//!
+//! **The social hotbar** (protocol v16, [`hotbar`]): ten slots of learned
+//! spells that do something outside duels, stored with the character, sent
+//! in `Spellbook` and set with `ClientMsg::SetHotbar` (the world checks it
+//! and answers `Hotbar`). A spell learned goes into the first empty slot.
 
 pub mod guardian;
+pub mod hotbar;
 pub mod world;
 
 use axum::extract::State;

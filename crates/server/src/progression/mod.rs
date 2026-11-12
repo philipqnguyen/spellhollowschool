@@ -5,9 +5,10 @@
 //!   caps ([`caps`]), the `xp_ledger` row and level-up detection. A grant
 //!   that names a `ref_id` happens once per character, source and ref: a
 //!   retry answers `duplicate` and adds nothing.
-//! - [`learn_spells`] / [`teach`]: `known_spells` rows.
+//! - [`learn_spells`] / [`teach`]: `known_spells` rows (and the new hotbar
+//!   spells into a stored hotbar's empty slots, `spells::hotbar::add_learned`).
 //! - [`load_school`]: what the gateway loads at sign-in (XP, learned spells,
-//!   loadout) for `realtime::world::Joining`.
+//!   loadout, hotbar) for `realtime::world::Joining`.
 //! - [`notify`]: tells the world after commit (`Progress` to the character,
 //!   `LevelChanged` to viewers on a level change).
 //!
@@ -191,6 +192,8 @@ pub async fn grant_xp(
 
 /// Records spells as learned (`known_spells`), returning the ones that were
 /// new, in the order given. Taught at `taught_at` (a class or venue id).
+/// The new ones that belong on the social hotbar go into its first empty
+/// slots (`spells::hotbar::add_learned`, which locks the character's row).
 pub async fn learn_spells(
     conn: &mut PgConnection,
     character_id: i64,
@@ -212,6 +215,7 @@ pub async fn learn_spells(
             new.push(spell);
         }
     }
+    crate::spells::hotbar::add_learned(conn, character_id, &new).await?;
     Ok(new)
 }
 
@@ -240,6 +244,9 @@ pub struct SchoolState {
     pub learned: Vec<SpellId>,
     /// The dueling loadout: the chosen one, or the default while none is.
     pub loadout: Vec<SpellId>,
+    /// The social hotbar (protocol v16): the stored one, or the default
+    /// while none is (`spells::hotbar`).
+    pub hotbar: sim_core::spells::Hotbar,
 }
 
 impl SchoolState {
@@ -307,10 +314,12 @@ pub async fn load_school(pool: &PgPool, character_id: i64) -> Result<SchoolState
     let xp = u32::try_from(xp).unwrap_or(0);
     let level = shipped().progression.level_for(xp);
     let (learned, loadout) = spellbook(&mut conn, character_id, level).await?;
+    let hotbar = crate::spells::hotbar::load(&mut conn, character_id, &learned).await?;
     Ok(SchoolState {
         xp,
         learned,
         loadout,
+        hotbar,
     })
 }
 
