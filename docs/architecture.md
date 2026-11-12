@@ -327,8 +327,7 @@ are only appended. Asset keys match `[a-z0-9_/]`.
 - **`data/classes/lore/lore.json`**: lore entries, served by the server only
   once unlocked.
 - **`data/progression.json`** (`sim_core::progression`): the XP curve for
-  levels 1-20, school years, XP per source and daily caps, loadout slots by
-  level.
+  levels 1-20, XP per source and daily caps, loadout slots by level.
 - **`data/spells.json`** (`sim_core::spells`): every spell `{ id, key, name,
   incantation, school, kind, unlock: { level, at }, colour, gesture, social,
   duel? }`. Duel numbers never scale with level.
@@ -357,7 +356,7 @@ are only appended. Asset keys match `[a-z0-9_/]`.
 
 - One WebSocket per player at `GET /ws`. Binary frames only, each one
   postcard-encoded `protocol::ClientMsg` or `ServerMsg`.
-  `PROTOCOL_VERSION` is **15**; it is bumped on any breaking change, and a
+  `PROTOCOL_VERSION` is **17**; it is bumped on any breaking change, and a
   client on another version is kicked with `VersionMismatch`.
 - The first client frame is `Hello { protocol_version, token, character_id }`:
   the session token from `POST /api/auth/login` and, optionally, the
@@ -411,7 +410,7 @@ every field):
 | Economy | `TradeRequest`, `TradeRespond`, `TradeSetOffer`, `TradeLock`, `TradeConfirm`, `TradeCancel` | `Wallet`, `MailNotice`, `StationOpened`, `FindResult`, `TradeRequested`, `TradeState`, `TradeResult`, `TradeError` |
 | Potions | `Drink`, `MimicDraughtAsk`, `MimicDraughtAnswer` | `OwnEffects`, `Drank`, `MimicDraughtRequest`, `MimicDraughtDeclined`, `PotionError` |
 | School | `TraceGesture`, `PickAnswer` | `Progress`, `ClassJoined`, `LessonPhaseChanged`, `LessonRound`, `BeatScored`, `ClassResult`, `ClassError`, `NpcEvent` |
-| Spells | `CastSpell`, `EndSpell` | `Spellbook`, `SpellCast`, `Levitating`, `Revealed`, `SpellError` |
+| Spells | `CastSpell`, `EndSpell`, `SetHotbar` | `Spellbook`, `SpellCast`, `Levitating`, `Revealed`, `SpellError`, `Hotbar` |
 | Dueling | `DuelChallenge`, `DuelChallengeName`, `DuelRespond`, `DuelCancel`, `DuelCast`, `DuelForfeit`, `DuelListRequest`, `DuelSpectate` | `DuelChallenged`, `DuelChallengeEnded`, `DuelError`, `DuelStart`, `DuelEvents`, `DuelResult`, `DuelList` |
 | Secrets | `EnterWishingRoom` | `WishingRoomDoor`, `Discovered` |
 | NPCs | `NpcInteract { id }` | `NpcReply { id, reply }` |
@@ -640,7 +639,7 @@ someone bought, a trade, letters it sent.
 
 | Method and path | What |
 | --- | --- |
-| `GET /api/progression`, `GET /api/xp/history` | Level, XP, year, loadout slots; the XP ledger |
+| `GET /api/progression`, `GET /api/xp/history` | Level, XP, loadout slots; the XP ledger |
 | `GET /api/classes/schedule`, `GET /api/classes/attendance` | The timetable as the server computes it; the character's class record |
 | `GET /api/lore`, `GET /api/lore/{id}` | Lore the character has unlocked |
 | `GET /api/spells`, `PUT /api/loadout` | Learned spells; the duel loadout |
@@ -675,7 +674,7 @@ Main tables:
 | Area | Tables |
 | --- | --- |
 | Accounts | `accounts` (normalized email, Argon2id hash, adult attestation time, verified time, `is_bot`), `email_verifications`, `sessions` (token hash, expiry, the selected `character_id`: `ON DELETE SET NULL`), `password_resets` (token hashes only) |
-| Characters | `characters` (up to 5 per account, indexed by `characters_account_idx`; unique name, house, appearance, resume zone and position, Crowns, XP and level, timestamps) |
+| Characters | `characters` (up to 5 per account, indexed by `characters_account_idx`; unique name, house, appearance, resume zone and position, Crowns, XP and level, the social hotbar, timestamps) |
 | Items | `items` (owner, item definition, dyes, finish, quantity, maker, location: `inventory`, `equipped`, `dorm`, `mail`, `exchange`), `equipment`, `saved_outfits` |
 | Social | `friendships` (two rows per friendship), `friend_requests`, `blocks` |
 | Dorms | `dorms` (open to friends), `dorm_placements` |
@@ -915,9 +914,9 @@ green (`--club`); someone in the player's party and club shows party blue
   refused) or answers by number key (`PickAnswer`). At the end each
   participant gets a grade and rewards (XP, subject skill XP, house points,
   and by class Crowns, items, recipes, spells, lore, hints or a fortune).
-- **Progression**: levels 1-20 from XP, school years every three levels,
-  per-source daily XP caps, more loadout slots at higher levels. An item's
-  `required_level` is checked when it is equipped.
+- **Progression**: levels 1-20 from XP, per-source daily XP caps, more
+  loadout slots at higher levels. An item's `required_level` is checked when
+  it is equipped.
 - **House points and the House Cup**: classes, duels, finds, crafts, NPC
   gifts and secrets award house points under daily caps; the House Cup is
   the weekly sum per house, closed on the configured weekday with a reward
@@ -930,6 +929,18 @@ green (`--club`); someone in the player's party and club shows party blue
   things, conjured birds, a guardian animal, and more, each with its
   cooldown, range and target rules from `data/spells.json`. Duel arenas
   refuse them.
+- **The social hotbar** (`server::spells::hotbar`, client `ui/hotbar.ts`):
+  ten slots at the bottom of the HUD, keys 1-9 then 0, each a learned spell
+  that does something outside duels (every spell whose `social.kind` is not
+  `flourish`: `Spells::check_hotbar`). The layout is stored with the
+  character (`characters.hotbar`, NULL until the player sets one: then the
+  learned ones in spellbook order), sent in `Spellbook` and set with
+  `SetHotbar` (answered by `Hotbar`; the world saves it through the position
+  saver). A spell is added to the first empty slot when it is learned, and
+  only then (`progression::learn_spells`, and the world for one learned
+  online), so a spell taken off stays off. A slot casts as the spellbook's
+  Cast button does. In a duel the bar hides and the duel's spell bar has the
+  number keys.
 - **Dueling** (`sim_core::duel`, fully server-side): two players in the
   Dueling Club's area challenge each other; the duel runs in an arena
   instance. Each duelist has Poise 100; the first at 0 loses, or the higher

@@ -7,11 +7,11 @@
 import { describe, expect, it } from "vitest";
 import type { Appearance } from "../../wasm/sim_wasm";
 import { animRate, liveTint, OwnEffects, RECOLOUR_VERSION_BASE, RecolouredLooks, recolouredLook, summarize } from "../effects/state";
-import { chooseAim, nearestFloating, SELECT_A_FRIEND, type AimContext } from "./aim";
+import { chooseAim, nearestFloating, SELECT_AN_ALLY, type AimContext } from "./aim";
 import { BIRDS_MAX, birdAt, CIRCLE_CLIMB, CIRCLE_RADIUS, CONJURE_S, conjureAt, flockSeeds, HEAD_CLEARANCE, TURN_FORWARD, TURN_UP } from "./volucra";
 import { hueRgb, signatureOf, streakAt, STREAK_MS } from "./cast-fx";
 import { spellErrorText } from "./controller";
-import { SPELLS, targetsFriend, type SpellDef } from "./data";
+import { SPELLS, targetsAlly, type SpellDef } from "./data";
 import { liftAt, Levitations } from "./levitate";
 import { REVEAL_FADE_IN_MS, REVEAL_FADE_OUT_MS, revealAlpha } from "./reveal";
 
@@ -19,16 +19,16 @@ const byKey = (key: string): SpellDef => SPELLS.find((s) => s.key === key)!;
 const ME = 1;
 const FRIEND = 2;
 const STRANGER = 3;
-const ctx = (selected: number | null, floatingInReach: number | null = null): AimContext => ({ selected, selfId: ME, isFriend: (id) => id === FRIEND, floatingInReach });
+const ctx = (selected: number | null, floatingInReach: number | null = null): AimContext => ({ selected, selfId: ME, isAlly: (id) => id === FRIEND, floatingInReach });
 
 describe("aiming the social spells", () => {
-  it("aims the hindering spells at a selected friend only", () => {
+  it("aims the hindering spells at a selected ally only", () => {
     for (const key of ["rigora", "tardara", "adveni"]) {
       const s = byKey(key);
       expect(chooseAim(s, ctx(FRIEND))).toEqual({ kind: "entity", id: FRIEND });
-      expect(chooseAim(s, ctx(null))).toEqual({ kind: "refuse", text: SELECT_A_FRIEND });
-      expect(chooseAim(s, ctx(ME))).toEqual({ kind: "refuse", text: SELECT_A_FRIEND });
-      expect(chooseAim(s, ctx(STRANGER))).toEqual({ kind: "refuse", text: `${s.name} works only on a friend.` });
+      expect(chooseAim(s, ctx(null))).toEqual({ kind: "refuse", text: SELECT_AN_ALLY });
+      expect(chooseAim(s, ctx(ME))).toEqual({ kind: "refuse", text: SELECT_AN_ALLY });
+      expect(chooseAim(s, ctx(STRANGER))).toEqual({ kind: "refuse", text: `${s.name} works only on a friend, party or club member.` });
     }
   });
 
@@ -61,17 +61,17 @@ describe("aiming the social spells", () => {
     expect(nearestFloating(floats, [20, 0, 0], 6)).toBeNull();
   });
 
-  it("lists the spells a friend's card can cast", () => {
-    expect(SPELLS.filter(targetsFriend).map((s) => s.key)).toEqual(["tinctura", "rigora", "adveni", "dissolvo", "tardara"]);
+  it("lists the spells an ally's card can cast", () => {
+    expect(SPELLS.filter(targetsAlly).map((s) => s.key)).toEqual(["tinctura", "rigora", "adveni", "dissolvo", "tardara"]);
   });
 
   it("words every new refusal", () => {
     const adveni = byKey("adveni").id;
-    expect(spellErrorText(adveni, "not_friend", null)).toBe("Summoning Charm works only on a friend.");
-    expect(spellErrorText(adveni, "needs_target", null)).toBe("Select a friend first (Tab).");
+    expect(spellErrorText(adveni, "not_friend", null)).toBe("Summoning Charm works only on a friend, party or club member.");
+    expect(spellErrorText(adveni, "needs_target", null)).toBe("Select a friend, party or club member first (Tab).");
     expect(spellErrorText(adveni, "unavailable", null)).toMatch(/sitting, flying, trading, dueling, in class/);
     expect(spellErrorText(adveni, "no_path", null)).toMatch(/no safe way/);
-    // Busy: a friend just hindered, or we are bound (only the Unweaving works then).
+    // Busy: a target just hindered, or we are bound (only the Unweaving works then).
     expect(spellErrorText(adveni, "busy", null)).toMatch(/hindered a moment ago/);
     expect(spellErrorText(byKey("tinctura").id, "busy", null, true)).toMatch(/only the Unweaving/);
     expect(spellErrorText(byKey("elevara").id, "busy", null)).toBe("You are in the middle of something else.");

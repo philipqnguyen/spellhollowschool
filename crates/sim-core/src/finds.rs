@@ -344,7 +344,9 @@ mod tests {
     /// that teaches it) and every input is obtainable, a restyle also
     /// needing another member of its family. A pattern item itself must
     /// have a source of its own: a class teaching its recipe does not make
-    /// the card obtainable. Trades, mail and the Exchange only move items.
+    /// the card obtainable, and the shop alone is not enough (every pattern
+    /// drops from a find or is a class reward). Trades, mail and the
+    /// Exchange only move items.
     #[test]
     fn every_catalog_item_is_obtainable() {
         let (_, finds, loot) = shipped();
@@ -397,6 +399,30 @@ mod tests {
         }
         had.entry(cup.reward.item)
             .or_insert_with(|| "house_cup".into());
+        // Every pattern can also be found or earned: one the owl-order shop
+        // sells must still drop from a find spot (as the basic ones do in
+        // the Lost Property Vault) or be a class reward.
+        let found: HashSet<u16> = loot
+            .tables
+            .iter()
+            .filter(|t| searched.contains(t.id.as_str()))
+            .flat_map(|t| t.entries.iter().filter_map(|e| e.item))
+            .chain(
+                classes
+                    .iter()
+                    .flat_map(|c| c.rewards.items.iter().map(|r| r.item)),
+            )
+            .collect();
+        let unfound: Vec<String> = catalog
+            .items
+            .iter()
+            .filter(|i| !i.retired && i.kind == crate::ItemKind::Pattern && !found.contains(&i.id))
+            .map(|i| format!("{} ({})", i.id, i.name))
+            .collect();
+        assert!(
+            unfound.is_empty(),
+            "patterns no find or class gives: {unfound:?}"
+        );
         let taught: HashSet<u16> = classes
             .iter()
             .flat_map(|c| c.rewards.teaches.iter().map(|t| t.recipe))

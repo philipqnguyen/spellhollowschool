@@ -1744,3 +1744,80 @@ async fn a_party_talks_across_zones() {
         (refused, ChatRejectReason::NoChannel)
     );
 }
+
+/// The social hotbar (protocol v17) end to end: a character that never set
+/// one gets its learned hotbar spells at join; `SetHotbar` is answered,
+/// saved, and sent again after a reconnect.
+#[tokio::test]
+async fn hotbars_are_set_saved_and_sent_again_at_join() {
+    let server = TestServer::start(1000).await;
+    let pool = server.state.pool.clone();
+    let (name, token) = server.bot().await;
+    let id = character_id(&pool, &name).await;
+    let spells = &server::catalog::shipped().spells;
+    let key = |k: &str| spells.by_key(k).unwrap().id;
+    let mut tx = pool.begin().await.unwrap();
+    server::progression::learn_spells(
+        &mut tx,
+        id,
+        &[key("rigora"), key("torpeo"), key("lucerna")],
+        "admin",
+    )
+    .await
+    .unwrap();
+    tx.commit().await.unwrap();
+
+    let mut c = server.join(&token).await;
+    let mut want = vec![None; protocol::HOTBAR_SLOTS];
+    want[0] = Some(key("lucerna"));
+    want[1] = Some(key("rigora"));
+    assert_eq!(
+        spellbook_hotbar(&mut c).await,
+        want,
+        "spellbook order, flourishes left out"
+    );
+
+    let mut set = vec![None; protocol::HOTBAR_SLOTS];
+    set[9] = Some(key("lucerna"));
+    c.send(&ClientMsg::SetHotbar { slots: set.clone() }).await;
+    let answer = c
+        .expect(|m| match m {
+            ServerMsg::Hotbar { slots } => Some(slots.clone()),
+            _ => None,
+        })
+        .await;
+    assert_eq!(answer, set);
+    let mut want_db = vec![None; protocol::HOTBAR_SLOTS];
+    want_db[9] = Some(i32::from(key("lucerna")));
+    eventually(|| {
+        let pool = pool.clone();
+        let want_db = want_db.clone();
+        async move {
+            let stored: Option<Vec<Option<i32>>> =
+                sqlx::query_scalar("SELECT hotbar FROM characters WHERE id = $1")
+                    .bind(id)
+                    .fetch_one(&pool)
+                    .await
+                    .unwrap();
+            stored == Some(want_db)
+        }
+    })
+    .await;
+
+    drop(c);
+    tokio::time::sleep(Duration::from_millis(200)).await;
+    let mut again = server.join(&token).await;
+    assert_eq!(
+        spellbook_hotbar(&mut again).await,
+        set,
+        "the saved layout, Rigora left off"
+    );
+}
+
+async fn spellbook_hotbar(c: &mut Client) -> Vec<Option<u16>> {
+    c.expect(|m| match m {
+        ServerMsg::Spellbook { hotbar, .. } => Some(hotbar.clone()),
+        _ => None,
+    })
+    .await
+}

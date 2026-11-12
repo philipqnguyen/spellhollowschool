@@ -3,7 +3,7 @@
 
 import { describe, expect, it } from "vitest";
 import { summarize } from "../effects/state";
-import { castLabel, mayTargetSelf, needsFriend, SPELLS, type SpellDef } from "./data";
+import { castLabel, mayTargetSelf, needsAlly, SPELLS, type SpellDef } from "./data";
 
 const byKey = (key: string): SpellDef => SPELLS.find((s) => s.key === key)!;
 const off = { lit: false, guardian: false };
@@ -36,7 +36,7 @@ describe("spells to level 20", () => {
   });
 
   it("knows which spells need a friend and which fall back to yourself", () => {
-    const friend = SPELLS.filter(needsFriend).map((s) => s.key);
+    const friend = SPELLS.filter(needsAlly).map((s) => s.key);
     expect(friend).toEqual(["rigora", "adveni", "tardara"]);
     const self = SPELLS.filter(mayTargetSelf).map((s) => s.key);
     expect(self).toEqual(["tinctura", "dissolvo"]);

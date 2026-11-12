@@ -22,16 +22,17 @@
 //!   `SpellCast` within `range_m`, aimed at nobody or at a character in
 //!   range.
 //! - Spells to level 20 (protocol v11), in [`world::Spells`]:
-//!   **Recolour** (Tinctura: a friend's or your own robe shows a bright
+//!   **Recolour** (Tinctura: an ally's or your own robe shows a bright
 //!   dye, `EffectKind::Recoloured`), **Bind** (Rigora: `Petrified`,
-//!   speed 0) and **Slow** (Tardara: `Slowed`) on a friend, **Pull**
-//!   (Adveni: a friend slides toward you along safe ground,
+//!   speed 0) and **Slow** (Tardara: `Slowed`) on an ally, **Pull**
+//!   (Adveni: an ally slides toward you along safe ground,
 //!   `WorldCtx::pull_destination` then `force_move`; `NoPath`), **Dispel**
-//!   (Dissolvo: ends a friend's or your own lit wand, bind, slow and
+//!   (Dissolvo: ends an ally's or your own lit wand, bind, slow and
 //!   recolour, or lands a floating piece), **Reveal** (Aperio: `Revealed`
 //!   to the caster only) and **Birds** (Volucra: the cast alone);
-//!   **Guardian** in [`guardian`]. Spells aimed at someone else need a
-//!   friend in range (`NotFriend`, `TooFar`, `BadTarget`); the hindering
+//!   **Guardian** in [`guardian`]. Spells aimed at someone else need an
+//!   ally in range: a friend, party member or club member, no block
+//!   either way (`WorldCtx::spell_ally`; `NotFriend`, `TooFar`, `BadTarget`); the hindering
 //!   three need one (`NeedsTarget`) who is free
 //!   (`WorldCtx::spell_target_free`, else `Unavailable`) and was not
 //!   hindered in the last `immune_ms` (`Busy`); a bound caster may cast
@@ -43,8 +44,14 @@
 //! `Spells::check_loadout`, naming the spell), which stores `loadouts` and
 //! calls `WorldHandle::spellbook_changed`. A duel keeps the loadout it
 //! started with (the dueling code copies it at the start).
+//!
+//! **The social hotbar** (protocol v17, [`hotbar`]): ten slots of learned
+//! spells that do something outside duels, stored with the character, sent
+//! in `Spellbook` and set with `ClientMsg::SetHotbar` (the world checks it
+//! and answers `Hotbar`). A spell learned goes into the first empty slot.
 
 pub mod guardian;
+pub mod hotbar;
 pub mod world;
 
 use axum::extract::State;

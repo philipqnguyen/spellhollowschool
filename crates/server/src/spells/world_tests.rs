@@ -61,6 +61,7 @@ fn join_as(
         xp: 0,
         learned,
         loadout: Vec::new(),
+        ..Default::default()
     };
     joining.dorm_open = true;
     setup(&mut joining);
@@ -724,6 +725,121 @@ fn hindering_spells_refuse_strangers_far_friends_and_no_target() {
             assert_eq!(kinds_of(&mut s, c), vec![], "spell {spell}");
         }
     }
+}
+
+#[test]
+fn party_and_club_members_are_allies_unless_blocked() {
+    let mut s = sim();
+    let at = [100.0, 0.0, 60.0];
+    let near = |dx: f32| [at[0] + dx, at[1], at[2] + 1.0];
+    let club = crate::clubs::Club {
+        id: 77,
+        name: "The Night Owls".into(),
+        tag: "OWL".into(),
+        motd: String::new(),
+        version: 1,
+        members: [(A_ID, "Ada"), (C_ID, "Cal"), (D_ID, "Dot")]
+            .into_iter()
+            .map(|(character_id, name)| crate::clubs::Member {
+                character_id,
+                name: name.into(),
+                house: House::Roarwing,
+                level: 3,
+                role: protocol::ClubRole::Member,
+            })
+            .collect(),
+    };
+    let in_club = |j: &mut Joining| j.club = Some(club.clone());
+    // Ada: no friends; Dot (a clubmate) blocked her.
+    let mut a = join_as(
+        &mut s,
+        "Ada",
+        House::Roarwing,
+        at,
+        SOCIAL_L20.to_vec(),
+        Some(A_ID),
+        |j| {
+            in_club(j);
+            j.social.blocked_by = vec![D_ID];
+        },
+    );
+    let mut b = join_as(
+        &mut s,
+        "Bea",
+        House::Burrowsby,
+        near(2.0),
+        vec![],
+        Some(B_ID),
+        |_| {},
+    );
+    let c = join_as(
+        &mut s,
+        "Cal",
+        House::Serpentyne,
+        near(-2.0),
+        vec![],
+        Some(C_ID),
+        in_club,
+    );
+    let d = join_as(
+        &mut s,
+        "Dot",
+        House::Skytalon,
+        near(3.0),
+        vec![],
+        Some(D_ID),
+        |j| {
+            in_club(j);
+            j.social.blocked = vec![A_ID];
+        },
+    );
+    let f = join_as(
+        &mut s,
+        "Fen",
+        House::Skytalon,
+        near(-3.0),
+        vec![],
+        Some(F_ID),
+        |_| {},
+    );
+    let t0 = Instant::now();
+    s.tick(t0);
+    // Bea joins Ada's party.
+    s.input(a.id, t0, Input::PartyInvite("Bea".into()));
+    s.tick(t0);
+    let invite_id = b
+        .drain()
+        .into_iter()
+        .find_map(|m| match m {
+            ServerMsg::PartyInvited { invite_id, .. } => Some(invite_id),
+            _ => None,
+        })
+        .expect("Bea is invited");
+    s.input(
+        b.id,
+        t0,
+        Input::PartyRespond {
+            invite_id,
+            accept: true,
+        },
+    );
+    s.tick(t0);
+    a.drain();
+    // A stranger and a clubmate who blocked us: refused.
+    cast(&mut s, &a, t0, TINCTURA, ent(f.id));
+    cast(&mut s, &a, t0, TINCTURA, ent(d.id));
+    assert_eq!(
+        spell_errors(&mut a),
+        vec![SpellErrorCode::NotFriend, SpellErrorCode::NotFriend]
+    );
+    // A party member and a club member: cast.
+    cast(&mut s, &a, t0, TARDARA, ent(b.id));
+    cast(&mut s, &a, t0, RIGORA, ent(c.id));
+    assert_eq!(spell_errors(&mut a), vec![]);
+    assert_eq!(kinds_of(&mut s, b.id), vec![EffectKind::Slowed]);
+    assert_eq!(kinds_of(&mut s, c.id), vec![EffectKind::Petrified]);
+    assert_eq!(kinds_of(&mut s, d.id), vec![]);
+    assert_eq!(kinds_of(&mut s, f.id), vec![]);
 }
 
 /// What makes a friend unavailable to the hindering spells.

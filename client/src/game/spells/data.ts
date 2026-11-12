@@ -7,7 +7,7 @@
 //
 // Spells L20 (CORE, protocol v11): the eight new spells' kinds, schools and
 // social shapes, and the casting words (`castLabel`) and target rules
-// (`needsFriend`, `mayTargetSelf`) every panel shares. Frozen after CORE;
+// (`needsAlly`, `mayTargetSelf`) every panel shares. Frozen after CORE;
 // SOCIAL may append helpers at the end.
 
 import spellsJson from "../../../../data/spells.json";
@@ -22,19 +22,19 @@ export type SocialSpell =
   | { kind: "flourish"; cooldown_ms: number; range_m: number }
   | { kind: "light"; cooldown_ms: number; radius_m: number; intensity: number }
   | { kind: "levitate"; cooldown_ms: number; range_m: number; duration_ms: number; height_m: number; bob_m: number; bob_hz: number }
-  /** Tinctura: a friend's (or your own) robe shows one of `colours` (palette indices) for `duration_ms`. */
+  /** Tinctura: an ally's (a friend, party or club member; or your own) robe shows one of `colours` (palette indices) for `duration_ms`. */
   | { kind: "recolour"; cooldown_ms: number; range_m: number; duration_ms: number; colours: number[] }
-  /** Rigora outside duels: a friend stiffens for `duration_ms`; immune to hindrances for `immune_ms`. */
+  /** Rigora outside duels: an ally stiffens for `duration_ms`; immune to hindrances for `immune_ms`. */
   | { kind: "bind"; cooldown_ms: number; range_m: number; duration_ms: number; immune_ms: number }
   /** Volucra: `count` birds circle the caster and fly off over `duration_ms`. */
   | { kind: "birds"; cooldown_ms: number; range_m: number; count: number; duration_ms: number }
-  /** Adveni outside duels: a friend slides up to `distance_m` toward you (at least `min_m`, never within `gap_m`). */
+  /** Adveni outside duels: an ally slides up to `distance_m` toward you (at least `min_m`, never within `gap_m`). */
   | { kind: "pull"; cooldown_ms: number; range_m: number; distance_m: number; min_m: number; gap_m: number; move_ms: number; hold_ms: number; immune_ms: number }
-  /** Dissolvo outside duels: ends a friend's (or your own) Lucerna, bind, slow and recolour, or lands a floating piece. */
+  /** Dissolvo outside duels: ends an ally's (or your own) Lucerna, bind, slow and recolour, or lands a floating piece. */
   | { kind: "dispel"; cooldown_ms: number; range_m: number }
   /** Aperio: passages and find spots near you shine for you alone. */
   | { kind: "reveal"; cooldown_ms: number; radius_m: number; height_m: number; duration_ms: number }
-  /** Tardara outside duels: a friend walks at `pct`% for `duration_ms`. */
+  /** Tardara outside duels: an ally walks at `pct`% for `duration_ms`. */
   | { kind: "slow"; cooldown_ms: number; range_m: number; duration_ms: number; pct: number; immune_ms: number }
   /** Custodio outside duels: your silver animal follows you for `duration_ms`. */
   | { kind: "guardian"; cooldown_ms: number; range_m: number; duration_ms: number };
@@ -178,8 +178,8 @@ export function castLabel(s: SpellDef, state: { lit: boolean; guardian: boolean 
   }
 }
 
-/** Spells L20: spells that must be aimed at a selected friend (the hindering ones). */
-export function needsFriend(s: SpellDef): boolean {
+/** Spells L20: spells that must be aimed at a selected ally: a friend, party or club member (the hindering ones). */
+export function needsAlly(s: SpellDef): boolean {
   const k = s.social.kind;
   return k === "bind" || k === "slow" || k === "pull";
 }
@@ -192,7 +192,7 @@ export function mayTargetSelf(s: SpellDef): boolean {
 
 // ---- Spells L20 (SOCIAL): helpers.
 
-/** Spells that can be aimed at a friend (the player card's "Cast on" row): the hindering ones, Tinctura and Dissolvo. */
-export function targetsFriend(s: SpellDef): boolean {
-  return needsFriend(s) || mayTargetSelf(s);
+/** Spells that can be aimed at an ally (the player card's "Cast on" row): the hindering ones, Tinctura and Dissolvo. */
+export function targetsAlly(s: SpellDef): boolean {
+  return needsAlly(s) || mayTargetSelf(s);
 }

@@ -2,10 +2,10 @@
 // data/spells.json in its school's group (Charms, Transfiguration, Defence),
 // learned or locked, with what it does outside a duel, what it does in one
 // (dueling spells), its cast button's words (`castLabel`) and, for spells
-// aimed at a friend, how to aim them. Pure, unit tested.
+// aimed at someone else, how to aim them. Pure, unit tested.
 
 import { duelSpell, spellSummary } from "../game/dueling/content";
-import { castLabel, lockedText, mayTargetSelf, needsFriend, placeName, SPELLS, unlockText, type SpellDef, type SpellSchool } from "../game/spells/data";
+import { castLabel, lockedText, mayTargetSelf, needsAlly, placeName, SPELLS, unlockText, type SpellDef, type SpellSchool } from "../game/spells/data";
 
 export interface SpellbookState {
   learned: readonly number[];
@@ -30,7 +30,7 @@ export interface SpellRow {
   outside: string;
   /** What it does in a duel (dueling spells only). */
   duel: string | null;
-  /** How to aim it at someone (spells cast on a friend). */
+  /** How to aim it at someone (spells cast on a friend, party or club member). */
   aim: string | null;
 }
 
@@ -64,19 +64,19 @@ export function outsideText(s: SpellDef): string {
     case "levitate":
       return "Lifts a piece of your dorm's furniture into the air.";
     case "recolour":
-      return `Turns a friend's robe, or your own, another bright colour for ${s1(x.duration_ms)}.`;
+      return `Turns the robe of a friend, party or club member (or your own) another bright colour for ${s1(x.duration_ms)}.`;
     case "bind":
-      return `Outside a duel: a friend stiffens on the spot for ${s1(x.duration_ms)}.`;
+      return `Outside a duel: a friend, party or club member stiffens on the spot for ${s1(x.duration_ms)}.`;
     case "birds":
       return `Turns a conjured feather into a flutter of ${x.count} small birds that circle over your head and fly off.`;
     case "pull":
-      return `Outside a duel: slides a friend up to ${x.distance_m} m toward you.`;
+      return `Outside a duel: slides a friend, party or club member up to ${x.distance_m} m toward you.`;
     case "dispel":
-      return "Outside a duel: ends a friend's (or your own) wand light, bind, slow and recolour, or lands a floating piece of furniture.";
+      return "Outside a duel: ends the wand light, bind, slow and recolour of a friend, party or club member (or your own), or lands a floating piece of furniture.";
     case "reveal":
       return `Secret passages and hidden finds within ${x.radius_m} m shine for you alone, for ${s1(x.duration_ms)}.`;
     case "slow":
-      return `Outside a duel: a friend walks at ${x.pct}% for ${s1(x.duration_ms)}.`;
+      return `Outside a duel: a friend, party or club member walks at ${x.pct}% for ${s1(x.duration_ms)}.`;
     case "guardian":
       return `Your silver guardian appears and follows you for ${s1(x.duration_ms)}; cast again to dismiss it.`;
   }
@@ -84,8 +84,8 @@ export function outsideText(s: SpellDef): string {
 
 /** How to aim `s`, or null for a spell cast on nobody in particular. */
 export function aimText(s: SpellDef): string | null {
-  if (needsFriend(s)) return "Select a friend first (Tab), then cast.";
-  if (mayTargetSelf(s)) return "On your selected friend (Tab), or on yourself.";
+  if (needsAlly(s)) return "Select a friend, party or club member first (Tab), then cast.";
+  if (mayTargetSelf(s)) return "On your selected friend, party or club member (Tab), or on yourself.";
   return null;
 }
 

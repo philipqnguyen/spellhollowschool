@@ -7,7 +7,10 @@
 //!
 //! The same batches carry the map's new reveals (`crate::map`),
 //! written after the positions in one `INSERT ... ON CONFLICT DO NOTHING`
-//! statement, so a retried batch changes nothing.
+//! statement, so a retried batch changes nothing, and social hotbars
+//! (`crate::spells::hotbar`, protocol v17), the latest per character, sent
+//! at once whenever one changes. One task writes them in the order sent, so
+//! the last layout the world held is the one stored.
 
 use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
@@ -20,6 +23,7 @@ use tokio::task::JoinHandle;
 use super::metrics::RealtimeMetrics;
 use crate::characters::{self, SavedPosition};
 use crate::map::Reveal;
+use sim_core::spells::Hotbar;
 
 /// What the world hands the saver at once.
 #[derive(Debug, Clone, Default, PartialEq)]
@@ -27,6 +31,8 @@ pub struct SaveBatch {
     pub positions: Vec<SavedPosition>,
     /// Surfaces revealed since the last save.
     pub reveals: Vec<Reveal>,
+    /// Hotbars changed (character id and the whole bar).
+    pub hotbars: Vec<(i64, Hotbar)>,
 }
 
 impl SaveBatch {
@@ -38,12 +44,20 @@ impl SaveBatch {
     pub fn position(p: SavedPosition) -> Self {
         Self {
             positions: vec![p],
-            reveals: Vec::new(),
+            ..Self::default()
+        }
+    }
+
+    /// One character's hotbar changed.
+    pub fn hotbar(character_id: i64, bar: Hotbar) -> Self {
+        Self {
+            hotbars: vec![(character_id, bar)],
+            ..Self::default()
         }
     }
 
     pub fn is_empty(&self) -> bool {
-        self.positions.is_empty() && self.reveals.is_empty()
+        self.positions.is_empty() && self.reveals.is_empty() && self.hotbars.is_empty()
     }
 }
 
@@ -65,23 +79,30 @@ async fn run(
 ) {
     let mut latest: HashMap<i64, SavedPosition> = HashMap::new();
     let mut revealed: HashSet<Reveal> = HashSet::new();
+    let mut bars: HashMap<i64, Hotbar> = HashMap::new();
     let mut rows: Vec<SavedPosition> = Vec::new();
     let mut reveals: Vec<Reveal> = Vec::new();
+    let mut hotbars: Vec<(i64, Hotbar)> = Vec::new();
     while let Some(batch) = rx.recv().await {
         latest.extend(batch.positions.into_iter().map(|p| (p.character_id, p)));
         revealed.extend(batch.reveals);
+        bars.extend(batch.hotbars);
         while let Ok(more) = rx.try_recv() {
             latest.extend(more.positions.into_iter().map(|p| (p.character_id, p)));
             revealed.extend(more.reveals);
+            bars.extend(more.hotbars);
         }
         rows.clear();
         rows.extend(latest.drain().map(|(_, p)| p));
         reveals.clear();
         reveals.extend(revealed.drain());
+        hotbars.clear();
+        hotbars.extend(bars.drain());
         let started = std::time::Instant::now();
         for attempt in 1..=ATTEMPTS {
             let saved = async {
                 characters::save_positions(&pool, &rows).await?;
+                crate::spells::hotbar::save(&pool, &hotbars).await?;
                 crate::map::save_reveals(&pool, &reveals).await
             };
             match saved.await {
