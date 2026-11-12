@@ -2,7 +2,8 @@
 
 .flight-chip {
   position: absolute;
-  bottom: 88px;
+  /* Above the hotbar when it is lifted (--hotbar-clear, ui/hotbar.ts). */
+  bottom: max(88px, var(--hotbar-clear, 0px));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -82,5 +83,5 @@
 
 /* The movement chip (move-chip.ts): auto run and Z's pace, over the flight chip while flying. */
 .move-chip.stacked {
-  bottom: 124px;
+  bottom: max(124px, calc(var(--hotbar-clear, 0px) + 36px));
 }

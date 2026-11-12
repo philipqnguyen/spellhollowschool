@@ -84,6 +84,7 @@ fn join_as(
             xp: 0,
             learned: learned.to_vec(),
             loadout,
+            ..Default::default()
         },
         ..Joining::alone(ch)
     };
@@ -1231,6 +1232,7 @@ fn the_club_teaches_whoever_stands_in_it() {
         loadout: DUELING.to_vec(),
         slots: 3,
         new: DUELING.to_vec(),
+        hotbar: vec![None; protocol::HOTBAR_SLOTS],
     }));
     ticks(&mut s, &mut at, 200);
     assert!(s.take_ext_jobs().is_empty(), "nothing more at level 1");
@@ -1461,6 +1463,7 @@ fn veteran_as(s: &mut WorldSim, ch: Character, loadout: &[SpellId]) -> TestClien
             xp: 10_640,
             learned: ALL_DUELING.to_vec(),
             loadout: loadout.to_vec(),
+            ..Default::default()
         },
         ..Joining::alone(ch)
     };
