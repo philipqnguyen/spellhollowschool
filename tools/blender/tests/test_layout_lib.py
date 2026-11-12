@@ -1,7 +1,9 @@
 """Unit tests for layout_lib (pure Python; run through tests/run_tests.py)."""
 
 import copy
+import itertools
 import json
+import math
 import os
 import sys
 import unittest
@@ -399,20 +401,57 @@ class RealLayoutTests(unittest.TestCase):
     def test_common_rooms_are_gated_with_a_dorm_door_each(self):
         houses = L.known_houses()
         self.assertEqual(sorted(self.layout.gated()), sorted(houses))
-        doors = {i.house: i for i in self.layout.interactables if i.kind == "dorm_door"}
-        self.assertEqual(sorted(doors), sorted(houses))
-        for h in houses:
+        doors = [i for i in self.layout.interactables if i.kind == "dorm_door"]
+        self.assertEqual(sorted({d.house for d in doors}), sorted(houses))
+        for door in doors:
+            h = door.house
             view = L.for_house(self.layout, h)
             starts = [L.spawn_surface(view, sp["pos"]).id for sp in view.spawns]
             seen = L.reachable(view, starts)
-            door_surface = L.interactable_surface(view, doors[h])
-            self.assertIn(door_surface.id, seen, h)
+            door_surface = L.interactable_surface(view, door)
+            self.assertIn(door_surface.id, seen, door.id)
             self.assertEqual(door_surface.house, h)
             # The room is a cell of its own, and no other house can stand in it.
             self.assertTrue(door_surface.cell.startswith("common_room_house_"))
             for other in houses:
                 if other != h:
                     self.assertNotIn(door_surface.id, {s.id for s in L.for_house(self.layout, other).surfaces})
+
+    def test_every_dorm_door_piece_has_its_interactable_in_front(self):
+        """Each kit_door_dorm the castle kit hangs in a common room is a way in: one
+        dorm_door of its house stands just in front of its middle (a door's width
+        either side at most), and none stands anywhere else. Burrowsby's room has two
+        doors, so two interactables; the floor between them is out of reach of both."""
+        with open(os.path.join(REPO, "data", "world", "castle_kit.json"), encoding="utf-8") as f:
+            kit = json.load(f)
+        houses = L.known_houses()
+        pieces = [(cell, h) for cell, c in kit["cells"].items() if c.get("build", True)
+                  for h in c.get("hero", []) if h["piece"] == "kit_door_dorm"]
+        self.assertGreaterEqual(len(pieces), len(houses))
+        its = [i for i in self.layout.interactables if i.kind == "dorm_door"]
+        used = set()
+        for cell, d in pieces:
+            x, _, z = d["pos"]
+            fx, fz = math.sin(d["yaw"]), math.cos(d["yaw"])  # into the room
+            house = houses[d.get("args", {}).get("house", 0)]
+            front = []
+            for it in its:
+                dx, dz = it.pos[0] - x, it.pos[2] - z
+                ahead, side = dx * fx + dz * fz, dx * fz - dz * fx
+                if 0.3 < ahead < 1.6 and abs(side) < 0.5 and abs(it.pos[1] - d["pos"][1]) < 0.5:
+                    front.append(it)
+            self.assertEqual([it.house for it in front], [house], f"{cell}/{d['id']}: one {house} dorm_door in front")
+            used.add(front[0].id)
+        self.assertEqual(sorted(used), sorted(i.id for i in its), "every dorm_door stands before a kit door")
+        # Between two doors of one room: no prompt.
+        for (ca, a), (cb, b) in itertools.combinations(pieces, 2):
+            if ca != cb:
+                continue
+            mid = [(a["pos"][k] + b["pos"][k]) * 0.5 for k in range(3)]
+            for it in its:
+                if it.id in used and it.house == houses[a.get("args", {}).get("house", 0)]:
+                    d = math.hypot(it.pos[0] - mid[0], it.pos[2] - mid[2])
+                    self.assertGreater(d - 1.0, it.radius, f"{it.id} reaches the wall between {a['id']} and {b['id']}")
 
     def test_house_entrance_placement(self):
         by_id = {s.id: s for s in self.layout.surfaces}

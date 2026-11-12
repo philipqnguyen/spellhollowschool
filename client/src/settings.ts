@@ -1,6 +1,7 @@
 // Player settings (graphics and, since the sound work, audio), remembered per browser in localStorage.
 
 import { parseChatter, type ChatterMode } from "./game/npc/chatter";
+import { CHAT_ALL_DEFAULTS, parseChatAll, type ChatAllFilter } from "./ui/chat-state";
 
 export type Quality = "low" | "medium" | "high";
 export const VIEW_LIMITS = [20, 50, 100] as const;
@@ -36,10 +37,12 @@ export interface Settings {
   audio: AudioSettings;
   /** NPCs: Portrait chatter, On / Quiet (interact only) / Off (docs/architecture.md "NPCs"). */
   chatter: ChatterMode;
+  /** Settings > Chats: which channels the chat's All tab shows (ui/chat-state.ts). */
+  chatAll: ChatAllFilter;
 }
 
 const KEY = "shs.settings";
-const DEFAULTS: Settings = { viewLimit: 50, quality: "medium", showPerf: false, audio: { ...AUDIO_DEFAULTS }, chatter: "on" };
+const DEFAULTS: Settings = { viewLimit: 50, quality: "medium", showPerf: false, audio: { ...AUDIO_DEFAULTS }, chatter: "on", chatAll: { ...CHAT_ALL_DEFAULTS } };
 
 /** A saved `audio` object, each volume clamped to 0..1; anything missing or malformed takes its default. */
 export function parseAudioSettings(raw: unknown): AudioSettings {
@@ -60,9 +63,10 @@ export function loadSettings(): Settings {
       showPerf: raw.showPerf === true,
       audio: parseAudioSettings(raw.audio),
       chatter: parseChatter(raw.chatter),
+      chatAll: parseChatAll(raw.chatAll),
     };
   } catch {
-    return { ...DEFAULTS, audio: { ...AUDIO_DEFAULTS } };
+    return { ...DEFAULTS, audio: { ...AUDIO_DEFAULTS }, chatAll: { ...CHAT_ALL_DEFAULTS } };
   }
 }
 

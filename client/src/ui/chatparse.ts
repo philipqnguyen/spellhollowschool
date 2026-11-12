@@ -1,6 +1,7 @@
 // Parses what the player types in the chat box. Pure, unit tested.
 //
-//   hello            Say (everyone nearby)
+//   hello            Say (everyone nearby), or the chat tab's channel
+//                    (`ParseContext.defaultChannel`; ui/chat-state.ts)
 //   /s hello         Say, explicitly
 //   /h hello         House channel
 //   /p hello         Party channel (every member, wherever they are); /party too
@@ -27,6 +28,10 @@ export interface ParseContext {
   knownNames: Iterable<string>;
   /** Who whispered last, for /r. */
   lastWhisperFrom: string | null;
+  /** Where a line without a command goes (the chat tab's channel; say when absent). */
+  defaultChannel?: ChatChannelName;
+  /** Whom a line without a command whispers to when `defaultChannel` is whisper (the last whisper partner). */
+  whisperTo?: string | null;
 }
 
 const HELP = "Commands: /s say, /h house, /p party, /c club, /w (or /tell) Name message, /r reply, /invite Name, /leave, /cinvite Name, /cleave, /wave, /bow, /sit.";
@@ -34,7 +39,7 @@ const HELP = "Commands: /s say, /h house, /p party, /c club, /w (or /tell) Name 
 export function parseChat(input: string, ctx: ParseContext): ParseResult {
   const line = input.trim();
   if (!line) return { ok: true, cmd: null };
-  if (!line.startsWith("/")) return { ok: true, cmd: { channel: "say", text: line } };
+  if (!line.startsWith("/")) return plainLine(line, ctx);
 
   const space = line.search(/\s/);
   const verb = (space < 0 ? line : line.slice(0, space)).toLowerCase();
@@ -64,6 +69,14 @@ export function parseChat(input: string, ctx: ParseContext): ParseResult {
     default:
       return { ok: false, error: `Unknown command ${verb}. ${HELP}` };
   }
+}
+
+/** A line without a command: to the tab's channel. */
+function plainLine(text: string, ctx: ParseContext): ParseResult {
+  const channel = ctx.defaultChannel ?? "say";
+  if (channel !== "whisper") return { ok: true, cmd: { channel, text } };
+  if (!ctx.whisperTo) return { ok: false, error: "Nobody to whisper to yet. Use /w Name message." };
+  return { ok: true, cmd: { channel, to: ctx.whisperTo, text } };
 }
 
 function parseWhisper(rest: string, knownNames: Iterable<string>): ParseResult {
