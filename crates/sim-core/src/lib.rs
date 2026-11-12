@@ -92,7 +92,7 @@ pub use house_cup::{CupError, CupRules, CupSource, CupWeek};
 pub use key_places::{KeyPlace, KeyPlaces, PlaceGroup, PlaceTarget};
 pub use layout::{
     Area, AreaKind, Blocker, Heights, Interactable, InteractableKind, Layout, LayoutError,
-    MAX_GROUND_SLOPE, Moving, Ring, StairPosition, Surface, SurfaceKind,
+    MAX_GROUND_SLOPE, Moving, Ring, StairPosition, StarterPiece, Surface, SurfaceKind,
 };
 pub use movement::{
     MoveCheck, MoveParams, PullBlocked, Reach, RejectReason, check_move, footprint_ground,

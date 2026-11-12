@@ -946,7 +946,19 @@ async fn doors_rooms_and_furniture_persist() {
             _ => None,
         })
         .await;
-    assert!(!open && items.is_empty());
+    assert!(!open);
+    // The room starts with the character's Four-Poster Bed by its wall: the
+    // starter grant (on `Hello`) placed it at the shell's starter spot.
+    let spot = server::dorm::shells::shipped().starter_furniture(protocol::House::Roarwing)[0];
+    let (bed_pos, bed_yaw) = (QPos::from_m(spot.pos), protocol::yaw_to_u8(spot.yaw));
+    assert_eq!(
+        items
+            .iter()
+            .map(|p| (p.item_def, p.pos, p.yaw))
+            .collect::<Vec<_>>(),
+        vec![(spot.item, bed_pos, bed_yaw)]
+    );
+    let bed = items[0].item_id;
 
     // Place the desk, then a lantern on its top.
     let origin = QPos::from_m([0.0, 0.0, 0.0]);
@@ -1040,6 +1052,37 @@ async fn doors_rooms_and_furniture_persist() {
     );
     assert_eq!(location(desk).await, "inventory");
 
+    // The bed is furniture like any other: moved, turned, put away and put
+    // back by its wall.
+    assert_eq!(location(bed).await, "dorm");
+    let middle = QPos::from_m([0.0, 0.0, -2.0]);
+    for (pos, yaw) in [(middle, 0), (middle, 128)] {
+        a.send(&ClientMsg::DormMove {
+            item_id: bed,
+            pos,
+            yaw,
+        })
+        .await;
+        assert_eq!(
+            a.furniture().await,
+            FurnitureEdit::Moved {
+                item_id: bed,
+                pos,
+                yaw
+            }
+        );
+    }
+    a.send(&ClientMsg::DormRemove { item_id: bed }).await;
+    assert_eq!(a.furniture().await, FurnitureEdit::Removed { item_id: bed });
+    assert_eq!(location(bed).await, "inventory");
+    a.send(&ClientMsg::DormPlace {
+        item_id: bed,
+        pos: bed_pos,
+        yaw: bed_yaw,
+    })
+    .await;
+    assert!(matches!(a.furniture().await, FurnitureEdit::Placed(p) if p.item_id == bed));
+
     // Open to friends: told at once, stored.
     a.send(&ClientMsg::DormSetOpen { open: true }).await;
     a.expect(|m| (*m == ServerMsg::DormOpenChanged { open: true }).then_some(()))
@@ -1086,7 +1129,7 @@ async fn doors_rooms_and_furniture_persist() {
     assert!(open);
     assert_eq!(
         items.iter().map(|p| (p.item_id, p.pos)).collect::<Vec<_>>(),
-        vec![(lantern, floor)]
+        vec![(lantern, floor), (bed, bed_pos)]
     );
 
     // The way out leads to the dorm door, facing out of it.

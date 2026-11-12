@@ -53,6 +53,19 @@ fn starter_def(house: House, f: impl Fn(&sim_core::ItemDef) -> bool) -> u16 {
         .id
 }
 
+/// The starter furniture a new character of `house` finds placed in their
+/// room (the bed).
+fn placed_starter(house: House) -> u16 {
+    server::dorm::shells::shipped().starter_furniture(house)[0].item
+}
+
+/// A starter furniture item of `house` granted into the inventory.
+fn unplaced_furniture(house: House) -> u16 {
+    starter_def(house, |i| {
+        i.kind == ItemKind::Furniture && i.id != placed_starter(house)
+    })
+}
+
 fn hats(house: House) -> Vec<u16> {
     shipped()
         .catalog
@@ -202,7 +215,10 @@ async fn inventory_filters() {
     assert!(ids(&app, &p, "kind=furniture&slot=hat").await.is_empty());
     assert_eq!(ids(&app, &p, "location=equipped").await.len(), 3);
     assert_eq!(ids(&app, &p, "location=equipped&slot=legs").await.len(), 1);
-    assert!(ids(&app, &p, "location=dorm").await.is_empty());
+    // The bed comes placed in the dorm room.
+    let placed = ids(&app, &p, "location=dorm").await;
+    assert_eq!(placed.len(), 1);
+    assert_eq!(placed, ids(&app, &p, "location=dorm&kind=furniture").await);
 
     // Filters page too.
     let body = page(&app, &p, "kind=furniture&limit=4").await;
@@ -295,12 +311,7 @@ async fn equip_checks_slot_ownership_and_location() {
     let p = app.player("Roarwing").await;
     let other = app.player("Roarwing").await;
     let hat = item_of(&app, &p, hats(House::Roarwing)[0]).await;
-    let bed = item_of(
-        &app,
-        &p,
-        starter_def(House::Roarwing, |i| i.kind == ItemKind::Furniture),
-    )
-    .await;
+    let piece = item_of(&app, &p, unplaced_furniture(House::Roarwing)).await;
     let theirs = item_of(&app, &other, hats(House::Roarwing)[0]).await;
 
     let res = equip(&app, &p, "shoes", json!(hat)).await;
@@ -308,7 +319,7 @@ async fn equip_checks_slot_ownership_and_location() {
         (res.status, res.body["error"].clone()),
         (StatusCode::BAD_REQUEST, json!("wrong_slot"))
     );
-    let res = equip(&app, &p, "body", json!(bed)).await;
+    let res = equip(&app, &p, "body", json!(piece)).await;
     assert_eq!(res.body["error"], "wrong_slot", "furniture is not worn");
     let res = equip(&app, &p, "hat", json!(theirs)).await;
     assert_eq!(
@@ -470,38 +481,12 @@ async fn dyeing() {
 async fn furniture_placed_in_the_dorm_cannot_be_dyed() {
     let app = TestApp::new().await;
     let p = app.player("Skytalon").await;
-    let rug = item_of(
-        &app,
-        &p,
-        starter_def(House::Skytalon, |i| i.kind == ItemKind::Furniture),
-    )
-    .await;
-    // What the realtime dorm code does when the owner places it.
-    let mut tx = app.state.pool.begin().await.unwrap();
-    sqlx::query("INSERT INTO dorms (owner_id) VALUES ($1) ON CONFLICT DO NOTHING")
-        .bind(p.id)
-        .execute(&mut *tx)
-        .await
-        .unwrap();
-    sqlx::query("UPDATE items SET location = 'dorm' WHERE id = $1")
-        .bind(rug)
-        .execute(&mut *tx)
-        .await
-        .unwrap();
-    sqlx::query(
-        "INSERT INTO dorm_placements (item_id, owner_id, pos_x, pos_y, pos_z, yaw)
-         VALUES ($1, $2, 0, 0, 0, 0)",
-    )
-    .bind(rug)
-    .bind(p.id)
-    .execute(&mut *tx)
-    .await
-    .unwrap();
-    tx.commit().await.unwrap();
+    // The starter grant placed the bed in the room.
+    let bed = item_of(&app, &p, placed_starter(House::Skytalon)).await;
 
     let res = app
         .post(
-            &format!("/api/items/{rug}/dye"),
+            &format!("/api/items/{bed}/dye"),
             json!({ "dyes": [1, 1, 1] }),
             p.token(),
         )
@@ -510,7 +495,7 @@ async fn furniture_placed_in_the_dorm_cannot_be_dyed() {
         (res.status, res.body["error"].clone()),
         (StatusCode::CONFLICT, json!("item_unavailable"))
     );
-    assert_eq!(ids(&app, &p, "location=dorm").await, vec![rug]);
+    assert_eq!(ids(&app, &p, "location=dorm").await, vec![bed]);
     // Unplaced furniture dyes fine.
     let other_piece = ids(&app, &p, "kind=furniture&location=inventory").await[0];
     let res = app

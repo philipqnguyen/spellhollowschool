@@ -120,7 +120,7 @@ def render_views(shell: dorms.Shell, out_dir: str, suffix: str) -> None:
         "entry": ((sx, 1.62, sz + 0.9), (0.0, 1.5, north), 14),
         # From the north side back toward the door.
         "back": ((hi[0] * 0.25, 1.65, lo[2] * 0.62), (lo[0] * 0.15, 1.3, hi[2]), 14),
-        # From the east toward the bed and the west wall.
+        # From the east toward the bed's wall in the west.
         "side": ((hi[0] * 0.6, 1.7, hi[2] * 0.15), (lo[0] * 0.8, 1.6, lo[2] * 0.3), 14),
         "up": ((0.0, 1.4, hi[2] * 0.6), (0.0, hi[1], -0.4), 12),
     }
@@ -180,8 +180,10 @@ def granted_hex(asset: str, slot: str) -> list[str]:
 
 def furnish(shell: dorms.Shell, furniture_dir: str) -> None:
     """Places the starter furniture (glbs from build_furniture.py), dyed as
-    a new character of the house gets it."""
-    for asset, pos, yaw in SHOWCASE[shell.slot]:
+    a new character of the house gets it: the bed where the grant puts it
+    (`Shell.starter`), the rest as `SHOWCASE` dresses the room."""
+    starter = [(p["asset"].split("/", 1)[1], tuple(p["pos"]), p["yaw"]) for p in shell.starter]
+    for asset, pos, yaw in starter + SHOWCASE[shell.slot]:
         path = os.path.join(furniture_dir, f"{asset}.glb")
         if not os.path.exists(path):
             print(f"furnish: {path} missing (run build_furniture.py)")

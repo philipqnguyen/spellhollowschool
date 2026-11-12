@@ -179,6 +179,26 @@ describe("pickPlacement", () => {
     expect(placementFits([top], "table", 0.18, 0.18, 0.35, p!.pos[0], p!.pos[1], p!.pos[2], unitsToYaw(p!.yawUnits))).toBe(true);
   });
 
+  it("puts the bed flush with the diagonal wall its floor area is turned to", () => {
+    // The Roarwing room's bed wall (dorm_roarwing.json `floor_bed_wall`) and its starter bed spot.
+    const yaw = unitsToYaw(43);
+    const bedWall: PlaceArea = { id: "floor_bed_wall", surface: "floor", min: [-1.24, 0, 0.07], max: [1.24, 0, 2.67], frame: { origin: [-4.33, 0, -2.5], yaw } };
+    const room = [{ ...floor, min: [-3.6, 0, -2.6], max: [3.0, 0, 3.4] } as PlaceArea, bedWall];
+    // Pointing where the room's floor and the wall's area overlap: the wall's area, square to the wall.
+    expect(pickPlacement(look([0, 3, 0], [-2.6, 0, -1.5]), room, bed, 43, false)?.area).toBe("floor_bed_wall");
+    // Pointing by the wall: the bed's head against it (snapped in the wall's axes, then pulled inside).
+    const p = pickPlacement(look([0, 3, 0], [-3.9, 0, -2.25]), room, bed, 43, false);
+    expect(p?.area).toBe("floor_bed_wall");
+    const local = toLocal(bedWall.frame!, p!.pos);
+    expect(local[2]).toBeCloseTo(0.07 + 1.15, 1);
+    expect(Math.abs(local[0])).toBeLessThan(0.3);
+    expect(placementFits(room, "floor", 1.6, 2.3, 2.5, p!.pos[0], p!.pos[1], p!.pos[2], unitsToYaw(p!.yawUnits))).toBe(true);
+    expect(placementFits(room, "floor", 1.6, 2.3, 2.5, -3.26, 0, -1.89, yaw)).toBe(true); // the starter spot
+    // A piece too big for the wall's area goes on the room's floor instead.
+    const rug: FurnitureShape = { surface: "floor", footprint: [3, 3], height: 0.02 };
+    expect(pickPlacement(look([0, 3, 0], [-2.6, 0, -1.5]), room, rug, 0, false)?.area).toBe("floor");
+  });
+
   it("finds a bookcase's free shelf end, and its headroom keeps tall pieces off it", () => {
     const tops = furnitureTopAreas(furnitureDef(1008)!.raw, "top:9", 0, 0, 0, 0);
     expect(tops.map((t) => t.id)).toEqual(["top:9", "top:9.shelf0", "top:9.shelf1"]);

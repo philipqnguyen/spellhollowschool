@@ -148,6 +148,23 @@ pub struct Layout {
     /// `protocol::BeatPrompt::Ring { ring }` is an index into it.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub rings: Vec<Ring>,
+    /// Dorm room layouts only: the furniture a new character's room starts
+    /// with (their starter Four-Poster Bed by its wall), placed by the
+    /// starter grant. Generated with the shell by
+    /// `tools/blender/world/dorm_layouts.py`.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub starter_furniture: Vec<StarterPiece>,
+}
+
+/// A catalog furniture item placed in a new owner's room: `pos` is its
+/// origin (as `placement`'s rule reads it) and `yaw` its turn, both exact on
+/// the wire (centimetres, whole 1/256 turns).
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct StarterPiece {
+    /// Catalog item id.
+    pub item: u16,
+    pub pos: [f32; 3],
+    pub yaw: f32,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -688,6 +705,7 @@ impl Layout {
             areas: self.areas.clone(),
             solids: self.solids.clone(),
             rings: self.rings.clone(),
+            starter_furniture: self.starter_furniture.clone(),
         }
     }
 
@@ -896,6 +914,16 @@ impl Layout {
             }
             area.validate()
                 .map_err(|e| LayoutError::Invalid(format!("place area {:?}: {e}", area.id)))?;
+        }
+        // Starter furniture: finite; that each piece fits its room is the
+        // server's test (`dorm::shells`), with the catalog.
+        for piece in &self.starter_furniture {
+            if !(piece.pos.iter().all(|v| v.is_finite()) && piece.yaw.is_finite()) {
+                return invalid(format!(
+                    "starter furniture item {}: non-finite position or yaw",
+                    piece.item
+                ));
+            }
         }
 
         let mut ids = HashSet::with_capacity(self.areas.len());

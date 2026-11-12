@@ -288,10 +288,25 @@ class DormTests(unittest.TestCase):
             self.assertGreaterEqual(north.max[1], 2.6)
             self.assertLessEqual(north.min[0], -0.45)
             self.assertGreaterEqual(north.max[0], 0.45)
-            # Floor areas avoid the fixed furniture and stay inside the walls.
+            # Floor areas avoid the fixed furniture and the doorway and stay
+            # inside the walls (framed ones, turned to a wall, checked in the
+            # room's axes on a grid of points).
             poly = shell.outline
             for a in lay.place_areas:
                 if a.surface != "floor":
+                    continue
+                if a.frame is not None:
+                    frame = {"origin": a.frame[0], "yaw": a.frame[1]}
+                    raw = {"min": a.min, "max": a.max, "frame": frame}
+                    pts = [(p[0], p[2]) for p in (dorms.frame_to_world(frame, (a.min[0] + (a.max[0] - a.min[0]) * i / 8, 0.0,
+                                                                                  a.min[2] + (a.max[2] - a.min[2]) * k / 8))
+                                                  for i in range(9) for k in range(9))]
+                    inset = dorm_layouts._inset(poly, dorm_layouts.PLACE_MARGIN - 0.005)
+                    for x, z in dorms.framed_corners(raw):
+                        self.assertTrue(dorm_layouts._inside_convex(inset, x, z), (slot, a.id))
+                    for ob in shell.obstacles + shell.keep_clear:
+                        inside = [p for p in pts if ob[0] < p[0] < ob[2] and ob[1] < p[1] < ob[3]]
+                        self.assertEqual(inside, [], (slot, a.id, ob))
                     continue
                 for ob in shell.obstacles:
                     ox = min(a.max[0], ob[2]) - max(a.min[0], ob[0])
@@ -311,6 +326,43 @@ class DormTests(unittest.TestCase):
             ex = lay.interactables[0]
             self.assertIsNotNone(L.interactable_surface(lay, ex))
             self.assertIsNotNone(L.spawn_surface(lay, lay.spawns[0]["pos"]))
+
+    def test_the_starter_bed_stands_by_its_wall(self):
+        """The bed is not part of any shell: each room lists the catalog's
+        Four-Poster Bed as its starter furniture, head to a wall, inside its
+        framed floor area by the placement rule (`PlaceArea::fits`, at the
+        wire's centimetres and 1/256 turns), under the ceiling, walkable
+        ground all round (no fixed obstacle where a bed was)."""
+        with open(CATALOG, encoding="utf-8") as f:
+            items = {i["id"]: i for i in json.load(f)["items"]}
+        for slot, shell in self.shells.items():
+            data = dorm_layouts.layout_for(shell)
+            (piece,) = data["starter_furniture"]
+            item = items[piece["item"]]
+            self.assertEqual((item["name"], item["asset"]), ("Four-Poster Bed", dorms.BED_ASSET))
+            self.assertIn("starter", item["tags"])
+            fur = item["furniture"]
+            self.assertLessEqual(fur["height"] + 0.2, shell.wall_h, slot)  # house_b's 2.9 m burrow takes the 2.5 m bed
+            units = piece["yaw"] / (2 * math.pi) * 256
+            self.assertAlmostEqual(units, round(units), places=4)
+            for v in piece["pos"]:
+                self.assertAlmostEqual(v * 100, round(v * 100), places=6)
+            area = next(a for a in data["place_areas"] if a["id"] == "floor_bed_wall")
+            o, yaw0 = area["frame"]["origin"], area["frame"]["yaw"]
+            s, c = math.sin(yaw0), math.cos(yaw0)
+            dx, dz = piece["pos"][0] - o[0], piece["pos"][2] - o[2]
+            lx, lz, lyaw = dx * c - dz * s, dx * s + dz * c, piece["yaw"] - yaw0
+            hw, hd = fur["footprint"][0] / 2, fur["footprint"][1] / 2
+            hx = abs(math.cos(lyaw)) * hw + abs(math.sin(lyaw)) * hd
+            hz = abs(math.sin(lyaw)) * hw + abs(math.cos(lyaw)) * hd
+            eps = 0.01
+            self.assertTrue(area["min"][0] - eps <= lx - hx and lx + hx <= area["max"][0] + eps, slot)
+            self.assertTrue(area["min"][2] - eps <= lz - hz and lz + hz <= area["max"][2] + eps, slot)
+            # Head to the wall: its back within 10 cm of the wall plane.
+            self.assertLess(lz - hz, 0.1, slot)
+            # Floor all round it now: the walkable data no longer cuts a bed out.
+            lay = L.parse_layout(data)
+            self.assertIsNotNone(L.spawn_surface(lay, piece["pos"]), slot)
 
 
 if __name__ == "__main__":

@@ -376,6 +376,9 @@ class PlaceArea:
     min: tuple[float, float, float]
     max: tuple[float, float, float]
     facing: float | None = None
+    # Floor and table areas: `min` / `max` are in this frame, `(origin, yaw)`
+    # (`AreaFrame`: an area turned to a diagonal wall). None: room axes.
+    frame: tuple[tuple[float, float, float], float] | None = None
 
     @property
     def wall_on_x_plane(self) -> bool:
@@ -713,6 +716,12 @@ def _parse_place_areas(raw) -> list[PlaceArea]:
         if r.get("surface") not in PLACE_SURFACES:
             raise LayoutError(f"place area {aid}: surface must be one of {PLACE_SURFACES}")
         facing = r.get("facing")
+        frame = r.get("frame")
+        if frame is not None:
+            if not isinstance(frame, dict):
+                raise LayoutError(f"place area {aid}.frame must be an object")
+            frame = (_triple(frame.get("origin"), f"place area {aid}.frame.origin"),
+                     _num(frame.get("yaw"), f"place area {aid}.frame.yaw"))
         out.append(
             PlaceArea(
                 id=aid,
@@ -720,6 +729,7 @@ def _parse_place_areas(raw) -> list[PlaceArea]:
                 min=_triple(r.get("min"), f"place area {aid}.min"),
                 max=_triple(r.get("max"), f"place area {aid}.max"),
                 facing=None if facing is None else _num(facing, f"place area {aid}.facing"),
+                frame=frame,
             )
         )
     return out
@@ -1188,6 +1198,8 @@ def _validate_place_areas(layout: Layout, rep: Report) -> None:
         elif a.surface in ("floor", "table"):
             if not flat[1] or flat[0] or flat[2] or a.facing is not None:
                 err(f"place area {a.id}: floor and table areas are horizontal rectangles without a facing")
+        elif a.frame is not None:
+            err(f"place area {a.id}: wall areas have no frame")
         else:
             if flat[0] == flat[2] or flat[1]:
                 err(f"place area {a.id}: wall areas are vertical and flat along exactly one of x, z")

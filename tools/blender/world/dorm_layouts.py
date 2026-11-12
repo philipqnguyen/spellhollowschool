@@ -7,12 +7,15 @@ match the art.
 
 * Walkable surfaces: the room's inner outline inset by `WALK_MARGIN`, cut
   into horizontal bands (each band the widest rectangle the outline allows
-  across it), minus the fixed furniture (bed, stove, fireplace) and wall
-  pilasters, keeping only pieces connected to the spawn.
+  across it), minus the fixed furniture (stove, fireplace, wardrobe) and
+  wall pilasters, keeping only pieces connected to the spawn.
 * Floor areas: the largest few rectangles inside the outline (inset by
   `PLACE_MARGIN`) clear of fixed furniture and the doorway; the largest is
-  `floor`. Wall areas come with the shell (cardinal facets).
+  `floor`. Then the shell's framed floor areas (turned to a wall: the bed's
+  wall, `floor_bed_wall`). Wall areas come with the shell (cardinal facets).
 * Spawn just inside the door facing north; the `dorm_exit` at the door.
+* `starter_furniture`: what a new character's room starts with (the
+  Four-Poster Bed by its wall), catalog ids from data/items/catalog.json.
 
 `--check` (used by the tests and CI) fails if a file differs from what the
 shells generate. No Blender API is used: any Python 3.10+ with the tools
@@ -37,6 +40,7 @@ import meshkit as mk  # noqa: E402
 
 REPO = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 INSTANCES_DIR = os.path.join(REPO, "data", "world", "instances")
+CATALOG = os.path.join(REPO, "data", "items", "catalog.json")
 
 WALK_MARGIN = 0.12
 PLACE_MARGIN = 0.05
@@ -190,9 +194,10 @@ def layout_for(shell: dorms.Shell) -> dict:
     areas = []
     for k, (x0, z0, x1, z1) in enumerate(floor_areas(shell)):
         areas.append({"id": "floor" if k == 0 else f"floor_{k + 1}", "surface": "floor", "min": [x0, 0, z0], "max": [x1, 0, z1]})
+    areas += [dict(a) for a in shell.framed_areas]
     areas += [dict(a) for a in shell.wall_areas]
     areas += [dict(a) for a in shell.table_areas]
-    return {
+    out = {
         "version": 1,
         "surfaces": surfaces,
         "spawns": [{"id": "dorm_entry", "pos": [sx, sy, round(sz, 3)], "yaw": round(syaw, 7)}],
@@ -200,6 +205,16 @@ def layout_for(shell: dorms.Shell) -> dict:
                            "pos": [ex, ey, round(ez, 3)], "yaw": round(math.pi, 7), "radius": er}],
         "place_areas": areas,
     }
+    if shell.starter:
+        ids = _item_ids()
+        out["starter_furniture"] = [{"item": ids[p["asset"]], "pos": p["pos"], "yaw": p["yaw"]} for p in shell.starter]
+    return out
+
+
+def _item_ids() -> dict[str, int]:
+    """Catalog asset key -> item id."""
+    with open(CATALOG, encoding="utf-8") as f:
+        return {i["asset"]: i["id"] for i in json.load(f)["items"]}
 
 
 def to_json(data: dict) -> str:
@@ -208,7 +223,7 @@ def to_json(data: dict) -> str:
         return json.dumps(o, separators=(", ", ": "))
 
     lines = ["{", f'  "version": {data["version"]},']
-    keys = [k for k in ("surfaces", "spawns", "interactables", "place_areas") if k in data]
+    keys = [k for k in ("surfaces", "spawns", "interactables", "place_areas", "starter_furniture") if k in data]
     for n, key in enumerate(keys):
         items = data[key]
         lines.append(f'  "{key}": [')

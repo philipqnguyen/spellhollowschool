@@ -284,13 +284,19 @@ class GateTests(unittest.TestCase):
 
     def test_place_area_rules(self):
         ok = [{"id": "floor", "surface": "floor", "min": [0, 0, 0], "max": [4, 0, 4]},
-              {"id": "wall", "surface": "wall", "min": [0, 0.3, 0], "max": [4, 3, 0], "facing": 0.0}]
-        self.assertEqual(L.validate(gated_layout(place_areas=ok)).errors, [])
+              {"id": "wall", "surface": "wall", "min": [0, 0.3, 0], "max": [4, 3, 0], "facing": 0.0},
+              {"id": "turned", "surface": "floor", "min": [-1, 0, 0], "max": [1, 0, 2],
+               "frame": {"origin": [2, 0, 2], "yaw": 1.0}}]
+        lay = gated_layout(place_areas=ok)
+        self.assertEqual(L.validate(lay).errors, [])
+        self.assertEqual(lay.place_areas[2].frame, ((2.0, 0.0, 2.0), 1.0))
         bad = [{"id": "w", "surface": "wall", "min": [0, 0.3, 0], "max": [4, 3, 0], "facing": 1.5707963},
                {"id": "f", "surface": "floor", "min": [0, 0, 0], "max": [4, 1, 4]},
-               {"id": "g", "surface": "wall", "min": [0, 0.3, 0], "max": [4, 3, 0]}]
+               {"id": "g", "surface": "wall", "min": [0, 0.3, 0], "max": [4, 3, 0]},
+               {"id": "h", "surface": "wall", "min": [0, 0.3, 0], "max": [4, 3, 0], "facing": 0.0,
+                "frame": {"origin": [0, 0, 0], "yaw": 0.0}}]
         errors = L.validate(gated_layout(place_areas=bad)).errors
-        for what in ("perpendicular", "horizontal", "need a facing"):
+        for what in ("perpendicular", "horizontal", "need a facing", "no frame"):
             self.assertTrue(any(what in e for e in errors), (what, errors))
 
     def test_thin_walls_are_rejected(self):
