@@ -276,12 +276,23 @@ impl Client {
         }
     }
 
-    /// Skips messages until `f` picks one.
+    /// Skips messages until `f` picks one, failing after `WAIT`: the world
+    /// sends snapshots and rosters all the time, so without the deadline a
+    /// reply that never comes (say a `RateLimited` error instead) would hang
+    /// the test rather than fail it. The panic lists what was skipped.
     async fn expect<T>(&mut self, mut f: impl FnMut(&ServerMsg) -> Option<T>) -> T {
+        let deadline = tokio::time::Instant::now() + WAIT;
+        let mut skipped = Vec::new();
         loop {
             let msg = self.recv().await.expect("connection still open");
             if let Some(t) = f(&msg) {
                 return t;
+            }
+            if !matches!(msg, ServerMsg::Snapshot { .. }) {
+                skipped.push(format!("{msg:?}"));
+            }
+            if tokio::time::Instant::now() > deadline {
+                panic!("expected message not within {WAIT:?}; skipped: {skipped:#?}");
             }
         }
     }
@@ -861,9 +872,6 @@ async fn saved_zone(pool: &PgPool, id: i64) -> (String, Option<f32>, Option<f32>
         .unwrap()
 }
 
-/// Through the common room's dorm door into your own room; furniture placed,
-/// moved and removed is stored and survives a reconnect, which resumes in the
-/// room; the room's way out leads back to the door.
 #[tokio::test]
 async fn a_character_from_before_wardrobes_is_dressed_on_hello() {
     let server = TestServer::start(1000).await;
@@ -906,6 +914,14 @@ async fn a_character_from_before_wardrobes_is_dressed_on_hello() {
     assert_eq!(items(pool).await, granted);
 }
 
+/// Through the common room's dorm door into your own room; furniture placed,
+/// moved and removed is stored and survives a reconnect, which resumes in the
+/// room; the room's way out leads back to the door.
+///
+/// One connection makes exactly `ACTION_BURST` (10) door and furniture
+/// actions here, so none waits on the bucket's refill: add more and the test
+/// depends on how fast it runs (`RateLimited`). The bed and opening the room
+/// are covered by `starter_bed_moves_and_the_room_opens_to_friends`.
 #[tokio::test]
 async fn doors_rooms_and_furniture_persist() {
     let server = TestServer::start(1000).await;
@@ -1052,9 +1068,101 @@ async fn doors_rooms_and_furniture_persist() {
     );
     assert_eq!(location(desk).await, "inventory");
 
-    // The bed is furniture like any other: moved, turned, put away and put
-    // back by its wall.
+    // Reconnecting resumes in the room, which loads what was placed.
+    drop(a);
+    eventually(|| {
+        let pool = pool.clone();
+        async move { saved_zone(&pool, cid).await.0 == "dorm" }
+    })
+    .await;
+    let mut a = server.socket().await;
+    a.hello(&server.bot_named(&name).await).await;
+    let zone = a
+        .expect(|m| match m {
+            ServerMsg::Welcome { zone, .. } => Some(zone.clone()),
+            _ => None,
+        })
+        .await;
+    assert!(matches!(zone, Zone::Dorm { .. }));
+    let (open, items) = a
+        .expect(|m| match m {
+            ServerMsg::DormState {
+                open_to_friends,
+                items,
+                ..
+            } => Some((*open_to_friends, items.clone())),
+            _ => None,
+        })
+        .await;
+    assert!(!open);
+    // In placing order: the bed came with the room.
+    assert_eq!(
+        items.iter().map(|p| (p.item_id, p.pos)).collect::<Vec<_>>(),
+        vec![(bed, bed_pos), (lantern, floor)]
+    );
+
+    // The way out leads to the dorm door, facing out of it.
+    a.send(&ClientMsg::LeaveInstance).await;
+    let (zone, spawn) = a
+        .expect(|m| match m {
+            ServerMsg::ZoneChanged { zone, spawn, .. } => Some((zone.clone(), *spawn)),
+            _ => None,
+        })
+        .await;
+    assert_eq!(zone, Zone::Castle);
+    assert_eq!(spawn, QPos::from_m([215.0, 0.0, 100.0]));
+    drop(a);
+    eventually(|| {
+        let pool = pool.clone();
+        async move { saved_zone(&pool, cid).await == ("castle".into(), Some(215.0), Some(100.0)) }
+    })
+    .await;
+}
+
+/// The starter Four-Poster Bed is furniture like any other: moved, turned,
+/// put away and put back by its wall. Opening the room to friends is told at
+/// once and stored; both survive a reconnect.
+#[tokio::test]
+async fn starter_bed_moves_and_the_room_opens_to_friends() {
+    let server = TestServer::start(1000).await;
+    let pool = server.state.pool.clone();
+    let (name, token) = server.bot().await;
+    let cid = character_id(&pool, &name).await;
+    set_character(&pool, cid, 0, "castle", Some([214.0, 0.0, 100.0])).await;
+    let spot = server::dorm::shells::shipped().starter_furniture(protocol::House::Roarwing)[0];
+    let (bed_pos, bed_yaw) = (QPos::from_m(spot.pos), protocol::yaw_to_u8(spot.yaw));
+    let location = |id: i64| {
+        let pool = pool.clone();
+        async move {
+            sqlx::query_scalar::<_, String>("SELECT location FROM items WHERE id = $1")
+                .bind(id)
+                .fetch_one(&pool)
+                .await
+                .unwrap()
+        }
+    };
+
+    let mut a = server.join(&token).await;
+    a.send(&ClientMsg::Interact {
+        target: "dorm_door_r".into(),
+    })
+    .await;
+    let items = a
+        .expect(|m| match m {
+            ServerMsg::DormState { items, .. } => Some(items.clone()),
+            _ => None,
+        })
+        .await;
+    assert_eq!(
+        items
+            .iter()
+            .map(|p| (p.item_def, p.pos, p.yaw))
+            .collect::<Vec<_>>(),
+        vec![(spot.item, bed_pos, bed_yaw)]
+    );
+    let bed = items[0].item_id;
     assert_eq!(location(bed).await, "dorm");
+
     let middle = QPos::from_m([0.0, 0.0, -2.0]);
     for (pos, yaw) in [(middle, 0), (middle, 128)] {
         a.send(&ClientMsg::DormMove {
@@ -1082,6 +1190,7 @@ async fn doors_rooms_and_furniture_persist() {
     })
     .await;
     assert!(matches!(a.furniture().await, FurnitureEdit::Placed(p) if p.item_id == bed));
+    assert_eq!(location(bed).await, "dorm");
 
     // Open to friends: told at once, stored.
     a.send(&ClientMsg::DormSetOpen { open: true }).await;
@@ -1100,7 +1209,7 @@ async fn doors_rooms_and_furniture_persist() {
     })
     .await;
 
-    // Reconnecting resumes in the room, which loads what was placed.
+    // A reconnect resumes in the open room, the bed back by its wall.
     drop(a);
     eventually(|| {
         let pool = pool.clone();
@@ -1109,13 +1218,6 @@ async fn doors_rooms_and_furniture_persist() {
     .await;
     let mut a = server.socket().await;
     a.hello(&server.bot_named(&name).await).await;
-    let zone = a
-        .expect(|m| match m {
-            ServerMsg::Welcome { zone, .. } => Some(zone.clone()),
-            _ => None,
-        })
-        .await;
-    assert!(matches!(zone, Zone::Dorm { .. }));
     let (open, items) = a
         .expect(|m| match m {
             ServerMsg::DormState {
@@ -1128,26 +1230,12 @@ async fn doors_rooms_and_furniture_persist() {
         .await;
     assert!(open);
     assert_eq!(
-        items.iter().map(|p| (p.item_id, p.pos)).collect::<Vec<_>>(),
-        vec![(lantern, floor), (bed, bed_pos)]
+        items
+            .iter()
+            .map(|p| (p.item_id, p.pos, p.yaw))
+            .collect::<Vec<_>>(),
+        vec![(bed, bed_pos, bed_yaw)]
     );
-
-    // The way out leads to the dorm door, facing out of it.
-    a.send(&ClientMsg::LeaveInstance).await;
-    let (zone, spawn) = a
-        .expect(|m| match m {
-            ServerMsg::ZoneChanged { zone, spawn, .. } => Some((zone.clone(), *spawn)),
-            _ => None,
-        })
-        .await;
-    assert_eq!(zone, Zone::Castle);
-    assert_eq!(spawn, QPos::from_m([215.0, 0.0, 100.0]));
-    drop(a);
-    eventually(|| {
-        let pool = pool.clone();
-        async move { saved_zone(&pool, cid).await == ("castle".into(), Some(215.0), Some(100.0)) }
-    })
-    .await;
 }
 
 /// Friends see each other come online; an invitation takes a friend of
