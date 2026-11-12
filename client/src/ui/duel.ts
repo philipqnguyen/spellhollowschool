@@ -2,7 +2,8 @@
 // duelists' Poise bars facing each other with the clock between them, the
 // countdown, what each duelist is casting (a bar in the spell's colour, so
 // a telegraph is readable at a glance), raised shields and disarms, our
-// spell bar (keys 1-5, cooldown sweeps, refusals), our cast bar, callouts
+// spell bar (keys 1-5, each spell's glyph from spell-icons.ts, cooldown
+// sweeps, refusals), our cast bar, callouts
 // over the duelists' heads ("Blocked!", "-10"), a red flash when we are
 // hit, the Forfeit / Leave button and the result card with the XP.
 // Protocol v11: status chips under each Poise bar with their time draining
@@ -20,6 +21,7 @@ import { DUEL_RULES, DUEL_SPELLS, duelSpell, kindLabel, spellSummary } from "../
 import { endText, otherSide, sideIndex, xpText, type DuelView } from "../game/dueling/state";
 import type { DuelSide } from "../wasm/sim_wasm";
 import { h } from "./dom";
+import { spellIcon } from "./spell-icons";
 
 export interface DuelHudOptions {
   /** A spell button was pressed (the same as its key). */
@@ -277,6 +279,7 @@ export class DuelHud {
         },
         sweep,
         h("kbd", { class: "duel-slot-key" }, String(i + 1)),
+        def ? spellIcon(def) : null,
         h("span", { class: "duel-slot-name" }, def?.name ?? "?"),
         h("span", { class: "duel-slot-kind" }, def ? kindLabel(def.kind) : ""),
       );

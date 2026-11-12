@@ -1,7 +1,8 @@
 // The dueling loadout editor: which learned dueling spells to carry into a
 // duel and on which keys (1-5). The level opens slots (3 at level 1, 4 at
 // 5, 5 at 10: data/progression.json), never stronger spells. The learned
-// spells (up to ten) are grouped by kind, each with its numbers and a line
+// spells (up to ten) are grouped by kind, each with its glyph
+// (spell-icons.ts), its numbers and a line
 // on how it is countered; the ones still to learn say where and from which
 // level. Click a spell
 // to put it in or take it out, the arrows to change its key, then Save
@@ -14,6 +15,7 @@ import { ApiError, authedRequest } from "../api";
 import { counterHint, kindLabel, SLOT_STEPS, spellSummary, venue, type DuelSpellInfo } from "../game/dueling/content";
 import { focusOrigin, h, restoreFocus } from "./dom";
 import { byKind, LoadoutDraft, taughtWhere, type Spellbook } from "./loadout-state";
+import { spellIcon } from "./spell-icons";
 
 export interface LoadoutWindowOptions {
   notify: (text: string) => void;
@@ -127,6 +129,7 @@ export class LoadoutWindow {
           "li",
           { class: "loadout-slot", style: `--spell: ${def.colour}` },
           h("kbd", { class: "loadout-key" }, String(i + 1)),
+          spellIcon(def),
           h("span", { class: "loadout-slot-name" }, def.name),
           h(
             "span",
@@ -154,7 +157,7 @@ export class LoadoutWindow {
             "aria-pressed": known ? String(inIt) : undefined,
             onclick: () => this.edit(() => this.showError(d.toggle(s.id))),
           },
-          h("span", { class: "loadout-spell-head" }, h("span", { class: "loadout-swatch", "aria-hidden": "true" }), h("strong", {}, s.name), h("span", { class: "loadout-kind" }, kindLabel(s.kind)), inIt ? h("span", { class: "loadout-in" }, `key ${d.spells.indexOf(s.id) + 1}`) : null),
+          h("span", { class: "loadout-spell-head" }, spellIcon(s), h("strong", {}, s.name), h("span", { class: "loadout-kind" }, kindLabel(s.kind)), inIt ? h("span", { class: "loadout-in" }, `key ${d.spells.indexOf(s.id) + 1}`) : null),
           h("span", { class: "loadout-spell-line" }, known ? spellSummary(s) : `Taught ${taughtWhere(s.unlockAt)} from level ${s.unlockLevel}.`),
           known && counterHint(s) ? h("span", { class: "loadout-spell-hint" }, counterHint(s)) : null,
         ),
