@@ -12,7 +12,7 @@ in [`character-look.md`](character-look.md).
 > When you renumber or move a section, update the citations too
 > (`git grep base-body-spec.md`).
 
-All player characters are adults (final-year students). Proportions, faces
+All player characters are adult students. Proportions, faces
 and every height must read as adult; nothing is sexualised.
 
 ## 1. Bodies

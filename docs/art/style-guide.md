@@ -45,7 +45,7 @@ get a rim, and High adds tinted screen-space ambient occlusion (section 11).
   (`body_b`, about 6.7 heads, stylised on purpose), wrapped onto CC BY
   sculpts ([`base-body-spec.md`](base-body-spec.md)). One neutral build; the
   only body choice is height, a uniform scale of the whole character.
-  Characters are final-year students and adults: never chibi or childlike,
+  Characters are adult students: never chibi or childlike,
   never sexualised. Outfits stay modest.
 - **Faces:** flat, simple planes, painted rather than modelled: each body
   has its own script-painted face texture and mask

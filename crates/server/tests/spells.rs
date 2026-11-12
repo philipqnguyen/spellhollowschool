@@ -138,3 +138,55 @@ async fn loadout_writes_are_rate_limited() {
     }
     assert!(limited, "10, then one every 2 s");
 }
+
+/// The social hotbar's storage (protocol v17): a character that never set
+/// one gets its learned hotbar spells in spellbook order; a stored one keeps
+/// its slots, and a spell learned later goes into the first empty slot, but
+/// only when learned.
+#[tokio::test]
+async fn hotbars_default_at_join_and_take_spells_as_they_are_learned() {
+    use server::spells::hotbar;
+    use sim_core::spells::Hotbar;
+    const EMPTY: Hotbar = [None; protocol::HOTBAR_SLOTS];
+    let app = TestApp::new().await;
+    let p = app.player("Burrowsby").await;
+    let key = |k: &str| shipped().spells.by_key(k).unwrap().id;
+    let pool = &app.state.pool;
+    let school = || progression::load_school(pool, p.id);
+    assert_eq!(school().await.unwrap().hotbar, EMPTY);
+    learn(&app, &p, &[key("rigora"), TORPEO, LUCERNA, key("volucra")]).await;
+    let mut want = EMPTY;
+    want[..3].copy_from_slice(&[Some(LUCERNA), Some(key("volucra")), Some(key("rigora"))]);
+    assert_eq!(school().await.unwrap().hotbar, want);
+    // Never set: learning keeps the column empty (the default lists it).
+    learn(&app, &p, &[key("elevara")]).await;
+    let stored: Option<Vec<Option<i32>>> =
+        sqlx::query_scalar("SELECT hotbar FROM characters WHERE id = $1")
+            .bind(p.id)
+            .fetch_one(pool)
+            .await
+            .unwrap();
+    assert_eq!(stored, None);
+    assert_eq!(school().await.unwrap().hotbar[1], Some(key("elevara")));
+
+    // The player keeps Volucra in slot 1 and Lucerna in 4, nothing else.
+    let mut bar = EMPTY;
+    bar[1] = Some(key("volucra"));
+    bar[4] = Some(LUCERNA);
+    hotbar::save(pool, &[(p.id, bar)]).await.unwrap();
+    assert_eq!(school().await.unwrap().hotbar, bar);
+    // Learning Adveni (and a flourish) fills slot 0; Rigora and Elevara,
+    // taken off, stay off, and learning one again changes nothing.
+    learn(&app, &p, &[REPULSA, key("adveni"), key("rigora")]).await;
+    bar[0] = Some(key("adveni"));
+    assert_eq!(school().await.unwrap().hotbar, bar);
+    // A stored spell no longer learned is dropped at load.
+    sqlx::query("DELETE FROM known_spells WHERE character_id = $1 AND spell_id = $2")
+        .bind(p.id)
+        .bind(i32::from(key("volucra")))
+        .execute(pool)
+        .await
+        .unwrap();
+    bar[1] = None;
+    assert_eq!(school().await.unwrap().hotbar, bar);
+}

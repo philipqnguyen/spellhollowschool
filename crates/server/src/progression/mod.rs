@@ -5,9 +5,10 @@
 //!   caps ([`caps`]), the `xp_ledger` row and level-up detection. A grant
 //!   that names a `ref_id` happens once per character, source and ref: a
 //!   retry answers `duplicate` and adds nothing.
-//! - [`learn_spells`] / [`teach`]: `known_spells` rows.
+//! - [`learn_spells`] / [`teach`]: `known_spells` rows (and the new hotbar
+//!   spells into a stored hotbar's empty slots, `spells::hotbar::add_learned`).
 //! - [`load_school`]: what the gateway loads at sign-in (XP, learned spells,
-//!   loadout) for `realtime::world::Joining`.
+//!   loadout, hotbar) for `realtime::world::Joining`.
 //! - [`notify`]: tells the world after commit (`Progress` to the character,
 //!   `LevelChanged` to viewers on a level change).
 //!
@@ -18,16 +19,14 @@
 //! after locking the character and before locking item rows, or after the
 //! item work in the same transaction (the character lock is already held).
 //!
-//! Routes: `GET /api/progression` (level, XP, year and its name, loadout
-//! slots) and `GET /api/xp/history` (the character's ledger, newest first).
+//! Routes: `GET /api/progression` (level, XP, loadout slots) and
+//! `GET /api/xp/history` (the character's ledger, newest first).
 //!
 //! **Levels** come from total XP (`data/progression.json`, 20 levels; the
-//! row's `level` column follows every grant and never goes down). The
-//! school year shown beside the level follows from it (Year 1 at levels
-//! 1-3, one year per three levels, Year 7 at 19-20). Existing characters
-//! started at level 1 with 0 XP: their crafting skill XP stays skill XP
-//! (converting it would have handed early crafters levels that classes and
-//! duels are meant to give).
+//! row's `level` column follows every grant and never goes down). Existing
+//! characters started at level 1 with 0 XP: their crafting skill XP stays
+//! skill XP (converting it would have handed early crafters levels that
+//! classes and duels are meant to give).
 
 pub mod caps;
 
@@ -191,6 +190,8 @@ pub async fn grant_xp(
 
 /// Records spells as learned (`known_spells`), returning the ones that were
 /// new, in the order given. Taught at `taught_at` (a class or venue id).
+/// The new ones that belong on the social hotbar go into its first empty
+/// slots (`spells::hotbar::add_learned`, which locks the character's row).
 pub async fn learn_spells(
     conn: &mut PgConnection,
     character_id: i64,
@@ -212,6 +213,7 @@ pub async fn learn_spells(
             new.push(spell);
         }
     }
+    crate::spells::hotbar::add_learned(conn, character_id, &new).await?;
     Ok(new)
 }
 
@@ -240,6 +242,9 @@ pub struct SchoolState {
     pub learned: Vec<SpellId>,
     /// The dueling loadout: the chosen one, or the default while none is.
     pub loadout: Vec<SpellId>,
+    /// The social hotbar (protocol v17): the stored one, or the default
+    /// while none is (`spells::hotbar`).
+    pub hotbar: sim_core::spells::Hotbar,
 }
 
 impl SchoolState {
@@ -307,10 +312,12 @@ pub async fn load_school(pool: &PgPool, character_id: i64) -> Result<SchoolState
     let xp = u32::try_from(xp).unwrap_or(0);
     let level = shipped().progression.level_for(xp);
     let (learned, loadout) = spellbook(&mut conn, character_id, level).await?;
+    let hotbar = crate::spells::hotbar::load(&mut conn, character_id, &learned).await?;
     Ok(SchoolState {
         xp,
         learned,
         loadout,
+        hotbar,
     })
 }
 
@@ -335,16 +342,13 @@ pub fn notify(
     }
 }
 
-/// `GET /api/progression`: the HUD's `Progress` plus the year's name and
-/// the loadout's slots.
+/// `GET /api/progression`: the HUD's `Progress` plus the loadout's slots.
 #[derive(Debug, Clone, Serialize, PartialEq, Eq)]
 pub struct ProgressionView {
     pub level: u8,
     pub xp: u32,
     pub level_xp: u32,
     pub next_level_xp: Option<u32>,
-    pub year: u8,
-    pub year_name: String,
     pub loadout_slots: u8,
 }
 
@@ -357,8 +361,6 @@ impl ProgressionView {
             xp,
             level_xp: progress.level_xp,
             next_level_xp: progress.next_level_xp,
-            year: progress.year,
-            year_name: p.year(progress.level).name.clone(),
             loadout_slots: p.loadout_slots(progress.level),
         }
     }
@@ -453,9 +455,9 @@ mod tests {
     }
 
     /// The curve: every level's first XP gives it, one less the level
-    /// before; years follow the levels; the cap is level 20.
+    /// before; the cap is level 20.
     #[test]
-    fn the_level_curve_and_the_years() {
+    fn the_level_curve() {
         let p = &shipped().progression;
         assert_eq!(p.levels.len(), usize::from(protocol::LEVEL_MAX));
         for (k, &start) in p.levels.iter().enumerate() {
@@ -465,15 +467,10 @@ mod tests {
                 assert_eq!(ProgressionView::new(start - 1).level, level - 1);
             }
         }
-        let years: Vec<u8> = (1..=20).map(|l| p.year(l).year).collect();
-        assert_eq!(&years[..3], &[1, 1, 1]);
-        assert_eq!(years[3], 2, "Year 2 at level 4");
-        assert_eq!(&years[18..], &[7, 7], "Year 7 at 19-20");
         let top = ProgressionView::new(u32::MAX);
-        assert_eq!((top.level, top.next_level_xp, top.year), (20, None, 7));
+        assert_eq!((top.level, top.next_level_xp), (20, None));
         let fresh = ProgressionView::new(0);
         assert_eq!(fresh.next_level_xp, Some(p.levels[1]));
-        assert_eq!(fresh.year_name, p.year(1).name);
         assert_eq!(fresh.loadout_slots, 3);
         assert_eq!(ProgressionView::new(p.levels[4]).loadout_slots, 4);
         assert_eq!(ProgressionView::new(p.levels[9]).loadout_slots, 5);

@@ -36,7 +36,7 @@ describe("the spellbook", () => {
     expect(out.get("custodio")).toBe("Dismiss guardian");
   });
 
-  it("says where a locked spell is taught and from which level, and how to aim friend spells", () => {
+  it("says where a locked spell is taught and from which level, and how to aim spells cast on someone else", () => {
     const rows = spellbookGroups(1, none).flatMap((g) => g.rows);
     const row = (key: string) => rows.find((r) => r.spell.key === key)!;
     expect(row("volucra").button).toBeNull();
@@ -45,7 +45,7 @@ describe("the spellbook", () => {
     expect(row("volucra").tag).toBe("Lv 9 · Transfiguration class");
     expect(row("scutara").tag).toBe("Lv 1 · the Dueling Club");
     expect(row("aperio").where).toContain("Charms class");
-    expect(aimText(byKey("rigora"))).toContain("Select a friend first");
+    expect(aimText(byKey("rigora"))).toContain("Select a friend, party or club member first");
     expect(aimText(byKey("tinctura"))).toContain("yourself");
     expect(aimText(byKey("volucra"))).toBeNull();
     // Dueling spells say what they do in a duel; the new ones are no longer "a harmless flourish" outside it.
@@ -53,7 +53,7 @@ describe("the spellbook", () => {
     expect(row("aperio").duel).toBeNull();
     expect(outsideText(byKey("torpeo"))).toContain("harmless flourish");
     for (const key of ["rigora", "adveni", "dissolvo", "tardara", "custodio"]) expect(outsideText(byKey(key)), key).not.toContain("flourish");
-    expect(outsideText(byKey("tardara"))).toBe("Outside a duel: a friend walks at 40% for 4 s.");
+    expect(outsideText(byKey("tardara"))).toBe("Outside a duel: a friend, party or club member walks at 40% for 4 s.");
   });
 
   it("says truthfully per group which spells can go into a duel and where they are learned", () => {

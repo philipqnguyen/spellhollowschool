@@ -234,7 +234,7 @@ class CreatorScreen {
     this.root.querySelector<HTMLElement>(".creator")?.style.setProperty("--house", house.colour);
     this.root.querySelector<HTMLElement>(".creator")?.style.setProperty("--house-accent", house.accent);
     this.back.hidden = nextStep(s, -1) === null;
-    this.next.textContent = s.step === "name" ? "Begin my first year" : "Next";
+    this.next.textContent = s.step === "name" ? "Begin my studies" : "Next";
     this.showError(null);
     switch (s.step) {
       case "house":

@@ -6,13 +6,14 @@
 //! to the database.
 //!
 //! Spells to level 20 (protocol v11; SOCIAL): one arm per `Social`
-//! variant. Tinctura recolours a friend's robe (or your own), Rigora
-//! and Tardara bind and slow a friend (`EffectKind::{Petrified,
-//! Slowed}`, which the world turns into speed), Adveni slides a friend
+//! variant. Tinctura recolours an ally's robe (or your own), Rigora
+//! and Tardara bind and slow an ally (`EffectKind::{Petrified,
+//! Slowed}`, which the world turns into speed), Adveni slides an ally
 //! toward the caster (`WorldCtx::force_move`), Dissolvo ends those and a lit
 //! wand (or lands a floating piece), Aperio shows its caster the passages
 //! and find spots near, Volucra is only its cast. Spells aimed at someone
-//! else need a friend; the hindering three need a free target that was not
+//! else need an ally (a friend, party member or club member:
+//! `WorldCtx::spell_ally`); the hindering three need a free target that was not
 //! hindered in the last `immune_ms`; a bound caster may cast only Dissolvo.
 //! Custodio goes to [`super::guardian`] (GUARDIAN). See
 //! docs/architecture.md, "Spells and dueling".
@@ -189,7 +190,7 @@ impl Spells {
     // `def.social`, answers `Ok(())` for a cast that went through (the
     // caller starts the cooldown) or the `SpellErrorCode` to refuse with.
 
-    /// Tinctura (`Social::Recolour`): a friend's (or, with no target, the
+    /// Tinctura (`Social::Recolour`): an ally's (or, with no target, the
     /// caster's) body garment shows a bright dye from `colours` for
     /// `duration_ms`: never its own primary dye nor the colour it shows now.
     fn recolour(
@@ -208,7 +209,7 @@ impl Spells {
         else {
             return Err(SpellErrorCode::NotHere);
         };
-        let target = self_or_friend(ctx, who, target, *range_m)?;
+        let target = self_or_ally(ctx, who, target, *range_m)?;
         let own = ctx
             .appearance(target)
             .and_then(|a| a.outfit.body)
@@ -233,7 +234,7 @@ impl Spells {
         Ok(())
     }
 
-    /// Rigora outside duels (`Social::Bind`): a friend stiffens
+    /// Rigora outside duels (`Social::Bind`): an ally stiffens
     /// (speed 0, the pose frozen) for `duration_ms`.
     fn bind(
         &mut self,
@@ -287,7 +288,7 @@ impl Spells {
         Ok(())
     }
 
-    /// Adveni outside duels (`Social::Pull`): a friend slides toward the
+    /// Adveni outside duels (`Social::Pull`): an ally slides toward the
     /// caster along safe ground (`WorldCtx::pull_destination`; `NoPath`
     /// when there is none), moved by the server (`WorldCtx::force_move`).
     fn pull(
@@ -329,7 +330,7 @@ impl Spells {
         Ok(())
     }
 
-    /// Dissolvo outside duels (`Social::Dispel`): on a friend or
+    /// Dissolvo outside duels (`Social::Dispel`): on an ally or
     /// the caster (no target), ends a lit wand and the bind, slow and
     /// recolour spells (never a potion or the Guardian; `BadTarget` when
     /// none of them was on); on a piece floating in the caster's dorm room,
@@ -347,7 +348,7 @@ impl Spells {
         if let SpellTarget::Furniture { item_id } = target {
             return self.land(ctx, who, def, item_id, range_m);
         }
-        let target = self_or_friend(ctx, who, target, range_m)?;
+        let target = self_or_ally(ctx, who, target, range_m)?;
         let lit = ctx.lucerna(target);
         let ends = [
             EffectKind::Petrified,
@@ -447,7 +448,7 @@ impl Spells {
         Ok(())
     }
 
-    /// Tardara outside duels (`Social::Slow`): a friend walks at `pct`%
+    /// Tardara outside duels (`Social::Slow`): an ally walks at `pct`%
     /// (and moves in slow motion) for `duration_ms`.
     fn slow(
         &mut self,
@@ -488,7 +489,7 @@ impl Spells {
         Ok(())
     }
 
-    /// The target of a hindering spell (bind, slow, pull): a friend in
+    /// The target of a hindering spell (bind, slow, pull): an ally in
     /// range (`NeedsTarget` without one or for yourself), free to be
     /// hindered (`Unavailable`: seated, mounted, in class, trading,
     /// dueling, being moved) and not hindered a moment ago (`Busy`).
@@ -504,7 +505,7 @@ impl Spells {
             SpellTarget::Furniture { .. } => return Err(SpellErrorCode::BadTarget),
             _ => return Err(SpellErrorCode::NeedsTarget),
         };
-        friend_in_range(ctx, who, id, range_m)?;
+        ally_in_range(ctx, who, id, range_m)?;
         if !ctx.spell_target_free(id) {
             return Err(SpellErrorCode::Unavailable);
         }
@@ -600,8 +601,8 @@ fn flourish(
 }
 
 /// The character a spell that may fall back to its caster is aimed at:
-/// the caster for no target (or itself), else a friend in range.
-fn self_or_friend(
+/// the caster for no target (or itself), else an ally in range.
+fn self_or_ally(
     ctx: &WorldCtx<'_>,
     who: EntityId,
     target: SpellTarget,
@@ -610,15 +611,15 @@ fn self_or_friend(
     match target {
         SpellTarget::None => Ok(who),
         SpellTarget::Entity { id } if id == who => Ok(who),
-        SpellTarget::Entity { id } => friend_in_range(ctx, who, id, range_m).map(|()| id),
+        SpellTarget::Entity { id } => ally_in_range(ctx, who, id, range_m).map(|()| id),
         SpellTarget::Furniture { .. } => Err(SpellErrorCode::BadTarget),
     }
 }
 
 /// `id` is a player in the caster's zone (`BadTarget` for an NPC, someone
-/// gone or elsewhere), a friend with no block either way (`NotFriend`),
-/// within `range_m` (`TooFar`).
-fn friend_in_range(
+/// gone or elsewhere), a friend, party member or club member with no
+/// block either way (`NotFriend`), within `range_m` (`TooFar`).
+fn ally_in_range(
     ctx: &WorldCtx<'_>,
     who: EntityId,
     id: EntityId,
@@ -630,7 +631,7 @@ fn friend_in_range(
     let Some(d) = ctx.distance(who, id) else {
         return Err(SpellErrorCode::BadTarget);
     };
-    if !ctx.friends(who, id) || ctx.blocked_either(who, id) {
+    if !ctx.spell_ally(who, id) {
         return Err(SpellErrorCode::NotFriend);
     }
     if d > range_m {

@@ -1,5 +1,5 @@
-// Your level on the HUD: a badge in the top bar with the level, the school
-// year and an XP bar (it opens the spellbook), little "+80 XP" notes rising
+// Your level on the HUD: a badge in the top bar with the level and an XP
+// bar (it opens the spellbook), little "+80 XP" notes rising
 // from it after each grant, and the level-up flourish across the screen.
 // The numbers come from the server's `Progress`; the words from
 // progression-state.ts.
@@ -7,7 +7,7 @@
 import "./progression.css";
 import type { Progress, XpGain } from "../wasm/sim_wasm";
 import { h } from "./dom";
-import { FlourishGate, gainText, levelFraction, xpText, yearName, type LevelUp } from "./progression-state";
+import { FlourishGate, gainText, levelFraction, xpText, type LevelUp } from "./progression-state";
 
 /** How long a gain note and the flourish stay up (ms). */
 const GAIN_MS = 2600;
@@ -17,7 +17,7 @@ const GAINS_MAX = 3;
 export class LevelBadge {
   readonly root: HTMLButtonElement;
   private readonly level: HTMLElement;
-  private readonly year: HTMLElement;
+  private readonly label: HTMLElement;
   private readonly fill: HTMLElement;
   private readonly bar: HTMLElement;
   private readonly gains: HTMLElement;
@@ -25,7 +25,7 @@ export class LevelBadge {
 
   constructor(onOpen: () => void) {
     this.level = h("span", { class: "lvl-num" }, "1");
-    this.year = h("span", { class: "lvl-year" }, "");
+    this.label = h("span", { class: "lvl-label" }, "Level 1");
     this.fill = h("span", { class: "lvl-fill" });
     this.bar = h("span", { class: "lvl-bar", role: "progressbar", "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": 0, "aria-label": "Progress to the next level" }, this.fill);
     this.gains = h("span", { class: "lvl-gains", "aria-live": "polite" });
@@ -33,7 +33,7 @@ export class LevelBadge {
       "button",
       { type: "button", class: "lvl-badge", title: "Your level and spells (Y)", "aria-label": "Level and spellbook", onclick: onOpen },
       this.level,
-      h("span", { class: "lvl-text" }, this.year, this.bar),
+      h("span", { class: "lvl-text" }, this.label, this.bar),
       this.gains,
     );
     this.root.hidden = true;
@@ -42,15 +42,15 @@ export class LevelBadge {
   /** The latest `Progress`. */
   update(p: Progress): void {
     const pct = Math.round(levelFraction(p) * 100);
-    const key = `${p.level}|${p.year}|${p.xp}|${p.nextLevelXp}`;
+    const key = `${p.level}|${p.xp}|${p.nextLevelXp}`;
     if (key === this.key) return;
     this.key = key;
     this.root.hidden = false;
     this.level.textContent = String(p.level);
-    this.year.textContent = yearName(p.year);
+    this.label.textContent = `Level ${p.level}`;
     this.fill.style.width = `${pct}%`;
     this.bar.setAttribute("aria-valuenow", String(pct));
-    const words = `Level ${p.level}, ${yearName(p.year)}: ${xpText(p)}`;
+    const words = `Level ${p.level}: ${xpText(p)}`;
     this.root.title = `${words}. Your spells (Y).`;
     this.root.setAttribute("aria-label", `${words}. Open the spellbook.`);
   }
@@ -111,7 +111,6 @@ export class LevelUpFlourish {
     const lines: (HTMLElement | null)[] = [
       h("span", { class: "levelup-kicker" }, "Level up"),
       h("strong", { class: "levelup-level" }, `Level ${up.level}`),
-      h("span", { class: "levelup-year" }, up.newYear ? `You are now a ${yearName(up.year)}!` : yearName(up.year)),
       up.slots !== null ? h("span", { class: "levelup-note" }, `Your dueling loadout now holds ${up.slots} spells.`) : null,
     ];
     this.root.replaceChildren(h("div", { class: "levelup-card" }, h("span", { class: "levelup-rays", "aria-hidden": "true" }), ...lines));
