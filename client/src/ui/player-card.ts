@@ -1,6 +1,6 @@
 // A player's card (Examine in the players list, a
 // double-click on a character, or E with a player selected). Name and
-// house, school year and level, every subject's skill level, and what they
+// house and level, every subject's skill level, and what they
 // wear: their figure in a small 3D view (the wardrobe's mirror,
 // `CharacterPreview`) and the pieces by slot, with the wear labels. Add
 // friend, Whisper and Challenge to a duel reuse what exists (game.ts). The

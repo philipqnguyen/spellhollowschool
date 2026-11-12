@@ -142,8 +142,6 @@ pub struct Progress {
     pub level_xp: u32,
     /// Total XP the next level needs; `None` at the cap.
     pub next_level_xp: Option<u32>,
-    /// School year shown beside the level (1..=7, from the level).
-    pub year: u8,
 }
 
 /// An XP grant, as `Progress.gained` reports it.

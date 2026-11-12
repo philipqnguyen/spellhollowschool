@@ -1,5 +1,5 @@
-// The spellbook (Y, or the level badge in the HUD bar): your level and
-// school year, then every spell of data/spells.json by school (Charms,
+// The spellbook (Y, or the level badge in the HUD bar): your level, then
+// every spell of data/spells.json by school (Charms,
 // Transfiguration, Defence and dueling), learned or locked. A learned spell
 // shows its incantation, its wand gesture (drawn from the gesture's
 // template), what it does outside a duel and, for dueling spells, in one,
@@ -14,7 +14,7 @@ import type { Progress } from "../wasm/sim_wasm";
 import { gestureByKey, spellRgb, type GestureDef, type SpellDef } from "../game/spells/data";
 import { focusOrigin, h, restoreFocus } from "./dom";
 import { lineIcon, SPELLBOOK_ICON } from "./effects-icons";
-import { levelFraction, xpText, yearName } from "./progression-state";
+import { levelFraction, xpText } from "./progression-state";
 import { spellbookGroups, type SpellRow } from "./spellbook-state";
 
 export interface SpellbookOptions {
@@ -113,7 +113,7 @@ export class SpellbookWindow {
     const summary = h(
       "div",
       { class: "spellbook-me" },
-      h("strong", { class: "spellbook-level" }, `Level ${level}`, p ? h("span", { class: "spellbook-year" }, ` · ${yearName(p.year)}`) : null),
+      h("strong", { class: "spellbook-level" }, `Level ${level}`),
       h("span", { class: "sb-bar", role: "progressbar", "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": pct, "aria-label": "Progress to the next level" }, h("span", { class: "sb-fill", style: `width: ${pct}%` })),
       h("span", { class: "detail-sub" }, `${p ? xpText(p) : "–"} · ${v.learned.length} spell${v.learned.length === 1 ? "" : "s"} learned · dueling loadout: ${v.loadout.length} of ${v.slots} slots`),
     );

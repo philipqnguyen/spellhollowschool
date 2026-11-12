@@ -136,7 +136,8 @@ pub use snapshot::{
 /// ClubInvite, ClubRespond, ClubLeave, ClubKick, ClubSetRole, ClubTransfer,
 /// ClubRename, ClubSetMotd, ClubDisband}` and `ServerMsg::{ClubInvited,
 /// ClubState, ClubPresence, ClubNotice, ClubError}`.
-pub const PROTOCOL_VERSION: u16 = 15;
+/// 16: no school years: `Progress` drops `year`.
+pub const PROTOCOL_VERSION: u16 = 16;
 
 /// Mimic Draught consent requests may be answered for this long (seconds).
 pub const MIMIC_DRAUGHT_REQUEST_SECS: u16 = 30;
@@ -695,9 +696,9 @@ pub struct EntityInfo {
     /// Active potion effects as viewers draw them (usually empty), plus
     /// `Lucerna` while the wand is lit.
     pub effects: Vec<VisibleEffect>,
-    /// The player's level (1-20), for the nameplate's school
-    /// year; 0 for NPCs. A change bumps `effects_version` (it is part of the
-    /// world's half of the look) and is sent as `LevelChanged`.
+    /// The player's level (1-20), for the nameplate; 0 for NPCs. A change
+    /// bumps `effects_version` (it is part of the world's half of the look)
+    /// and is sent as `LevelChanged`.
     pub level: u8,
     /// `Some` for a scripted NPC (the professor): its id in
     /// the data (`data/classes/<class>.json` `professor.id`). NPCs cannot be
@@ -2724,7 +2725,6 @@ mod tests {
             xp: 820,
             level_xp: 760,
             next_level_xp: Some(1_160),
-            year: 2,
         };
         vec![
             ServerMsg::Progress {

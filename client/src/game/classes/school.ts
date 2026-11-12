@@ -1,7 +1,7 @@
 // School life in the running game, in one place for
 // game.ts: the game clock (the server's time, day and night over the
 // castle, the HUD's timetable), levels (the HUD badge, the level-up
-// flourish, school years on nameplates, required levels in the wardrobe),
+// flourish, levels on nameplates, required levels in the wardrobe),
 // classes (controller.ts), NPCs (speech bubbles, demonstrations), spells
 // outside duels (game/spells) and the wayfinding trail (the
 // "Monstra Viam" charm: game/wayfinding, started from the timetable or the
@@ -320,7 +320,7 @@ export class SchoolHub {
       const up = levelUp(before, p.level);
       if (up) {
         this.flourish.show(up);
-        this.opts.notify(`You reached level ${up.level}${up.newYear ? ` and are now in Year ${up.year}` : ""}!${up.slots !== null ? ` Your dueling loadout holds ${up.slots} spells now.` : ""}`);
+        this.opts.notify(`You reached level ${up.level}!${up.slots !== null ? ` Your dueling loadout holds ${up.slots} spells now.` : ""}`);
         audio.stinger("stinger.level_up");
         this.burstAt(this.opts.selfId(), GOLD, true);
       }
@@ -734,7 +734,7 @@ export class SchoolHub {
 
   // ---------------------------------------------------------------- nameplates
 
-  /** The nameplate text for a character in view: its name and school year and level. */
+  /** The nameplate text for a character in view: its name and level. */
   plateName(id: number, name: string): string {
     const level = this.roster.npc(id) ? 0 : this.roster.level(id);
     const held = this.plates.get(id);

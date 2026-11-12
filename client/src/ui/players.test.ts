@@ -62,8 +62,6 @@ describe("the player card", () => {
   const raw = {
     name: "Ada",
     house: "Skytalon",
-    year: 2,
-    year_name: "Second Year",
     level: 5,
     skills: [
       { discipline: "charms", level: 3 },
@@ -72,12 +70,12 @@ describe("the player card", () => {
     appearance: toWire({ ...look, bodyType: 1, outfit: { ...look.outfit, legs: { itemDef: 302, dyes: [1, 2, 3] } } }),
   };
 
-  it("reads the card: name, house, year, level, skills and outfit", () => {
+  it("reads the card: name, house, level, skills and outfit", () => {
     const c = parseCard(raw);
     expect(c.name).toBe("Ada");
     expect(c.house).toBe("skytalon");
-    expect(cardSubtitle(c)).toBe("Skytalon · Second Year · Level 5");
-    expect(cardSubtitle({ ...c, yearName: "" })).toBe("Skytalon · Year 2 · Level 5");
+    expect(cardSubtitle(c)).toBe("Skytalon · Level 5");
+    expect(cardSubtitle({ ...c, house: "" })).toBe("Level 5");
     const names: Record<string, string> = { charms: "Charms", history: "History of Magic" };
     expect(skillRows(c, (id) => names[id] ?? "")).toEqual([
       { name: "Charms", level: 3 },
@@ -93,7 +91,7 @@ describe("the player card", () => {
 
   it("copes with a card missing parts", () => {
     const c = parseCard({ name: "Bo" });
-    expect(c).toMatchObject({ name: "Bo", house: "", year: 1, level: 1, skills: [], appearance: null });
+    expect(c).toMatchObject({ name: "Bo", house: "", level: 1, skills: [], appearance: null });
     expect(wornRows(null)).toEqual([]);
   });
 });

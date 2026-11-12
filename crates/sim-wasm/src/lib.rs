@@ -232,7 +232,7 @@ export interface EntityInfo {
   effectsVersion: number;
   /** Active potion effects to draw (usually none), and `lucerna` while the wand is lit. */
   effects: VisibleEffect[];
-  /** The player's level (1-20) for the nameplate's school year; 0 for NPCs. */
+  /** The player's level (1-20) for the nameplate; 0 for NPCs. */
   level: number;
   /** The NPC's data id (`data/classes/<class>.json` `professor.id`), or null for players. */
   npc: string | null;
@@ -376,8 +376,6 @@ export interface Progress {
   levelXp: number;
   /** Total XP the next level needs; null at the cap. */
   nextLevelXp: number | null;
-  /** School year (1-7) shown beside the level. */
-  year: number;
 }
 export interface XpGain { source: XpSource; amount: number; capped: boolean }
 export type Grade = "miss" | "good" | "great" | "perfect";

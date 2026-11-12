@@ -326,8 +326,7 @@ are only appended. Asset keys match `[a-z0-9_/]`.
 - **`data/classes/lore/lore.json`**: lore entries, served by the server only
   once unlocked.
 - **`data/progression.json`** (`sim_core::progression`): the XP curve for
-  levels 1-20, school years, XP per source and daily caps, loadout slots by
-  level.
+  levels 1-20, XP per source and daily caps, loadout slots by level.
 - **`data/spells.json`** (`sim_core::spells`): every spell `{ id, key, name,
   incantation, school, kind, unlock: { level, at }, colour, gesture, social,
   duel? }`. Duel numbers never scale with level.
@@ -639,7 +638,7 @@ someone bought, a trade, letters it sent.
 
 | Method and path | What |
 | --- | --- |
-| `GET /api/progression`, `GET /api/xp/history` | Level, XP, year, loadout slots; the XP ledger |
+| `GET /api/progression`, `GET /api/xp/history` | Level, XP, loadout slots; the XP ledger |
 | `GET /api/classes/schedule`, `GET /api/classes/attendance` | The timetable as the server computes it; the character's class record |
 | `GET /api/lore`, `GET /api/lore/{id}` | Lore the character has unlocked |
 | `GET /api/spells`, `PUT /api/loadout` | Learned spells; the duel loadout |
@@ -914,9 +913,9 @@ green (`--club`); someone in the player's party and club shows party blue
   refused) or answers by number key (`PickAnswer`). At the end each
   participant gets a grade and rewards (XP, subject skill XP, house points,
   and by class Crowns, items, recipes, spells, lore, hints or a fortune).
-- **Progression**: levels 1-20 from XP, school years every three levels,
-  per-source daily XP caps, more loadout slots at higher levels. An item's
-  `required_level` is checked when it is equipped.
+- **Progression**: levels 1-20 from XP, per-source daily XP caps, more
+  loadout slots at higher levels. An item's `required_level` is checked when
+  it is equipped.
 - **House points and the House Cup**: classes, duels, finds, crafts, NPC
   gifts and secrets award house points under daily caps; the House Cup is
   the weekly sum per house, closed on the configured weekday with a reward
