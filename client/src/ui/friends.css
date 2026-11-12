@@ -1,0 +1,235 @@
+/* The friends window (right side, below the HUD bar) and its HUD button. */
+
+.hud-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.hud-actions:empty {
+  display: none;
+}
+
+.hud-friends {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -3px;
+  right: -5px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: var(--wax);
+  border: 1px solid var(--gilt);
+  color: #f8e9cf;
+  font-family: var(--serif);
+  font-size: 0.7rem;
+  line-height: 15px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.friends {
+  pointer-events: auto;
+  position: absolute;
+  top: calc(var(--hud-corner-bottom) + 8px);
+  right: 12px;
+  width: min(380px, calc(100% - 24px));
+  max-height: calc(100% - 300px);
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px 12px;
+  /* Over the dorm panel when both are open. */
+  z-index: 2;
+}
+
+.friends[aria-busy="true"] {
+  cursor: progress;
+}
+
+.friends-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.friends-head h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--gilt-bright);
+}
+
+.friends-tabs {
+  display: flex;
+  margin: 8px 0;
+  border-bottom: 1px solid var(--smoke-edge);
+}
+
+.friends-tab {
+  flex: 1;
+  padding: 5px 4px 6px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.friends-tab[aria-selected="true"] {
+  color: var(--gilt-bright);
+  border-bottom-color: var(--gilt);
+}
+
+.friends-body {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  min-height: 0;
+}
+
+.friends-body h3 {
+  margin: 10px 0 4px;
+  font-family: var(--display);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.friends-form {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.friends-input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 6px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: rgba(10, 8, 12, 0.6);
+  color: var(--text);
+}
+
+.friends-input:focus {
+  outline: none;
+  border-color: var(--gilt);
+}
+
+.friends-form button.secondary,
+.friend-actions button.secondary,
+.friends-more {
+  text-align: center;
+}
+
+.friends-more {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* Friends are found in the players list. */
+.friends-find {
+  justify-self: start;
+  margin: 6px 0 2px;
+}
+
+.friends-summary {
+  margin: 4px 0 6px;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.friends-error {
+  margin: 0 0 6px;
+  padding: 5px 8px;
+  border-left: 3px solid var(--wax);
+  background: rgba(141, 31, 27, 0.25);
+  font-size: 0.9rem;
+}
+
+.friends-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.friend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 2px;
+  border-bottom: 1px solid rgba(201, 154, 69, 0.1);
+}
+
+.presence {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5a5450;
+}
+
+.friend.online .presence {
+  background: #8fcf6a;
+  box-shadow: 0 0 6px rgba(143, 207, 106, 0.6);
+}
+
+.friend-who {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+
+.friend-name {
+  font-weight: 600;
+  color: color-mix(in srgb, var(--house, var(--gilt)) 40%, #fff 60%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.friend-where {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.friend:not(.online) .friend-name {
+  opacity: 0.7;
+}
+
+.friend-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px 10px;
+  max-width: 55%;
+}
+
+.link-button.danger {
+  color: #d49a8c;
+}
+
+.link-button.armed {
+  color: #ff8a73;
+  font-weight: 600;
+}
+
+.friends-empty {
+  padding: 10px 2px;
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 0.9rem;
+}

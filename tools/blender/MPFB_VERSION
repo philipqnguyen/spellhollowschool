@@ -1,0 +1,7 @@
+# MPFB (the MakeHuman Plugin For Blender) that the character build is pinned to.
+# Install or check it with tools/blender/install_mpfb.sh (see tools/blender/README.md).
+# To move to another release, change all three lines together: the zip and its
+# sha256 are on https://extensions.blender.org/add-ons/mpfb/versions/
+version = 2.0.18
+sha256 = c075b3e9b94b8e5556a5f03f4653602d02ea306de08126e8f55ed6dee28a2dad
+url = https://extensions.blender.org/download/sha256:c075b3e9b94b8e5556a5f03f4653602d02ea306de08126e8f55ed6dee28a2dad/add-on-mpfb-v2.0.18.zip

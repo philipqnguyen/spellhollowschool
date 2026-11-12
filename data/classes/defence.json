@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "id": "defence",
+  "subject": "defence",
+  "professor": {
+    "id": "defence_professor", "name": "Professor Rhys Calder", "house": "roarwing",
+    "appearance": {
+      "body_type": 0,
+      "height": 190,
+      "face": [124, 120, 132, 116, 122],
+      "skin_tone": 1,
+      "hair_style": 16,
+      "hair_colour": 2,
+      "eye_colour": 2,
+      "outfit": {
+        "body": {"item_def": 210, "dyes": [12, 10, 3], "finish": "none"},
+        "legs": {"item_def": 303, "dyes": [11, 11, 10], "finish": "none"},
+        "shoes": {"item_def": 402, "dyes": [11, 10, 15], "finish": "none"}
+      }
+    },
+    "pos": [0, 0, -6], "yaw": 0
+  },
+  "lesson": [
+    {"at_secs": 2, "kind": "emote", "emote": "wave"},
+    {"at_secs": 3, "kind": "say", "line": "Come in, come in. Bags against the wall, please. We will not need desks today."},
+    {"at_secs": 45, "kind": "say", "line": "Defence is mostly the art of staying calm while something unpleasant comes your way."},
+    {"at_secs": 90, "kind": "say", "line": "I will cast at you, gently, and you will answer. Watch my wand, not my face."},
+    {"at_secs": 130, "kind": "say", "line": "If you are still on the stairs, now would be a good moment to run."},
+    {"at_secs": 170, "kind": "say", "line": "The door is closing. Find a space with room to move."},
+    {"at_secs": 185, "kind": "demonstrate", "gesture": "shield_arc", "spell": "scutara", "duration_ms": 1600, "line": "First, the shield. An arc, up and over, the moment my wand comes up. Scutara!"},
+    {"at_secs": 195, "kind": "say", "line": "When my wand rises, raise yours. Shield on the beat."},
+    {"at_secs": 200, "kind": "practice", "round": 1, "window_ms": 700, "beats": [
+        {"at_ms": 5000, "gesture": "shield_arc"},
+        {"at_ms": 9800, "gesture": "shield_arc"},
+        {"at_ms": 14600, "gesture": "shield_arc"},
+        {"at_ms": 19400, "gesture": "shield_arc"},
+        {"at_ms": 24200, "gesture": "shield_arc"},
+        {"at_ms": 29000, "gesture": "shield_arc"},
+        {"at_ms": 33800, "gesture": "shield_arc"}
+      ] },
+    {"at_secs": 240, "kind": "demonstrate", "gesture": "spiral", "spell": "titillara", "duration_ms": 1600, "line": "Now an answer of your own. A tight spiral, inward. Titillara!"},
+    {"at_secs": 250, "kind": "practice", "round": 2, "window_ms": 650, "beats": [
+        {"at_ms": 5000, "gesture": "shield_arc"},
+        {"at_ms": 9800, "gesture": "spiral"},
+        {"at_ms": 14600, "gesture": "shield_arc"},
+        {"at_ms": 19400, "gesture": "spiral"},
+        {"at_ms": 24200, "gesture": "shield_arc"},
+        {"at_ms": 29000, "gesture": "spiral"},
+        {"at_ms": 33800, "gesture": "shield_arc"}
+      ] },
+    {"at_secs": 288, "kind": "demonstrate", "gesture": "push", "spell": "repulsa", "duration_ms": 1400, "line": "And a push, low to high, to knock a thing back. Repulsa!"},
+    {"at_secs": 300, "kind": "practice", "round": 3, "window_ms": 650, "beats": [
+        {"at_ms": 5000, "gesture": "shield_arc"},
+        {"at_ms": 9800, "gesture": "push"},
+        {"at_ms": 14600, "gesture": "shield_arc"},
+        {"at_ms": 19400, "gesture": "spiral"},
+        {"at_ms": 24200, "gesture": "push"},
+        {"at_ms": 29000, "gesture": "shield_arc"},
+        {"at_ms": 33800, "gesture": "spiral"}
+      ] },
+    {"at_secs": 340, "kind": "demonstrate", "gesture": "shield_arc", "duration_ms": 1400, "line": "All of it together now, and a little quicker. Stay loose in the shoulders."},
+    {"at_secs": 350, "kind": "practice", "round": 4, "window_ms": 550, "beats": [
+        {"at_ms": 5000, "gesture": "shield_arc"},
+        {"at_ms": 9600, "gesture": "spiral"},
+        {"at_ms": 14200, "gesture": "shield_arc"},
+        {"at_ms": 18800, "gesture": "push"},
+        {"at_ms": 23400, "gesture": "spiral"},
+        {"at_ms": 28000, "gesture": "shield_arc"},
+        {"at_ms": 32600, "gesture": "push"},
+        {"at_ms": 37200, "gesture": "shield_arc"},
+        {"at_ms": 41800, "gesture": "spiral"},
+        {"at_ms": 46400, "gesture": "push"}
+      ] },
+    {"at_secs": 402, "kind": "say", "line": "Excellent. Wands down, and breathe."},
+    {"at_secs": 410, "kind": "results", "line": "Good work, all of you. Practise your shields: they matter more than any curse."},
+    {"at_secs": 415, "kind": "emote", "emote": "bow"},
+    {"at_secs": 500, "kind": "say", "line": "Off you go. Mind the stairs, they have opinions today."}
+  ],
+  "rewards": {
+    "attend_skill_xp": 30,
+    "bonus_skill_xp_max": 40,
+    "min_answers": 3,
+    "house_points": [{"min_pct": 60, "points": 1}, {"min_pct": 75, "points": 3}, {"min_pct": 90, "points": 5}],
+    "crowns": {"attend": 10, "bonus_max": 10}
+  }
+}

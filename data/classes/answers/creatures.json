@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "class": "creatures",
+  "answers": {
+    "puff_hungry": "c_feed",
+    "puff_scared": "c_hum",
+    "puff_muddy": "c_brush",
+    "puff_bored": "c_ball",
+    "puff_cold": "c_blanket",
+    "lynxkit_hungry": "c_feed",
+    "lynxkit_thirsty": "c_water",
+    "lynxkit_wary": "c_hand",
+    "lynxkit_burr": "c_brush",
+    "lynxkit_limp": "c_paw"
+  }
+}

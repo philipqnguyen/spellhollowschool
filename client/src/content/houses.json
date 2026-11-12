@@ -1,0 +1,38 @@
+[
+  {
+    "id": "roarwing",
+    "name": "Roarwing",
+    "colour": "#9b1d20",
+    "accent": "#d9a83b",
+    "virtues": "Courage, daring and chivalry",
+    "emblem": "lion",
+    "motto": "Bold of heart and first to the fore"
+  },
+  {
+    "id": "burrowsby",
+    "name": "Burrowsby",
+    "colour": "#d2a12a",
+    "accent": "#2a2622",
+    "virtues": "Loyalty, patience and fair play",
+    "emblem": "badger",
+    "motto": "Steady hands, warm hearth, open door"
+  },
+  {
+    "id": "skytalon",
+    "name": "Skytalon",
+    "colour": "#24427a",
+    "accent": "#b2814f",
+    "virtues": "Wit, learning and wisdom",
+    "emblem": "eagle",
+    "motto": "Ever curious, ever learning"
+  },
+  {
+    "id": "serpentyne",
+    "name": "Serpentyne",
+    "colour": "#1e6a43",
+    "accent": "#c0c4c8",
+    "virtues": "Ambition, cunning and resourcefulness",
+    "emblem": "serpent",
+    "motto": "Ambition guides and resolve endures"
+  }
+]

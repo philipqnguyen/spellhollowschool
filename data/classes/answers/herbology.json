@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "class": "herbology",
+  "answers": {
+    "vine_lunge": "t_shears",
+    "vine_sprawl": "t_stake",
+    "vine_wilt": "t_water",
+    "root_wail": "t_earmuffs",
+    "root_dry": "t_water",
+    "root_shiver": "t_compost",
+    "briar_bristle": "t_gloves",
+    "briar_overgrown": "t_shears",
+    "briar_scorch": "t_shade",
+    "fern_curl": "t_duster",
+    "fern_lean": "t_stake",
+    "fern_pale": "t_compost"
+  }
+}

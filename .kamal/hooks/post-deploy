@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Kamal runs this once the new version is live: with an asset bucket
+# (DEPLOY_ASSETS_BUCKET), records this version's asset map in the bucket and
+# deletes the objects none of the last DEPLOY_ASSETS_PRUNE_KEEP (default 3)
+# versions uses (client/scripts/prune-assets.mjs). Without a bucket, or with
+# DEPLOY_ASSETS_PRUNE=0, it does nothing. A failure here only warns: the
+# deploy is already done. docs/deploy.md, "Assets from a bucket".
+set -uo pipefail
+# A rollback runs the hooks too, but client/dist is this checkout's build,
+# not the version rolled back to: nothing to record or prune.
+case "${KAMAL_COMMAND:-}" in
+  deploy | redeploy) ;;
+  *)
+    echo "[prune] kamal ${KAMAL_COMMAND:-?}: not pruning the asset bucket"
+    exit 0
+    ;;
+esac
+settings=".kamal/deploy.${KAMAL_DESTINATION:-}.env"
+args=(--version "${KAMAL_VERSION:-}")
+if [[ -f "$settings" ]]; then
+  args+=(--env-file "$settings")
+fi
+if ! node client/scripts/prune-assets.mjs "${args[@]}"; then
+  echo "[prune] warning: pruning the asset bucket failed; the deploy itself is done. Nothing is lost: old objects stay until the next prune." >&2
+fi
+exit 0

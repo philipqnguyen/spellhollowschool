@@ -1,0 +1,12 @@
+#!/bin/sh
+# Refuses commits that add screenshots, renders, .blend files or other build
+# outputs (docs/repo-hygiene.md). Installed by scripts/install-git-hooks.mjs
+# (npm install's "prepare", and bin/dev) through core.hooksPath.
+# Emergency bypass: git commit --no-verify. CI runs the same check on the whole
+# tree (--all), so a bypassed file still fails there.
+root=$(git rev-parse --show-toplevel) || exit 1
+if ! command -v node >/dev/null 2>&1; then
+  echo "pre-commit: node not found; skipping scripts/check-committed-files.mjs (CI still runs it)" >&2
+  exit 0
+fi
+exec node "$root/scripts/check-committed-files.mjs" --staged

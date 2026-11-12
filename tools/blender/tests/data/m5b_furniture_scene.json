@@ -1,0 +1,27 @@
+{
+  "_doc": "Castle M5b (Furniture): the room furniture set's test scene (docs/art/castle-kit.md 'Pieces'). tests/test_castle_kit.py M5bFurnitureSceneTests flips this cell to build with these heroes and replaces (castle_kit.json is not changed) and lints it; the review stills under .out/m5b-fur/ export the same scene. Common room A: floor 63, ceiling 75, the greybox dressing replaced (the fire too since common room A has its fireplace opening: M5b integration), the portrait door in the south wall at x -50..-47.",
+  "cell": "common_room_house_a",
+  "hero": [
+    {"id": "rug_fire", "piece": "kit_rug_5x4", "pos": [-55, 63, -40.5], "yaw": 1.5708, "args": {"field": 0}},
+    {"id": "sofa_fire", "piece": "kit_sofa_2.4", "pos": [-52.2, 63, -40.5], "yaw": -1.5708, "args": {"cover": 0}},
+    {"id": "armchair_n", "piece": "kit_armchair", "pos": [-56, 63, -44.5], "yaw": 0.0, "args": {"cover": 0}},
+    {"id": "armchair_s", "piece": "kit_armchair", "pos": [-56, 63, -36.5], "yaw": 3.1416, "args": {"cover": 0}},
+    {"id": "sofa_leather", "piece": "kit_sofa_3.2", "pos": [-44, 63, -38.6], "yaw": 3.1416, "args": {"cover": 4}},
+    {"id": "table_round", "piece": "kit_table_round", "pos": [-44, 63, -35.6], "yaw": 0.0},
+    {"id": "table_study", "piece": "kit_table_study", "pos": [-44, 63, -45], "yaw": 0.0, "args": {"length": 2.4}},
+    {"id": "chair_sw", "piece": "kit_chair_study", "pos": [-44.6, 63, -46.1], "yaw": 0.0},
+    {"id": "chair_se", "piece": "kit_chair_study", "pos": [-43.4, 63, -46.1], "yaw": 0.0},
+    {"id": "chair_nw", "piece": "kit_chair_study", "pos": [-44.6, 63, -43.9], "yaw": 3.1416},
+    {"id": "chair_ne", "piece": "kit_chair_study", "pos": [-43.4, 63, -43.9], "yaw": 3.1416},
+    {"id": "noticeboard", "piece": "kit_noticeboard", "pos": [-44.75, 63, -30], "yaw": 3.1416},
+    {"id": "dorm_door", "piece": "kit_door_dorm", "pos": [-52.5, 63, -51], "yaw": 0.0, "args": {"house": 0}},
+    {"id": "dorm_door_round", "piece": "kit_door_dorm", "pos": [-38, 63, -43.1], "yaw": -1.5708, "args": {"house": 1, "round": 1}},
+    {"id": "chandelier", "piece": "kit_chandelier_ring", "pos": [-49.5, 69, -40.5], "yaw": 0.0,
+     "args": {"group": 0, "chain": 6, "radius": 1.0, "count": 12}}
+  ],
+  "replaces": ["cr_a_armchair", "cr_a_banner", "cr_a_banner_rod", "cr_a_board", "cr_a_candles", "cr_a_chain", "cr_a_chandelier",
+               "cr_a_chimney", "cr_a_fire", "cr_a_fire_surround", "cr_a_hearth", "cr_a_mantel",
+               "cr_a_dorm_door", "cr_a_notice", "cr_a_rug", "cr_a_sofa", "cr_a_sofa_back", "cr_a_study_chair", "cr_a_study_table",
+               "cr_a_table_round", "cr_a_tapestry_n", "cr_a_tapestry_rod_n", "cr_a_tapestry_rod_s", "cr_a_tapestry_s",
+               "cr_a_window_n", "cr_a_window_w"]
+}

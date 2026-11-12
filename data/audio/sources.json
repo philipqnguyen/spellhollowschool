@@ -1,0 +1,1318 @@
+{
+  "version": 1,
+  "about": "Every audio file committed under client/public/audio/, where it came from and its licence (CC0-1.0 only). Written as each file is vetted and converted; checked by client/src/audio/sources.test.ts. See docs/architecture.md 'Sound and music'.",
+  "files": [
+    {
+      "file": "sfx/foot/stone_0.mp3",
+      "ids": [
+        "foot.stone"
+      ],
+      "source": "https://opengameart.org/content/sound-effects-pack",
+      "author": "OwlishMedia",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Owlish Media Sound Effects.zip: Footsteps/hard-footstep1.wav",
+      "downloadSha256": "57d7059fe2c0ea5f47c7554ace22a538ea22ab40bfc0906b71aa259afffd3d18",
+      "retrieved": "2026-11-02",
+      "edits": "hard-footstep1.wav cut 0.095s+0.25s highpass=f=130,highpass=f=130,lowpass=f=10000,volume=15.3dB,alimiter=limit=0.5:attack=1:release=15:level=0; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short"
+    },
+    {
+      "file": "sfx/foot/stone_1.mp3",
+      "ids": [
+        "foot.stone"
+      ],
+      "source": "https://opengameart.org/content/sound-effects-pack",
+      "author": "OwlishMedia",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Owlish Media Sound Effects.zip: Footsteps/hard-footstep2.wav",
+      "downloadSha256": "57d7059fe2c0ea5f47c7554ace22a538ea22ab40bfc0906b71aa259afffd3d18",
+      "retrieved": "2026-11-02",
+      "edits": "hard-footstep2.wav cut 0.105s+0.24s highpass=f=130,highpass=f=130,lowpass=f=10000,volume=14.6dB,alimiter=limit=0.5:attack=1:release=15:level=0; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short"
+    },
+    {
+      "file": "sfx/foot/stone_2.mp3",
+      "ids": [
+        "foot.stone"
+      ],
+      "source": "https://opengameart.org/content/sound-effects-pack",
+      "author": "OwlishMedia",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Owlish Media Sound Effects.zip: Footsteps/hard-footstep3.wav",
+      "downloadSha256": "57d7059fe2c0ea5f47c7554ace22a538ea22ab40bfc0906b71aa259afffd3d18",
+      "retrieved": "2026-11-02",
+      "edits": "hard-footstep3.wav cut 0.105s+0.26s highpass=f=130,highpass=f=130,lowpass=f=10000,volume=15.3dB,alimiter=limit=0.5:attack=1:release=15:level=0; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short"
+    },
+    {
+      "file": "sfx/foot/stone_3.mp3",
+      "ids": [
+        "foot.stone"
+      ],
+      "source": "https://opengameart.org/content/sound-effects-pack",
+      "author": "OwlishMedia",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Owlish Media Sound Effects.zip: Footsteps/hard-footstep1.wav",
+      "downloadSha256": "57d7059fe2c0ea5f47c7554ace22a538ea22ab40bfc0906b71aa259afffd3d18",
+      "retrieved": "2026-11-02",
+      "edits": "hard-footstep1.wav cut 0.095s+0.25s rate x0.94 highpass=f=130,highpass=f=130,lowpass=f=10000,volume=15.3dB,alimiter=limit=0.5:attack=1:release=15:level=0; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short; slowed a little for a heavier tread"
+    },
+    {
+      "file": "sfx/foot/stone_4.mp3",
+      "ids": [
+        "foot.stone"
+      ],
+      "source": "https://opengameart.org/content/sound-effects-pack",
+      "author": "OwlishMedia",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Owlish Media Sound Effects.zip: Footsteps/hard-footstep2.wav",
+      "downloadSha256": "57d7059fe2c0ea5f47c7554ace22a538ea22ab40bfc0906b71aa259afffd3d18",
+      "retrieved": "2026-11-02",
+      "edits": "hard-footstep2.wav cut 0.105s+0.24s rate x1.06 highpass=f=130,highpass=f=130,lowpass=f=10000,volume=14.6dB,alimiter=limit=0.5:attack=1:release=15:level=0; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short; quickened a little for a lighter tread"
+    },
+    {
+      "file": "sfx/foot/stone_5.mp3",
+      "ids": [
+        "foot.stone"
+      ],
+      "source": "https://opengameart.org/content/sound-effects-pack",
+      "author": "OwlishMedia",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Owlish Media Sound Effects.zip: Footsteps/hard-footstep3.wav",
+      "downloadSha256": "57d7059fe2c0ea5f47c7554ace22a538ea22ab40bfc0906b71aa259afffd3d18",
+      "retrieved": "2026-11-02",
+      "edits": "hard-footstep3.wav cut 0.105s+0.26s rate x1.04 highpass=f=130,highpass=f=130,lowpass=f=10000,volume=15.3dB,alimiter=limit=0.5:attack=1:release=15:level=0; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short; quickened a little for a lighter tread"
+    },
+    {
+      "file": "sfx/foot/wood_0.mp3",
+      "ids": [
+        "foot.wood"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/footstep00.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "footstep00.ogg highpass=f=60; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/foot/wood_1.mp3",
+      "ids": [
+        "foot.wood"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/footstep01.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "footstep01.ogg highpass=f=60; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/foot/wood_2.mp3",
+      "ids": [
+        "foot.wood"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/footstep03.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "footstep03.ogg highpass=f=60; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/foot/wood_3.mp3",
+      "ids": [
+        "foot.wood"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/footstep06.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "footstep06.ogg highpass=f=60; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/foot/wood_4.mp3",
+      "ids": [
+        "foot.wood"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/footstep07.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "footstep07.ogg highpass=f=60; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/foot/carpet_0.mp3",
+      "ids": [
+        "foot.carpet"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/footstep02.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "footstep02.ogg lowpass=f=850,lowpass=f=850,highpass=f=60; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A boot on boards muffled to stand for a step on a rug (no CC0 rug footsteps found)"
+    },
+    {
+      "file": "sfx/foot/carpet_1.mp3",
+      "ids": [
+        "foot.carpet"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/footstep04.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "footstep04.ogg lowpass=f=850,lowpass=f=850,highpass=f=60; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A boot on boards muffled to stand for a step on a rug (no CC0 rug footsteps found)"
+    },
+    {
+      "file": "sfx/foot/carpet_2.mp3",
+      "ids": [
+        "foot.carpet"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/footstep05.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "footstep05.ogg lowpass=f=850,lowpass=f=850,highpass=f=60; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A boot on boards muffled to stand for a step on a rug (no CC0 rug footsteps found)"
+    },
+    {
+      "file": "sfx/foot/carpet_3.mp3",
+      "ids": [
+        "foot.carpet"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/footstep09.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "footstep09.ogg lowpass=f=850,lowpass=f=850,highpass=f=60; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A boot on boards muffled to stand for a step on a rug (no CC0 rug footsteps found)"
+    },
+    {
+      "file": "sfx/foot/grass_0.mp3",
+      "ids": [
+        "foot.grass"
+      ],
+      "source": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "author": "Fantozzi (recordings, freesound.org pack 10338, CC0); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Fantozzi-footsteps.7z: Fantozzi-footsteps/flac/Fantozzi-SandL1.flac",
+      "downloadSha256": "415d360e0911c1c1c5355ee94023b772e6f4044f59b9b580610e7dbffd1840fd",
+      "retrieved": "2026-11-02",
+      "edits": "Fantozzi-SandL1.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. The recordist's 'sand' steps, which sound like grass"
+    },
+    {
+      "file": "sfx/foot/grass_1.mp3",
+      "ids": [
+        "foot.grass"
+      ],
+      "source": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "author": "Fantozzi (recordings, freesound.org pack 10338, CC0); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Fantozzi-footsteps.7z: Fantozzi-footsteps/flac/Fantozzi-SandL2.flac",
+      "downloadSha256": "415d360e0911c1c1c5355ee94023b772e6f4044f59b9b580610e7dbffd1840fd",
+      "retrieved": "2026-11-02",
+      "edits": "Fantozzi-SandL2.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. The recordist's 'sand' steps, which sound like grass"
+    },
+    {
+      "file": "sfx/foot/grass_2.mp3",
+      "ids": [
+        "foot.grass"
+      ],
+      "source": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "author": "Fantozzi (recordings, freesound.org pack 10338, CC0); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Fantozzi-footsteps.7z: Fantozzi-footsteps/flac/Fantozzi-SandL3.flac",
+      "downloadSha256": "415d360e0911c1c1c5355ee94023b772e6f4044f59b9b580610e7dbffd1840fd",
+      "retrieved": "2026-11-02",
+      "edits": "Fantozzi-SandL3.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. The recordist's 'sand' steps, which sound like grass"
+    },
+    {
+      "file": "sfx/foot/grass_3.mp3",
+      "ids": [
+        "foot.grass"
+      ],
+      "source": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "author": "Fantozzi (recordings, freesound.org pack 10338, CC0); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Fantozzi-footsteps.7z: Fantozzi-footsteps/flac/Fantozzi-SandR1.flac",
+      "downloadSha256": "415d360e0911c1c1c5355ee94023b772e6f4044f59b9b580610e7dbffd1840fd",
+      "retrieved": "2026-11-02",
+      "edits": "Fantozzi-SandR1.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. The recordist's 'sand' steps, which sound like grass"
+    },
+    {
+      "file": "sfx/foot/grass_4.mp3",
+      "ids": [
+        "foot.grass"
+      ],
+      "source": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "author": "Fantozzi (recordings, freesound.org pack 10338, CC0); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Fantozzi-footsteps.7z: Fantozzi-footsteps/flac/Fantozzi-SandR2.flac",
+      "downloadSha256": "415d360e0911c1c1c5355ee94023b772e6f4044f59b9b580610e7dbffd1840fd",
+      "retrieved": "2026-11-02",
+      "edits": "Fantozzi-SandR2.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. The recordist's 'sand' steps, which sound like grass"
+    },
+    {
+      "file": "sfx/foot/grass_5.mp3",
+      "ids": [
+        "foot.grass"
+      ],
+      "source": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "author": "Fantozzi (recordings, freesound.org pack 10338, CC0); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Fantozzi-footsteps.7z: Fantozzi-footsteps/flac/Fantozzi-SandR3.flac",
+      "downloadSha256": "415d360e0911c1c1c5355ee94023b772e6f4044f59b9b580610e7dbffd1840fd",
+      "retrieved": "2026-11-02",
+      "edits": "Fantozzi-SandR3.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. The recordist's 'sand' steps, which sound like grass"
+    },
+    {
+      "file": "sfx/foot/gravel_0.mp3",
+      "ids": [
+        "foot.gravel"
+      ],
+      "source": "https://opengameart.org/content/42-snow-and-gravel-footsteps",
+      "author": "Corsica_S (recordings, released as CC0 with permission); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "corsica_s-walking_in_snow.7z: Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_01.flac",
+      "downloadSha256": "206306b51f8eeedf82043d6628174ec8ff9b16230dffb5192a5c74688e62abd4",
+      "retrieved": "2026-11-02",
+      "edits": "Corsica_S-Walking_on_snow_covered_gravel_01.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Steps on snow-covered gravel"
+    },
+    {
+      "file": "sfx/foot/gravel_1.mp3",
+      "ids": [
+        "foot.gravel"
+      ],
+      "source": "https://opengameart.org/content/42-snow-and-gravel-footsteps",
+      "author": "Corsica_S (recordings, released as CC0 with permission); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "corsica_s-walking_in_snow.7z: Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_04.flac",
+      "downloadSha256": "206306b51f8eeedf82043d6628174ec8ff9b16230dffb5192a5c74688e62abd4",
+      "retrieved": "2026-11-02",
+      "edits": "Corsica_S-Walking_on_snow_covered_gravel_04.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Steps on snow-covered gravel"
+    },
+    {
+      "file": "sfx/foot/gravel_2.mp3",
+      "ids": [
+        "foot.gravel"
+      ],
+      "source": "https://opengameart.org/content/42-snow-and-gravel-footsteps",
+      "author": "Corsica_S (recordings, released as CC0 with permission); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "corsica_s-walking_in_snow.7z: Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_05.flac",
+      "downloadSha256": "206306b51f8eeedf82043d6628174ec8ff9b16230dffb5192a5c74688e62abd4",
+      "retrieved": "2026-11-02",
+      "edits": "Corsica_S-Walking_on_snow_covered_gravel_05.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Steps on snow-covered gravel"
+    },
+    {
+      "file": "sfx/foot/gravel_3.mp3",
+      "ids": [
+        "foot.gravel"
+      ],
+      "source": "https://opengameart.org/content/42-snow-and-gravel-footsteps",
+      "author": "Corsica_S (recordings, released as CC0 with permission); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "corsica_s-walking_in_snow.7z: Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_07.flac",
+      "downloadSha256": "206306b51f8eeedf82043d6628174ec8ff9b16230dffb5192a5c74688e62abd4",
+      "retrieved": "2026-11-02",
+      "edits": "Corsica_S-Walking_on_snow_covered_gravel_07.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Steps on snow-covered gravel"
+    },
+    {
+      "file": "sfx/foot/gravel_4.mp3",
+      "ids": [
+        "foot.gravel"
+      ],
+      "source": "https://opengameart.org/content/42-snow-and-gravel-footsteps",
+      "author": "Corsica_S (recordings, released as CC0 with permission); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "corsica_s-walking_in_snow.7z: Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_08.flac",
+      "downloadSha256": "206306b51f8eeedf82043d6628174ec8ff9b16230dffb5192a5c74688e62abd4",
+      "retrieved": "2026-11-02",
+      "edits": "Corsica_S-Walking_on_snow_covered_gravel_08.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Steps on snow-covered gravel"
+    },
+    {
+      "file": "sfx/foot/gravel_5.mp3",
+      "ids": [
+        "foot.gravel"
+      ],
+      "source": "https://opengameart.org/content/42-snow-and-gravel-footsteps",
+      "author": "Corsica_S (recordings, released as CC0 with permission); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "corsica_s-walking_in_snow.7z: Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_09.flac",
+      "downloadSha256": "206306b51f8eeedf82043d6628174ec8ff9b16230dffb5192a5c74688e62abd4",
+      "retrieved": "2026-11-02",
+      "edits": "Corsica_S-Walking_on_snow_covered_gravel_09.flac highpass=f=80; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Steps on snow-covered gravel"
+    },
+    {
+      "file": "sfx/foot/land_0.mp3",
+      "ids": [
+        "foot.land"
+      ],
+      "source": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "author": "Fantozzi (recordings, freesound.org pack 10338, CC0); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Fantozzi-footsteps.7z: Fantozzi-footsteps/flac/Fantozzi-StoneL1.flac",
+      "downloadSha256": "415d360e0911c1c1c5355ee94023b772e6f4044f59b9b580610e7dbffd1840fd",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: Fantozzi-StoneL1.flac bass=g=5:f=110 + Fantozzi-StoneR1.flac bass=g=5:f=110 -1 dB at 0.045s; silence trimmed, short fades; mono, normalised to rms -18 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Two steps 45 ms apart: both feet down"
+    },
+    {
+      "file": "sfx/foot/land_1.mp3",
+      "ids": [
+        "foot.land"
+      ],
+      "source": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+      "author": "Fantozzi (recordings, freesound.org pack 10338, CC0); cut by qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "Fantozzi-footsteps.7z: Fantozzi-footsteps/flac/Fantozzi-StoneL2.flac",
+      "downloadSha256": "415d360e0911c1c1c5355ee94023b772e6f4044f59b9b580610e7dbffd1840fd",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: Fantozzi-StoneL2.flac bass=g=5:f=110 + Fantozzi-StoneR3.flac bass=g=5:f=110 -1 dB at 0.045s; silence trimmed, short fades; mono, normalised to rms -18 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Two steps 45 ms apart: both feet down"
+    },
+    {
+      "file": "sfx/door/heavy_0.mp3",
+      "ids": [
+        "door.heavy"
+      ],
+      "source": "https://opengameart.org/content/door-open-door-close-set",
+      "author": "qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "qubodup-DoorSet.7z: qubodup-DoorSet/flac/qubodup-DoorOpen03.flac",
+      "downloadSha256": "88502c82451a646fa4bc1b9021a26bbd3441b2850a613784a05336067b11a25d",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: qubodup-DoorOpen03.flac rate x0.86 + qubodup-DoorClose07.flac rate x0.86 -2 dB at 1.15s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Slowed for a bigger, heavier door: opens, then closes behind"
+    },
+    {
+      "file": "sfx/door/heavy_1.mp3",
+      "ids": [
+        "door.heavy"
+      ],
+      "source": "https://opengameart.org/content/door-open-door-close-set",
+      "author": "qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "qubodup-DoorSet.7z: qubodup-DoorSet/flac/qubodup-DoorOpen04.flac",
+      "downloadSha256": "88502c82451a646fa4bc1b9021a26bbd3441b2850a613784a05336067b11a25d",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: qubodup-DoorOpen04.flac rate x0.84 + qubodup-DoorClose09.flac rate x0.84 -2 dB at 1.2s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Slowed for a bigger, heavier door: opens, then closes behind"
+    },
+    {
+      "file": "sfx/door/wood_0.mp3",
+      "ids": [
+        "door.wood"
+      ],
+      "source": "https://opengameart.org/content/door-open-door-close",
+      "author": "qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "door.7z: door/door-01.flac",
+      "downloadSha256": "81e87d4f7ea2227076b25dc6e595378d3a35ae7e6a45817a051cfbcd17b13ea1",
+      "retrieved": "2026-11-02",
+      "edits": "door-01.flac highpass=f=50; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A wooden room door"
+    },
+    {
+      "file": "sfx/door/wood_1.mp3",
+      "ids": [
+        "door.wood"
+      ],
+      "source": "https://opengameart.org/content/door-open-door-close",
+      "author": "qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "door.7z: door/door-06.flac",
+      "downloadSha256": "81e87d4f7ea2227076b25dc6e595378d3a35ae7e6a45817a051cfbcd17b13ea1",
+      "retrieved": "2026-11-02",
+      "edits": "door-06.flac highpass=f=50; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A wooden room door"
+    },
+    {
+      "file": "sfx/door/wood_2.mp3",
+      "ids": [
+        "door.wood"
+      ],
+      "source": "https://opengameart.org/content/door-open-door-close",
+      "author": "qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "door.7z: door/door-08.flac",
+      "downloadSha256": "81e87d4f7ea2227076b25dc6e595378d3a35ae7e6a45817a051cfbcd17b13ea1",
+      "retrieved": "2026-11-02",
+      "edits": "door-08.flac highpass=f=50; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A wooden room door"
+    },
+    {
+      "file": "sfx/door/portrait_0.mp3",
+      "ids": [
+        "entrance.portrait"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/creak2.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: creak2.ogg rate x0.9 + doorClose_2.ogg lowpass=f=1500 -10 dB at 0.75s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A hinge's creak and a soft wooden knock as the frame swings"
+    },
+    {
+      "file": "sfx/door/double_0.mp3",
+      "ids": [
+        "entrance.double"
+      ],
+      "source": "https://opengameart.org/content/door-open-door-close-set",
+      "author": "qubodup (Iwan Gabovitch)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "qubodup-DoorSet.7z: qubodup-DoorSet/flac/qubodup-DoorOpen01.flac",
+      "downloadSha256": "88502c82451a646fa4bc1b9021a26bbd3441b2850a613784a05336067b11a25d",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: qubodup-DoorOpen01.flac rate x0.92 + qubodup-DoorOpen05.flac rate x0.9 -1 dB at 0.14s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Two door leaves opening a moment apart"
+    },
+    {
+      "file": "sfx/door/tapestry_0.mp3",
+      "ids": [
+        "entrance.tapestry"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/cloth1.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "cloth1.ogg rate x0.82; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Slowed for a heavy hanging"
+    },
+    {
+      "file": "sfx/door/tapestry_1.mp3",
+      "ids": [
+        "entrance.tapestry"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/cloth2.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: cloth2.ogg rate x0.78 + cloth1.ogg rate x0.9 -6 dB at 0.12s; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Slowed for a heavy hanging"
+    },
+    {
+      "file": "sfx/door/panel_0.mp3",
+      "ids": [
+        "entrance.panel"
+      ],
+      "source": "https://opengameart.org/content/100-cc0-metal-and-wood-sfx",
+      "author": "rubberduck",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "100-CC0-wood-metal-SFX.zip: wood_squeak_01.ogg",
+      "downloadSha256": "be6eba63b03409ac0c77787a956b1503a7c186403d04aef9725c52644a4b7878",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: wood_squeak_01.ogg rate x0.7 + wood_close_01.ogg -5 dB at 0.6s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. A slow wooden squeak, then the panel stops"
+    },
+    {
+      "file": "sfx/door/painting_0.mp3",
+      "ids": [
+        "entrance.painting"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/creak1.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "creak1.ogg rate x0.92; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/door/painting_1.mp3",
+      "ids": [
+        "entrance.painting"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/creak3.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: creak3.ogg rate x0.88 + creak1.ogg rate x1.05 -6 dB at 0.25s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/door/barrels_0.mp3",
+      "ids": [
+        "entrance.barrels"
+      ],
+      "source": "https://opengameart.org/content/30-cc0-sfx-loops",
+      "author": "rubberduck",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "sfx_loops.zip: rolling.ogg",
+      "downloadSha256": "9c013474c7e56192a0d1b2840535a1e1d8b93166948d4a9f7136bb6c3d5421cd",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: rolling.ogg rate x0.8 + wood_hit_03.ogg -5 dB at 0.25s + wood_hit_05.ogg -7 dB at 0.75s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Barrels rolling aside with wooden knocks",
+      "mixedWith": [
+        {
+          "source": "https://opengameart.org/content/100-cc0-metal-and-wood-sfx",
+          "author": "rubberduck",
+          "licence": "CC0-1.0",
+          "original": "100-CC0-wood-metal-SFX.zip: wood_hit_03.ogg",
+          "downloadSha256": "be6eba63b03409ac0c77787a956b1503a7c186403d04aef9725c52644a4b7878",
+          "retrieved": "2026-11-02"
+        },
+        {
+          "source": "https://opengameart.org/content/100-cc0-metal-and-wood-sfx",
+          "author": "rubberduck",
+          "licence": "CC0-1.0",
+          "original": "100-CC0-wood-metal-SFX.zip: wood_hit_05.ogg",
+          "downloadSha256": "be6eba63b03409ac0c77787a956b1503a7c186403d04aef9725c52644a4b7878",
+          "retrieved": "2026-11-02"
+        }
+      ]
+    },
+    {
+      "file": "sfx/ui/coins_in_0.mp3",
+      "ids": [
+        "ui.coins_in"
+      ],
+      "source": "https://opengameart.org/content/80-cc0-rpg-sfx",
+      "author": "rubberduck",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "80-CC0-RPG-SFX_0.zip: item_coins_01.ogg",
+      "downloadSha256": "1c2f06ff4e8563b5b8b745b23cf213c1474142a69bb82bd8f5e10d9b3f7a7bbd",
+      "retrieved": "2026-11-02",
+      "edits": "item_coins_01.ogg; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/coins_in_1.mp3",
+      "ids": [
+        "ui.coins_in"
+      ],
+      "source": "https://opengameart.org/content/80-cc0-rpg-sfx",
+      "author": "rubberduck",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "80-CC0-RPG-SFX_0.zip: item_coins_02.ogg",
+      "downloadSha256": "1c2f06ff4e8563b5b8b745b23cf213c1474142a69bb82bd8f5e10d9b3f7a7bbd",
+      "retrieved": "2026-11-02",
+      "edits": "item_coins_02.ogg; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/coins_in_2.mp3",
+      "ids": [
+        "ui.coins_in"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/handleCoins.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "handleCoins.ogg; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/coins_out_0.mp3",
+      "ids": [
+        "ui.coins_out"
+      ],
+      "source": "https://opengameart.org/content/80-cc0-rpg-sfx",
+      "author": "rubberduck",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "80-CC0-RPG-SFX_0.zip: item_coins_03.ogg",
+      "downloadSha256": "1c2f06ff4e8563b5b8b745b23cf213c1474142a69bb82bd8f5e10d9b3f7a7bbd",
+      "retrieved": "2026-11-02",
+      "edits": "item_coins_03.ogg rate x0.94; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/coins_out_1.mp3",
+      "ids": [
+        "ui.coins_out"
+      ],
+      "source": "https://opengameart.org/content/80-cc0-rpg-sfx",
+      "author": "rubberduck",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "80-CC0-RPG-SFX_0.zip: item_coins_04.ogg",
+      "downloadSha256": "1c2f06ff4e8563b5b8b745b23cf213c1474142a69bb82bd8f5e10d9b3f7a7bbd",
+      "retrieved": "2026-11-02",
+      "edits": "item_coins_04.ogg rate x0.94; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/coins_out_2.mp3",
+      "ids": [
+        "ui.coins_out"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/handleCoins2.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "handleCoins2.ogg rate x0.94; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/equip_0.mp3",
+      "ids": [
+        "ui.equip"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/cloth3.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "cloth3.ogg; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/equip_1.mp3",
+      "ids": [
+        "ui.equip"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/cloth4.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "cloth4.ogg; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/equip_2.mp3",
+      "ids": [
+        "ui.equip"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/clothBelt.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "clothBelt.ogg; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/equip_3.mp3",
+      "ids": [
+        "ui.equip"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/clothBelt2.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "clothBelt2.ogg; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/parchment_open_0.mp3",
+      "ids": [
+        "ui.parchment_open"
+      ],
+      "source": "https://opengameart.org/content/various-paper-sound-effects",
+      "author": "Luckius",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "sounds_6.zip: WAV/Paper Sound - 1.wav",
+      "downloadSha256": "aa1889414310c7cfdd8dc291c19d4e4fc21ec987e9238b0d961fb72449c263a4",
+      "retrieved": "2026-11-02",
+      "edits": "Paper Sound - 1.wav; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/parchment_open_1.mp3",
+      "ids": [
+        "ui.parchment_open"
+      ],
+      "source": "https://opengameart.org/content/various-paper-sound-effects",
+      "author": "Luckius",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "sounds_6.zip: WAV/Paper Sound - 2.wav",
+      "downloadSha256": "aa1889414310c7cfdd8dc291c19d4e4fc21ec987e9238b0d961fb72449c263a4",
+      "retrieved": "2026-11-02",
+      "edits": "Paper Sound - 2.wav; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/parchment_close_0.mp3",
+      "ids": [
+        "ui.parchment_close"
+      ],
+      "source": "https://opengameart.org/content/various-paper-sound-effects",
+      "author": "Luckius",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "sounds_6.zip: WAV/Paper Sound - 3.wav",
+      "downloadSha256": "aa1889414310c7cfdd8dc291c19d4e4fc21ec987e9238b0d961fb72449c263a4",
+      "retrieved": "2026-11-02",
+      "edits": "Paper Sound - 3.wav; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/parchment_close_1.mp3",
+      "ids": [
+        "ui.parchment_close"
+      ],
+      "source": "https://opengameart.org/content/various-paper-sound-effects",
+      "author": "Luckius",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "sounds_6.zip: WAV/Paper Sound - 4.wav",
+      "downloadSha256": "aa1889414310c7cfdd8dc291c19d4e4fc21ec987e9238b0d961fb72449c263a4",
+      "retrieved": "2026-11-02",
+      "edits": "Paper Sound - 4.wav cut 0s+1.4s; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/page_0.mp3",
+      "ids": [
+        "ui.page",
+        "sprinkle.page"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/bookFlip1.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "bookFlip1.ogg; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/page_1.mp3",
+      "ids": [
+        "ui.page",
+        "sprinkle.page"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/bookFlip2.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "bookFlip2.ogg; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/page_2.mp3",
+      "ids": [
+        "ui.page",
+        "sprinkle.page"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/bookFlip3.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "bookFlip3.ogg; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/ui/page_3.mp3",
+      "ids": [
+        "ui.page",
+        "sprinkle.page"
+      ],
+      "source": "https://opengameart.org/content/10-book-page-flips",
+      "author": "StarNinjas",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "book_flips_-_starninjas.zip: book_flip.1.ogg",
+      "downloadSha256": "0ff49c3677ea0e64544aeda3a0aa2ce71ee5d42b266da9e54421252a5ca5f20f",
+      "retrieved": "2026-11-02",
+      "edits": "book_flip.1.ogg; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/craft/station_0.mp3",
+      "ids": [
+        "craft.station_open"
+      ],
+      "source": "https://opengameart.org/content/80-cc0-rpg-sfx",
+      "author": "rubberduck",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "80-CC0-RPG-SFX_0.zip: item_wood_01.ogg",
+      "downloadSha256": "1c2f06ff4e8563b5b8b745b23cf213c1474142a69bb82bd8f5e10d9b3f7a7bbd",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: item_wood_01.ogg + metalClick.ogg -4 dB at 0.12s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Something set down on the bench and a latch",
+      "mixedWith": [
+        {
+          "source": "https://opengameart.org/content/50-rpg-sound-effects",
+          "author": "Kenney (Kenney Vleugels, kenney.nl)",
+          "licence": "CC0-1.0",
+          "original": "RPGsounds_Kenney.zip: OGG/metalClick.ogg",
+          "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+          "retrieved": "2026-11-02"
+        }
+      ]
+    },
+    {
+      "file": "sfx/craft/station_1.mp3",
+      "ids": [
+        "craft.station_open"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/beltHandle1.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: beltHandle1.ogg + metalLatch.ogg -6 dB at 0.18s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/craft/search_0.mp3",
+      "ids": [
+        "find.search"
+      ],
+      "source": "https://opengameart.org/content/different-steps-on-wood-stone-leaves-gravel-and-mud",
+      "author": "TinyWorlds",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "[kdd]DifferentSteps_0.zip: leaves01.ogg",
+      "downloadSha256": "987d072b7deaa65177e005ddd8185f2351be7c9a76cd7575dea560549c39b33b",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: leaves01.ogg + leaves02.ogg at 0.28s + leaves01.ogg rate x1.1 -3 dB at 0.55s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Leaves rustled three times: rummaging in a find spot"
+    },
+    {
+      "file": "sfx/craft/search_1.mp3",
+      "ids": [
+        "find.search"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/beltHandle2.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: beltHandle2.ogg + cloth4.ogg -2 dB at 0.25s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Rummaging in a bag"
+    },
+    {
+      "file": "sfx/potion/drink_0.mp3",
+      "ids": [
+        "potion.drink"
+      ],
+      "source": "https://opengameart.org/content/202-more-sound-effects",
+      "author": "OwlishMedia",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "MoreSounds.zip: Drink/Drink_04.wav",
+      "downloadSha256": "9428c1437137d9ea06ba94e13da12488d4c57990a1c32d83db9e7707e69fb3af",
+      "retrieved": "2026-11-02",
+      "edits": "Drink_04.wav highpass=f=110; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/potion/drink_1.mp3",
+      "ids": [
+        "potion.drink"
+      ],
+      "source": "https://opengameart.org/content/202-more-sound-effects",
+      "author": "OwlishMedia",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "MoreSounds.zip: Drink/Drink_02.wav",
+      "downloadSha256": "9428c1437137d9ea06ba94e13da12488d4c57990a1c32d83db9e7707e69fb3af",
+      "retrieved": "2026-11-02",
+      "edits": "Drink_02.wav highpass=f=110; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/potion/drink_2.mp3",
+      "ids": [
+        "potion.drink"
+      ],
+      "source": "https://opengameart.org/content/202-more-sound-effects",
+      "author": "OwlishMedia",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "MoreSounds.zip: Drink/Drink_03.wav",
+      "downloadSha256": "9428c1437137d9ea06ba94e13da12488d4c57990a1c32d83db9e7707e69fb3af",
+      "retrieved": "2026-11-02",
+      "edits": "Drink_03.wav highpass=f=110; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/mail/send_0.mp3",
+      "ids": [
+        "mail.send"
+      ],
+      "source": "https://opengameart.org/content/various-paper-sound-effects",
+      "author": "Luckius",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "sounds_6.zip: WAV/Paper Sound - 2.wav",
+      "downloadSha256": "aa1889414310c7cfdd8dc291c19d4e4fc21ec987e9238b0d961fb72449c263a4",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: Paper Sound - 2.wav + wings_flap_large.flac rate x1.4 -4 dB at 0.35s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Paper folded, then an owl's wings (the wings sped up for a smaller bird)",
+      "mixedWith": [
+        {
+          "source": "https://opengameart.org/content/large-wings-flap",
+          "author": "AntumDeluge (Jordan Irwin), from 'fast simple chop 5' by dave.des (freesound 127197, CC0)",
+          "licence": "CC0-1.0",
+          "original": "wings_flap_large.zip: wings_flap_large.flac",
+          "downloadSha256": "f0907c3639f1cc828ac54c9527e8e458d0ca173626d050a8eb8df54a9e36c1b5",
+          "retrieved": "2026-11-02"
+        }
+      ]
+    },
+    {
+      "file": "sfx/mail/send_1.mp3",
+      "ids": [
+        "mail.send"
+      ],
+      "source": "https://opengameart.org/content/various-paper-sound-effects",
+      "author": "Luckius",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "sounds_6.zip: WAV/Paper Sound - 4.wav",
+      "downloadSha256": "aa1889414310c7cfdd8dc291c19d4e4fc21ec987e9238b0d961fb72449c263a4",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: Paper Sound - 4.wav + wings_flap_large.flac rate x1.55 -4 dB at 0.3s; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Paper folded, then an owl's wings (the wings sped up for a smaller bird)",
+      "mixedWith": [
+        {
+          "source": "https://opengameart.org/content/large-wings-flap",
+          "author": "AntumDeluge (Jordan Irwin), from 'fast simple chop 5' by dave.des (freesound 127197, CC0)",
+          "licence": "CC0-1.0",
+          "original": "wings_flap_large.zip: wings_flap_large.flac",
+          "downloadSha256": "f0907c3639f1cc828ac54c9527e8e458d0ca173626d050a8eb8df54a9e36c1b5",
+          "retrieved": "2026-11-02"
+        }
+      ]
+    },
+    {
+      "file": "sfx/mail/collect_0.mp3",
+      "ids": [
+        "mail.collect"
+      ],
+      "source": "https://opengameart.org/content/100-cc0-sfx",
+      "author": "rubberduck",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "100-CC0-SFX_0.zip: paper_01.ogg",
+      "downloadSha256": "a5c135878c132f1c59cca54e60061c296cd0ac27ad031ca2c41b8cd5cab3c706",
+      "retrieved": "2026-11-02",
+      "edits": "paper_01.ogg; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/mail/collect_1.mp3",
+      "ids": [
+        "mail.collect"
+      ],
+      "source": "https://opengameart.org/content/100-cc0-sfx",
+      "author": "rubberduck",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "100-CC0-SFX_0.zip: paper_02.ogg",
+      "downloadSha256": "a5c135878c132f1c59cca54e60061c296cd0ac27ad031ca2c41b8cd5cab3c706",
+      "retrieved": "2026-11-02",
+      "edits": "paper_02.ogg; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/mail/flutter_0.mp3",
+      "ids": [
+        "owl.flutter"
+      ],
+      "source": "https://opengameart.org/content/large-wings-flap",
+      "author": "AntumDeluge (Jordan Irwin), from 'fast simple chop 5' by dave.des (freesound 127197, CC0)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "wings_flap_large.zip: wings_flap_large.flac",
+      "downloadSha256": "f0907c3639f1cc828ac54c9527e8e458d0ca173626d050a8eb8df54a9e36c1b5",
+      "retrieved": "2026-11-02",
+      "edits": "wings_flap_large.flac rate x1.35; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Sped up for an owl's smaller wings"
+    },
+    {
+      "file": "sfx/mail/flutter_1.mp3",
+      "ids": [
+        "owl.flutter"
+      ],
+      "source": "https://opengameart.org/content/large-wings-flap",
+      "author": "AntumDeluge (Jordan Irwin), from 'fast simple chop 5' by dave.des (freesound 127197, CC0)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "wings_flap_large.zip: wings_flap_large.flac",
+      "downloadSha256": "f0907c3639f1cc828ac54c9527e8e458d0ca173626d050a8eb8df54a9e36c1b5",
+      "retrieved": "2026-11-02",
+      "edits": "wings_flap_large.flac rate x1.6 highpass=f=120; silence trimmed, short fades; mono, normalised to rms -20 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Sped up for an owl's smaller wings"
+    },
+    {
+      "file": "sfx/sprinkle/bird_0.mp3",
+      "ids": [
+        "sprinkle.bird"
+      ],
+      "source": "https://opengameart.org/content/ambient-bird-sounds",
+      "author": "isaiah658",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "birds-isaiah658.ogg",
+      "downloadSha256": "359e4e3f9da9d75aac64cede511c7e3ef8b461f9d9f8c230f8f80e44c4b3e35f",
+      "retrieved": "2026-11-02",
+      "edits": "birds-isaiah658.ogg cut 0.7s+0.62s highpass=f=900; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/sprinkle/bird_1.mp3",
+      "ids": [
+        "sprinkle.bird"
+      ],
+      "source": "https://opengameart.org/content/ambient-bird-sounds",
+      "author": "isaiah658",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "birds-isaiah658.ogg",
+      "downloadSha256": "359e4e3f9da9d75aac64cede511c7e3ef8b461f9d9f8c230f8f80e44c4b3e35f",
+      "retrieved": "2026-11-02",
+      "edits": "birds-isaiah658.ogg cut 7.8s+1.9s highpass=f=900; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/sprinkle/bird_2.mp3",
+      "ids": [
+        "sprinkle.bird"
+      ],
+      "source": "https://opengameart.org/content/ambient-bird-sounds",
+      "author": "isaiah658",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "birds-isaiah658.ogg",
+      "downloadSha256": "359e4e3f9da9d75aac64cede511c7e3ef8b461f9d9f8c230f8f80e44c4b3e35f",
+      "retrieved": "2026-11-02",
+      "edits": "birds-isaiah658.ogg cut 14.85s+2.45s highpass=f=900; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/sprinkle/bird_3.mp3",
+      "ids": [
+        "sprinkle.bird"
+      ],
+      "source": "https://opengameart.org/content/ambient-bird-sounds",
+      "author": "isaiah658",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "birds-isaiah658.ogg",
+      "downloadSha256": "359e4e3f9da9d75aac64cede511c7e3ef8b461f9d9f8c230f8f80e44c4b3e35f",
+      "retrieved": "2026-11-02",
+      "edits": "birds-isaiah658.ogg cut 24.75s+3.1s highpass=f=900; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/sprinkle/crow_0.mp3",
+      "ids": [
+        "sprinkle.crow"
+      ],
+      "source": "https://opengameart.org/content/crow-caw",
+      "author": "zeroisnotnull",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "crow_caw.wav",
+      "downloadSha256": "bba22883209b435905471d057160f1badae59b89a62e9a8b3199d7e327b17339",
+      "retrieved": "2026-11-02",
+      "edits": "crow_caw.wav highpass=f=200; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/sprinkle/crow_1.mp3",
+      "ids": [
+        "sprinkle.crow"
+      ],
+      "source": "https://opengameart.org/content/crow-caw",
+      "author": "zeroisnotnull",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "crow_caw.wav",
+      "downloadSha256": "bba22883209b435905471d057160f1badae59b89a62e9a8b3199d7e327b17339",
+      "retrieved": "2026-11-02",
+      "edits": "mixed: crow_caw.wav rate x0.95 highpass=f=200 + crow_caw.wav rate x0.97 highpass=f=200 -2 dB at 0.62s; silence trimmed, short fades; mono, normalised to rms -22 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Two caws"
+    },
+    {
+      "file": "sfx/sprinkle/fire_pop_0.mp3",
+      "ids": [
+        "sprinkle.fire_pop"
+      ],
+      "source": "https://opengameart.org/content/fire-crackling",
+      "author": "AntumDeluge (Jordan Irwin)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "fire-1.wav",
+      "downloadSha256": "26702de8a195bcbafeae72034861d875a1b7917168a25106f4e1957ecdddf7e5",
+      "retrieved": "2026-11-02",
+      "edits": "fire-1.wav cut 0.1s+0.26s; silence trimmed, short fades; mono, normalised to rms -21 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/sprinkle/fire_pop_1.mp3",
+      "ids": [
+        "sprinkle.fire_pop"
+      ],
+      "source": "https://opengameart.org/content/fire-crackling",
+      "author": "AntumDeluge (Jordan Irwin)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "fire-1.wav",
+      "downloadSha256": "26702de8a195bcbafeae72034861d875a1b7917168a25106f4e1957ecdddf7e5",
+      "retrieved": "2026-11-02",
+      "edits": "fire-1.wav cut 1.09s+0.14s; silence trimmed, short fades; mono, normalised to rms -21 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/sprinkle/fire_pop_2.mp3",
+      "ids": [
+        "sprinkle.fire_pop"
+      ],
+      "source": "https://opengameart.org/content/fire-crackling",
+      "author": "AntumDeluge (Jordan Irwin)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "fire-1.wav",
+      "downloadSha256": "26702de8a195bcbafeae72034861d875a1b7917168a25106f4e1957ecdddf7e5",
+      "retrieved": "2026-11-02",
+      "edits": "fire-1.wav cut 2.12s+0.24s; silence trimmed, short fades; mono, normalised to rms -21 dBFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/sprinkle/creak_0.mp3",
+      "ids": [
+        "sprinkle.creak"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/creak1.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "creak1.ogg rate x0.78 lowpass=f=3500; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Slowed and darkened: old timber rather than a door"
+    },
+    {
+      "file": "sfx/sprinkle/creak_1.mp3",
+      "ids": [
+        "sprinkle.creak"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/creak2.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "creak2.ogg rate x0.78 lowpass=f=3500; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Slowed and darkened: old timber rather than a door"
+    },
+    {
+      "file": "sfx/sprinkle/creak_2.mp3",
+      "ids": [
+        "sprinkle.creak"
+      ],
+      "source": "https://opengameart.org/content/50-rpg-sound-effects",
+      "author": "Kenney (Kenney Vleugels, kenney.nl)",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "RPGsounds_Kenney.zip: OGG/creak3.ogg",
+      "downloadSha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+      "retrieved": "2026-11-02",
+      "edits": "creak3.ogg rate x0.78 lowpass=f=3500; silence trimmed, short fades; mono, normalised to rms -23 dBFS, peak <= -1 dBFS; MP3 44.1 kHz. Slowed and darkened: old timber rather than a door"
+    },
+    {
+      "file": "sfx/amb/fountain.mp3",
+      "ids": [
+        "loop.fountain"
+      ],
+      "source": "https://opengameart.org/content/park-ambiences",
+      "author": "Thimras",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "park_ambience_river.wav",
+      "downloadSha256": "da0c0c9b1249a83a1611cc116d5737b0864a8db9f45f1ae8dcc079d0f7c0bbbf",
+      "retrieved": "2026-11-02",
+      "edits": "park_ambience_river.wav cut 120s+33s highpass=f=150; a 30s seamless loop (tail crossfaded into the head over 2.0s); mono, normalised to -20 LUFS, peak <= -1 dBFS; MP3 44.1 kHz. Water falling over a low step in a park stream; the river's low rumble filtered out"
+    },
+    {
+      "file": "sfx/amb/hearth.mp3",
+      "ids": [
+        "loop.hearth"
+      ],
+      "source": "https://opengameart.org/content/fireplace-sound-loop",
+      "author": "PagDev",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "fire.wav",
+      "downloadSha256": "85ca0cc60d0c037fff8b185e31ad1fcdbda6ce45eee17c3ee1318d1b8f59e330",
+      "retrieved": "2026-11-02",
+      "edits": "fire.wav cut 3s+24s highpass=f=140,highpass=f=140; a 21.5s seamless loop (tail crossfaded into the head over 2.0s); mono, normalised to -21 LUFS, peak <= -1 dBFS; MP3 44.1 kHz. The low rumble under the fire filtered out, leaving the crackle"
+    },
+    {
+      "file": "sfx/amb/courtyard_day.mp3",
+      "ids": [
+        "amb.courtyard_day"
+      ],
+      "source": "https://opengameart.org/content/park-ambiences",
+      "author": "Thimras",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "park_ambience_birds.wav",
+      "downloadSha256": "dc1a5ac34b89cab7f8f261b53a23da7c1c5e3cc895aae4cb6fb4a1a04001b2af",
+      "retrieved": "2026-11-02",
+      "edits": "park_ambience_birds.wav cut 40s+43s highpass=f=250; a 40s seamless loop (tail crossfaded into the head over 2.0s); stereo, normalised to -26 LUFS, peak <= -1 dBFS; MP3 44.1 kHz. Birds in a copse; the city's low rumble filtered out"
+    },
+    {
+      "file": "sfx/amb/courtyard_night.mp3",
+      "ids": [
+        "amb.courtyard_night"
+      ],
+      "source": "https://opengameart.org/content/crickets-ambient-noise-loopable",
+      "author": "Wolfgang_",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "crickets_1.mp3",
+      "downloadSha256": "5b5bd1f744087888c5623543c3ff80be9c2ce106093993e7c8a8492b0280b2c0",
+      "retrieved": "2026-11-02",
+      "edits": "crickets_1.mp3 highpass=f=300; a 10.4s seamless loop (tail crossfaded into the head over 1.0s); stereo, normalised to -28 LUFS, peak <= -1 dBFS; MP3 44.1 kHz"
+    },
+    {
+      "file": "sfx/amb/lake_night.mp3",
+      "ids": [
+        "loop.lake"
+      ],
+      "source": "https://opengameart.org/content/sea-and-river-wave-sounds",
+      "author": "RandomMind",
+      "licence": "CC0-1.0",
+      "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original": "VistulaShort.mp3",
+      "downloadSha256": "8c24607e41edd6f018ec3582a07e5a8dbc57347276339cb68440951a0fb4cfb1",
+      "retrieved": "2026-11-02",
+      "edits": "VistulaShort.mp3 cut 150s+43s lowpass=f=2200,highpass=f=60; a 40s seamless loop (tail crossfaded into the head over 2.0s); stereo, normalised to -26 LUFS, peak <= -1 dBFS; MP3 44.1 kHz. River waves on a shore, low-passed to calm them into lapping"
+    }
+  ]
+}

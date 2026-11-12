@@ -1,0 +1,30 @@
+<!doctype html>
+<!-- Dev-only stress scene for potion effects (see stress.ts). Not part of the build. -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Effects stress scene</title>
+    <link rel="stylesheet" href="/src/style.css" />
+    <style>
+      #stats {
+        position: fixed;
+        top: 8px;
+        left: 8px;
+        z-index: 20;
+        margin: 0;
+        padding: 6px 10px;
+        background: rgba(0, 0, 0, 0.6);
+        color: #d6e6c8;
+        font: 12px/1.45 ui-monospace, Menlo, monospace;
+        white-space: pre;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="world"></canvas>
+    <div id="hud"></div>
+    <pre id="stats">starting…</pre>
+    <script type="module" src="./stress.ts"></script>
+  </body>
+</html>

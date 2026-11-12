@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "poise_max": 100,
+  "time_limit_ms": 90000,
+  "countdown_ms": 3000,
+  "tick_ms": 50,
+  "duelist_radius_m": 0.45,
+  "max_range_m": 24.0,
+  "move_speed_pct": 60,
+  "return_delay_ms": 5000,
+  "challenge_secs": 30,
+  "disconnect_grace_ms": 10000,
+  "rewards": {
+    "win_house_points": 2,
+    "house_point_wins_daily": 5,
+    "min_fight_ms": 15000,
+    "pair_daily_max": 3
+  }
+}

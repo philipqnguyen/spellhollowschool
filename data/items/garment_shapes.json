@@ -1,0 +1,590 @@
+{
+  "version": 1,
+  "doc": "docs/art/garment-shapes.md. Fitted base shapes per slot. Every metre value is for the 1.78 m reference body and scales with the measured body height; landmark names (hip, waist, chest, armpit, crotch, knee, ankle) are measured on each body by tools/blender/characters/charlib/fit.py. status: built = has a builder and designs; planned = defined here, builder not written yet.",
+  "shapes": {
+    "top_fitted": {
+      "slot": "body",
+      "status": "built",
+      "builder": "top",
+      "layer": "inner",
+      "budget": 6000,
+      "summary": "Close-fitting top: shirts, blouses, fitted tees. Trunk 5-19 mm off the skin (rows rounded by `smooth`, the clothing pass), sleeves 5-6 mm.",
+      "options": {
+        "neckline": ["crew", "stand", "v", "open"],
+        "sleeve": ["wrist", "elbow", "short"],
+        "insert": [false, true]
+      },
+      "params": {
+        "cols": 40,
+        "hem": {"at": "hip", "dz": 0},
+        "rows": [["hem", 4], ["waist", 6], ["chest", 3], ["armpit", 0]],
+        "hole_cols": 4,
+        "hole_rows": 4,
+        "hole_margin": 4,
+        "yoke_rows": 2,
+        "neck_drop": 2,
+        "neckline": "stand",
+        "neck_rows": 2,
+        "neck_height": 0.025,
+        "sleeve": "wrist",
+        "sleeve_rings": 14,
+        "sleeve_start": 0.035,
+        "offset": {
+          "torso": [["chest", 0.005], ["waist", 0.01], ["hip", 0.019]],
+          "neck": 0.005,
+          "sleeve": [[0, 0.006], [1, 0.005]]
+        },
+        "openings": {
+          "v": {"control": [["chest", 0, 0], ["neckline", 0, 28]]},
+          "open": {"control": [["chest", 1, 0], ["neckline", 0, 30]]}
+        },
+        "insert_spec": {
+          "from": ["chest", -1],
+          "half_angle": 25,
+          "offset": 0.003,
+          "neck_rows": 2,
+          "neck_height": 0.025
+        },
+        "min_clear": 0.003,
+        "smooth": {"passes": 6, "floor_passes": 6, "keep": 0.15}
+      },
+      "zones": {
+        "placket": {"part": "torso", "abs_u": [0, 5], "row": ["waist", -9, 99]},
+        "torso": {"part": "torso"},
+        "sleeves": {"part": "sleeve"},
+        "sleeve_ends": {"part": "sleeve", "ring_from_end": [0, 1]},
+        "yoke": {"part": "torso", "row": ["hole_top", 0, 99]},
+        "hem_rows": {"part": "torso", "row": [0, 0]},
+        "insert": {"part": "insert"},
+        "stand": {"part": "torso", "neck": true},
+        "front_v_low": {"part": "torso", "abs_u": [0, 14], "row": ["chest", -1, 99]},
+        "front_v_high": {"part": "torso", "abs_u": [0, 24], "row": ["hole_bottom", 0, 99]},
+        "front_v_top": {"part": "torso", "abs_u": [0, 40], "row": ["hole_top", -1, 99]},
+        "trunk_back": {"part": "torso", "abs_u": [95, 180]}
+      },
+      "loops": ["hem", "neckline", "cuff.L", "cuff.R", "armhole.L", "armhole.R", "insert_neck"],
+      "lines": ["centre_front", "centre_front_full", "front_edge.L", "front_edge.R", "insert_centre"],
+      "anchors": ["chest.L", "chest.R", "back_neck"]
+    },
+    "top_knit": {
+      "slot": "body",
+      "status": "built",
+      "builder": "top",
+      "layer": "mid",
+      "budget": 6000,
+      "summary": "Jumper or sweater (its shirt is an insert): trunk 8-21 mm off the skin, sleeves 8-9 mm. The turtle neckline grows a knitted tube 75 mm up the neck (9 mm off the skin).",
+      "options": {"neckline": ["crew", "v", "turtle"], "sleeve": ["wrist", "elbow"], "insert": [false, true]},
+      "params": {
+        "cols": 40,
+        "hem": {"at": "hip", "dz": 0},
+        "rows": [["hem", 4], ["waist", 6], ["chest", 3], ["armpit", 0]],
+        "hole_cols": 4,
+        "hole_rows": 4,
+        "hole_margin": 4,
+        "yoke_rows": 2,
+        "neck_drop": 1,
+        "neckline": "crew",
+        "sleeve": "wrist",
+        "sleeve_rings": 14,
+        "sleeve_start": 0.035,
+        "offset": {
+          "torso": [["chest", 0.008], ["waist", 0.013], ["hip", 0.021]],
+          "sleeve": [[0, 0.009], [1, 0.008]]
+        },
+        "openings": {"v": {"control": [["chest", 0, 0], ["neckline", 0, 28]]}},
+        "insert_spec": {
+          "from": ["chest", -1],
+          "half_angle": 25,
+          "offset": 0.004,
+          "neck_rows": 2,
+          "neck_height": 0.025
+        },
+        "min_clear": 0.004,
+        "smooth": {"passes": 6, "floor_passes": 6, "keep": 0.15},
+        "turtle_rows": 4,
+        "turtle_height": 0.075,
+        "turtle_offset": 0.009
+      },
+      "zones": {
+        "torso": {"part": "torso"},
+        "sleeves": {"part": "sleeve"},
+        "insert": {"part": "insert"},
+        "insert_stand": {"part": "insert", "neck": true},
+        "turtle": {"part": "torso", "neck": true},
+        "yoke": {"part": "torso", "row": ["hole_bottom", -3, 99]},
+        "placket": {"part": "torso", "abs_u": [0, 5]}
+      },
+      "loops": ["hem", "neckline", "cuff.L", "cuff.R", "insert_neck"],
+      "lines": ["centre_front", "front_edge.L", "front_edge.R", "insert_centre"],
+      "anchors": ["chest.L", "chest.R", "back_neck"]
+    },
+    "coat_long": {
+      "slot": "body",
+      "status": "built",
+      "builder": "top",
+      "layer": "outer",
+      "budget": 8000,
+      "summary": "Robe or long coat: the trunk grid 11-23 mm off the skin (the clothing pass; was 30-38 mm), open or closed front, a lined skirt hanging from the hip loop to mid-calf, fitted or bell sleeves (with a shirt under-sleeve), optional nested inserts (jumper with a V, shirt with a collar stand) seen through the open front. Robes and the travelling cloak are designs on it; hoods and crests are add-ons. Length hip gives a jacket (a short skirt just below the seat).",
+      "options": {
+        "front": ["open", "closed"],
+        "sleeve": ["wrist", "bell"],
+        "insert": [false, true],
+        "under_sleeve": [false, true],
+        "length": ["mid_calf", "shin", "hip"]
+      },
+      "params": {
+        "cols": 40,
+        "hem": {"at": "hip", "dz": 0},
+        "rows": [["hem", 4], ["waist", 6], ["chest", 3], ["armpit", 0]],
+        "hole_cols": 4,
+        "hole_rows": 4,
+        "hole_margin": 4,
+        "yoke_rows": 2,
+        "neck_drop": 1,
+        "neckline": "crew",
+        "front": "open",
+        "sleeve": "bell",
+        "sleeve_rings": 14,
+        "sleeve_start": 0.035,
+        "bell": {"length": 0.27, "flare": 1.25, "droop": 0.03, "rings": 6},
+        "under_sleeve_spec": {"offset": 0.006, "rings": 7, "cols": 16},
+        "offset": {"torso": [["chest", 0.011], ["waist", 0.016], ["hip", 0.023]], "sleeve": [[0, 0.012], [1, 0.011]]},
+        "openings": {
+          "front_open": {"to_hem": true, "control": [["hem", 0, 44], ["hole_bottom", 0, 44], ["neckline", 0, 22]]}
+        },
+        "insert_specs": [
+          {
+            "part": "insert",
+            "from": ["hem", 0],
+            "half_angle": 0,
+            "offset": [["chest", 0.007], ["waist", 0.012], ["hip", 0.017]],
+            "neck_rows": 0,
+            "opening": {"control": [["chest", 0, 0], ["neckline", 0, 26]]}
+          },
+          {
+            "part": "insert2",
+            "from": ["chest", -1],
+            "half_angle": 25,
+            "offset": 0.004,
+            "neck_rows": 2,
+            "neck_height": 0.025
+          }
+        ],
+        "skirt": {
+          "hem": ["knee", "ankle", 0.48],
+          "flare": 0.13,
+          "open_front": 0.05,
+          "rings": 9,
+          "follow": 0.75,
+          "envelope": [[["knee", "hip", 0.17], 0.095], [["ankle", "knee", 0.45], 0.135]],
+          "body_clear": 0.024,
+          "back_follow": 0.3,
+          "lateral_sharp": 1.5,
+          "shin_follow": 0.55,
+          "front_follow": 1.2,
+          "shell": 0.5
+        },
+        "min_clear": 0.004,
+        "smooth": {"passes": 6, "floor_passes": 6, "keep": 0.15},
+        "length": "mid_calf",
+        "lengths": {
+          "mid_calf": {"hem": ["knee", "ankle", 0.48]},
+          "shin": {"hem": ["knee", "ankle", 0.62], "flare": 0.11, "open_front": 0.07, "rings": 10},
+          "hip": {
+            "hem": ["knee", "hip", 0.74],
+            "flare": 0.025,
+            "open_front": 0.035,
+            "rings": 3,
+            "envelope": [[["knee", "hip", 0.8], 0.04]]
+          }
+        }
+      },
+      "zones": {
+        "torso": {"part": "torso"},
+        "sleeves": {"part": ["sleeve", "bell"]},
+        "bell": {"part": "bell"},
+        "skirt": {"part": "skirt"},
+        "jumper": {"part": "insert"},
+        "shirt": {"part": ["insert2", "under_sleeve"]},
+        "front_centre": {"part": "torso", "abs_u": [0, 5]}
+      },
+      "loops": [
+        "hem",
+        "skirt_hem",
+        "neckline",
+        "cuff.L",
+        "cuff.R",
+        "bell_root.L",
+        "bell_root.R",
+        "under_cuff.L",
+        "under_cuff.R",
+        "insert2_neck"
+      ],
+      "lines": ["front_edge.L", "front_edge.R", "insert_edge.L", "insert_edge.R", "insert2_centre"],
+      "anchors": ["chest.L", "chest.R", "back_neck"]
+    },
+    "cloak": {
+      "slot": "body",
+      "status": "planned",
+      "builder": "cape",
+      "layer": "outer",
+      "budget": 8000,
+      "summary": "Sleeveless cloak or cape: a shoulder yoke fitted over the outer cage, hanging free below the armpits (no arm tubes), weighted to the spine and upper arms."
+    },
+    "trousers_fitted": {
+      "slot": "legs",
+      "status": "built",
+      "builder": "legs",
+      "layer": "inner",
+      "budget": 3000,
+      "summary": "Straight trousers: hips 4-9 mm off the skin, legs 11 mm, straight below the knee to a sloped hem over the shoe. On body_b (her feet on one line) the side facing the other leg sits 5 mm off the skin, hugs below the knee and the inner thighs blend across the crotch (inner_offset, inner_hug, inner_seam).",
+      "options": {"cut": ["straight", "tapered"]},
+      "params": {
+        "cols": 40,
+        "top": {"at": "waist", "dz": 0},
+        "rows": [5, 4],
+        "crotch_points": 3,
+        "crotch_lift": 0.012,
+        "leg_rings": [8, 9],
+        "hem": {"at": "ankle", "back": 0.034, "front": 0.09},
+        "ease": 0.027,
+        "min_radius": 0.072,
+        "straight_below_knee": true,
+        "offset": {"hips": [["waist", 0.004], ["hip", 0.006], ["crotch", 0.009]], "leg": 0.011},
+        "min_clear": 0.004,
+        "inner_seam": {"body_b": 0.6},
+        "inner_hug": {"body_b": 1.0},
+        "inner_offset": {"body_b": 0.005},
+        "boot_room": [[["ankle", "knee", 0.0], 0.009], [["ankle", "knee", 0.72], 0.014], [["ankle", "knee", 0.8], 0.019], [["ankle", "knee", 0.86], 0.019]],
+        "variants": {
+          "cut": {
+            "tapered": {"ease": 0.012, "min_radius": 0.06, "hem": {"at": "ankle", "back": 0.04, "front": 0.085}}
+          }
+        }
+      },
+      "zones": {
+        "fly": {"part": "hips", "abs_u": [0, 5], "row": ["top", -99, -1]},
+        "crease": {"part": "leg", "front": [0.965, 1]},
+        "legs": {"part": "leg"},
+        "leg_ends": {"part": "leg", "ring_from_end": [0, 1]},
+        "seat": {"part": "hips"}
+      },
+      "loops": ["waist", "hem.L", "hem.R"],
+      "lines": ["fly"],
+      "anchors": ["hip.L", "hip.R"]
+    },
+    "trousers_wide": {
+      "slot": "legs",
+      "status": "built",
+      "builder": "legs",
+      "layer": "inner",
+      "budget": 3000,
+      "summary": "Wide-leg trousers: the trousers_fitted hips, legs released from the fourth thigh ring to a wide hem (ease 45 mm, min radius 95 mm); on body_b the inner side as trousers_fitted's.",
+      "options": {},
+      "params": {
+        "cols": 40,
+        "top": {"at": "waist", "dz": 0},
+        "rows": [5, 4],
+        "crotch_points": 3,
+        "crotch_lift": 0.012,
+        "leg_rings": [8, 9],
+        "hem": {"at": "ankle", "back": 0.026, "front": 0.05},
+        "ease": 0.045,
+        "min_radius": 0.095,
+        "straight_below_knee": true,
+        "offset": {"hips": [["waist", 0.004], ["hip", 0.006], ["crotch", 0.009]], "leg": 0.011},
+        "min_clear": 0.004,
+        "inner_seam": {"body_b": 0.6},
+        "inner_hug": {"body_b": 1.0},
+        "inner_offset": {"body_b": 0.005},
+        "boot_room": [[["ankle", "knee", 0.0], 0.009], [["ankle", "knee", 0.72], 0.014], [["ankle", "knee", 0.8], 0.019], [["ankle", "knee", 0.86], 0.019]],
+        "release_ring": 4
+      },
+      "zones": {
+        "fly": {"part": "hips", "abs_u": [0, 5], "row": ["top", -99, -1]},
+        "crease": {"part": "leg", "front": [0.965, 1]},
+        "legs": {"part": "leg"},
+        "leg_ends": {"part": "leg", "ring_from_end": [0, 1]},
+        "seat": {"part": "hips"}
+      },
+      "loops": ["waist", "hem.L", "hem.R"],
+      "lines": ["fly"],
+      "anchors": ["hip.L", "hip.R"]
+    },
+    "skirt_short": {
+      "slot": "legs",
+      "status": "built",
+      "builder": "skirt",
+      "layer": "inner",
+      "budget": 3000,
+      "summary": "Knee-length skirt over opaque tights: the trousers chart fitted at 3 mm (tights), a yoke from the waist to the hip line at 4-10 mm (the tights get no faces under it), and a skirt hanging from the yoke's bottom loop to just above the knee (hem between the knee and hip landmarks), weighted from the spine toward the thighs. Pleated, plain, kilt and A-line skirts are designs.",
+      "options": {"pleated": [true, false]},
+      "params": {
+        "cols": 32,
+        "top": {"at": "waist", "dz": 0},
+        "rows": [2, 3],
+        "crotch_points": 3,
+        "crotch_lift": 0.012,
+        "leg_rings": [6, 7],
+        "hem": {"at": "ankle", "back": 0.058, "front": 0.062},
+        "ease": 0,
+        "min_radius": 0,
+        "straight_below_knee": false,
+        "offset": {"hips": 0.003, "leg": 0.003},
+        "yoke": {"bottom": ["hip", "waist", 0], "rows": 6, "offset": [["hip", 0.01], ["waist", 0.004]]},
+        "min_clear": 0.002,
+        "pleated": true,
+        "skirt": {"hem": ["knee", "hip", 0.17], "flare": 0.085, "pleats": 0.006, "rings": 6, "follow": 0.6, "shell": true}
+      },
+      "zones": {
+        "tights": {"layer": "tights"},
+        "yoke": {"part": "yoke"},
+        "skirt": {"part": "skirt"},
+        "skirt_hem_band": {"part": "skirt", "ring_from_end": [0, 0]},
+        "fly": {"part": "yoke", "abs_u": [0, 5]}
+      },
+      "loops": ["waist", "skirt_hem", "tights_waist", "tights_hem.L", "tights_hem.R"],
+      "lines": ["fly"],
+      "anchors": ["hip.L", "hip.R"]
+    },
+    "skirt_long": {
+      "slot": "legs",
+      "status": "built",
+      "builder": "skirt",
+      "layer": "inner",
+      "budget": 3000,
+      "summary": "Midi skirt over tights: as skirt_short, hem 45% of the way from the ankle to the knee, a wider flare and more thigh weighting so it swings with the stride.",
+      "options": {"pleated": [false, true]},
+      "params": {
+        "cols": 32,
+        "top": {"at": "waist", "dz": 0},
+        "rows": [2, 3],
+        "crotch_points": 3,
+        "crotch_lift": 0.012,
+        "leg_rings": [6, 7],
+        "hem": {"at": "ankle", "back": 0.058, "front": 0.062},
+        "ease": 0,
+        "min_radius": 0,
+        "straight_below_knee": false,
+        "offset": {"hips": 0.003, "leg": 0.003},
+        "yoke": {"bottom": ["hip", "waist", 0], "rows": 6, "offset": [["hip", 0.01], ["waist", 0.004]]},
+        "min_clear": 0.002,
+        "pleated": false,
+        "skirt": {
+          "hem": ["ankle", "knee", 0.45],
+          "flare": 0.13,
+          "pleats": 0.005,
+          "rings": 8,
+          "follow": 0.72,
+          "shin_follow": 0.4,
+          "shell": true
+        }
+      },
+      "zones": {
+        "tights": {"layer": "tights"},
+        "yoke": {"part": "yoke"},
+        "skirt": {"part": "skirt"},
+        "skirt_hem_band": {"part": "skirt", "ring_from_end": [0, 0]},
+        "fly": {"part": "yoke", "abs_u": [0, 5]}
+      },
+      "loops": ["waist", "skirt_hem", "tights_waist", "tights_hem.L", "tights_hem.R"],
+      "lines": ["fly"],
+      "anchors": ["hip.L", "hip.R"]
+    },
+    "shoe_low": {
+      "slot": "shoes",
+      "status": "built",
+      "builder": "shoe",
+      "layer": "inner",
+      "budget": 1500,
+      "summary": "Low shoe: a capsule round each foot (6-8 mm off the skin), opened at the top for the ankle; the sole is a design trim.",
+      "options": {"cut": ["oxford", "low"]},
+      "params": {
+        "cols": 16,
+        "rings": 12,
+        "heel_cap_rings": 3,
+        "toe_cap_rings": 3,
+        "axis_z": 0.55,
+        "toe_axis_z": 0.37,
+        "heel_radius": 0.9,
+        "toe_radius": 0.7,
+        "offset": {"base": 0.006, "toe": 0.008},
+        "cut": "oxford",
+        "cuts": {
+          "oxford": {"opening": {"rings": [1, 5], "half_angle": 50}, "collar_max": 0.075},
+          "low": {"opening": {"rings": [1, 5], "half_angle": 62}, "collar_max": 0.06}
+        },
+        "sole_inner": 0.006
+      },
+      "zones": {
+        "laces": {"part": "shoe", "fwd": [0.03, 0.1], "abs_x": [0, 0.016], "z": [0.045, 1]},
+        "sole_edge": {"part": "shoe", "z": [-1, 0.012]},
+        "vamp": {"part": "shoe", "fwd": [0.03, 0.062], "z": [0.04, 1]},
+        "buckle": {"part": "shoe", "fwd": [0.038, 0.054], "abs_x": [0, 0.012], "z": [0.04, 1]},
+        "toe_seam": {"part": "shoe", "fwd": [0.11, 1], "abs_x": [0, 0.02], "z": [0.03, 1]},
+        "strap": {"part": "shoe", "fwd": [-0.005, 0.02], "z": [0.035, 1]},
+        "toe_cap": {"part": "shoe", "fwd": [0.11, 1], "z": [0.012, 1]},
+        "wing": {"part": "shoe", "fwd": [0.085, 0.11], "z": [0.012, 1]},
+        "heel_counter": {"part": "shoe", "fwd": [-1, -0.05], "z": [0.012, 1]}
+      },
+      "loops": ["collar.L", "collar.R"],
+      "anchors": ["instep.L", "instep.R", "toe.L", "toe.R"]
+    },
+    "boot": {
+      "slot": "shoes",
+      "status": "built",
+      "builder": "boot",
+      "layer": "inner",
+      "budget": 1500,
+      "summary": "Ankle to mid-calf boot: the shoe_low capsule opened round the ankle, with a shaft grown up the leg from the opening loop (as sleeves grow from arm holes), 7-12 mm off the skin (outside a skirt's tights, under the trouser legs over it: the trousers' `boot_room` below the knee is the cover that hides it), to a top height between the ankle and knee landmarks. Trousers hang over it.",
+      "options": {"height": ["ankle", "calf", "tall"]},
+      "params": {
+        "cols": 16,
+        "rings": 12,
+        "heel_cap_rings": 3,
+        "toe_cap_rings": 3,
+        "axis_z": 0.55,
+        "toe_axis_z": 0.37,
+        "heel_radius": 0.9,
+        "toe_radius": 0.7,
+        "offset": {"base": 0.007, "toe": 0.009},
+        "cut": "boot",
+        "cuts": {"boot": {"opening": {"rings": [1, 4], "half_angle": 80}, "collar_max": 1}},
+        "sole_inner": 0.006,
+        "height": "calf",
+        "heights": {
+          "ankle": ["ankle", "knee", 0.18],
+          "calf": ["ankle", "knee", 0.42],
+          "tall": ["ankle", "knee", 0.8]
+        },
+        "shaft": {"top": ["ankle", "knee", 0.42], "start": 0.01, "rings": 5, "offset": [[0, 0.007], [1, 0.011]]},
+        "min_clear": 0.004,
+        "variants": {
+          "height": {
+            "ankle": {"shaft": {"rings": 4}},
+            "tall": {
+              "shaft": {
+                "top": ["ankle", "knee", 0.8],
+                "start": 0.01,
+                "rings": 5,
+                "offset": [[0, 0.007], [1, 0.012]]
+              }
+            }
+          }
+        }
+      },
+      "zones": {
+        "laces": {
+          "any": [
+            {"part": "shaft", "front": [0.93, 1]},
+            {"part": "shoe", "fwd": [0.03, 0.1], "abs_x": [0, 0.016], "z": [0.045, 1]}
+          ]
+        },
+        "sole_edge": {"part": "shoe", "z": [-1, 0.012]},
+        "shaft": {"part": "shaft"},
+        "shaft_top": {"part": "shaft", "ring_from_end": [0, 0]},
+        "toe_cap": {"part": "shoe", "fwd": [0.11, 1]},
+        "shaft_band": {"part": "shaft", "t": [0.65, 0.85]},
+        "strap": {"part": "shaft", "t": [0.2, 0.4]},
+        "scales": {"any": [{"part": "shaft"}, {"part": "shoe", "fwd": [-1, 0.1]}]}
+      },
+      "loops": ["collar.L", "collar.R", "opening.L", "opening.R"],
+      "anchors": ["instep.L", "instep.R", "toe.L", "toe.R"]
+    },
+    "cap_knit": {
+      "slot": "hat",
+      "status": "built",
+      "builder": "cap",
+      "layer": "hat",
+      "budget": 2000,
+      "summary": "Soft knitted cap fitted round the head (22 mm off the scalp: the head cage over hair caps); its band is the hair cap's pressed line (hat band line plus 3 degrees), so no pressed hair shows under the cuff. Beanies, bobble hats, slouch caps and earflap hats are designs.",
+      "options": {"fit": ["close", "slouch"]},
+      "params": {
+        "cols": 28,
+        "rows": 8,
+        "band": {"front": 64, "side": 22, "ear": 6},
+        "top_phi": 4,
+        "offset": 0.022,
+        "bulge": 0.004,
+        "variants": {"fit": {"slouch": {"droop": [0.075, 0.055], "bulge": 0.014, "rows": 10}}}
+      },
+      "zones": {
+        "crown": {"part": "crown"},
+        "band_rows": {"part": "crown", "row": [0, 1]},
+        "lower": {"part": "crown", "row": [0, 3]},
+        "upper": {"part": "crown", "row": [4, 99]}
+      },
+      "loops": ["band"],
+      "anchors": ["crown"]
+    },
+    "hood": {
+      "slot": "hat",
+      "status": "built",
+      "builder": "hood",
+      "layer": "hat",
+      "budget": 2000,
+      "summary": "Raised hood: the head chart from the crown down past the jaw to the neck, 32-36 mm off the head plus room behind it, the face opening cut by half-angle per ring; weighted to the head and blended to the neck and upper spine below the jaw. Fur-lined and cowl hoods are designs (cowl: more room, a pointed back, soft folds round the neck).",
+      "options": {"cut": ["deep", "cowl"]},
+      "params": {
+        "cols": 32,
+        "phis": [6, 22, 38, 54, 70, 86, 102, 118, 134, 150],
+        "open": [[50, 0], [54, 46], [70, 64], [90, 74], [120, 70], [138, 50], [150, 0]],
+        "offset": [[0, 0.032], [90, 0.036], [150, 0.03]],
+        "back_room": 0.022,
+        "neck_phi": 96,
+        "neck_blend": 38,
+        "min_clear": 0.008,
+        "fit_ears": false,
+        "hides": ["scalp", "ears"],
+        "variants": {
+          "cut": {
+            "cowl": {
+              "back_room": 0.034,
+              "tip": [0.05, 0.02],
+              "folds": 0.012,
+              "offset": [[0, 0.038], [90, 0.045], [150, 0.045]]
+            }
+          }
+        }
+      },
+      "zones": {
+        "hood": {"part": "hood"},
+        "seam": {"part": "hood", "abs_u": [170, 180]},
+        "lower": {"part": "hood", "row": [5, 99]}
+      },
+      "loops": ["face", "hem"],
+      "anchors": ["crown", "throat"]
+    },
+    "hat_rigid": {
+      "slot": "hat",
+      "status": "built",
+      "builder": "rigid",
+      "layer": "hat",
+      "budget": 2000,
+      "summary": "Stiff hats (pointed, witch, cloche, beret, circlets): only the head band is fitted per body (the cap_knit head chart at the band line, 24 mm off the scalp) plus a ribbon band strip; the crown and brim are add-ons built from the band loops in head-scale units, so the hat body is designed once and never refitted. Weighted rigidly to the head. Option band_style thin / none (hair trims: a narrow ribbon, or no band at all, only the anchors), which hide nothing.",
+      "options": {"band_style": ["full", "thin", "none"]},
+      "params": {
+        "cols": 28,
+        "band": {"front": 55, "side": 22, "ear": 6},
+        "offset": 0.024,
+        "band_height": 0.018,
+        "variants": {
+          "band_style": {"thin": {"band_height": 0.011, "hides": []}, "none": {"band_faces": false, "hides": []}}
+        }
+      },
+      "zones": {"band": {"part": "band"}},
+      "loops": ["band", "band_top"],
+      "anchors": [
+        "crown",
+        "band_front",
+        "band_left",
+        "band_right",
+        "band_back",
+        "band_left_front",
+        "band_right_front",
+        "band_left_back",
+        "band_right_back"
+      ]
+    }
+  }
+}

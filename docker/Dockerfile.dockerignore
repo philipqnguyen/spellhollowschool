@@ -1,0 +1,17 @@
+# Build context rules for docker/Dockerfile (BuildKit reads <Dockerfile>.dockerignore).
+# Only what the image needs: the Cargo workspace, migrations, the game data
+# and the built client (client/dist). rust-toolchain.toml stays out: the image's own Rust
+# toolchain builds the server, without the wasm target the file asks for.
+**
+!Cargo.toml
+!Cargo.lock
+!crates/**
+!tools/**/Cargo.toml
+!tools/**/src/**
+!db/migrations/**
+# The game data (1.4 MB): the server compiles most of it in (include_str!,
+# server::catalog) and reads the world layouts and the word filter at start.
+!data/**
+**/target
+# The built client (npm run build -w client), served by the server.
+!client/dist/**

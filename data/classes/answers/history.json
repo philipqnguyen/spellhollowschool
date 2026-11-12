@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "class": "history",
+  "answers": {
+    "q_accord_year": "a_1311",
+    "q_accord_hall": "a_great_hall",
+    "q_accord_promise": "a_lit_corridors",
+    "q_lamp_keeper": "a_fenwright",
+    "q_lamp_fuel": "a_moonstone_oil",
+    "q_stairs_year": "a_1640",
+    "q_stairs_architect": "a_merrow",
+    "q_stairs_when": "a_dusk",
+    "q_stairs_steady": "a_steadfast",
+    "q_stairs_count": "a_seven",
+    "q_owls_keeper": "a_hollins",
+    "q_owls_tower": "a_west_tower",
+    "q_exchange_year": "a_1762",
+    "q_owl_oldest": "a_old_tamsin",
+    "q_owl_years": "a_forty"
+  }
+}

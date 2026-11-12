@@ -1,0 +1,15 @@
+/*
+ * The game's two typefaces, self-hosted (castle D1, docs/art/castle-kit.md):
+ * Cinzel 500 / 700 for titles (style.css `--display`) and EB Garamond
+ * 400 / 600 / 400 italic for text (`--serif`), from the @fontsource packages
+ * (exact versions in client/package.json; SIL Open Font License 1.1, see
+ * art/CREDITS.md; the licence texts ship with the game as
+ * public/fonts/*-OFL.txt). Vite bundles the woff2 files with the build, so the page
+ * asks no other host for anything. Each weight is split by unicode-range: a
+ * browser fetches only the subsets its text uses.
+ */
+@import "@fontsource/cinzel/500.css";
+@import "@fontsource/cinzel/700.css";
+@import "@fontsource/eb-garamond/400.css";
+@import "@fontsource/eb-garamond/600.css";
+@import "@fontsource/eb-garamond/400-italic.css";

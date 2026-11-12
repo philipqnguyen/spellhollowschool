@@ -1,0 +1,28 @@
+# Exceptions for scripts/check-committed-files.mjs (docs/repo-hygiene.md).
+#
+# Keep this file short: every line is a file the policy would otherwise refuse,
+# and the reason has to say why it is a source that no build or script can make.
+# Screenshots, renders and build outputs never belong here (and the blocked
+# folders, such as docs/screenshots/ or client/public/assets/, cannot be
+# allowed at all).
+#
+# Two kinds of line ('#' starts a comment):
+#
+#   images <dir>/            a folder that may hold committed raster images
+#                            (png, jpg, webp, gif, tga, exr ...): hand-made
+#                            sources the client or the build reads
+#   file <path> <reason>     one exact path that may exceed the size limit or
+#                            have a blocked extension (.glb, .ktx2, .wasm, a
+#                            video ...); never a .blend
+#
+# The check reads this file as it is staged, so stage a new line together with
+# the file it allows.
+#
+# Today the tree holds no raster images at all and no file over the
+# 2 MiB limit (the largest are the 1.1 MiB hair sources under
+# art/characters/hair_meshy/), so both lists are empty. Add a line here in the
+# same commit as the file, with a row in docs/repo-hygiene.md.
+#
+# Examples (not active):
+#   images client/public/ui/
+#   file art/characters/shape_targets/body_c.npz  sculpt source, not regenerable (art/CREDITS.md)

@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "class_floor", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [-10.0, -8.25], "max": [10.0, 0.05], "y": 0.0, "ceiling": 8.75},
+    {"id": "class_floor_centre", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [-3.0, 0.05], "max": [3.0, 0.75], "y": 0.0, "ceiling": 8.75},
+    {"id": "class_tier_1", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [-3.0, 0.75], "max": [3.0, 2.25], "y": 0.3, "ceiling": 8.45},
+    {"id": "class_tier_1_west", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [-10.0, 0.05], "max": [-3.0, 1.55], "y": 0.3, "ceiling": 8.45},
+    {"id": "class_tier_1_east", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [3.0, 0.05], "max": [10.0, 1.55], "y": 0.3, "ceiling": 8.45},
+    {"id": "class_tier_2", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [-3.0, 2.25], "max": [3.0, 3.75], "y": 0.6, "ceiling": 8.15},
+    {"id": "class_tier_2_west", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [-10.0, 1.55], "max": [-3.0, 3.05], "y": 0.6, "ceiling": 8.15},
+    {"id": "class_tier_2_east", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [3.0, 1.55], "max": [10.0, 3.05], "y": 0.6, "ceiling": 8.15},
+    {"id": "class_tier_3", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [-3.0, 3.75], "max": [3.0, 5.25], "y": 0.9, "ceiling": 7.85},
+    {"id": "class_tier_3_west", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [-10.0, 3.05], "max": [-3.0, 4.55], "y": 0.9, "ceiling": 7.85},
+    {"id": "class_tier_3_east", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [3.0, 3.05], "max": [10.0, 4.55], "y": 0.9, "ceiling": 7.85},
+    {"id": "class_gallery", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [-3.0, 5.25], "max": [3.0, 8.75], "y": 1.2, "ceiling": 7.55},
+    {"id": "class_gallery_west", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [-10.0, 4.55], "max": [-3.0, 8.75], "y": 1.2, "ceiling": 7.55},
+    {"id": "class_gallery_east", "kind": "room", "name": "Charms Classroom", "level": 0, "cell": "class_charms", "min": [3.0, 4.55], "max": [10.0, 8.75], "y": 1.2, "ceiling": 7.55}
+  ],
+  "spawns": [
+    {"id": "class_entry_a", "pos": [-1.0, 1.2, 5.9], "yaw": 3.1415927},
+    {"id": "class_entry_b", "pos": [1.0, 1.2, 5.9], "yaw": 3.1415927}
+  ],
+  "landmarks": [
+    {"id": "class_professor", "name": "Professor's Desk", "pos": [0.0, 0.0, -6.5]}
+  ],
+  "interactables": [
+    {"id": "class_exit", "kind": "instance_exit", "name": "Classroom Door", "pos": [0.0, 1.2, 8.15], "yaw": 3.1415927, "radius": 1.5}
+  ],
+  "solids": [
+    {"id": "class_charms/part_0", "at": [-6.1, -8.02], "half": [2.2, 0.21], "y": [-0.3, 1.9]},
+    {"id": "class_charms/part_1", "at": [-5.5, 0.325], "half": [2.1, 0.225], "y": [0, 1.283]},
+    {"id": "class_charms/part_11", "at": [0, 4.025], "half": [2.6, 0.225], "y": [0.6, 1.883]},
+    {"id": "class_charms/part_12", "at": [0, 4.57], "half": [2.6, 0.18], "y": [0.6, 1.36]},
+    {"id": "class_charms/part_13", "at": [0, -7.79], "half": [2.18, 0.44], "y": [-0.3, 1.9]},
+    {"id": "class_charms/part_14", "at": [0, -5.65], "half": [0.641, 0.501], "y": [-0.3, 1.283]},
+    {"id": "class_charms/part_15", "at": [5.5, 0.325], "half": [2.1, 0.225], "y": [0, 2.2]},
+    {"id": "class_charms/part_17", "at": [5.5, 1.825], "half": [2.1, 0.225], "y": [0.3, 2.321]},
+    {"id": "class_charms/part_19", "at": [5.5, 3.325], "half": [2.1, 0.225], "y": [0.6, 2.8]},
+    {"id": "class_charms/part_20", "at": [5.5, 3.87], "half": [2.1, 0.18], "y": [0.6, 1.36]},
+    {"id": "class_charms/part_21", "at": [6.1, -8.02], "half": [2.2, 0.21], "y": [-0.3, 1.9]},
+    {"id": "class_charms/part_3", "at": [-5.5, 1.825], "half": [2.1, 0.225], "y": [0.3, 1.583]},
+    {"id": "class_charms/part_5", "at": [-5.5, 3.325], "half": [2.1, 0.225], "y": [0.6, 2.8]},
+    {"id": "class_charms/part_6", "at": [-5.5, 3.87], "half": [2.1, 0.18], "y": [0.6, 1.36]},
+    {"id": "class_charms/part_7", "at": [0, 1.025], "half": [2.6, 0.225], "y": [0, 1.981]},
+    {"id": "class_charms/part_9", "at": [0, 2.525], "half": [2.6, 0.225], "y": [0.3, 2.349]}
+  ]
+}

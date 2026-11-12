@@ -1,0 +1,86 @@
+/* Brooms on the HUD (flight.ts): the flight chip and the ring cue. */
+
+.flight-chip {
+  position: absolute;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 24px);
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.flight-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+}
+
+.flight-mark {
+  width: 14px;
+  height: 3px;
+  flex: none;
+  border-radius: 2px;
+  background: var(--gilt-bright);
+  box-shadow: 0 0 6px var(--gilt);
+}
+
+.ring-cue {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  min-width: 180px;
+  padding: 8px 18px 10px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.ring-cue-caption {
+  font-family: var(--display);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.ring-cue-count {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  color: var(--text);
+}
+
+.ring-cue.open .ring-cue-count {
+  color: var(--gilt-bright);
+}
+
+.ring-cue-flash {
+  font-size: 1rem;
+}
+.ring-cue-flash.perfect {
+  color: #ffe36e;
+}
+.ring-cue-flash.great {
+  color: #7ff0b8;
+}
+.ring-cue-flash.good {
+  color: #8fd3ff;
+}
+.ring-cue-flash.miss,
+.ring-cue-flash.reject {
+  color: #ff9c8f;
+}
+
+/* The movement chip (move-chip.ts): auto run and Z's pace, over the flight chip while flying. */
+.move-chip.stacked {
+  bottom: 124px;
+}

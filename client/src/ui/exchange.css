@@ -1,0 +1,440 @@
+/* The Owl Exchange: a category tree, the filters and results, and the
+   listing up close with its 3D preview. */
+
+.exchange-window {
+  width: min(1080px, calc(100% - 24px));
+  height: min(700px, calc(100% - 130px));
+}
+
+.exchange-purse {
+  font-size: 0.95rem;
+}
+
+.exchange-counter {
+  margin: 2px 0 0;
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 0.88rem;
+}
+
+.exchange-browse {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 170px 1fr minmax(240px, 30%);
+  gap: 12px;
+}
+
+/* ---------------------------------------------------------------- tree */
+
+.exchange-tree {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.tree,
+.tree-subs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tree-subs {
+  padding-left: 22px;
+}
+
+.tree-row {
+  display: flex;
+  align-items: center;
+}
+
+.tree-toggle {
+  width: 22px;
+  border: 0;
+  background: none;
+  color: var(--gilt);
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.tree-item {
+  flex: 1;
+  padding: 3px 6px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: none;
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.92rem;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+}
+
+.tree > li > .tree-item {
+  margin-left: 22px;
+  width: calc(100% - 22px);
+}
+
+.tree-item:hover {
+  color: var(--text);
+}
+
+.tree-item[aria-pressed="true"] {
+  border-color: var(--gilt);
+  background: rgba(201, 154, 69, 0.15);
+  color: var(--gilt-bright);
+}
+
+/* ---------------------------------------------------------------- filters and results */
+
+.exchange-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.exchange-filters {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--smoke-edge);
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.exchange-search {
+  flex: 1;
+  min-width: 140px;
+}
+
+.filter-sort,
+.filter-group {
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.swatch-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+}
+
+.swatch-any {
+  padding: 1px 8px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 10px;
+  background: none;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.swatch-any[aria-pressed="true"] {
+  border-color: var(--gilt);
+  color: var(--text);
+}
+
+.swatch-pick {
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  background: var(--swatch);
+  cursor: pointer;
+}
+
+.swatch-pick[aria-pressed="true"] {
+  outline: 2px solid var(--gilt-bright);
+  outline-offset: 1px;
+}
+
+.exchange-results {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.results-head {
+  margin: 6px 0 2px;
+  font-family: var(--display);
+  font-size: 0.9rem;
+  color: var(--gilt);
+}
+
+.listing-list {
+  flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.listing-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-bottom-color: rgba(201, 154, 69, 0.12);
+  background: none;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.listing-row:hover,
+.listing-row[aria-pressed="true"] {
+  border-color: var(--smoke-edge);
+  background: rgba(201, 154, 69, 0.1);
+}
+
+.listing-name {
+  display: grid;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listing-maker,
+.makers-mark {
+  color: #d8c38e;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+.listing-level,
+.listing-time {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- detail */
+
+.exchange-detail {
+  min-height: 0;
+  overflow-y: auto;
+  padding-left: 10px;
+  border-left: 1px solid var(--smoke-edge);
+  scrollbar-width: thin;
+}
+
+.item-preview {
+  position: relative;
+  height: 220px;
+  border: 1px solid rgba(201, 154, 69, 0.45);
+  border-radius: 6px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 38%, rgba(255, 214, 160, 0.16), transparent 70%),
+    linear-gradient(#2a2330, #15111a 70%, #0e0b10);
+}
+
+.preview-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  touch-action: none;
+}
+
+.preview-icon {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+.preview-note {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(234, 223, 200, 0.6);
+  pointer-events: none;
+}
+
+.listing-title {
+  margin: 8px 0 0;
+  font-family: var(--display);
+  font-size: 1.05rem;
+  color: var(--gilt-bright);
+}
+
+.makers-mark {
+  margin: 2px 0 0;
+  font-size: 0.9rem;
+}
+
+.listing-price {
+  margin: 6px 0;
+  font-size: 1.15rem;
+}
+
+.listing-facts,
+.quote {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 12px;
+  margin: 6px 0;
+  font-size: 0.88rem;
+}
+
+.listing-facts dt,
+.quote dt {
+  color: var(--text-dim);
+}
+
+.listing-facts dd,
+.quote dd {
+  margin: 0;
+}
+
+.quote dd {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.quote .quote-total {
+  color: var(--gilt-bright);
+  font-weight: 600;
+  border-top: 1px solid var(--smoke-edge);
+  padding-top: 3px;
+}
+
+.buy-confirm {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--gilt);
+  border-radius: 4px;
+  background: rgba(201, 154, 69, 0.12);
+}
+
+.buy-confirm p {
+  margin: 0 0 4px;
+}
+
+/* ---------------------------------------------------------------- sell and mine */
+
+.exchange-sell {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+.exchange-sell h3 {
+  margin: 0 0 4px;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  color: var(--gilt-bright);
+}
+
+.sell-item {
+  padding: 6px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 4px;
+}
+
+.sell-quote {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border: 1px dashed var(--smoke-edge);
+  border-radius: 4px;
+}
+
+.exchange-mine {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mine-list {
+  flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.mine-row {
+  display: grid;
+  grid-template-columns: 1fr auto minmax(9em, auto) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 4px;
+  border-bottom: 1px solid rgba(201, 154, 69, 0.12);
+}
+
+.mine-state {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.mine-row.sold .mine-state {
+  color: #9fdc8c;
+}
+
+/* "Take it down?" spans the row under the listing until answered. */
+.mine-row.confirming {
+  background: rgba(201, 154, 69, 0.08);
+}
+
+.takedown-confirm {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border: 1px solid var(--gilt);
+  border-radius: 4px;
+  background: rgba(201, 154, 69, 0.12);
+}
+
+.takedown-question {
+  flex: 1 1 14em;
+}
+
+@media (max-width: 860px) {
+  .exchange-browse {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    overflow-y: auto;
+  }
+
+  .exchange-tree {
+    max-height: 120px;
+  }
+
+  .exchange-detail {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .exchange-sell {
+    grid-template-columns: 1fr;
+  }
+}

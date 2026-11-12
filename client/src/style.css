@@ -1,0 +1,1364 @@
+/* SpellHollow School: a dark, candlelit parchment theme.
+   Screens are parchment cards over a dim stone hall; the in-game HUD uses
+   smoked-glass panels with gilt edges so the world stays visible. */
+
+:root {
+  --ink: #2b1d12;
+  --ink-soft: #5a4632;
+  --parchment: #ead9b4;
+  --parchment-deep: #d7bf8f;
+  --gilt: #c99a45;
+  --gilt-bright: #f0c36a;
+  --wax: #8d1f1b;
+  --wax-deep: #5e1210;
+  --night: #0d0b10;
+  --stone: #1b1720;
+  --smoke: rgba(18, 14, 20, 0.72);
+  --smoke-edge: rgba(201, 154, 69, 0.35);
+  --text: #eadfc8;
+  --text-dim: #b5a68a;
+  --say: #f1e7d2;
+  --whisper: #e2a8e8;
+  /* Party blue: a bright azure, well clear of every house tint (house chat
+     mixes the house colour with white: Skytalon's is a pale slate blue).
+     At least 4.5:1 on the chat panel over a mid-grey scene. */
+  --party: #6ccfff;
+  --party-strong: #9fe0ff;
+  /* Club green: a clear spring green, saturated where Serpentyne's house
+     chat (its #1e6a43 mixed 30% with white, #bcd2c7) is a pale grey-green,
+     and well apart from party blue. 5.1:1 on the chat panel over a mid-grey
+     scene (party blue: 4.8:1). */
+  --club: #5ee38f;
+  --club-strong: #9df2b9;
+  --system: #c9b37e;
+  --error: #9b1d1d;
+  --serif: "EB Garamond", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --display: "Cinzel", "Trajan Pro", "EB Garamond", Georgia, serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--night);
+  color: var(--text);
+  font-family: var(--serif);
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+#world {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  outline: none;
+  touch-action: none;
+}
+
+/* ------------------------------------------------------------------ screens */
+
+#screen {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+  /* A dim hall lit by two candles, flickering slowly. */
+  background:
+    radial-gradient(ellipse 38% 48% at 18% 30%, rgba(255, 170, 70, 0.16), transparent 70%),
+    radial-gradient(ellipse 34% 44% at 84% 64%, rgba(255, 150, 60, 0.12), transparent 70%),
+    radial-gradient(ellipse 120% 90% at 50% 40%, #241c26 0%, #120e14 60%, #070608 100%);
+}
+
+#screen::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 30% 40% at 18% 30%, rgba(255, 190, 90, 0.1), transparent 70%),
+    radial-gradient(ellipse 28% 36% at 84% 64%, rgba(255, 180, 80, 0.08), transparent 70%);
+  animation: flicker 5s ease-in-out infinite alternate;
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  30% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 0.7;
+  }
+  80% {
+    opacity: 0.95;
+  }
+}
+
+.card {
+  position: relative;
+  width: min(440px, 100%);
+  padding: 34px 38px 28px;
+  color: var(--ink);
+  border-radius: 3px;
+  /* Parchment: warm base, darker foxed edges, faint fibres. */
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(255, 250, 235, 0.55), transparent 60%),
+    radial-gradient(ellipse at 75% 85%, rgba(160, 120, 60, 0.18), transparent 55%),
+    repeating-linear-gradient(97deg, rgba(120, 90, 40, 0.03) 0 2px, transparent 2px 7px),
+    linear-gradient(var(--parchment), var(--parchment-deep));
+  box-shadow:
+    inset 0 0 60px rgba(120, 80, 30, 0.35),
+    inset 0 0 6px rgba(90, 60, 20, 0.4),
+    0 20px 60px rgba(0, 0, 0, 0.65),
+    0 0 90px rgba(255, 160, 60, 0.08);
+  animation: unfurl 0.35s ease-out;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(110, 80, 40, 0.35);
+  pointer-events: none;
+}
+
+@keyframes unfurl {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+}
+
+.card-kicker {
+  margin: 0 0 6px;
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.card h1,
+.card h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.7rem;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--ink);
+}
+
+.card h2 {
+  font-size: 1.25rem;
+}
+
+.card-sub {
+  margin: 8px 0 0;
+  text-align: center;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.rule {
+  height: 12px;
+  margin: 16px auto 20px;
+  width: 70%;
+  background:
+    radial-gradient(circle, var(--wax) 0 3px, transparent 3.5px) center / 12px 12px no-repeat,
+    linear-gradient(90deg, transparent, rgba(90, 60, 25, 0.55) 20%, rgba(90, 60, 25, 0.55) 80%, transparent) center / 100% 1px no-repeat;
+}
+
+.card p {
+  line-height: 1.5;
+}
+
+.muted {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+}
+
+.field-label,
+.houses legend {
+  font-family: var(--display);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.field-hint {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.field input {
+  width: 100%;
+  padding: 7px 2px 5px;
+  border: 0;
+  border-bottom: 1.5px solid rgba(70, 45, 20, 0.5);
+  background: transparent;
+  color: var(--ink);
+  font-size: 1.08rem;
+  border-radius: 0;
+}
+
+.field input:focus {
+  outline: none;
+  border-bottom-color: var(--wax);
+  background: rgba(255, 250, 235, 0.35);
+}
+
+.check {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.check input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--wax);
+}
+
+button.primary {
+  margin-top: 4px;
+  padding: 11px 18px;
+  border: 1px solid var(--wax-deep);
+  border-radius: 2px;
+  background: linear-gradient(#a32823, var(--wax) 55%, var(--wax-deep));
+  color: #f8e9cf;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 200, 160, 0.3),
+    0 2px 6px rgba(60, 10, 5, 0.35);
+}
+
+button.primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+button.primary:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+button:focus-visible,
+a:focus-visible,
+.house:focus-within {
+  outline: 2px solid var(--gilt);
+  outline-offset: 2px;
+}
+
+button.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--wax);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.forgot {
+  margin: -6px 0 0;
+  text-align: right;
+  font-size: 0.9rem;
+}
+
+.card-foot {
+  margin: 18px 0 0;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.form-error {
+  margin: 0;
+  padding: 8px 10px;
+  border-left: 3px solid var(--error);
+  background: rgba(155, 29, 29, 0.1);
+  color: #6e1010;
+}
+
+.notice {
+  margin: 0;
+  padding: 8px 10px;
+  border-left: 3px solid #4f6b2e;
+  background: rgba(79, 107, 46, 0.12);
+}
+
+.dev-box {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px dashed rgba(90, 60, 25, 0.55);
+  background: rgba(255, 250, 235, 0.3);
+}
+
+.dev-box p {
+  margin: 4px 0;
+}
+
+.dev-tag {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.dev-link {
+  display: inline-block;
+  margin: 6px 0;
+  color: var(--wax);
+  font-weight: 600;
+}
+
+.dev-url {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  word-break: break-all;
+  color: var(--ink-soft);
+}
+
+.message-body {
+  text-align: center;
+}
+
+.card > button.primary {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+}
+
+/* Character picker (ui/screens.ts renderPicker). */
+.picks {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.picks legend {
+  margin-bottom: 8px;
+  padding: 0;
+}
+
+.pick {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid rgba(90, 60, 25, 0.35);
+  border-radius: 2px;
+  background: rgba(255, 250, 235, 0.25);
+  cursor: pointer;
+}
+
+.pick:hover {
+  background: rgba(255, 250, 235, 0.45);
+}
+
+.pick:has(input:checked) {
+  border-color: var(--wax);
+  background: rgba(255, 250, 235, 0.55);
+  box-shadow: inset 3px 0 0 var(--wax);
+}
+
+.pick:focus-within {
+  outline: 2px solid var(--gilt);
+  outline-offset: 2px;
+}
+
+/* The radio stays for the keyboard and screen readers; the tile shows the choice. */
+.pick input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pick-crest {
+  flex: none;
+  width: 26px;
+  height: 32px;
+  border-radius: 2px 2px 13px 13px;
+  background: linear-gradient(var(--house) 0 62%, var(--house-accent) 62% 74%, var(--house) 74%);
+  box-shadow: inset 0 0 0 1px rgba(40, 25, 10, 0.4);
+}
+
+.pick-text {
+  display: grid;
+}
+
+.pick-name {
+  font-family: var(--display);
+  font-size: 1.12rem;
+  color: var(--ink);
+}
+
+.pick-house {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.picker-hint {
+  margin: 14px 0 0;
+  text-align: center;
+}
+
+/* A character and its Delete link. */
+.pick-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.pick-row .pick {
+  flex: 1;
+  min-width: 0;
+}
+
+.pick-delete {
+  flex: none;
+  font-size: 0.85rem;
+}
+
+/* "+ Make a new character": a dashed empty slot under the list. */
+.pick-new {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px dashed rgba(90, 60, 25, 0.5);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 1rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pick-new:hover {
+  border-color: var(--wax);
+  background: rgba(255, 250, 235, 0.35);
+  color: var(--ink);
+}
+
+.notice + .picks {
+  margin-top: 12px;
+}
+
+.pick-full {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+}
+
+/* A candle for loading states. */
+.candle {
+  position: relative;
+  width: 12px;
+  height: 34px;
+  margin: 18px auto 8px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #d9cba8, #f5ecd6 45%, #c8b88f);
+}
+
+.flame {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 10px;
+  height: 18px;
+  margin-left: -5px;
+  border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+  background: radial-gradient(ellipse at 50% 70%, #fff6c8, #ffbb44 50%, rgba(255, 120, 20, 0.2) 75%, transparent);
+  box-shadow: 0 0 22px 8px rgba(255, 170, 60, 0.35);
+  transform-origin: 50% 100%;
+  animation: flame 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes flame {
+  from {
+    transform: scale(1, 1) rotate(-2deg);
+  }
+  to {
+    transform: scale(0.92, 1.08) rotate(2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #screen::before,
+  .flame,
+  .card {
+    animation: none;
+  }
+}
+
+/* House picker */
+.houses {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.houses legend {
+  margin-bottom: 8px;
+  padding: 0;
+}
+
+.house {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  padding: 30px 10px 10px;
+  border: 1px solid rgba(90, 60, 25, 0.35);
+  background: rgba(255, 250, 235, 0.25);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform 0.12s,
+    box-shadow 0.12s;
+}
+
+.house input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.house-banner {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 26px;
+  height: 24px;
+  margin-left: -13px;
+  background: var(--house);
+  border: 1px solid var(--house-accent);
+  border-top: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+}
+
+.house-name {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.house-virtues {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--ink-soft);
+  line-height: 1.3;
+}
+
+.house:hover {
+  transform: translateY(-1px);
+}
+
+.house:has(input:checked) {
+  border-color: var(--house);
+  background: color-mix(in srgb, var(--house) 14%, rgba(255, 250, 235, 0.4));
+  box-shadow:
+    0 0 0 1px var(--house),
+    0 4px 12px rgba(60, 40, 10, 0.25);
+}
+
+/* ------------------------------------------------------------------ HUD */
+
+#hud {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.hud-layer > *,
+.chat,
+.perf {
+  pointer-events: auto;
+}
+
+.panel {
+  background: var(--smoke);
+  border: 1px solid var(--smoke-edge);
+  box-shadow:
+    0 6px 24px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 220, 160, 0.06);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 4px;
+}
+
+/* The HUD's corners (ui/hud.ts; docs/architecture.md "Client").
+   Top right: who you are, where, and the counts, with the level and clock strip under them.
+   Bottom right: the purse, the menu buttons and Settings, the emote bar above them.
+   The top centre is left to passing chips and toasts. ui/hud.ts measures both corners into
+   --hud-corner-bottom, --hud-dock-h, --hud-dock-w and --hud-br-h (px) for the rest of the HUD. */
+:root {
+  --hud-corner-bottom: 104px;
+  --hud-dock-h: 56px;
+  --hud-dock-w: 520px;
+  --hud-br-h: 116px;
+  /* Where the top centre's chips and toasts start: the top edge, or below the top-right
+     corner on a screen too narrow for them to pass beside it. */
+  --top-lane: 0px;
+}
+
+@media (max-width: 1279px) {
+  :root {
+    --top-lane: calc(var(--hud-corner-bottom) - 4px);
+  }
+}
+
+.hud-layer > .hud-corner {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  max-width: min(520px, calc(100% - 24px));
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  /* Only its panels take clicks; the gap between them is the world. */
+  pointer-events: none;
+}
+
+.hud-corner > * {
+  pointer-events: auto;
+}
+
+.hud-top {
+  display: grid;
+  grid-template-columns: minmax(0, auto) auto;
+  align-items: center;
+  column-gap: 18px;
+  row-gap: 2px;
+  padding: 6px 12px 6px 14px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* The menu bar along the bottom-right edge: the purse, every feature's button, Settings. */
+.hud-layer > .hud-dock {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  max-width: calc(100% - 24px);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 6px 4px 10px;
+}
+
+.hud-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Every window's title bar moves it (ui/drag.ts). */
+.win-handle {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.win-dragging,
+.win-dragging .win-handle {
+  cursor: grabbing;
+}
+
+/* A window taller or wider than the screen is capped to it, its content scrolling inside (ui/drag.ts). */
+.win-capped {
+  max-height: var(--win-max-h) !important;
+  overflow-y: auto !important;
+}
+
+.win-capped-w {
+  max-width: var(--win-max-w) !important;
+  overflow-x: auto !important;
+}
+
+/* Who you are: it gives way first (down to the crest and a few letters), so a long name and house
+   never run into the counts, the purse or the buttons. */
+.hud-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 0 1 auto;
+  overflow: hidden;
+}
+
+/* The name over the house: side by side they left the name about five letters. */
+.hud-who {
+  display: flex;
+  flex-direction: column;
+  min-width: 3em;
+  overflow: hidden;
+  line-height: 1.15;
+}
+
+.crest {
+  align-self: center;
+  width: 12px;
+  height: 14px;
+  background: var(--house);
+  border: 1px solid var(--gilt);
+  clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%);
+}
+
+.hud-name {
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--gilt-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hud-house {
+  font-style: italic;
+  font-size: 0.8em;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Where you are, under the name and counts. A size container: squeezed narrower than a short
+   word, it hides its words instead of showing a sliver of a letter. */
+.hud-place {
+  grid-column: 1 / -1;
+  flex: 1 1 0;
+  min-width: 0;
+  container-type: inline-size;
+  text-align: right;
+  font-size: 0.85em;
+  font-style: italic;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hud-place:has(.hud-place-text:empty) {
+  display: none;
+}
+
+.hud-place-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@container (max-width: 4em) {
+  .hud-place-text {
+    visibility: hidden;
+  }
+}
+
+.hud-counts {
+  display: flex;
+  gap: 14px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  flex: none;
+}
+
+.hud-counts strong {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The online count is the players list's button. */
+.hud-online {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px dotted var(--smoke-edge);
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.hud-online:hover,
+.hud-online:focus-visible {
+  color: var(--gilt-bright);
+  border-bottom-color: var(--gilt);
+}
+
+/* The crest, the purse and the buttons keep their size; the name, the house and the place give way. */
+.crest,
+.hud-dock > .hud-purse,
+.hud-dock > .hud-actions,
+.hud-dock > .icon-button {
+  flex: none;
+}
+
+/* The buttons wrap onto a second row before the bar runs off a narrow screen. */
+.hud-dock > .hud-actions {
+  flex: 0 1 auto;
+}
+
+.icon-button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: none;
+  color: var(--gilt);
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.icon-button:hover,
+.icon-button[aria-expanded="true"] {
+  border-color: var(--smoke-edge);
+  background: rgba(201, 154, 69, 0.12);
+}
+
+/* Settings opens upward from the menu bar at the bottom right. */
+.menu {
+  position: absolute;
+  bottom: calc(var(--hud-dock-h) + 8px);
+  right: 12px;
+  width: min(340px, calc(100vw - 24px));
+  padding: 14px 16px 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.menu {
+  max-height: calc(100vh - var(--hud-dock-h) - 24px);
+  overflow-y: auto;
+}
+
+/* Settings: Graphics, Audio and Keyboard shortcuts tabs (ui/hud.ts buildMenu). */
+.settings-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--smoke-edge);
+}
+
+.settings-tab {
+  flex: 1 1 auto;
+  padding: 5px 6px 6px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--text-dim);
+  font-family: var(--display);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.settings-tab:hover {
+  color: var(--text);
+}
+
+.settings-tab[aria-selected="true"] {
+  color: var(--gilt-bright);
+  border-bottom-color: var(--gilt);
+}
+
+.settings-page {
+  display: grid;
+  gap: 14px;
+}
+
+.settings-page[hidden] {
+  display: none;
+}
+
+.shortcuts {
+  gap: 12px;
+}
+
+.shortcut-group h3 {
+  margin: 0 0 6px;
+  font-family: var(--display);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--gilt-bright);
+}
+
+.shortcut-group dl {
+  margin: 0;
+  display: grid;
+  /* One key column for every group, so the descriptions line up down the tab. */
+  grid-template-columns: 112px 1fr;
+  gap: 5px 10px;
+  align-items: center;
+  font-size: 0.82rem;
+}
+
+.shortcut-group dt {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 3px;
+}
+
+.shortcut-group dd {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+.shortcut-group kbd {
+  display: inline-block;
+  min-width: 1.5em;
+  padding: 1px 5px;
+  border: 1px solid var(--smoke-edge);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+/* Sound: the mute and a slider per bus (ui/hud.ts buildSound). */
+.sound-settings {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.sound-settings legend {
+  margin-bottom: 6px;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.sound-settings .mute {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.sound-settings .mute input {
+  accent-color: var(--gilt);
+}
+
+.sound-settings .volume {
+  display: grid;
+  grid-template-columns: 72px 1fr 40px;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.sound-settings .volume input {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--gilt);
+}
+
+.sound-settings .volume-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.menu h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--gilt-bright);
+}
+
+.segmented {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.segmented legend {
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 0;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.segmented label {
+  flex: 1;
+}
+
+.segmented input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segmented span {
+  display: block;
+  padding: 5px 0;
+  text-align: center;
+  border: 1px solid var(--smoke-edge);
+  margin-left: -1px;
+  cursor: pointer;
+  color: var(--text-dim);
+}
+
+.segmented label:first-of-type span {
+  border-radius: 3px 0 0 3px;
+}
+
+.segmented label:last-of-type span {
+  border-radius: 0 3px 3px 0;
+}
+
+.segmented input:checked + span {
+  background: rgba(201, 154, 69, 0.22);
+  color: var(--gilt-bright);
+  border-color: var(--gilt);
+  position: relative;
+}
+
+.segmented input:focus-visible + span {
+  outline: 2px solid var(--gilt);
+}
+
+button.secondary {
+  padding: 7px 10px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+button.secondary:hover {
+  border-color: var(--gilt);
+}
+
+.banner {
+  position: absolute;
+  top: calc(var(--top-lane) + 12px);
+  z-index: 23;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 16px;
+  background: rgba(94, 18, 16, 0.85);
+  border: 1px solid rgba(240, 195, 106, 0.4);
+  border-radius: 3px;
+  color: #f8e9cf;
+  white-space: nowrap;
+}
+
+.queue {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(8, 6, 10, 0.55);
+}
+
+.card.small {
+  width: min(360px, calc(100% - 32px));
+  padding: 24px 26px;
+  text-align: center;
+}
+
+/* Chat */
+.chat {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  /* Its size is the player's (ui/chat.ts: the top-right grip); it never shrinks to the lines it holds,
+     nor runs under the menu bar at the bottom right (ui/hud.ts). */
+  width: min(var(--chat-w, 440px), calc(100% - 24px));
+  max-width: max(240px, calc(100% - 36px - var(--hud-dock-w)));
+  display: flex;
+  flex-direction: column;
+  background: rgba(18, 14, 20, 0.45);
+}
+
+/* The grip: the panel's top-right corner, drawn as two diagonal ticks. */
+.chat-resize {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  cursor: nesw-resize;
+  touch-action: none;
+  opacity: 0.6;
+  background: var(--gilt);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 3 L17 15 M10 3 L17 10 M15 3 L17 5' stroke='black' stroke-width='1.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M5 3 L17 15 M10 3 L17 10 M15 3 L17 5' stroke='black' stroke-width='1.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") center / 20px 20px no-repeat;
+}
+
+.chat:hover .chat-resize,
+.chat-resize:focus-visible,
+.chat.resizing .chat-resize {
+  opacity: 1;
+}
+
+.chat.resizing {
+  user-select: none;
+}
+
+.chat:focus-within {
+  background: var(--smoke);
+}
+
+.chat-log {
+  margin: 0;
+  padding: 8px 10px 4px;
+  list-style: none;
+  height: var(--chat-h, 190px);
+  box-sizing: border-box;
+  overflow-y: auto;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  scrollbar-width: thin;
+  overflow-wrap: anywhere;
+}
+
+.chat-line {
+  color: var(--say);
+}
+
+.chat-who {
+  font-weight: 600;
+}
+
+.chat-house {
+  color: color-mix(in srgb, var(--house) 30%, #fff 70%);
+}
+
+.chat-house .chat-who {
+  color: color-mix(in srgb, var(--house) 45%, #fff 55%);
+}
+
+.chat-whisper {
+  color: var(--whisper);
+  font-style: italic;
+}
+
+.chat-party {
+  color: var(--party);
+}
+
+.chat-party .chat-who {
+  color: var(--party-strong);
+}
+
+.chat-club {
+  color: var(--club);
+}
+
+.chat-club .chat-who {
+  color: var(--club-strong);
+}
+
+.chat-system {
+  color: var(--system);
+  font-style: italic;
+}
+
+.chat-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 6px;
+  border-top: 1px solid rgba(201, 154, 69, 0.18);
+}
+
+.chat-channel {
+  font-family: var(--display);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--say);
+  white-space: nowrap;
+}
+
+.chat-channel[data-channel="house"] {
+  color: color-mix(in srgb, var(--house) 55%, #fff 45%);
+}
+
+.chat-channel[data-channel="whisper"] {
+  color: var(--whisper);
+}
+
+.chat-channel[data-channel="party"] {
+  color: var(--party);
+}
+
+.chat-channel[data-channel="club"] {
+  color: var(--club);
+}
+
+.chat-input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 2px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+}
+
+.chat-input::placeholder {
+  color: rgba(234, 223, 200, 0.45);
+  font-style: italic;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-bottom-color: var(--gilt);
+}
+
+/* Performance overlay */
+.perf {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 8px 12px;
+  background: rgba(8, 6, 10, 0.78);
+}
+
+.perf pre {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: #d6e6c8;
+}
+
+/* Nameplates. Under every other part of the HUD (the 2d review:
+   a plate drew over the class chip): #hud is their stacking context, so a
+   negative z-index puts them below its panels and strips but still over the
+   world's canvas. */
+.nameplates {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.nameplate {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+  padding: 1px 8px 2px;
+  border-radius: 2px;
+  background: rgba(10, 8, 12, 0.5);
+  border-bottom: 2px solid var(--plate, var(--gilt));
+  white-space: nowrap;
+  font-size: 0.85rem;
+  color: #f4ead6;
+  text-shadow: 0 1px 2px #000;
+}
+
+/* A group we share (ui/groups.ts, one at most, by precedence): the name in
+   the group's colour, the house underline kept. */
+.nameplate[data-group="party"] {
+  color: var(--party);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--party) 35%, transparent);
+}
+
+.nameplate[data-group="club"] {
+  color: var(--club);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--club) 35%, transparent);
+}
+
+@media (max-width: 640px) {
+  .hud-top {
+    column-gap: 8px;
+  }
+  .card {
+    padding: 28px 22px 22px;
+  }
+}
+
+/* "Female only" / "Male only" on restricted clothing, wherever items show (ui/wear.ts). */
+.wear-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--gilt-bright);
+  white-space: nowrap;
+  vertical-align: middle;
+  font-family: var(--serif);
+  font-weight: normal;
+  font-style: normal;
+  text-transform: none;
+}

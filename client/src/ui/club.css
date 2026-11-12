@@ -1,0 +1,276 @@
+/* The club window (ui/club.ts) and the clubs secretary's desk
+   (ui/club-desk.ts). Club green is `--club` (style.css). */
+
+.club-window {
+  width: min(460px, calc(100% - 24px));
+  border-color: color-mix(in srgb, var(--club) 40%, var(--smoke-edge));
+}
+
+.club-body {
+  display: grid;
+  gap: 10px;
+  overflow-y: auto;
+  min-height: 0;
+  padding-right: 2px;
+}
+
+.club-empty {
+  margin: 4px 0 0;
+  font-family: var(--display);
+  color: var(--club);
+}
+
+.club-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+}
+
+.club-title h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.1rem;
+  color: var(--club);
+}
+
+.club-tag {
+  font-family: var(--display);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--club-strong);
+}
+
+.club-count {
+  flex-basis: 100%;
+  font-size: 0.8rem;
+}
+
+.club-motd {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 2px 8px;
+  padding: 6px 8px;
+  border-left: 3px solid var(--club);
+  background: rgba(94, 227, 143, 0.06);
+}
+
+.club-motd-label {
+  grid-column: 1 / -1;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.club-motd-text {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.club-motd.editing {
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+}
+
+.club-invite,
+.club-owner,
+.club-confirm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+}
+
+.club-invite input,
+.club-motd input,
+.club-owner input,
+.club-desk-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text);
+  font: inherit;
+}
+
+.club-owner label,
+.club-desk-form label {
+  display: grid;
+  gap: 2px;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.club-owner label:first-child {
+  flex: 1;
+}
+
+input.club-tag-input {
+  width: 6em;
+  flex: none;
+  text-transform: uppercase;
+}
+
+.club-roster {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+
+.club-member {
+  border-left: 3px solid var(--member-house, var(--gilt));
+  padding-left: 4px;
+}
+
+.club-row {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto 3.4em;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 3px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--club);
+  font: inherit;
+  font-size: 0.92rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.club-row:hover,
+.club-row:focus-visible {
+  background: rgba(94, 227, 143, 0.1);
+  outline: none;
+}
+
+.club-self .club-name {
+  font-weight: 600;
+}
+
+.club-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.club-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  opacity: 0.5;
+}
+
+.club-dot.on {
+  background: var(--club);
+  opacity: 1;
+}
+
+.club-role {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.club-role-owner {
+  color: var(--gilt-bright);
+}
+
+.club-role-officer {
+  color: var(--club-strong);
+}
+
+.club-level {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  text-align: right;
+}
+
+.club-offline .club-row {
+  color: var(--text-dim);
+}
+
+.club-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+  padding: 2px 2px 6px 18px;
+  font-size: 0.82rem;
+}
+
+.club-confirm {
+  padding: 8px;
+  border: 1px solid color-mix(in srgb, var(--error) 60%, transparent);
+  background: rgba(155, 29, 29, 0.12);
+}
+
+.club-confirm p {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+button.danger {
+  border-color: color-mix(in srgb, var(--error) 70%, transparent);
+}
+
+/* The club button lights up green once in a club. */
+.hud-club.in-club {
+  color: var(--club);
+}
+
+/* The secretary's desk: the talk card's look, a little wider for the form. */
+.club-desk {
+  width: min(440px, calc(100vw - 32px));
+}
+
+.club-desk-options {
+  flex-wrap: wrap;
+}
+
+.club-desk-form {
+  display: grid;
+  gap: 6px;
+}
+
+.club-desk-form input {
+  flex: none;
+}
+
+.club-desk-error {
+  margin: 0;
+  color: #ff9b8f;
+  font-size: 0.88rem;
+}
+
+.club-register {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.club-register li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+  align-items: baseline;
+}
+
+.club-register-name {
+  color: var(--club);
+}
+
+/* A player's card: the club they are in. */
+.card-club {
+  margin: -4px 0 0;
+  color: var(--club);
+}

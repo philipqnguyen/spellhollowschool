@@ -1,0 +1,2085 @@
+{
+  "_doc": "Every NPC's look (sim_core::npcs::Looks; protocol::Appearance's JSON shape), portrait subjects included: catalog clothing the body may wear, palette dyes, a shipped hair style of the body (Creator::check_appearance). See docs/architecture.md 'NPCs'. Everyone is an adult; nothing is sexualised.",
+  "version": 1,
+  "looks": {
+    "portrait_gs_l1": {
+      "body_type": 0,
+      "height": 150,
+      "face": [
+        150,
+        120,
+        170,
+        110,
+        120
+      ],
+      "skin_tone": 2,
+      "hair_style": 15,
+      "hair_colour": 10,
+      "eye_colour": 1,
+      "outfit": {
+        "hat": {
+          "item_def": 105,
+          "dyes": [
+            34,
+            34,
+            21
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 216,
+          "dyes": [
+            34,
+            21,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 309,
+          "dyes": [
+            33,
+            33,
+            21
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 403,
+          "dyes": [
+            15,
+            0,
+            21
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_gs_l3": {
+      "body_type": 1,
+      "height": 140,
+      "face": [
+        110,
+        150,
+        120,
+        170,
+        100
+      ],
+      "skin_tone": 1,
+      "hair_style": 24,
+      "hair_colour": 10,
+      "eye_colour": 6,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 217,
+          "dyes": [
+            1,
+            6,
+            5
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 304,
+          "dyes": [
+            1,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 405,
+          "dyes": [
+            0,
+            0,
+            5
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_gs_l4": {
+      "body_type": 0,
+      "height": 120,
+      "face": [
+        170,
+        100,
+        180,
+        100,
+        90
+      ],
+      "skin_tone": 4,
+      "hair_style": 16,
+      "hair_colour": 8,
+      "eye_colour": 5,
+      "outfit": {
+        "hat": {
+          "item_def": 102,
+          "dyes": [
+            33,
+            47,
+            47
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 208,
+          "dyes": [
+            47,
+            47,
+            8
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 303,
+          "dyes": [
+            29,
+            29,
+            10
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 402,
+          "dyes": [
+            11,
+            10,
+            15
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_gs_l5": {
+      "body_type": 1,
+      "height": 120,
+      "face": [
+        100,
+        170,
+        100,
+        130,
+        150
+      ],
+      "skin_tone": 0,
+      "hair_style": 24,
+      "hair_colour": 3,
+      "eye_colour": 4,
+      "outfit": {
+        "hat": {
+          "item_def": 112,
+          "dyes": [
+            41,
+            42,
+            21
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 218,
+          "dyes": [
+            19,
+            44,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 306,
+          "dyes": [
+            41,
+            41,
+            21
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 407,
+          "dyes": [
+            41,
+            41,
+            21
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_gs_l6": {
+      "body_type": 0,
+      "height": 170,
+      "face": [
+        140,
+        140,
+        140,
+        140,
+        150
+      ],
+      "skin_tone": 3,
+      "hair_style": 21,
+      "hair_colour": 5,
+      "eye_colour": 3,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 212,
+          "dyes": [
+            33,
+            13,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 308,
+          "dyes": [
+            13,
+            13,
+            10
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 404,
+          "dyes": [
+            14,
+            14,
+            38
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_great_hall_n": {
+      "body_type": 1,
+      "height": 160,
+      "face": [
+        130,
+        130,
+        110,
+        150,
+        110
+      ],
+      "skin_tone": 6,
+      "hair_style": 19,
+      "hair_colour": 1,
+      "eye_colour": 0,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 219,
+          "dyes": [
+            20,
+            9,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 304,
+          "dyes": [
+            1,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 405,
+          "dyes": [
+            0,
+            0,
+            21
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_great_hall_s": {
+      "body_type": 0,
+      "height": 200,
+      "face": [
+        160,
+        150,
+        150,
+        120,
+        110
+      ],
+      "skin_tone": 8,
+      "hair_style": 20,
+      "hair_colour": 11,
+      "eye_colour": 0,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 211,
+          "dyes": [
+            37,
+            6,
+            5
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 309,
+          "dyes": [
+            1,
+            1,
+            5
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 404,
+          "dyes": [
+            0,
+            0,
+            5
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_library_n": {
+      "body_type": 0,
+      "height": 110,
+      "face": [
+        90,
+        110,
+        190,
+        160,
+        100
+      ],
+      "skin_tone": 1,
+      "hair_style": 14,
+      "hair_colour": 10,
+      "eye_colour": 2,
+      "outfit": {
+        "hat": {
+          "item_def": 101,
+          "dyes": [
+            10,
+            8,
+            38
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 217,
+          "dyes": [
+            10,
+            8,
+            38
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 303,
+          "dyes": [
+            12,
+            12,
+            10
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 403,
+          "dyes": [
+            14,
+            0,
+            38
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_library_s": {
+      "body_type": 1,
+      "height": 100,
+      "face": [
+        120,
+        100,
+        120,
+        120,
+        130
+      ],
+      "skin_tone": 5,
+      "hair_style": 19,
+      "hair_colour": 11,
+      "eye_colour": 1,
+      "outfit": {
+        "hat": {
+          "item_def": 110,
+          "dyes": [
+            28,
+            47,
+            38
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 213,
+          "dyes": [
+            28,
+            47,
+            10
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 304,
+          "dyes": [
+            10,
+            10,
+            10
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 401,
+          "dyes": [
+            10,
+            10,
+            15
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_common_a": {
+      "body_type": 0,
+      "height": 210,
+      "face": [
+        190,
+        130,
+        130,
+        100,
+        140
+      ],
+      "skin_tone": 2,
+      "hair_style": 22,
+      "hair_colour": 7,
+      "eye_colour": 5,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 212,
+          "dyes": [
+            17,
+            5,
+            5
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 308,
+          "dyes": [
+            1,
+            1,
+            5
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 404,
+          "dyes": [
+            0,
+            0,
+            5
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_common_b": {
+      "body_type": 1,
+      "height": 110,
+      "face": [
+        140,
+        140,
+        120,
+        140,
+        140
+      ],
+      "skin_tone": 3,
+      "hair_style": 18,
+      "hair_colour": 4,
+      "eye_colour": 2,
+      "outfit": {
+        "hat": {
+          "item_def": 111,
+          "dyes": [
+            24,
+            25,
+            23
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 206,
+          "dyes": [
+            47,
+            47,
+            12
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 306,
+          "dyes": [
+            12,
+            12,
+            10
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 402,
+          "dyes": [
+            11,
+            10,
+            15
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_common_c": {
+      "body_type": 0,
+      "height": 160,
+      "face": [
+        110,
+        160,
+        140,
+        150,
+        170
+      ],
+      "skin_tone": 7,
+      "hair_style": 16,
+      "hair_colour": 9,
+      "eye_colour": 10,
+      "outfit": {
+        "hat": {
+          "item_def": 103,
+          "dyes": [
+            32,
+            5,
+            38
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 216,
+          "dyes": [
+            32,
+            5,
+            38
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 307,
+          "dyes": [
+            32,
+            32,
+            5
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 403,
+          "dyes": [
+            32,
+            0,
+            5
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_common_d": {
+      "body_type": 1,
+      "height": 190,
+      "face": [
+        110,
+        190,
+        110,
+        160,
+        90
+      ],
+      "skin_tone": 0,
+      "hair_style": 17,
+      "hair_colour": 0,
+      "eye_colour": 6,
+      "outfit": {
+        "hat": {
+          "item_def": 112,
+          "dyes": [
+            15,
+            5,
+            5
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 217,
+          "dyes": [
+            46,
+            5,
+            5
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 306,
+          "dyes": [
+            46,
+            46,
+            5
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 407,
+          "dyes": [
+            0,
+            0,
+            5
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_kitchens": {
+      "body_type": 1,
+      "height": 90,
+      "face": [
+        150,
+        110,
+        120,
+        130,
+        150
+      ],
+      "skin_tone": 4,
+      "hair_style": 19,
+      "hair_colour": 6,
+      "eye_colour": 1,
+      "outfit": {
+        "hat": {
+          "item_def": 107,
+          "dyes": [
+            9,
+            9,
+            47
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 207,
+          "dyes": [
+            9,
+            44,
+            47
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 304,
+          "dyes": [
+            44,
+            44,
+            10
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 401,
+          "dyes": [
+            10,
+            10,
+            15
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_passage_weaver": {
+      "body_type": 1,
+      "height": 130,
+      "face": [
+        120,
+        150,
+        130,
+        120,
+        160
+      ],
+      "skin_tone": 9,
+      "hair_style": 24,
+      "hair_colour": 2,
+      "eye_colour": 3,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 215,
+          "dyes": [
+            41,
+            24,
+            36
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 306,
+          "dyes": [
+            36,
+            36,
+            24
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 405,
+          "dyes": [
+            10,
+            10,
+            38
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_passage_trophy": {
+      "body_type": 0,
+      "height": 90,
+      "face": [
+        100,
+        120,
+        160,
+        170,
+        130
+      ],
+      "skin_tone": 5,
+      "hair_style": 15,
+      "hair_colour": 1,
+      "eye_colour": 1,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 219,
+          "dyes": [
+            38,
+            9,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 309,
+          "dyes": [
+            2,
+            2,
+            4
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 408,
+          "dyes": [
+            11,
+            13,
+            10
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_passage_gallery": {
+      "body_type": 1,
+      "height": 150,
+      "face": [
+        130,
+        160,
+        120,
+        130,
+        120
+      ],
+      "skin_tone": 2,
+      "hair_style": 23,
+      "hair_colour": 8,
+      "eye_colour": 6,
+      "outfit": {
+        "hat": {
+          "item_def": 105,
+          "dyes": [
+            4,
+            4,
+            6
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 214,
+          "dyes": [
+            6,
+            6,
+            6
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 307,
+          "dyes": [
+            3,
+            3,
+            4
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 405,
+          "dyes": [
+            1,
+            1,
+            5
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "portrait_entrance": {
+      "body_type": 0,
+      "height": 130,
+      "face": [
+        150,
+        110,
+        170,
+        120,
+        110
+      ],
+      "skin_tone": 6,
+      "hair_style": 22,
+      "hair_colour": 11,
+      "eye_colour": 0,
+      "outfit": {
+        "hat": {
+          "item_def": 107,
+          "dyes": [
+            33,
+            33,
+            21
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 209,
+          "dyes": [
+            33,
+            13,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 301,
+          "dyes": [
+            1,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 402,
+          "dyes": [
+            11,
+            10,
+            15
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "ghost_house_a": {
+      "body_type": 1,
+      "height": 200,
+      "face": [
+        120,
+        170,
+        110,
+        140,
+        140
+      ],
+      "skin_tone": 1,
+      "hair_style": 18,
+      "hair_colour": 7,
+      "eye_colour": 5,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 211,
+          "dyes": [
+            16,
+            21,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 308,
+          "dyes": [
+            13,
+            13,
+            10
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 404,
+          "dyes": [
+            15,
+            15,
+            21
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "ghost_house_b": {
+      "body_type": 1,
+      "height": 80,
+      "face": [
+        160,
+        110,
+        120,
+        130,
+        150
+      ],
+      "skin_tone": 4,
+      "hair_style": 17,
+      "hair_colour": 3,
+      "eye_colour": 2,
+      "outfit": {
+        "hat": {
+          "item_def": 111,
+          "dyes": [
+            22,
+            25,
+            23
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 213,
+          "dyes": [
+            25,
+            47,
+            23
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 304,
+          "dyes": [
+            10,
+            10,
+            10
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 401,
+          "dyes": [
+            10,
+            10,
+            15
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "ghost_house_c": {
+      "body_type": 0,
+      "height": 180,
+      "face": [
+        100,
+        150,
+        150,
+        150,
+        140
+      ],
+      "skin_tone": 7,
+      "hair_style": 16,
+      "hair_colour": 10,
+      "eye_colour": 10,
+      "outfit": {
+        "hat": {
+          "item_def": 101,
+          "dyes": [
+            32,
+            38,
+            35
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 217,
+          "dyes": [
+            32,
+            38,
+            35
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 307,
+          "dyes": [
+            32,
+            32,
+            38
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 403,
+          "dyes": [
+            32,
+            0,
+            38
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "ghost_house_d": {
+      "body_type": 0,
+      "height": 190,
+      "face": [
+        140,
+        180,
+        150,
+        160,
+        100
+      ],
+      "skin_tone": 5,
+      "hair_style": 21,
+      "hair_colour": 0,
+      "eye_colour": 6,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 219,
+          "dyes": [
+            26,
+            9,
+            5
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 309,
+          "dyes": [
+            15,
+            15,
+            5
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 408,
+          "dyes": [
+            15,
+            0,
+            5
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "staff_caretaker": {
+      "body_type": 0,
+      "height": 110,
+      "face": [
+        180,
+        100,
+        190,
+        90,
+        90
+      ],
+      "skin_tone": 3,
+      "hair_style": 22,
+      "hair_colour": 10,
+      "eye_colour": 1,
+      "outfit": {
+        "hat": {
+          "item_def": 107,
+          "dyes": [
+            2,
+            2,
+            3
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 212,
+          "dyes": [
+            1,
+            2,
+            38
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 303,
+          "dyes": [
+            10,
+            10,
+            10
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 402,
+          "dyes": [
+            15,
+            10,
+            40
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "staff_librarian": {
+      "body_type": 1,
+      "height": 170,
+      "face": [
+        110,
+        150,
+        110,
+        150,
+        110
+      ],
+      "skin_tone": 8,
+      "hair_style": 24,
+      "hair_colour": 1,
+      "eye_colour": 0,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 213,
+          "dyes": [
+            43,
+            8,
+            38
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 304,
+          "dyes": [
+            2,
+            2,
+            1
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 407,
+          "dyes": [
+            14,
+            14,
+            38
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "staff_groundskeeper": {
+      "body_type": 0,
+      "height": 240,
+      "face": [
+        190,
+        120,
+        160,
+        110,
+        110
+      ],
+      "skin_tone": 5,
+      "hair_style": 16,
+      "hair_colour": 4,
+      "eye_colour": 4,
+      "outfit": {
+        "hat": {
+          "item_def": 108,
+          "dyes": [
+            12,
+            47,
+            10
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 208,
+          "dyes": [
+            30,
+            30,
+            12
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 303,
+          "dyes": [
+            12,
+            12,
+            10
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 406,
+          "dyes": [
+            46,
+            15,
+            39
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "shop_owl_exchange": {
+      "body_type": 0,
+      "height": 140,
+      "face": [
+        120,
+        130,
+        120,
+        130,
+        130
+      ],
+      "skin_tone": 9,
+      "hair_style": 15,
+      "hair_colour": 0,
+      "eye_colour": 0,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 205,
+          "dyes": [
+            9,
+            20,
+            6
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 309,
+          "dyes": [
+            1,
+            1,
+            4
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 408,
+          "dyes": [
+            14,
+            13,
+            10
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "shop_owl_order_a": {
+      "body_type": 1,
+      "height": 100,
+      "face": [
+        140,
+        140,
+        120,
+        140,
+        170
+      ],
+      "skin_tone": 2,
+      "hair_style": 23,
+      "hair_colour": 5,
+      "eye_colour": 4,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 220,
+          "dyes": [
+            16,
+            21,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 304,
+          "dyes": [
+            1,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 407,
+          "dyes": [
+            0,
+            0,
+            21
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "shop_owl_order_b": {
+      "body_type": 0,
+      "height": 120,
+      "face": [
+        130,
+        120,
+        130,
+        130,
+        150
+      ],
+      "skin_tone": 6,
+      "hair_style": 14,
+      "hair_colour": 7,
+      "eye_colour": 1,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 213,
+          "dyes": [
+            22,
+            15,
+            15
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 303,
+          "dyes": [
+            13,
+            13,
+            10
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 403,
+          "dyes": [
+            15,
+            0,
+            22
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "shop_owl_order_c": {
+      "body_type": 1,
+      "height": 160,
+      "face": [
+        110,
+        160,
+        110,
+        140,
+        110
+      ],
+      "skin_tone": 7,
+      "hair_style": 19,
+      "hair_colour": 0,
+      "eye_colour": 0,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 211,
+          "dyes": [
+            32,
+            38,
+            38
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 307,
+          "dyes": [
+            4,
+            4,
+            38
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 405,
+          "dyes": [
+            32,
+            32,
+            38
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "shop_owl_order_d": {
+      "body_type": 0,
+      "height": 180,
+      "face": [
+        120,
+        170,
+        140,
+        140,
+        110
+      ],
+      "skin_tone": 1,
+      "hair_style": 20,
+      "hair_colour": 9,
+      "eye_colour": 6,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 214,
+          "dyes": [
+            26,
+            26,
+            5
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 308,
+          "dyes": [
+            40,
+            40,
+            5
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 408,
+          "dyes": [
+            0,
+            0,
+            5
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_a1": {
+      "body_type": 1,
+      "height": 110,
+      "face": [
+        128,
+        140,
+        118,
+        130,
+        150
+      ],
+      "skin_tone": 3,
+      "hair_style": 18,
+      "hair_colour": 2,
+      "eye_colour": 2,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 201,
+          "dyes": [
+            0,
+            16,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 302,
+          "dyes": [
+            3,
+            3,
+            1
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 401,
+          "dyes": [
+            0,
+            0,
+            1
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_a2": {
+      "body_type": 0,
+      "height": 170,
+      "face": [
+        150,
+        128,
+        140,
+        120,
+        128
+      ],
+      "skin_tone": 8,
+      "hair_style": 14,
+      "hair_colour": 0,
+      "eye_colour": 0,
+      "outfit": {
+        "hat": {
+          "item_def": 101,
+          "dyes": [
+            0,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 201,
+          "dyes": [
+            0,
+            16,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 301,
+          "dyes": [
+            1,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 401,
+          "dyes": [
+            0,
+            0,
+            1
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_a3": {
+      "body_type": 0,
+      "height": 140,
+      "face": [
+        120,
+        150,
+        110,
+        140,
+        140
+      ],
+      "skin_tone": 1,
+      "hair_style": 15,
+      "hair_colour": 4,
+      "eye_colour": 5,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 201,
+          "dyes": [
+            0,
+            16,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 301,
+          "dyes": [
+            1,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 402,
+          "dyes": [
+            11,
+            10,
+            15
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_b1": {
+      "body_type": 1,
+      "height": 90,
+      "face": [
+        140,
+        120,
+        120,
+        120,
+        160
+      ],
+      "skin_tone": 5,
+      "hair_style": 23,
+      "hair_colour": 1,
+      "eye_colour": 1,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 202,
+          "dyes": [
+            0,
+            22,
+            15
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 302,
+          "dyes": [
+            3,
+            3,
+            1
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 407,
+          "dyes": [
+            0,
+            0,
+            23
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_b2": {
+      "body_type": 0,
+      "height": 150,
+      "face": [
+        160,
+        110,
+        150,
+        120,
+        120
+      ],
+      "skin_tone": 2,
+      "hair_style": 16,
+      "hair_colour": 8,
+      "eye_colour": 4,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 202,
+          "dyes": [
+            0,
+            22,
+            15
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 301,
+          "dyes": [
+            1,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 401,
+          "dyes": [
+            0,
+            0,
+            1
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_b3": {
+      "body_type": 1,
+      "height": 120,
+      "face": [
+        120,
+        150,
+        110,
+        140,
+        130
+      ],
+      "skin_tone": 9,
+      "hair_style": 19,
+      "hair_colour": 0,
+      "eye_colour": 0,
+      "outfit": {
+        "hat": {
+          "item_def": 101,
+          "dyes": [
+            0,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 202,
+          "dyes": [
+            0,
+            22,
+            15
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 301,
+          "dyes": [
+            1,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 402,
+          "dyes": [
+            11,
+            10,
+            15
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_c1": {
+      "body_type": 1,
+      "height": 130,
+      "face": [
+        110,
+        160,
+        110,
+        150,
+        150
+      ],
+      "skin_tone": 0,
+      "hair_style": 17,
+      "hair_colour": 12,
+      "eye_colour": 7,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 203,
+          "dyes": [
+            0,
+            32,
+            38
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 302,
+          "dyes": [
+            3,
+            3,
+            1
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 403,
+          "dyes": [
+            32,
+            0,
+            38
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_c2": {
+      "body_type": 0,
+      "height": 160,
+      "face": [
+        140,
+        140,
+        130,
+        130,
+        110
+      ],
+      "skin_tone": 6,
+      "hair_style": 20,
+      "hair_colour": 1,
+      "eye_colour": 1,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 203,
+          "dyes": [
+            0,
+            32,
+            38
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 301,
+          "dyes": [
+            1,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 408,
+          "dyes": [
+            15,
+            0,
+            10
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_c3": {
+      "body_type": 1,
+      "height": 100,
+      "face": [
+        128,
+        128,
+        128,
+        128,
+        140
+      ],
+      "skin_tone": 4,
+      "hair_style": 24,
+      "hair_colour": 7,
+      "eye_colour": 5,
+      "outfit": {
+        "hat": {
+          "item_def": 101,
+          "dyes": [
+            0,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 203,
+          "dyes": [
+            0,
+            32,
+            38
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 302,
+          "dyes": [
+            3,
+            3,
+            1
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 401,
+          "dyes": [
+            0,
+            0,
+            1
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_d1": {
+      "body_type": 0,
+      "height": 180,
+      "face": [
+        130,
+        170,
+        140,
+        150,
+        110
+      ],
+      "skin_tone": 1,
+      "hair_style": 20,
+      "hair_colour": 9,
+      "eye_colour": 6,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 204,
+          "dyes": [
+            0,
+            26,
+            5
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 301,
+          "dyes": [
+            1,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 405,
+          "dyes": [
+            0,
+            0,
+            5
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_d2": {
+      "body_type": 1,
+      "height": 140,
+      "face": [
+        110,
+        160,
+        120,
+        140,
+        120
+      ],
+      "skin_tone": 7,
+      "hair_style": 24,
+      "hair_colour": 0,
+      "eye_colour": 0,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 204,
+          "dyes": [
+            0,
+            26,
+            5
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 302,
+          "dyes": [
+            3,
+            3,
+            1
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 407,
+          "dyes": [
+            0,
+            0,
+            5
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "student_d3": {
+      "body_type": 0,
+      "height": 150,
+      "face": [
+        150,
+        130,
+        150,
+        120,
+        130
+      ],
+      "skin_tone": 5,
+      "hair_style": 21,
+      "hair_colour": 2,
+      "eye_colour": 2,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 204,
+          "dyes": [
+            0,
+            26,
+            5
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 301,
+          "dyes": [
+            1,
+            1,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 401,
+          "dyes": [
+            0,
+            0,
+            1
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "clerk_clubs": {
+      "body_type": 1,
+      "height": 165,
+      "face": [
+        120,
+        140,
+        120,
+        140,
+        120
+      ],
+      "skin_tone": 3,
+      "hair_style": 23,
+      "hair_colour": 9,
+      "eye_colour": 2,
+      "outfit": {
+        "hat": null,
+        "body": {
+          "item_def": 219,
+          "dyes": [
+            41,
+            47,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 306,
+          "dyes": [
+            32,
+            32,
+            21
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 407,
+          "dyes": [
+            15,
+            15,
+            38
+          ],
+          "finish": "none"
+        }
+      }
+    }
+  }
+}

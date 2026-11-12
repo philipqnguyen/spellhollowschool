@@ -1,0 +1,199 @@
+/* The dueling loadout editor: slots in key order across the top, the
+   spells below as cards in their own colours. */
+
+.loadout-window {
+  width: min(700px, calc(100% - 24px));
+}
+
+.loadout-body {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.loadout-intro {
+  margin: 0 0 8px;
+  color: var(--text-dim);
+}
+
+.loadout-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: 6px;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+}
+
+.loadout-slot {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  min-height: 70px;
+  padding: 6px 8px 4px;
+  border: 2px solid var(--spell, var(--smoke-edge));
+  border-radius: 6px;
+  background:
+    radial-gradient(circle at 50% 20%, color-mix(in srgb, var(--spell, transparent) 35%, transparent), transparent 70%),
+    rgba(10, 8, 12, 0.6);
+}
+
+.loadout-slot.empty {
+  border-style: dashed;
+}
+
+.loadout-slot.locked {
+  border-style: dashed;
+  opacity: 0.55;
+}
+
+.loadout-key {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--gilt-bright);
+}
+
+.loadout-slot-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.15;
+}
+
+.loadout-slot-tools {
+  display: flex;
+  gap: 2px;
+  margin-top: auto;
+}
+
+.loadout-slot-tools .icon-button {
+  width: 26px;
+  height: 22px;
+  font-size: 0.9rem;
+}
+
+.loadout-h {
+  margin: 6px 0 4px;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+}
+
+.loadout-spells {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.loadout-spell {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--smoke-edge);
+  border-left: 4px solid var(--spell);
+  border-radius: 4px;
+  background: rgba(10, 8, 12, 0.45);
+  text-align: left;
+  cursor: pointer;
+}
+
+.loadout-spell:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--spell) 14%, rgba(10, 8, 12, 0.6));
+}
+
+.loadout-spell.chosen {
+  border-color: var(--spell);
+  background: color-mix(in srgb, var(--spell) 20%, rgba(10, 8, 12, 0.6));
+}
+
+.loadout-spell.unknown {
+  cursor: default;
+  opacity: 0.55;
+  filter: grayscale(0.6);
+}
+
+.loadout-spell-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.loadout-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--spell);
+  box-shadow: 0 0 8px var(--spell);
+}
+
+.loadout-kind {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.loadout-in {
+  margin-left: auto;
+  padding: 0 7px;
+  border-radius: 8px;
+  background: rgba(240, 195, 106, 0.2);
+  color: var(--gilt-bright);
+  font-size: 0.78rem;
+}
+
+.loadout-spell-line {
+  color: var(--text-dim);
+  font-size: 0.84rem;
+}
+
+.loadout-spell-hint {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: color-mix(in srgb, var(--spell) 35%, var(--text-dim));
+}
+
+/* Kinds side by side where there is room: ten spells stay on one screen. */
+.loadout-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2px 10px;
+  margin: 0 0 6px;
+}
+
+.loadout-group-h {
+  margin: 4px 0 3px;
+  font-family: var(--serif);
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gilt-bright);
+}
+
+.loadout-group .loadout-spells {
+  margin-bottom: 4px;
+}
+
+.loadout-unknown {
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+.loadout-unknown .loadout-spell {
+  padding: 4px 8px;
+}
+
+.loadout-warning {
+  margin: 4px 0;
+  padding: 5px 10px;
+  border-left: 3px solid #e0a03a;
+  background: rgba(150, 90, 10, 0.25);
+  font-size: 0.9rem;
+}
+
+.loadout-note {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+}

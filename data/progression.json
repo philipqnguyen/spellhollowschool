@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "levels": [0, 200, 440, 720, 1040, 1400, 1800, 2240, 2720, 3240,
+             3800, 4400, 5040, 5720, 6440, 7200, 8000, 8840, 9720, 10640],
+  "years": [
+    { "year": 1, "name": "First Year", "from_level": 1 },
+    { "year": 2, "name": "Second Year", "from_level": 4 },
+    { "year": 3, "name": "Third Year", "from_level": 7 },
+    { "year": 4, "name": "Fourth Year", "from_level": 10 },
+    { "year": 5, "name": "Fifth Year", "from_level": 13 },
+    { "year": 6, "name": "Sixth Year", "from_level": 16 },
+    { "year": 7, "name": "Seventh Year", "from_level": 19 }
+  ],
+  "xp": {
+    "class_attend": 80,
+    "class_bonus_max": 60,
+    "craft_pct": 50,
+    "find": 15,
+    "duel_win": 40,
+    "duel_loss": 15,
+    "duel_draw": 25,
+    "daily_caps": [
+      { "group": "duel", "xp": 300 },
+      { "group": "craft", "xp": 400 },
+      { "group": "find", "xp": 150 },
+      { "group": "class", "xp": 840 }
+    ]
+  },
+  "loadout_slots": [
+    { "level": 1, "slots": 3 },
+    { "level": 5, "slots": 4 },
+    { "level": 10, "slots": 5 }
+  ]
+}

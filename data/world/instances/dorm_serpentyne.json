@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "dorm_floor", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [-5.38, -3.88], "max": [-3.17, -0.8], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_2", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [-3.17, -3.88], "max": [-1.99, 0.0], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_3", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [-1.99, -3.85], "max": [-1.67, 0.0], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_4", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [-1.67, -3.88], "max": [1.67, 0.0], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_5", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [1.67, -3.85], "max": [1.99, 0.0], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_6", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [1.99, -3.88], "max": [4.6, 0.0], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_7", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [4.6, -3.88], "max": [5.38, -0.9], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_8", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [-5.38, 0.8], "max": [-3.17, 3.88], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_9", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [-3.17, 0.0], "max": [-1.99, 3.88], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_10", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [-1.99, 0.0], "max": [-1.67, 3.85], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_11", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [-1.67, 0.0], "max": [1.67, 3.88], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_12", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [1.67, 0.0], "max": [1.99, 3.85], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_13", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [1.99, 0.0], "max": [4.6, 3.88], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_14", "kind": "room", "name": "Dungeon Dormitory", "level": 0, "cell": "dorm_house_d", "min": [4.6, 0.9], "max": [5.38, 3.88], "y": 0, "ceiling": 2.9}
+  ],
+  "spawns": [
+    {"id": "dorm_entry", "pos": [0.0, 0.0, 2.5], "yaw": 3.1415927}
+  ],
+  "interactables": [
+    {"id": "dorm_exit", "kind": "dorm_exit", "name": "Stone Archway", "pos": [0.0, 0.0, 3.3], "yaw": 3.1415927, "radius": 1.5}
+  ],
+  "place_areas": [
+    {"id": "floor", "surface": "floor", "min": [-3.17, 0, -3.85], "max": [4.6, 0, 2.7]},
+    {"id": "floor_2", "surface": "floor", "min": [-5.45, 0, -3.85], "max": [5.45, 0, -0.9]},
+    {"id": "floor_3", "surface": "floor", "min": [-5.45, 0, 0.9], "max": [5.45, 0, 2.7]},
+    {"id": "floor_4", "surface": "floor", "min": [0.9, 0, -0.9], "max": [4.6, 0, 3.85]},
+    {"id": "floor_5", "surface": "floor", "min": [-5.45, 0, 0.8], "max": [-0.9, 0, 3.85]},
+    {"id": "floor_6", "surface": "floor", "min": [1.67, 0, 0.9], "max": [5.45, 0, 3.85]},
+    {"id": "wall_north", "surface": "wall", "min": [-1.62, 0.3, -4.0], "max": [1.62, 2.8, -4.0], "facing": 0.0},
+    {"id": "wall_south_west", "surface": "wall", "min": [-5.35, 0.3, 4.0], "max": [-2.04, 2.8, 4.0], "facing": 3.1415927},
+    {"id": "wall_south_east", "surface": "wall", "min": [2.04, 0.3, 4.0], "max": [5.35, 2.8, 4.0], "facing": 3.1415927},
+    {"id": "wall_east_north", "surface": "wall", "min": [5.5, 0.3, -3.85], "max": [5.5, 2.8, -1.0], "facing": 4.712389},
+    {"id": "wall_east_south", "surface": "wall", "min": [5.5, 0.3, 1.0], "max": [5.5, 2.8, 3.85], "facing": 4.712389},
+    {"id": "sill_west", "surface": "table", "min": [-4.31, 0.8, -4.93], "max": [-2.89, 0.8, -3.88]},
+    {"id": "sill_east", "surface": "table", "min": [2.89, 0.8, -4.93], "max": [4.31, 0.8, -3.88]},
+    {"id": "mantel", "surface": "table", "min": [4.9, 1.13, -0.86], "max": [5.48, 1.13, 0.86]}
+  ]
+}

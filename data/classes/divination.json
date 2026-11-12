@@ -1,0 +1,83 @@
+{
+  "version": 2,
+  "id": "divination",
+  "subject": "divination",
+  "professor": {
+    "id": "divination_professor", "name": "Professor Ottoline Veil", "house": "skytalon",
+    "appearance": {
+      "body_type": 1,
+      "height": 110,
+      "face": [116, 128, 120, 150, 140],
+      "skin_tone": 2,
+      "hair_style": 17,
+      "hair_colour": 2,
+      "eye_colour": 2,
+      "outfit": {
+        "hat": {"item_def": 111, "dyes": [36, 24, 21], "finish": "none"},
+        "body": {"item_def": 213, "dyes": [42, 23, 24], "finish": "none"},
+        "legs": {"item_def": 306, "dyes": [41, 41, 21], "finish": "none"},
+        "shoes": {"item_def": 407, "dyes": [14, 14, 5], "finish": "none"}
+      }
+    },
+    "pos": [0, 0, -6], "yaw": 0
+  },
+  "picks": {"prompts": "divination_symbols", "options": "divination_meanings"},
+  "lesson": [
+    {"at_secs": 2, "kind": "emote", "emote": "wave"},
+    {"at_secs": 3, "kind": "say", "line": "Welcome, my dears. Sit, breathe, and let the room grow quiet around you."},
+    {"at_secs": 45, "kind": "say", "line": "The leaves and the ball never speak plainly. They show a shape, and every shape has its meaning."},
+    {"at_secs": 90, "kind": "say", "line": "Look first, then choose. The sight dislikes being rushed, though it dislikes dawdling even more."},
+    {"at_secs": 130, "kind": "say", "line": "I sense someone hurrying up the tower stair. Quickly now, the door is closing."},
+    {"at_secs": 170, "kind": "say", "line": "The door is closed. Cups in your left hand, please."},
+    {"at_secs": 185, "kind": "demonstrate", "duration_ms": 2000, "line": "Swirl, tip and turn the cup. A key opens a door, a bird brings news, a moon shows a secret, an anchor means calm, a snail asks patience, a star grants a wish."},
+    {"at_secs": 200, "kind": "practice", "round": 1, "window_ms": 2000, "beats": [
+        {"at_ms": 5000, "prompt": "cup_key", "options": ["m_news", "m_progress", "m_door"]},
+        {"at_ms": 9000, "prompt": "cup_bird", "options": ["m_news", "m_calm", "m_patience"]},
+        {"at_ms": 13000, "prompt": "cup_moon", "options": ["m_reunion", "m_secret", "m_beginning"]},
+        {"at_ms": 17000, "prompt": "cup_anchor", "options": ["m_door", "m_calm", "m_secret"]},
+        {"at_ms": 21000, "prompt": "cup_snail", "options": ["m_progress", "m_guide", "m_patience"]},
+        {"at_ms": 25000, "prompt": "cup_star", "options": ["m_wish", "m_patience", "m_beginning"]}
+      ] },
+    {"at_secs": 240, "kind": "demonstrate", "duration_ms": 2000, "line": "Again. A ladder is steady progress, a lantern a guide, a bridge an old friend returning, an acorn a small start to great things."},
+    {"at_secs": 250, "kind": "practice", "round": 2, "window_ms": 2000, "beats": [
+        {"at_ms": 5000, "prompt": "cup_ladder", "options": ["m_progress", "m_wish", "m_door"]},
+        {"at_ms": 9000, "prompt": "cup_lantern", "options": ["m_news", "m_guide", "m_progress"]},
+        {"at_ms": 13000, "prompt": "cup_bridge", "options": ["m_calm", "m_reunion", "m_patience"]},
+        {"at_ms": 17000, "prompt": "cup_acorn", "options": ["m_beginning", "m_reunion", "m_door"]},
+        {"at_ms": 21000, "prompt": "cup_bird", "options": ["m_secret", "m_calm", "m_news"]},
+        {"at_ms": 25000, "prompt": "cup_key", "options": ["m_door", "m_guide", "m_reunion"]}
+      ] },
+    {"at_secs": 290, "kind": "demonstrate", "duration_ms": 2000, "line": "Now the crystal ball. It speaks the same tongue as the leaves. Let the mist part on its own; four meanings this time."},
+    {"at_secs": 300, "kind": "practice", "round": 3, "window_ms": 2000, "beats": [
+        {"at_ms": 5000, "prompt": "ball_star", "options": ["m_guide", "m_wish", "m_reunion", "m_door"]},
+        {"at_ms": 9000, "prompt": "ball_bridge", "options": ["m_beginning", "m_news", "m_progress", "m_reunion"]},
+        {"at_ms": 13000, "prompt": "ball_moon", "options": ["m_secret", "m_progress", "m_guide", "m_reunion"]},
+        {"at_ms": 17000, "prompt": "ball_ladder", "options": ["m_patience", "m_wish", "m_progress", "m_door"]},
+        {"at_ms": 21000, "prompt": "ball_anchor", "options": ["m_beginning", "m_calm", "m_news", "m_progress"]},
+        {"at_ms": 25000, "prompt": "ball_acorn", "options": ["m_secret", "m_calm", "m_beginning", "m_patience"]}
+      ] },
+    {"at_secs": 340, "kind": "demonstrate", "duration_ms": 2000, "line": "Cup and ball together, a little faster. Never argue with the first shape you see."},
+    {"at_secs": 350, "kind": "practice", "round": 4, "window_ms": 1800, "beats": [
+        {"at_ms": 4000, "prompt": "cup_snail", "options": ["m_patience", "m_progress", "m_guide", "m_wish"]},
+        {"at_ms": 7500, "prompt": "ball_lantern", "options": ["m_reunion", "m_beginning", "m_news", "m_guide"]},
+        {"at_ms": 11000, "prompt": "cup_moon", "options": ["m_door", "m_progress", "m_guide", "m_secret"]},
+        {"at_ms": 14500, "prompt": "ball_key", "options": ["m_calm", "m_door", "m_patience", "m_wish"]},
+        {"at_ms": 18000, "prompt": "cup_bridge", "options": ["m_patience", "m_beginning", "m_news", "m_reunion"]},
+        {"at_ms": 21500, "prompt": "ball_bird", "options": ["m_door", "m_progress", "m_news", "m_guide"]},
+        {"at_ms": 25000, "prompt": "cup_acorn", "options": ["m_beginning", "m_progress", "m_guide", "m_reunion"]},
+        {"at_ms": 28500, "prompt": "ball_star", "options": ["m_patience", "m_beginning", "m_wish", "m_news"]}
+      ] },
+    {"at_secs": 392, "kind": "say", "line": "The mists are closing. Set down your cups."},
+    {"at_secs": 405, "kind": "results", "line": "I foresee a small kindness from the stars for each of you. Do not expect it to linger."},
+    {"at_secs": 410, "kind": "emote", "emote": "bow"},
+    {"at_secs": 500, "kind": "say", "line": "Go gently, my dears. And do mind the ladder."}
+  ],
+  "rewards": {
+    "attend_skill_xp": 30,
+    "bonus_skill_xp_max": 40,
+    "min_answers": 3,
+    "house_points": [{"min_pct": 60, "points": 1}, {"min_pct": 75, "points": 3}, {"min_pct": 90, "points": 5}],
+    "crowns": {"attend": 10, "bonus_max": 10},
+    "fortune": [{"kind": "luck", "min_pct": 0}, {"kind": "quick_hands", "min_pct": 0}, {"kind": "keen_mind", "min_pct": 0}]
+  }
+}

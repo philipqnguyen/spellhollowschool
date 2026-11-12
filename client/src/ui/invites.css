@@ -1,0 +1,69 @@
+/* Toasts (invitations here; trades, duel challenges, consent prompts and class
+   doors share the spot): at the top centre, below the effect timers and the
+   trail chip (the corners hold the HUD: ui/hud.ts). */
+
+.toasts {
+  position: absolute;
+  top: calc(var(--top-lane) + 100px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(340px, calc(100% - 24px));
+  /* Over the stacked windows (ui/windows.ts counts up from 3). */
+  z-index: 22;
+  display: grid;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  padding: 10px 14px;
+  pointer-events: auto;
+  border-color: rgba(240, 195, 106, 0.55);
+  animation: toast-in 0.2s ease-out;
+}
+
+.toast p {
+  margin: 0 0 8px;
+}
+
+.toast strong {
+  color: var(--gilt-bright);
+  font-weight: 600;
+}
+
+.toast-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast-actions button.secondary {
+  text-align: center;
+  min-width: 80px;
+}
+
+.toast-accept {
+  border-color: var(--gilt) !important;
+  background: rgba(201, 154, 69, 0.2) !important;
+  color: var(--gilt-bright) !important;
+}
+
+.toast-clock {
+  margin-left: auto;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+}

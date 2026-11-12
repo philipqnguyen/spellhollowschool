@@ -1,0 +1,176 @@
+#!/usr/bin/env node
+// Runs the game locally: makes sure the generated client inputs exist (the
+// wasm bindings and client/public/assets, fetched or built as
+// client/scripts/prepare.mjs decides), then starts the game server and the
+// client dev server together. Ctrl-C stops both.
+//
+//   bin/dev                  assets by SHS_ASSETS (default auto: fetch the published
+//                            release for this checkout, else build with Blender, else
+//                            greybox stand-ins), then the server and the client
+//   bin/dev --fetch-assets   only download the asset release (SHS_ASSETS=fetch)
+//   bin/dev --build-assets   only build the assets with the pinned Blender (SHS_ASSETS=build)
+//   bin/dev --skip-assets    no asset step at all (SHS_SKIP_ASSETS=1)
+//
+// Environment, all optional (defaults in brackets):
+//   DATABASE_URL   [postgres://localhost/shs]  `createdb shs`, or
+//                  `docker compose -f docker/compose.yml up -d db`
+//   SHS_BIND       [0.0.0.0:8080]  the game server's address
+//   SHS_VITE_PORT  [5173]          the client dev server's port
+//   SHS_SERVER     [http://localhost:<port of SHS_BIND>]  where Vite proxies /api and /ws
+//   SHS_DEV        [1]             the server's development mode (sign-up links on screen)
+//   SHS_PUBLIC_URL [http://localhost:<SHS_VITE_PORT>]  where emailed links (confirm, reset) open
+//   SHS_ASSETS, SHS_ASSETS_URL, BLENDER: tools/blender/README.md, "Asset releases"
+"use strict";
+// CommonJS on purpose: the repository's package.json does not say "type": "module".
+
+const { spawn, spawnSync } = require("node:child_process");
+const { existsSync, readFileSync } = require("node:fs");
+const { join, resolve } = require("node:path");
+
+const repo = resolve(__dirname, "..");
+/** The comment block at the top of this file. */
+function usage() {
+  const lines = readFileSync(__filename, "utf8").split("\n").slice(1);
+  const end = lines.findIndex((l) => !l.startsWith("//"));
+  return lines
+    .slice(0, end)
+    .map((l) => l.replace(/^\/\/ ?/, ""))
+    .join("\n");
+}
+
+const env = { ...process.env };
+for (const arg of process.argv.slice(2)) {
+  if (arg === "--fetch-assets") env.SHS_ASSETS = "fetch";
+  else if (arg === "--build-assets") env.SHS_ASSETS = "build";
+  else if (arg === "--skip-assets") env.SHS_SKIP_ASSETS = "1";
+  else if (arg === "-h" || arg === "--help") {
+    console.log(usage());
+    process.exit(0);
+  } else {
+    console.error(`bin/dev: unknown option ${arg}\n\n${usage()}`);
+    process.exit(2);
+  }
+}
+
+const log = (msg) => console.log(`[dev] ${msg}`);
+
+function runSync(cmd, args) {
+  const r = spawnSync(cmd, args, { cwd: repo, env, stdio: "inherit" });
+  if (r.error) {
+    console.error(`[dev] could not run ${cmd}: ${r.error.message}`);
+    process.exit(1);
+  }
+  if (r.status !== 0) process.exit(r.status ?? 1);
+}
+
+// 1. The client's dependencies, once (npm ci also runs "prepare", which installs the git hooks).
+if (!existsSync(join(repo, "node_modules"))) {
+  log("installing the client's dependencies (npm ci)");
+  runSync("npm", ["ci"]);
+}
+// The pre-commit check (scripts/git-hooks, docs/repo-hygiene.md); quiet when already installed.
+runSync(process.execPath, [join(repo, "scripts/install-git-hooks.mjs")]);
+
+// 2. The wasm bindings and the assets (prepare.mjs prints what it does and why).
+runSync(process.execPath, [join(repo, "client/scripts/prepare.mjs")]);
+
+// 3. The server and the client, each in its own process group so that one
+//    signal stops a child and everything it started (cargo and the server,
+//    npm and Vite), and so the terminal's Ctrl-C reaches only this script.
+const bind = env.SHS_BIND || "0.0.0.0:8080";
+const serverPort = bind.slice(bind.lastIndexOf(":") + 1);
+env.SHS_SERVER = env.SHS_SERVER || `http://localhost:${serverPort}`;
+env.SHS_DEV = env.SHS_DEV ?? "1";
+const vitePort = env.SHS_VITE_PORT || "5173";
+// Emailed links open the client's pages, which Vite serves in development.
+env.SHS_PUBLIC_URL = env.SHS_PUBLIC_URL || `http://localhost:${vitePort}`;
+const databaseUrl = env.DATABASE_URL || "postgres://localhost/shs";
+
+const psql = spawnSync("psql", [databaseUrl, "-Atqc", "select 1"], { env, encoding: "utf8", timeout: 5000 });
+if (!psql.error && psql.status !== 0) {
+  log(`warning: cannot connect to ${databaseUrl}: ${(psql.stderr || "").trim().split("\n").pop()}`);
+  log("         create it with `createdb shs`, or `docker compose -f docker/compose.yml up -d db`, or set DATABASE_URL");
+}
+
+const children = [];
+let stopping = false;
+let exitCode = 0;
+
+function signalGroup(child, signal) {
+  try {
+    process.kill(process.platform === "win32" ? child.pid : -child.pid, signal);
+  } catch {
+    // already gone
+  }
+}
+
+function groupAlive(child) {
+  if (process.platform === "win32") return child.exitCode === null && child.signalCode === null;
+  try {
+    process.kill(-child.pid, 0);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function start(name, cmd, args, extraEnv = {}) {
+  const child = spawn(cmd, args, {
+    cwd: repo,
+    env: { ...env, ...extraEnv },
+    stdio: ["ignore", "inherit", "inherit"],
+    detached: process.platform !== "win32",
+  });
+  child.on("error", (e) => {
+    console.error(`[dev] could not start the ${name}: ${e.message}`);
+    stop(1);
+  });
+  child.on("exit", (code, signal) => {
+    if (!stopping) {
+      log(`the ${name} exited (${signal ?? `code ${code}`}); stopping the rest`);
+      stop(code || 1);
+    }
+  });
+  children.push(child);
+  return child;
+}
+
+/** Asks every child group to stop (SIGINT, then SIGTERM after 5 s, SIGKILL after 10 s) and exits once all are gone. */
+function stop(code) {
+  if (stopping) return;
+  stopping = true;
+  exitCode = code;
+  for (const c of children) signalGroup(c, "SIGINT");
+  const started = Date.now();
+  let escalated = 0;
+  const timer = setInterval(() => {
+    const alive = children.filter(groupAlive);
+    if (alive.length === 0) {
+      clearInterval(timer);
+      process.exit(exitCode);
+    }
+    const waited = Date.now() - started;
+    if (escalated === 0 && waited > 5000) {
+      escalated = 1;
+      for (const c of alive) signalGroup(c, "SIGTERM");
+    } else if (escalated === 1 && waited > 10000) {
+      escalated = 2;
+      for (const c of alive) signalGroup(c, "SIGKILL");
+    }
+  }, 100);
+}
+
+process.on("SIGINT", () => {
+  console.log("");
+  log("stopping the server and the client");
+  stop(130);
+});
+process.on("SIGTERM", () => stop(143));
+process.on("SIGHUP", () => stop(129));
+
+log(`game server on ${bind} (DATABASE_URL ${databaseUrl}), client on http://localhost:${vitePort}`);
+// scripts/env.sh puts the rustup toolchain ahead of Homebrew's rust.
+start("server", "bash", ["-c", 'source scripts/env.sh && exec cargo run -p server'], {});
+// prepare.mjs already ran above: the client's predev hook skips it.
+start("client", "npm", ["run", "dev", "-w", "client"], { SHS_SKIP_ASSETS: "1", SHS_SKIP_WASM_BUILD: "1" });
+log(`open http://localhost:${vitePort} once both are up; Ctrl-C stops both`);

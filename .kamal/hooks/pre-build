@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Kamal runs this before building the image: builds the client into
+# client/dist (the image serves it) and checks that it carries the game
+# assets for this checkout, not greybox stand-ins. docs/deploy.md.
+set -euo pipefail
+
+# The destination's settings file, as config/deploy.yml reads it (for
+# DEPLOY_ALLOW_GREYBOX; the file wins over the shell there too).
+settings=".kamal/deploy.${KAMAL_DESTINATION:-}.env"
+if [[ -f "$settings" ]]; then
+  allow_greybox="$(sed -n 's/^DEPLOY_ALLOW_GREYBOX=//p' "$settings" | tail -n 1)"
+  DEPLOY_ALLOW_GREYBOX="${allow_greybox:-${DEPLOY_ALLOW_GREYBOX:-}}"
+fi
+
+echo "[pre-build] building the client (npm run build -w client)"
+[[ -d node_modules ]] || npm ci
+npm run build -w client
+
+want="$(node client/scripts/assets.mjs fingerprint)"
+have="$(cat client/public/assets/assets-fingerprint.txt 2>/dev/null || true)"
+if [[ "$want" != "$have" ]]; then
+  echo "[pre-build] client/public/assets does not match this checkout (want $want, have ${have:-none})." >&2
+  echo "[pre-build] The client would draw greybox stand-ins. Fetch or build the assets first:" >&2
+  echo "[pre-build]   node client/scripts/prepare.mjs   (SHS_ASSETS=fetch or build to force one way)" >&2
+  if [[ "${DEPLOY_ALLOW_GREYBOX:-0}" != "1" ]]; then
+    echo "[pre-build] or set DEPLOY_ALLOW_GREYBOX=1 to deploy anyway." >&2
+    exit 1
+  fi
+  echo "[pre-build] DEPLOY_ALLOW_GREYBOX=1: deploying anyway." >&2
+fi
+echo "[pre-build] client/dist ready (assets $want)"

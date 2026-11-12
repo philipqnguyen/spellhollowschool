@@ -1,0 +1,16 @@
+{
+  "name": "spellhollow-school",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philipqnguyen/spellhollowschool.git"
+  },
+  "workspaces": ["client"],
+  "scripts": {
+    "prepare": "node scripts/install-git-hooks.mjs",
+    "check:files": "node scripts/check-committed-files.mjs --all",
+    "test:scripts": "node --test scripts/check-committed-files.test.mjs",
+    "assets:publish": "bash tools/assets/publish.sh"
+  }
+}

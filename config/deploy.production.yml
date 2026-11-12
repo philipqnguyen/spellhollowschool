@@ -1,0 +1,5 @@
+# The production destination: kamal setup -d production, kamal deploy -d production.
+# Its settings (server, domain, passwords) are in .kamal/deploy.production.env
+# (gitignored; copy .kamal/deploy.env.example). config/deploy.yml holds the
+# configuration every destination shares; put anything only production needs here.
+{}

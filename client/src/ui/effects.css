@@ -1,0 +1,105 @@
+/* Potion effect timers (at the top centre) and the Mimic Draught
+   consent prompt. Uses the theme tokens of style.css. */
+
+.effect-timers {
+  position: absolute;
+  top: calc(var(--top-lane) + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.effect-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px 2px 3px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  cursor: default;
+  animation: effect-in 0.35s ease-out;
+}
+
+.effect-icon {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+}
+
+.effect-ring-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.effect-ring {
+  fill: none;
+  stroke: var(--gilt);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s linear;
+}
+
+.effect-glyph {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: var(--gilt-bright);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.effect-chip.ending .effect-time {
+  color: #e6a08f;
+}
+
+.effect-chip.ending .effect-ring {
+  stroke: #e6a08f;
+}
+
+/* A hint of each potion's own colour on its chip. */
+.effect-glow .effect-glyph { stroke: #ffe2a0; }
+.effect-chameleon .effect-glyph { stroke: #9fe0b5; }
+.effect-babbling .effect-glyph { stroke: #e2a8e8; }
+.effect-fortunes_draught .effect-glyph { stroke: #f0c36a; }
+.effect-pick_me_up_tonic .effect-glyph { stroke: #f2a07a; }
+.effect-invisibility .effect-glyph { stroke: #b9c7e8; }
+/* Spells L20: the spells cast on you, in their spells' colours. */
+.effect-petrified .effect-glyph { stroke: #f0f0ff; }
+.effect-slowed .effect-glyph { stroke: #ff8fe6; }
+.effect-recoloured .effect-glyph { stroke: #ff9ad5; }
+.effect-guardian .effect-glyph { stroke: #cfe6ff; }
+
+.toasts.consent-toasts {
+  z-index: 23;
+}
+
+.toast.consent p {
+  line-height: 1.35;
+}
+
+@keyframes effect-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .effect-chip {
+    animation: none;
+  }
+  .effect-ring {
+    transition: none;
+  }
+}

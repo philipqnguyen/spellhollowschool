@@ -1,0 +1,427 @@
+/* The crafting window (and the frame the potions and skills windows share):
+   a preview stage on the left (a figure, or a cauldron), recipes on the
+   right. Reuses the wardrobe's chips, palette and item cards. */
+
+.crafting {
+  pointer-events: auto;
+  position: absolute;
+  top: 62px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(900px, calc(100% - 24px));
+  height: min(620px, calc(100% - 150px));
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px 12px;
+  z-index: 3;
+}
+
+.craft-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.craft-head h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--gilt-bright);
+}
+
+.craft-title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  min-width: 0;
+}
+
+.craft-skill {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.craft-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(200px, 32%) 1fr;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.craft-stage {
+  position: relative;
+  min-height: 200px;
+  border: 1px solid rgba(201, 154, 69, 0.45);
+  border-radius: 6px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 40%, rgba(255, 214, 160, 0.14), transparent 70%),
+    linear-gradient(#251f2b, #120e16 75%);
+}
+
+.craft-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  outline: none;
+}
+
+.craft-side {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.craft-filters {
+  display: grid;
+  gap: 6px;
+}
+
+.craft-search {
+  width: 100%;
+  padding: 5px 9px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.recipe-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.recipe-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.03);
+  text-align: left;
+  cursor: pointer;
+}
+
+.recipe-row:hover,
+.recipe-row[aria-pressed="true"] {
+  border-color: var(--smoke-edge);
+  background: rgba(201, 154, 69, 0.12);
+}
+
+.recipe-status {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: rgba(181, 166, 138, 0.35);
+}
+
+.recipe-row.ready .recipe-status {
+  background: #8fd18a;
+  box-shadow: 0 0 6px rgba(143, 209, 138, 0.6);
+}
+
+.recipe-row.missing_inputs .recipe-status,
+.recipe-row.missing_dyes .recipe-status {
+  background: #d9b36a;
+}
+
+.recipe-row.unknown .recipe-name,
+.recipe-row.skill_too_low .recipe-name {
+  color: var(--text-dim);
+}
+
+.recipe-meta {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.craft-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 6px 0;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.craft-pager button.secondary {
+  padding: 3px 10px;
+}
+
+.craft-detail {
+  border-top: 1px solid rgba(201, 154, 69, 0.2);
+  padding-top: 6px;
+}
+
+.craft-detail h3 {
+  margin: 0 0 2px;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  color: var(--parchment);
+}
+
+.craft-inputs {
+  list-style: none;
+  margin: 0 0 4px;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+  font-size: 0.88rem;
+}
+
+.craft-inputs li {
+  display: flex;
+  justify-content: space-between;
+  padding: 1px 6px;
+}
+
+.craft-inputs .count {
+  font-variant-numeric: tabular-nums;
+}
+
+.craft-inputs .have .count {
+  color: #a9dca4;
+}
+
+.craft-inputs .short .count {
+  color: #e6a08f;
+}
+
+.craft-status {
+  margin: 6px 0;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-dim);
+}
+
+.craft-status.ready {
+  color: #a9dca4;
+  font-style: normal;
+}
+
+.craft-chosen {
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: var(--serif);
+  font-size: 0.8rem;
+}
+
+.craft-error {
+  margin: 6px 0 0;
+  color: #e6a08f;
+  font-size: 0.88rem;
+}
+
+.restyle-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.restyle-option[aria-selected="true"] {
+  border-color: var(--gilt);
+  color: var(--gilt-bright);
+}
+
+.restyle-option.unknown,
+.restyle-option.skill_too_low {
+  opacity: 0.6;
+}
+
+/* ---------------------------------------------------------------- cauldron */
+
+.craft-cauldron {
+  position: absolute;
+  inset: 0;
+  --liquid: #3f7fb0;
+}
+
+.craft-cauldron::before {
+  /* The pot: a dark rounded bowl. */
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 18%;
+  height: 34%;
+  border-radius: 12% 12% 48% 48% / 18% 18% 80% 80%;
+  background: radial-gradient(ellipse at 40% 30%, #4b4650, #1d1a21 70%);
+  box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.6), 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+.cauldron-liquid {
+  position: absolute;
+  left: 21%;
+  right: 21%;
+  bottom: calc(18% + 34% - 7%);
+  height: 9%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--liquid) 70%, white), var(--liquid) 60%, color-mix(in srgb, var(--liquid) 60%, black));
+  box-shadow: 0 0 28px color-mix(in srgb, var(--liquid) 60%, transparent);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.cauldron-bubble {
+  position: absolute;
+  bottom: calc(18% + 34% - 3%);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--liquid) 50%, white);
+  opacity: 0;
+  animation: bubble 2.4s ease-in infinite;
+}
+
+.cauldron-bubble.b1 { left: 38%; }
+.cauldron-bubble.b2 { left: 52%; animation-delay: 0.8s; }
+.cauldron-bubble.b3 { left: 62%; animation-delay: 1.6s; }
+
+.casting .cauldron-bubble {
+  animation-duration: 0.9s;
+}
+
+@keyframes bubble {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  20% { opacity: 0.85; }
+  100% { transform: translateY(-46px) scale(1.2); opacity: 0; }
+}
+
+/* ---------------------------------------------------------------- the charm */
+
+.craft-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.craft-overlay > * {
+  pointer-events: auto;
+}
+
+.craft-progress {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 14px;
+  display: grid;
+  gap: 4px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--parchment);
+  text-shadow: 0 1px 3px #000;
+}
+
+.craft-progress-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(201, 154, 69, 0.5);
+  overflow: hidden;
+}
+
+.craft-progress-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gilt), var(--gilt-bright));
+  box-shadow: 0 0 8px var(--gilt-bright);
+}
+
+.craft-sparks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none !important;
+}
+
+.spark {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff4cf;
+  box-shadow: 0 0 8px 2px rgba(240, 195, 106, 0.9);
+  animation: spark 1.4s ease-in-out infinite;
+}
+
+.spark.s0 { left: 30%; top: 40%; }
+.spark.s1 { left: 62%; top: 32%; animation-delay: 0.25s; }
+.spark.s2 { left: 48%; top: 56%; animation-delay: 0.5s; }
+.spark.s3 { left: 70%; top: 60%; animation-delay: 0.75s; }
+.spark.s4 { left: 38%; top: 24%; animation-delay: 1s; }
+.spark.s5 { left: 55%; top: 44%; animation-delay: 1.2s; }
+
+@keyframes spark {
+  0%, 100% { transform: translate(0, 0) scale(0.3); opacity: 0; }
+  40% { opacity: 1; }
+  70% { transform: translate(8px, -16px) scale(1); opacity: 0.8; }
+}
+
+.craft-reveal {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 12px;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  padding: 10px 12px;
+  border: 1px solid var(--gilt);
+  border-radius: 4px;
+  background: rgba(18, 14, 20, 0.86);
+  box-shadow: 0 0 22px rgba(240, 195, 106, 0.35);
+  text-align: center;
+  animation: reveal 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+.craft-reveal strong {
+  font-family: var(--display);
+  color: var(--gilt-bright);
+}
+
+.craft-maker,
+.craft-xp {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(10px) scale(0.92); }
+}
+
+@media (max-width: 700px) {
+  .craft-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: 180px 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spark,
+  .cauldron-bubble,
+  .craft-reveal {
+    animation: none;
+  }
+}
+
+/* A cauldron placed in a dorm: its own prompt, above the door prompt's spot. */
+.station-prompt {
+  bottom: calc(22% + 46px);
+}

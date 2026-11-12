@@ -1,0 +1,148 @@
+{
+  "version": 2,
+  "id": "transfiguration",
+  "subject": "transfiguration",
+  "professor": {
+    "id": "transfiguration_professor",
+    "name": "Professor Aldith Greaves",
+    "house": "roarwing",
+    "appearance": {
+      "body_type": 1,
+      "height": 200,
+      "face": [
+        104,
+        176,
+        138,
+        150,
+        118
+      ],
+      "skin_tone": 0,
+      "hair_style": 18,
+      "hair_colour": 1,
+      "eye_colour": 4,
+      "outfit": {
+        "hat": {
+          "item_def": 103,
+          "dyes": [
+            26,
+            26,
+            21
+          ],
+          "finish": "none"
+        },
+        "body": {
+          "item_def": 216,
+          "dyes": [
+            26,
+            46,
+            21
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 304,
+          "dyes": [
+            26,
+            26,
+            26
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 405,
+          "dyes": [
+            0,
+            0,
+            0
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "pos": [
+      0,
+      0,
+      -6
+    ],
+    "yaw": 0
+  },
+  "picks": {"prompts": "transfiguration_puzzles", "options": "transfiguration_changes"},
+  "lesson": [
+    {"at_secs": 2, "kind": "emote", "emote": "wave"},
+    {"at_secs": 3, "kind": "say", "line": "Good day. Take a desk, and keep your wand flat on it until I say otherwise."},
+    {"at_secs": 45, "kind": "say", "line": "Every transfiguration is a chain of small, deliberate changes. Size, material, colour, shape."},
+    {"at_secs": 90, "kind": "say", "line": "Look at what is in front of you, then at what it must become. Choose the one change that closes the gap."},
+    {"at_secs": 130, "kind": "say", "line": "If you are still in the corridor, I suggest you hurry."},
+    {"at_secs": 170, "kind": "say", "line": "The door is closing. Attention, please."},
+    {"at_secs": 185, "kind": "demonstrate", "gesture": "circle", "duration_ms": 1600, "line": "Observe: one change at a time, cleanly made. Three choices each, to start."},
+    {"at_secs": 200, "kind": "practice", "round": 1, "window_ms": 1600, "beats": [
+        {"at_ms": 5000, "prompt": "teacup_giant", "options": ["grow", "flatten", "stretch"]},
+        {"at_ms": 9000, "prompt": "key_tiny", "options": ["flatten", "shrink", "to_green"]},
+        {"at_ms": 13000, "prompt": "quill_silver", "options": ["to_silver", "to_wood", "to_blue"]},
+        {"at_ms": 17000, "prompt": "candle_glass", "options": ["to_silver", "to_glass", "flatten"]},
+        {"at_ms": 21000, "prompt": "spoon_wood", "options": ["to_blue", "to_red", "to_wood"]},
+        {"at_ms": 25000, "prompt": "button_red", "options": ["to_red", "to_green", "grow"]}
+      ] },
+    {"at_secs": 240, "kind": "demonstrate", "gesture": "circle", "duration_ms": 1600, "line": "Better. Now four choices. Do not let the colour distract you from the shape."},
+    {"at_secs": 250, "kind": "practice", "round": 2, "window_ms": 1500, "beats": [
+        {"at_ms": 5000, "prompt": "spoon_wood", "options": ["to_wood", "grow", "shrink", "to_red"]},
+        {"at_ms": 8800, "prompt": "button_red", "options": ["to_silver", "to_red", "to_blue", "to_glass"]},
+        {"at_ms": 12600, "prompt": "matchbox_blue", "options": ["to_green", "make_round", "to_blue", "to_glass"]},
+        {"at_ms": 16400, "prompt": "pincushion_round", "options": ["grow", "make_round", "to_wood", "to_glass"]},
+        {"at_ms": 20200, "prompt": "teacup_saucer", "options": ["to_green", "to_blue", "make_round", "flatten"]},
+        {"at_ms": 24000, "prompt": "candle_tall", "options": ["flatten", "stretch", "make_round", "to_green"]},
+        {"at_ms": 27800, "prompt": "teacup_giant", "options": ["flatten", "to_wood", "grow", "stretch"]},
+        {"at_ms": 31600, "prompt": "key_tiny", "options": ["to_green", "shrink", "to_glass", "stretch"]}
+      ] },
+    {"at_secs": 290, "kind": "demonstrate", "gesture": "twirl_and_tap", "duration_ms": 1800, "line": "Now two changes in a row. Make the first, then the second. Order matters."},
+    {"at_secs": 300, "kind": "practice", "round": 3, "window_ms": 1500, "beats": [
+        {"at_ms": 5000, "prompt": "quill_tiny_silver_1", "options": ["to_red", "flatten", "to_silver", "to_blue"]},
+        {"at_ms": 8800, "prompt": "quill_tiny_silver_2", "options": ["to_red", "shrink", "stretch", "to_wood"]},
+        {"at_ms": 12600, "prompt": "matchbox_round_glass_1", "options": ["to_glass", "to_blue", "shrink", "to_red"]},
+        {"at_ms": 16400, "prompt": "matchbox_round_glass_2", "options": ["to_silver", "to_glass", "make_round", "to_blue"]},
+        {"at_ms": 20200, "prompt": "button_big_green_1", "options": ["to_silver", "flatten", "shrink", "grow"]},
+        {"at_ms": 24000, "prompt": "button_big_green_2", "options": ["to_green", "to_blue", "to_glass", "shrink"]}
+      ] },
+    {"at_secs": 340, "kind": "demonstrate", "gesture": "circle", "duration_ms": 1600, "line": "And all of it together, a little quicker. Steady hands."},
+    {"at_secs": 350, "kind": "practice", "round": 4, "window_ms": 1400, "beats": [
+        {"at_ms": 4000, "prompt": "button_red", "options": ["grow", "to_red", "shrink", "to_silver"]},
+        {"at_ms": 7200, "prompt": "candle_tall", "options": ["to_silver", "to_wood", "stretch", "flatten"]},
+        {"at_ms": 10400, "prompt": "quill_tiny_silver_1", "options": ["to_red", "shrink", "make_round", "to_silver"]},
+        {"at_ms": 13600, "prompt": "quill_tiny_silver_2", "options": ["make_round", "to_green", "shrink", "stretch"]},
+        {"at_ms": 16800, "prompt": "teacup_saucer", "options": ["shrink", "flatten", "to_silver", "grow"]},
+        {"at_ms": 20000, "prompt": "key_tiny", "options": ["shrink", "to_blue", "grow", "to_wood"]},
+        {"at_ms": 23200, "prompt": "button_big_green_1", "options": ["to_red", "to_glass", "to_blue", "grow"]},
+        {"at_ms": 26400, "prompt": "button_big_green_2", "options": ["flatten", "to_silver", "make_round", "to_green"]}
+      ] },
+    {"at_secs": 390, "kind": "say", "line": "Wands down. Let me see your work."},
+    {"at_secs": 405, "kind": "results", "line": "Respectable work from most of you. Practise at your common room table before next time."},
+    {"at_secs": 410, "kind": "emote", "emote": "bow"},
+    {"at_secs": 500, "kind": "say", "line": "That will be all. Mind the stairs on your way out."}
+  ],
+  "rewards": {
+    "attend_skill_xp": 30,
+    "bonus_skill_xp_max": 40,
+    "min_answers": 3,
+    "house_points": [
+      {
+        "min_pct": 60,
+        "points": 1
+      },
+      {
+        "min_pct": 75,
+        "points": 3
+      },
+      {
+        "min_pct": 90,
+        "points": 5
+      }
+    ],
+    "crowns": {
+      "attend": 10,
+      "bonus_max": 10
+    },
+    "items": [
+      {"item": 3009, "quantity": [1, 1], "min_pct": 85}
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "_doc": "Clubs (server::clubs::ClubRules; the client's ui/club-state.ts). found_level and found_crowns: what founding a club at the clubs secretary's desk needs (the Crowns are the fee, paid on founding, crown_ledger reason club_found). members_max: members of one club. name_chars and tag_chars: lengths (name: letters, digits, single spaces, apostrophes, hyphens and ampersands, starting and ending with a letter or digit; tag: letters and digits, kept upper case); names and tags are unique, case ignored. motd_chars_max: the message of the day. secretary: the roster id (data/npcs/roster.json, a clerk) whose desk founds clubs. secretary_lines: what she says, word for word, the client filling {found_level} {found_crowns} from above and {level} {crowns} {short} {club} from the player; never mention school years. docs/architecture.md 'Clubs'.",
+  "version": 1,
+  "found_level": 4,
+  "found_crowns": 150,
+  "members_max": 100,
+  "name_chars": [3, 24],
+  "tag_chars": [2, 4],
+  "motd_chars_max": 200,
+  "secretary": "clerk_clubs",
+  "secretary_lines": {
+    "greeting": "Clubs and Societies! Come to start one of your own, or just curious what's on offer?",
+    "option_found": "Found a club",
+    "option_list": "Tell me about the clubs",
+    "option_goodbye": "Goodbye",
+    "not_level": "Oh, I do love the enthusiasm! But the school only grants charters from level {found_level}, and you're level {level} now. A few more lessons and you'll be there. Do come back and see me then.",
+    "not_crowns": "Your level is just right for a charter. It's the fee that's the trouble: founding a club costs {found_crowns} Crowns, and you have {crowns}. That's {short} Crowns to go. Lessons pay well, and so does the Owl Exchange. I'll keep a blank charter ready for you.",
+    "not_either": "Not just yet, I'm afraid. A charter needs two things: you must be level {found_level} (you're level {level}), and the fee is {found_crowns} Crowns (you have {crowns}). Keep attending your lessons. They'll take care of both, and I'll be right here when you're ready.",
+    "in_club": "You already belong to {club}! A student may only be a member of one club. If you'd like to start your own, you'll need to leave that one first.",
+    "eligible": "Splendid, everything is in order. The fee is {found_crowns} Crowns, paid when the charter is sealed. Now, what will your club be called, and what short tag should go beside your members' names?",
+    "sealed": "There we are: {club} is officially on the school's register! Invite your friends, and may it flourish."
+  }
+}

@@ -1,0 +1,1269 @@
+{
+  "version": 1,
+  "doc": "docs/art/garment-shapes.md. A design = one shape (+ options) + dye-region layout and pattern (paint) + trims at the shape's loops + add-ons at its anchors and lines. Keys are catalog asset keys; the catalog item wearing a design is the one whose `asset` is its key; a design not in data/items/catalog.json yet may carry `preview_dyes` (palette indices) for review renders. Paint specs are [atlas swatch, dye channel]. Metre values are for the 1.78 m reference body.",
+  "families": {
+    "shirts_collared": {
+      "shape": "top_fitted",
+      "designs": [
+        "gear/body/shirt_oxford_tie_a",
+        "gear/body/shirt_linen_rolled_a",
+        "gear/body/blouse_ruffled_silk_a",
+        "gear/body/waistcoat_brocade_a"
+      ]
+    },
+    "knit_tops": {
+      "shape": "top_knit",
+      "designs": [
+        "gear/body/jumper_vneck_school_a",
+        "gear/body/sweater_cable_knit_a",
+        "gear/body/jumper_rugby_stripe_a",
+        "gear/body/cardigan_chunky_a",
+        "gear/body/turtleneck_ribbed_a",
+        "gear/body/jumper_fair_isle_a"
+      ]
+    },
+    "trousers": {
+      "shape": "trousers_fitted",
+      "designs": [
+        "gear/legs/trousers_school_a",
+        "gear/legs/trousers_corduroy_a",
+        "gear/legs/trousers_pinstripe_a",
+        "gear/legs/trousers_tapered_wool_a"
+      ]
+    },
+    "low_shoes": {
+      "shape": "shoe_low",
+      "designs": [
+        "gear/shoes/oxford_school_a",
+        "gear/shoes/loafers_buckle_a",
+        "gear/shoes/mary_janes_a",
+        "gear/shoes/brogues_wingtip_a"
+      ]
+    },
+    "knit_headwear": {
+      "shape": "cap_knit",
+      "designs": [
+        "gear/hat/bobble_knit_a",
+        "gear/hat/beanie_cable_a",
+        "gear/hat/cap_slouch_knit_a",
+        "gear/hat/earflap_knit_a"
+      ]
+    },
+    "school_robes": {
+      "shape": "coat_long",
+      "designs": [
+        "gear/body/robe_school_house_a",
+        "gear/body/robe_school_house_b",
+        "gear/body/robe_school_house_c",
+        "gear/body/robe_school_house_d"
+      ]
+    },
+    "skirts": {
+      "shape": "skirt_short",
+      "designs": ["gear/legs/skirt_pleated_a", "gear/legs/kilt_tartan_a", "gear/legs/skirt_aline_wool_a"]
+    },
+    "long_skirts": {"shape": "skirt_long", "designs": ["gear/legs/skirt_midi_wrap_a"]},
+    "boots": {
+      "shape": "boot",
+      "designs": [
+        "gear/shoes/boots_lace_a",
+        "gear/shoes/boots_riding_tall_a",
+        "gear/shoes/boots_ankle_buckle_a",
+        "gear/shoes/boots_dragonhide_a"
+      ]
+    },
+    "stiff_hats": {
+      "shape": "hat_rigid",
+      "designs": [
+        "gear/hat/pointed_a",
+        "gear/hat/witch_wide_brim_a",
+        "gear/hat/cloche_felt_a",
+        "gear/hat/beret_velvet_a"
+      ]
+    },
+    "cloaks": {
+      "shape": "coat_long",
+      "designs": [
+        "gear/body/cloak_travelling_a",
+        "gear/body/cloak_hooded_wool_a",
+        "gear/body/greatcoat_double_a",
+        "gear/body/jacket_tailored_velvet_a"
+      ]
+    },
+    "hoods": {"shape": "hood", "designs": ["gear/hat/hood_fur_lined_a", "gear/hat/hood_cowl_a"]},
+    "hair_trims": {"shape": "hat_rigid", "designs": ["gear/hat/ribbon_bow_a", "gear/hat/comb_feathered_a"]},
+    "dress_robes": {
+      "shape": "coat_long",
+      "designs": ["gear/body/robe_dress_embroidered_a", "gear/body/robe_formal_velvet_a"]
+    },
+    "wide_trousers": {"shape": "trousers_wide", "designs": ["gear/legs/trousers_wide_leg_a"]}
+  },
+  "designs": {
+    "gear/body/robe_school_house_a": {
+      "shape": "coat_long",
+      "options": {"front": "open", "sleeve": "bell", "insert": true, "under_sleeve": true},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "jumper", "paint": ["jumper_grey", "none"]},
+        {"zone": "shirt", "paint": ["shirt_white", "none"]}
+      ],
+      "thicken": [
+        {"zone": "skirt", "thickness": 0.004, "inner": ["dye", "secondary"], "rim": ["dye", "primary"]},
+        {"zone": "bell", "thickness": 0.004, "inner": ["dye", "secondary"], "rim": ["dye", "primary"]}
+      ],
+      "trims": [
+        {
+          "type": "cuff",
+          "at": "under_cuff.*",
+          "length": 0.012,
+          "widen": 1.12,
+          "paint": ["shirt_white", "none"],
+          "inner": ["shirt_shade", "none"]
+        }
+      ],
+      "addons": [
+        {
+          "type": "v_stripes",
+          "edges": "insert_edge",
+          "widths": [0.009, 0.009],
+          "stripes": [["dye", "secondary"], ["dye", "trim"]]
+        },
+        {
+          "type": "collar_leaf",
+          "at": "insert2_neck",
+          "drop": 0.028,
+          "spread": 0.016,
+          "points": 0.028,
+          "paint": ["shirt_white", "none"]
+        },
+        {
+          "type": "tie",
+          "at": "insert2_centre",
+          "rows": 7,
+          "offset": 0.006,
+          "width_top": 0.034,
+          "width_bottom": 0.066,
+          "stripes": [["dye", "secondary"], ["dye", "trim"]]
+        },
+        {"type": "hood", "at": "neckline", "paint": ["dye", "primary"], "lining": ["dye", "secondary"]},
+        {"type": "crest", "at": "chest.L", "paint": ["dye", "secondary"], "border": ["dye", "trim"]}
+      ]
+    },
+    "gear/body/robe_school_house_b": {"extends": "gear/body/robe_school_house_a"},
+    "gear/body/robe_school_house_c": {"extends": "gear/body/robe_school_house_a"},
+    "gear/body/robe_school_house_d": {"extends": "gear/body/robe_school_house_a"},
+    "gear/body/shirt_oxford_tie_a": {
+      "shape": "top_fitted",
+      "options": {"neckline": "stand", "sleeve": "wrist"},
+      "base": ["dye", "primary"],
+      "paint": [{"zone": "placket", "paint": ["dye_stitch", "primary"]}],
+      "trims": [
+        {"type": "turned_hem", "at": "hem", "drop": 0.028, "out": 0.006},
+        {"type": "cuff", "at": "cuff.*", "length": 0.014, "widen": 1.14}
+      ],
+      "addons": [
+        {"type": "collar_leaf", "at": "neckline", "drop": 0.03, "spread": 0.018, "points": 0.03},
+        {
+          "type": "tie",
+          "at": "centre_front",
+          "offset": 0.008,
+          "width_top": 0.036,
+          "width_bottom": 0.07,
+          "stripes": [["dye", "secondary"], ["dye", "trim"]]
+        }
+      ]
+    },
+    "gear/body/shirt_linen_rolled_a": {
+      "shape": "top_fitted",
+      "options": {"neckline": "open", "sleeve": "elbow"},
+      "base": ["dye", "primary"],
+      "paint": [{"zone": "placket", "where": {"row": ["waist", -9, 9]}, "paint": ["dye_stitch", "primary"]}],
+      "trims": [
+        {"type": "turned_hem", "at": "hem", "drop": 0.045, "out": 0.01},
+        {"type": "rolled_cuff", "at": "cuff.*", "paint": ["dye_shade", "primary"], "edge": ["dye", "trim"]}
+      ],
+      "addons": [{"type": "open_collar", "at": "neckline"}],
+      "show": ["torso"]
+    },
+    "gear/body/jumper_vneck_school_a": {
+      "shape": "top_knit",
+      "options": {"neckline": "v", "sleeve": "wrist", "insert": true},
+      "base": ["dye", "primary"],
+      "paint": [{"zone": "insert", "paint": ["shirt_white", "none"]}],
+      "trims": [
+        {
+          "type": "rib_band",
+          "at": "hem",
+          "length": 0.045,
+          "out": 0.004,
+          "stripes": [["dye", "primary"], ["dye", "secondary"]]
+        },
+        {
+          "type": "rib_band",
+          "at": "cuff.*",
+          "length": 0.024,
+          "out": 0.003,
+          "stripes": [["dye", "primary"], ["dye", "trim"]]
+        }
+      ],
+      "addons": [
+        {"type": "v_stripes", "widths": [0.009, 0.009], "stripes": [["dye", "secondary"], ["dye", "trim"]]},
+        {
+          "type": "collar_leaf",
+          "at": "insert_neck",
+          "drop": 0.028,
+          "spread": 0.016,
+          "points": 0.028,
+          "paint": ["shirt_white", "none"]
+        },
+        {
+          "type": "tie",
+          "at": "insert_centre",
+          "rows": 8,
+          "offset": 0.006,
+          "width_top": 0.034,
+          "width_bottom": 0.066,
+          "stripes": [["dye", "secondary"], ["dye", "trim"]]
+        }
+      ]
+    },
+    "gear/body/sweater_cable_knit_a": {
+      "shape": "top_knit",
+      "options": {"neckline": "crew", "sleeve": "wrist"},
+      "base": ["dye", "primary"],
+      "relief": {"type": "cable", "amount": 0.0045, "cables": 10, "parts": ["torso"]},
+      "paint": [
+        {"zone": "torso", "pattern": "cable", "cables": 10, "front_only": 0.45},
+        {"zone": "sleeves", "pattern": "ribs", "every": 4, "phase": 0}
+      ],
+      "trims": [
+        {"type": "rib_band", "at": "neckline", "length": 0.03, "out": 0.004, "paint": ["dye", "trim"]},
+        {"type": "rib_band", "at": "hem", "length": 0.05, "out": 0.002, "paint": ["dye", "trim"]},
+        {"type": "rib_band", "at": "cuff.*", "length": 0.024, "out": 0.003, "paint": ["dye", "trim"]}
+      ]
+    },
+    "gear/body/jumper_rugby_stripe_a": {
+      "shape": "top_knit",
+      "options": {"neckline": "crew", "sleeve": "wrist"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {
+          "zone": "torso",
+          "pattern": "stripes",
+          "by": "row",
+          "band": 2,
+          "paints": [["dye", "primary"], ["dye", "secondary"]]
+        },
+        {
+          "zone": "sleeves",
+          "pattern": "stripes",
+          "by": "ring",
+          "band": 2,
+          "paints": [["dye", "primary"], ["dye", "secondary"]]
+        }
+      ],
+      "trims": [
+        {"type": "rib_band", "at": "hem", "length": 0.045, "out": 0.004, "paint": ["dye", "trim"]},
+        {"type": "rib_band", "at": "cuff.*", "length": 0.03, "out": 0.003, "paint": ["dye", "trim"]}
+      ],
+      "addons": [
+        {
+          "type": "collar_leaf",
+          "at": "neckline",
+          "drop": 0.032,
+          "spread": 0.02,
+          "points": 0.022,
+          "paint": ["dye", "trim"]
+        },
+        {
+          "type": "buttons",
+          "at": "centre_front",
+          "count": 3,
+          "span": [0.06, 0.3],
+          "radius": 0.006,
+          "paint": ["white", "none"]
+        }
+      ]
+    },
+    "gear/legs/trousers_school_a": {
+      "shape": "trousers_fitted",
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "fly", "paint": ["dye_stitch", "primary"]},
+        {"zone": "crease", "paint": ["dye_light", "primary"]}
+      ],
+      "trims": [
+        {"type": "waistband", "at": "waist", "height": 0.032, "out": 0.003},
+        {"type": "hem_fold", "at": "hem.*", "up": 0.014}
+      ]
+    },
+    "gear/legs/trousers_corduroy_a": {
+      "shape": "trousers_fitted",
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "fly", "paint": ["dye_stitch", "primary"]},
+        {"zone": "legs", "pattern": "ribs", "every": 2, "phase": 1},
+        {"zone": "leg_ends", "paint": ["dye", "trim"]}
+      ],
+      "trims": [
+        {"type": "waistband", "at": "waist", "height": 0.032, "out": 0.003, "paint": ["dye", "trim"]},
+        {"type": "turn_up", "at": "hem.*", "height": 0.03, "paint": ["dye", "trim"]}
+      ]
+    },
+    "gear/legs/trousers_pinstripe_a": {
+      "shape": "trousers_fitted",
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "legs", "pattern": "ribs", "every": 3, "phase": 0, "swatch": "dye_light"},
+        {"zone": "seat", "pattern": "ribs", "every": 3, "phase": 0, "swatch": "dye_light"},
+        {"zone": "fly", "paint": ["dye_stitch", "primary"]}
+      ],
+      "trims": [
+        {"type": "waistband", "at": "waist", "height": 0.036, "out": 0.003, "paint": ["dye", "trim"]},
+        {"type": "hem_fold", "at": "hem.*", "up": 0.014}
+      ],
+      "addons": [
+        {
+          "type": "buttons",
+          "at": "fly",
+          "count": 1,
+          "span": [0.04, 0.04],
+          "radius": 0.006,
+          "paint": ["dye", "trim"]
+        }
+      ]
+    },
+    "gear/shoes/oxford_school_a": {
+      "shape": "shoe_low",
+      "options": {"cut": "oxford"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "laces", "paint": ["lace", "secondary"]},
+        {"zone": "sole_edge", "paint": ["sole_edge", "none"]}
+      ],
+      "trims": [
+        {"type": "shoe_collar", "at": "collar.*", "paint": ["dye", "primary"]},
+        {"type": "sole", "thickness": 0.014, "out": 0.011, "heel": 0.012}
+      ]
+    },
+    "gear/shoes/loafers_buckle_a": {
+      "shape": "shoe_low",
+      "options": {"cut": "low"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "toe_seam", "paint": ["dye_stitch", "primary"]},
+        {"zone": "vamp", "paint": ["dye", "trim"]},
+        {"zone": "buckle", "paint": ["gold", "none"]},
+        {"zone": "sole_edge", "paint": ["sole_edge", "none"]}
+      ],
+      "trims": [
+        {"type": "shoe_collar", "at": "collar.*", "paint": ["dye", "secondary"]},
+        {"type": "sole", "thickness": 0.013, "out": 0.01, "heel": 0.01}
+      ]
+    },
+    "gear/hat/bobble_knit_a": {
+      "shape": "cap_knit",
+      "base": ["dye", "primary"],
+      "paint": [
+        {
+          "zone": "crown",
+          "pattern": "stripes",
+          "by": "row",
+          "band": 2,
+          "ribs": true,
+          "paints": [["dye", "primary"], ["dye", "secondary"]]
+        }
+      ],
+      "trims": [
+        {
+          "type": "fold_cuff",
+          "at": "band",
+          "paints": [["dye", "primary"], ["dye", "secondary"], ["dye", "primary"]]
+        }
+      ],
+      "addons": [{"type": "pompom", "at": "crown", "radius": 0.042, "paint": ["dye", "trim"]}]
+    },
+    "gear/hat/beanie_cable_a": {
+      "shape": "cap_knit",
+      "base": ["dye", "primary"],
+      "paint": [{"zone": "crown", "pattern": "cable", "cables": 7, "front_only": 0}],
+      "trims": [
+        {
+          "type": "fold_cuff",
+          "at": "band",
+          "profile": [[0.007, 0], [0.01, 0.045], [0.005, 0.048]],
+          "paints": [["dye", "primary"], ["dye", "primary"], ["dye_shade", "primary"]]
+        }
+      ]
+    },
+    "gear/legs/skirt_pleated_a": {
+      "shape": "skirt_short",
+      "options": {"pleated": true},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "tights", "paint": ["dye", "secondary"]},
+        {"zone": "skirt", "pattern": "ribs", "every": 2, "phase": 1, "swatch": "dye_shade"}
+      ],
+      "thicken": [
+        {"zone": "skirt", "thickness": 0.004, "inner": ["dye_shade", "primary"], "rim": ["dye", "primary"]}
+      ],
+      "trims": [{"type": "waistband", "at": "waist", "height": 0.03, "out": 0.004, "paint": ["dye", "trim"]}]
+    },
+    "gear/legs/kilt_tartan_a": {
+      "note": "The 1c catalog's kilt (family skirts) as a design on skirt_short: no fitting.",
+      "shape": "skirt_short",
+      "options": {"pleated": true},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "tights", "paint": ["dye", "trim"]},
+        {
+          "zone": "skirt",
+          "pattern": "tartan",
+          "warp": "GGBBBGGT",
+          "weft": "GBBBGT",
+          "paints": {
+            "G": ["dye", "primary"],
+            "B": ["dye", "secondary"],
+            "X": ["dye_shade", "secondary"],
+            "T": ["dye", "trim"]
+          }
+        },
+        {
+          "zone": "yoke",
+          "pattern": "tartan",
+          "warp": "GGBBBGGT",
+          "weft": "GBBG",
+          "paints": {
+            "G": ["dye", "primary"],
+            "B": ["dye", "secondary"],
+            "X": ["dye_shade", "secondary"],
+            "T": ["dye", "trim"]
+          }
+        }
+      ],
+      "thicken": [
+        {"zone": "skirt", "thickness": 0.004, "inner": ["dye_shade", "primary"], "rim": ["dye", "primary"]}
+      ],
+      "trims": [
+        {"type": "waistband", "at": "waist", "height": 0.026, "out": 0.004, "paint": ["dye_shade", "primary"]}
+      ]
+    },
+    "gear/legs/skirt_midi_wrap_a": {
+      "note": "The 1c catalog's midi wrap skirt (family skirts) as a design on skirt_long: no fitting.",
+      "shape": "skirt_long",
+      "options": {"pleated": false},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "tights", "paint": ["dye", "secondary"]},
+        {"zone": "skirt", "where": {"u": [8, 22]}, "paint": ["dye", "trim"]},
+        {"zone": "skirt_hem_band", "paint": ["dye", "trim"]}
+      ],
+      "thicken": [
+        {"zone": "skirt", "thickness": 0.004, "inner": ["dye_shade", "primary"], "rim": ["dye", "primary"]}
+      ],
+      "trims": [{"type": "waistband", "at": "waist", "height": 0.034, "out": 0.004, "paint": ["dye", "trim"]}]
+    },
+    "gear/shoes/boots_lace_a": {
+      "shape": "boot",
+      "options": {"height": "calf"},
+      "base": ["dye", "primary"],
+      "paint": [{"zone": "laces", "paint": ["lace", "none"]}, {"zone": "sole_edge", "paint": ["sole_edge", "none"]}],
+      "trims": [
+        {"type": "shoe_collar", "at": "collar.*", "paint": ["dye", "secondary"]},
+        {"type": "sole", "thickness": 0.022, "out": 0.012, "heel": 0.018}
+      ]
+    },
+    "gear/hat/pointed_a": {
+      "shape": "hat_rigid",
+      "base": ["dye", "secondary"],
+      "addons": [
+        {
+          "type": "brim",
+          "at": "band",
+          "profile": [[0.035, 0.002], [0.075, 0.008], [0.105, 0.016]],
+          "waves": 3,
+          "wave": 0.006,
+          "paint": ["dye", "primary"],
+          "under": ["dye_shade", "primary"]
+        },
+        {
+          "type": "crown",
+          "at": "band_top",
+          "height": 0.31,
+          "taper": 1.15,
+          "bulge": 0.06,
+          "bend": [0.11, 0.06],
+          "rings": 8,
+          "paint": ["dye", "primary"]
+        }
+      ]
+    },
+    "gear/body/cloak_travelling_a": {
+      "shape": "coat_long",
+      "options": {"front": "closed", "sleeve": "wrist", "insert": false, "under_sleeve": false, "length": "shin"},
+      "base": ["dye", "primary"],
+      "paint": [{"zone": "front_centre", "paint": ["dye", "trim"]}],
+      "thicken": [{"zone": "skirt", "thickness": 0.004, "inner": ["dye", "secondary"], "rim": ["dye", "trim"]}],
+      "trims": [
+        {
+          "type": "cuff",
+          "at": "cuff.*",
+          "length": 0.035,
+          "widen": 1.18,
+          "paint": ["dye", "secondary"],
+          "inner": ["dye_shade", "secondary"]
+        }
+      ],
+      "addons": [
+        {
+          "type": "cape",
+          "at": "neckline",
+          "rings": 4,
+          "length": 0.165,
+          "flare": 0.09,
+          "rest": {"gap": 0.008, "hang": 0.03},
+          "paint": ["dye", "primary"],
+          "edge": ["dye", "trim"],
+          "lining": ["dye", "secondary"]
+        },
+        {
+          "type": "collar_leaf",
+          "at": "neckline",
+          "drop": 0.012,
+          "spread": 0.012,
+          "points": 0,
+          "paint": ["dye", "primary"],
+          "inner": ["dye", "secondary"]
+        }
+      ]
+    },
+    "gear/hat/witch_wide_brim_a": {
+      "shape": "hat_rigid",
+      "options": {"band_style": "full"},
+      "base": ["dye", "secondary"],
+      "addons": [
+        {
+          "type": "brim",
+          "at": "band",
+          "profile": [[0.045, 0.003], [0.1, 0.012], [0.155, 0.026], [0.185, 0.03]],
+          "waves": 4,
+          "wave": 0.012,
+          "paint": ["dye", "primary"],
+          "under": ["dye_shade", "primary"]
+        },
+        {
+          "type": "crown",
+          "at": "band_top",
+          "height": 0.36,
+          "taper": 1.05,
+          "bulge": 0.05,
+          "bend": [0.13, 0.07],
+          "rings": 10,
+          "paint": ["dye", "primary"]
+        },
+        {
+          "type": "crest",
+          "at": "band_front",
+          "width": 0.036,
+          "height": 0.03,
+          "lift": 0.002,
+          "paint": ["inner_dark", "none"],
+          "border": ["gold", "trim"]
+        }
+      ],
+      "note": "Wide softly waved brim, a tall crown with a crooked tip, a ribbon band and a buckle at the front."
+    },
+    "gear/hat/cloche_felt_a": {
+      "shape": "hat_rigid",
+      "options": {"band_style": "full"},
+      "base": ["dye", "secondary"],
+      "addons": [
+        {
+          "type": "brim",
+          "at": "band",
+          "profile": [[0.018, 0.012], [0.032, 0.03], [0.04, 0.045]],
+          "waves": 0,
+          "wave": 0,
+          "paint": ["dye", "primary"],
+          "under": ["dye_shade", "primary"]
+        },
+        {
+          "type": "crown",
+          "at": "band_top",
+          "height": 0.085,
+          "taper": 0.45,
+          "bulge": 0.06,
+          "bend": [0, 0],
+          "rings": 6,
+          "end_radius": 0.18,
+          "paint": ["dye", "primary"]
+        },
+        {"type": "bow", "at": "band_left", "size": 0.55, "lift": 0.004, "paint": ["dye", "trim"]}
+      ],
+      "note": "Close bell-shaped felt hat with a short downturned brim and a felt rosette (a small bow) on the left."
+    },
+    "gear/hat/beret_velvet_a": {
+      "shape": "hat_rigid",
+      "options": {"band_style": "thin"},
+      "base": ["dye", "secondary"],
+      "addons": [
+        {
+          "type": "crown",
+          "at": "band_top",
+          "height": 0.1,
+          "taper": 0.35,
+          "bulge": 0.3,
+          "bend": [0, -0.01],
+          "rings": 6,
+          "end_radius": 0.06,
+          "paint": ["dye", "primary"]
+        },
+        {"type": "pompom", "at": "crown_tip", "radius": 0.008, "paint": ["dye", "trim"]}
+      ],
+      "note": "Soft velvet beret: a narrow band and a wide flat crown overhanging it, a little stalk on top.",
+      "hide": ["scalp"]
+    },
+    "gear/hat/cap_slouch_knit_a": {
+      "shape": "cap_knit",
+      "options": {"fit": "slouch"},
+      "base": ["dye", "primary"],
+      "paint": [{"zone": "crown", "pattern": "ribs", "every": 4, "phase": 0}],
+      "trims": [
+        {
+          "type": "fold_cuff",
+          "at": "band",
+          "profile": [[0.006, 0], [0.008, 0.028], [0.004, 0.03]],
+          "paints": [["dye", "secondary"], ["dye", "secondary"], ["dye_shade", "secondary"]]
+        }
+      ]
+    },
+    "gear/hat/earflap_knit_a": {
+      "shape": "cap_knit",
+      "options": {"fit": "close"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {
+          "zone": "lower",
+          "pattern": "stripes",
+          "by": "row",
+          "band": 1,
+          "paints": [["dye", "primary"], ["dye", "secondary"], ["dye", "trim"]]
+        },
+        {
+          "zone": "upper",
+          "pattern": "check",
+          "every": 2,
+          "band": 2,
+          "paints": [["dye", "primary"], ["dye", "secondary"], ["dye", "primary"], ["dye", "trim"]]
+        }
+      ],
+      "addons": [
+        {
+          "type": "earflaps",
+          "at": "band",
+          "half_angle": 26,
+          "drop": 0.075,
+          "paint": ["dye", "primary"],
+          "tie": ["dye", "trim"]
+        },
+        {"type": "pompom", "at": "crown", "radius": 0.03, "paint": ["dye", "secondary"]}
+      ],
+      "note": "Earflap hat: patterned bands, flaps over the ears ending in ties, a pompom.",
+      "hide": ["ears"]
+    },
+    "gear/hat/hood_fur_lined_a": {
+      "shape": "hood",
+      "options": {"cut": "deep"},
+      "base": ["dye", "primary"],
+      "paint": [{"zone": "seam", "paint": ["dye_stitch", "primary"]}],
+      "thicken": [
+        {"zone": "hood", "thickness": 0.004, "inner": ["dye", "secondary"], "rim": ["dye_shade", "primary"]}
+      ],
+      "trims": [
+        {
+          "type": "roll",
+          "at": "face",
+          "size": 0.018,
+          "paints": [["dye_light", "secondary"], ["dye_soft", "secondary"]]
+        }
+      ],
+      "addons": [
+        {
+          "type": "cape",
+          "at": "hem",
+          "rings": 2,
+          "length": 0.07,
+          "flare": 0.03,
+          "lift": 0.006,
+          "paint": ["dye", "primary"],
+          "edge": ["dye", "trim"],
+          "lining": ["dye", "secondary"]
+        }
+      ]
+    },
+    "gear/hat/hood_cowl_a": {
+      "shape": "hood",
+      "options": {"cut": "cowl"},
+      "base": ["dye", "primary"],
+      "paint": [{"zone": "lower", "pattern": "ribs", "every": 4, "phase": 1, "swatch": "dye_shade"}],
+      "thicken": [{"zone": "hood", "thickness": 0.004, "inner": ["dye", "secondary"], "rim": ["dye", "trim"]}],
+      "addons": [
+        {
+          "type": "cape",
+          "at": "hem",
+          "rings": 3,
+          "length": 0.08,
+          "flare": 0.035,
+          "lift": 0.006,
+          "paint": ["dye", "primary"],
+          "edge": ["dye", "trim"],
+          "lining": ["dye", "secondary"]
+        }
+      ]
+    },
+    "gear/hat/ribbon_bow_a": {
+      "shape": "hat_rigid",
+      "options": {"band_style": "thin"},
+      "base": ["dye", "primary"],
+      "addons": [
+        {
+          "type": "bow",
+          "at": "band_left_back",
+          "size": 1,
+          "lift": 0.006,
+          "paint": ["dye", "primary"],
+          "inner": ["dye", "secondary"]
+        }
+      ],
+      "note": "A silk ribbon round the head tied in a big bow behind the left ear with two tails (hides nothing)."
+    },
+    "gear/hat/comb_feathered_a": {
+      "shape": "hat_rigid",
+      "options": {"band_style": "none"},
+      "base": ["dye", "primary"],
+      "addons": [
+        {
+          "type": "comb",
+          "at": "band_right",
+          "paint": ["gold", "none"],
+          "jewel": ["dye", "trim"],
+          "feather": ["dye", "primary"]
+        }
+      ],
+      "note": "A curved metal comb above the right ear with a jewel and three feathers (no band; hides nothing)."
+    },
+    "gear/body/cloak_hooded_wool_a": {
+      "extends": "gear/body/cloak_travelling_a",
+      "paint": [
+        {"zone": "front_centre", "paint": ["dye", "trim"]},
+        {"zone": "torso", "pattern": "ribs", "every": 5, "phase": 2, "swatch": "dye_soft"}
+      ],
+      "addons": [
+        {
+          "type": "cape",
+          "at": "neckline",
+          "rings": 4,
+          "length": 0.2,
+          "flare": 0.1,
+          "rest": {"gap": 0.008, "hang": 0.03},
+          "paint": ["dye", "primary"],
+          "edge": ["dye", "trim"],
+          "lining": ["dye", "secondary"]
+        },
+        {"type": "hood", "at": "neckline", "paint": ["dye", "primary"], "lining": ["dye", "secondary"]},
+        {
+          "type": "buttons",
+          "at": "centre_front",
+          "count": 2,
+          "span": [0.04, 0.12],
+          "radius": 0.009,
+          "paint": ["gold", "trim"]
+        }
+      ]
+    },
+    "gear/body/jacket_tailored_velvet_a": {
+      "shape": "coat_long",
+      "options": {"front": "open", "sleeve": "wrist", "insert": true, "under_sleeve": false, "length": "hip"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "jumper", "paint": ["shirt_white", "none"]},
+        {"zone": "shirt", "paint": ["shirt_white", "none"]}
+      ],
+      "trims": [
+        {
+          "type": "cuff",
+          "at": "cuff.*",
+          "length": 0.012,
+          "widen": 1.06,
+          "paint": ["shirt_white", "none"],
+          "inner": ["shirt_shade", "none"]
+        }
+      ],
+      "addons": [
+        {"type": "lapels", "width": 0.055, "span": [0, 0.42], "paint": ["dye", "secondary"]},
+        {
+          "type": "collar_leaf",
+          "at": "insert2_neck",
+          "drop": 0.026,
+          "spread": 0.014,
+          "points": 0.026,
+          "paint": ["shirt_white", "none"]
+        },
+        {
+          "type": "buttons",
+          "at": "front_edge.L",
+          "count": 2,
+          "span": [0.6, 0.78],
+          "radius": 0.008,
+          "paint": ["dye", "trim"]
+        }
+      ],
+      "note": "Tailored velvet jacket to the seat: satin lapels, a white shirt and collar inside."
+    },
+    "gear/body/greatcoat_double_a": {
+      "shape": "coat_long",
+      "options": {
+        "front": "closed",
+        "sleeve": "wrist",
+        "insert": false,
+        "under_sleeve": false,
+        "length": "mid_calf"
+      },
+      "base": ["dye", "primary"],
+      "paint": [{"zone": "front_centre", "paint": ["dye_stitch", "primary"]}],
+      "thicken": [{"zone": "skirt", "thickness": 0.004, "inner": ["dye", "secondary"], "rim": ["dye", "primary"]}],
+      "trims": [
+        {
+          "type": "cuff",
+          "at": "cuff.*",
+          "length": 0.04,
+          "widen": 1.12,
+          "paint": ["dye", "primary"],
+          "inner": ["dye_shade", "primary"]
+        }
+      ],
+      "addons": [
+        {
+          "type": "collar_leaf",
+          "at": "neckline",
+          "drop": 0.05,
+          "spread": 0.03,
+          "points": 0.045,
+          "paint": ["dye", "primary"],
+          "inner": ["dye_shade", "primary"]
+        },
+        {
+          "type": "buttons",
+          "at": "centre_front",
+          "count": 4,
+          "span": [0.12, 0.85],
+          "radius": 0.008,
+          "columns": [0.045, -0.045],
+          "paint": ["gold", "trim"]
+        }
+      ]
+    },
+    "gear/body/cardigan_chunky_a": {
+      "shape": "top_knit",
+      "options": {"neckline": "v", "sleeve": "wrist", "insert": true},
+      "base": ["dye", "primary"],
+      "relief": {"type": "cable", "amount": 0.003, "cables": 14, "parts": ["torso"]},
+      "paint": [
+        {"zone": "insert", "paint": ["white", "none"]},
+        {"zone": "torso", "pattern": "ribs", "every": 2, "phase": 1},
+        {"zone": "sleeves", "pattern": "ribs", "every": 2, "phase": 1},
+        {"zone": "placket", "paint": ["dye_shade", "primary"]}
+      ],
+      "trims": [
+        {"type": "rib_band", "at": "hem", "length": 0.05, "out": 0.004, "paint": ["dye", "primary"]},
+        {"type": "rib_band", "at": "cuff.*", "length": 0.04, "out": 0.003, "paint": ["dye", "primary"]}
+      ],
+      "addons": [
+        {"type": "v_stripes", "widths": [0.014], "stripes": [["dye", "primary"]]},
+        {
+          "type": "buttons",
+          "at": "centre_front",
+          "count": 4,
+          "span": [0.2, 0.95],
+          "radius": 0.008,
+          "paint": ["dye", "trim"]
+        }
+      ],
+      "note": "Chunky ribbed cardigan buttoned below a deep V over a white tee."
+    },
+    "gear/body/turtleneck_ribbed_a": {
+      "shape": "top_knit",
+      "options": {"neckline": "turtle", "sleeve": "wrist"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "torso", "pattern": "ribs", "every": 2, "phase": 1},
+        {"zone": "sleeves", "pattern": "ribs", "every": 2, "phase": 1}
+      ],
+      "trims": [
+        {"type": "rib_band", "at": "neckline", "length": 0.012, "out": 0.006, "hug": 0.013, "paint": ["dye", "primary"]},
+        {"type": "rib_band", "at": "hem", "length": 0.04, "out": 0.003, "paint": ["dye", "primary"]},
+        {"type": "rib_band", "at": "cuff.*", "length": 0.03, "out": 0.003, "paint": ["dye", "primary"]}
+      ]
+    },
+    "gear/body/jumper_fair_isle_a": {
+      "shape": "top_knit",
+      "options": {"neckline": "crew", "sleeve": "wrist"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {
+          "zone": "yoke",
+          "pattern": "stripes",
+          "by": "row",
+          "band": 1,
+          "paints": [["dye", "secondary"], ["dye", "primary"], ["dye", "trim"], ["dye", "primary"]]
+        },
+        {
+          "zone": "yoke",
+          "where": {"col_mod": [4, [0, 2]]},
+          "pattern": "stripes",
+          "by": "row",
+          "band": 1,
+          "paints": [["dye", "primary"], ["dye", "trim"], ["dye", "secondary"], ["dye", "trim"]]
+        },
+        {
+          "zone": "sleeves",
+          "where": {"ring": [4, 6]},
+          "pattern": "stripes",
+          "by": "ring",
+          "band": 1,
+          "paints": [["dye", "secondary"], ["dye", "trim"], ["dye", "secondary"]]
+        }
+      ],
+      "trims": [
+        {"type": "rib_band", "at": "neckline", "length": 0.025, "out": 0.004, "paint": ["dye", "secondary"]},
+        {
+          "type": "rib_band",
+          "at": "hem",
+          "length": 0.045,
+          "out": 0.003,
+          "stripes": [["dye", "primary"], ["dye", "secondary"]]
+        },
+        {"type": "rib_band", "at": "cuff.*", "length": 0.026, "out": 0.003, "paint": ["dye", "secondary"]}
+      ]
+    },
+    "gear/body/robe_dress_embroidered_a": {
+      "shape": "coat_long",
+      "options": {"front": "closed", "sleeve": "bell", "insert": false, "under_sleeve": true, "length": "shin"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "shirt", "paint": ["shirt_white", "none"]},
+        {
+          "zone": "front_centre",
+          "pattern": "stripes",
+          "by": "row",
+          "band": 1,
+          "paints": [["dye", "trim"], ["gold", "trim"]]
+        },
+        {
+          "zone": "skirt",
+          "where": {"ring_from_end": [0, 1]},
+          "pattern": "check",
+          "every": 2,
+          "band": 1,
+          "paints": [["dye", "trim"], ["gold", "trim"], ["gold", "trim"], ["dye", "trim"]]
+        },
+        {"zone": "bell", "where": {"ring_from_end": [0, 0]}, "paint": ["dye", "trim"]}
+      ],
+      "thicken": [
+        {"zone": "skirt", "thickness": 0.004, "inner": ["dye", "secondary"], "rim": ["dye", "trim"]},
+        {"zone": "bell", "thickness": 0.004, "inner": ["dye", "secondary"], "rim": ["dye", "trim"]}
+      ],
+      "trims": [
+        {
+          "type": "cuff",
+          "at": "under_cuff.*",
+          "length": 0.012,
+          "widen": 1.1,
+          "paint": ["shirt_white", "none"],
+          "inner": ["shirt_shade", "none"]
+        },
+        {
+          "type": "rib_band",
+          "at": "neckline",
+          "length": 0.02,
+          "out": 0.003,
+          "ribs": false,
+          "paint": ["dye", "trim"]
+        }
+      ],
+      "addons": [
+        {
+          "type": "crest",
+          "at": "chest.L",
+          "width": 0.06,
+          "height": 0.065,
+          "paint": ["dye", "secondary"],
+          "border": ["gold", "trim"]
+        }
+      ]
+    },
+    "gear/body/robe_formal_velvet_a": {
+      "shape": "coat_long",
+      "options": {"front": "open", "sleeve": "wrist", "insert": true, "under_sleeve": false, "length": "shin"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "jumper", "paint": ["dye", "secondary"]},
+        {"zone": "shirt", "paint": ["shirt_white", "none"]}
+      ],
+      "thicken": [{"zone": "skirt", "thickness": 0.004, "inner": ["dye", "secondary"], "rim": ["dye", "primary"]}],
+      "trims": [
+        {
+          "type": "cuff",
+          "at": "cuff.*",
+          "length": 0.03,
+          "widen": 1.16,
+          "paint": ["dye", "secondary"],
+          "inner": ["dye_shade", "secondary"]
+        }
+      ],
+      "addons": [
+        {"type": "lapels", "width": 0.05, "span": [0, 0.35], "paint": ["dye", "secondary"]},
+        {
+          "type": "collar_leaf",
+          "at": "insert2_neck",
+          "drop": 0.026,
+          "spread": 0.014,
+          "points": 0.026,
+          "paint": ["shirt_white", "none"]
+        },
+        {
+          "type": "tie",
+          "at": "insert2_centre",
+          "rows": 4,
+          "offset": 0.006,
+          "width_top": 0.03,
+          "width_bottom": 0.05,
+          "stripes": [["dye", "trim"], ["dye", "trim"]]
+        }
+      ]
+    },
+    "gear/body/blouse_ruffled_silk_a": {
+      "shape": "top_fitted",
+      "options": {"neckline": "stand", "sleeve": "wrist"},
+      "base": ["dye", "primary"],
+      "paint": [{"zone": "placket", "paint": ["dye_light", "primary"]}],
+      "trims": [
+        {"type": "turned_hem", "at": "hem", "drop": 0.02, "out": 0.006},
+        {
+          "type": "ruffle",
+          "at": "neckline",
+          "length": 0.022,
+          "out": 0.001,
+          "wave": 0.005,
+          "paint": ["dye", "secondary"]
+        },
+        {
+          "type": "ruffle",
+          "at": "cuff.*",
+          "length": 0.03,
+          "out": 0.014,
+          "wave": 0.007,
+          "paint": ["dye", "secondary"]
+        }
+      ],
+      "addons": [
+        {
+          "type": "buttons",
+          "at": "centre_front",
+          "count": 4,
+          "span": [0.15, 0.9],
+          "radius": 0.005,
+          "paint": ["dye", "trim"]
+        }
+      ]
+    },
+    "gear/body/waistcoat_brocade_a": {
+      "shape": "top_fitted",
+      "options": {"neckline": "stand", "sleeve": "wrist"},
+      "base": ["shirt_white", "none"],
+      "paint": [
+        {
+          "zone": "torso",
+          "pattern": "check",
+          "every": 3,
+          "band": 2,
+          "paints": [["dye", "primary"], ["dye_light", "primary"], ["dye_light", "primary"], ["dye", "primary"]]
+        },
+        {"zone": "trunk_back", "paint": ["dye", "secondary"]},
+        {"zone": "front_v_low", "paint": ["shirt_white", "none"]},
+        {"zone": "front_v_high", "paint": ["shirt_white", "none"]},
+        {"zone": "front_v_top", "paint": ["shirt_white", "none"]},
+        {"zone": "stand", "paint": ["shirt_white", "none"]},
+        {"zone": "sleeves", "paint": ["shirt_white", "none"]}
+      ],
+      "trims": [
+        {"type": "turned_hem", "at": "hem", "drop": 0.03, "out": 0.006, "paint": ["dye", "primary"]},
+        {
+          "type": "cuff",
+          "at": "cuff.*",
+          "length": 0.014,
+          "widen": 1.12,
+          "paint": ["shirt_white", "none"],
+          "inner": ["shirt_shade", "none"]
+        }
+      ],
+      "addons": [
+        {
+          "type": "collar_leaf",
+          "at": "neckline",
+          "drop": 0.03,
+          "spread": 0.018,
+          "points": 0.03,
+          "paint": ["shirt_white", "none"]
+        },
+        {
+          "type": "buttons",
+          "at": "centre_front",
+          "count": 4,
+          "span": [0.45, 0.95],
+          "radius": 0.006,
+          "paint": ["gold", "trim"]
+        },
+        {
+          "type": "tie",
+          "at": "centre_front",
+          "rows": 4,
+          "offset": 0.008,
+          "width_top": 0.034,
+          "width_bottom": 0.05,
+          "stripes": [["dye", "trim"], ["dye", "trim"]]
+        }
+      ],
+      "note": "Brocade waistcoat over a white shirt: the waistcoat is painted on the fitted top (shirt sleeves and V front in white), satin back."
+    },
+    "gear/legs/skirt_aline_wool_a": {
+      "shape": "skirt_short",
+      "options": {"pleated": false},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "tights", "paint": ["tights", "none"]},
+        {"zone": "skirt_hem_band", "paint": ["dye", "trim"]}
+      ],
+      "thicken": [
+        {"zone": "skirt", "thickness": 0.004, "inner": ["dye_shade", "primary"], "rim": ["dye", "primary"]}
+      ],
+      "trims": [{"type": "waistband", "at": "waist", "height": 0.03, "out": 0.004, "paint": ["dye", "primary"]}]
+    },
+    "gear/legs/trousers_wide_leg_a": {
+      "shape": "trousers_wide",
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "fly", "paint": ["dye_stitch", "primary"]},
+        {"zone": "crease", "paint": ["dye_light", "primary"]}
+      ],
+      "trims": [
+        {"type": "waistband", "at": "waist", "height": 0.045, "out": 0.003, "paint": ["dye", "primary"]},
+        {"type": "hem_fold", "at": "hem.*", "up": 0.016}
+      ],
+      "addons": [
+        {
+          "type": "buttons",
+          "at": "fly",
+          "count": 2,
+          "span": [0.04, 0.25],
+          "radius": 0.006,
+          "paint": ["dye", "trim"]
+        }
+      ]
+    },
+    "gear/legs/trousers_tapered_wool_a": {
+      "shape": "trousers_fitted",
+      "options": {"cut": "tapered"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "fly", "paint": ["dye_stitch", "primary"]},
+        {"zone": "crease", "paint": ["dye_light", "primary"]},
+        {"zone": "legs", "pattern": "ribs", "every": 5, "phase": 2, "swatch": "dye_soft"}
+      ],
+      "trims": [
+        {"type": "waistband", "at": "waist", "height": 0.032, "out": 0.003, "paint": ["dye", "trim"]},
+        {"type": "turn_up", "at": "hem.*", "height": 0.025, "paint": ["dye", "primary"]}
+      ]
+    },
+    "gear/shoes/boots_riding_tall_a": {
+      "shape": "boot",
+      "options": {"height": "tall"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "sole_edge", "paint": ["sole_edge", "none"]},
+        {"zone": "shaft_band", "paint": ["dye_shade", "primary"]},
+        {"zone": "toe_cap", "paint": ["dye_light", "primary"]}
+      ],
+      "trims": [
+        {"type": "shoe_collar", "at": "collar.*", "paint": ["dye", "primary"]},
+        {"type": "sole", "thickness": 0.02, "out": 0.01, "heel": 0.024}
+      ],
+      "addons": []
+    },
+    "gear/shoes/boots_ankle_buckle_a": {
+      "shape": "boot",
+      "options": {"height": "ankle"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "sole_edge", "paint": ["sole_edge", "none"]},
+        {"zone": "strap", "paint": ["dye", "secondary"]},
+        {"zone": "strap", "where": {"abs_x": [0.6, 1]}, "paint": ["gold", "trim"]}
+      ],
+      "trims": [
+        {"type": "shoe_collar", "at": "collar.*", "paint": ["dye", "primary"]},
+        {"type": "sole", "thickness": 0.018, "out": 0.01, "heel": 0.03}
+      ]
+    },
+    "gear/shoes/boots_dragonhide_a": {
+      "shape": "boot",
+      "options": {"height": "calf"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {
+          "zone": "scales",
+          "pattern": "check",
+          "every": 1,
+          "band": 1,
+          "paints": [["dye", "primary"], ["dye_shade", "primary"], ["dye_light", "primary"], ["dye", "primary"]]
+        },
+        {"zone": "sole_edge", "paint": ["sole_edge", "none"]},
+        {"zone": "shaft_top", "paint": ["dye", "secondary"]},
+        {"zone": "toe_cap", "paint": ["dye", "trim"]}
+      ],
+      "trims": [
+        {"type": "shoe_collar", "at": "collar.*", "paint": ["dye", "secondary"]},
+        {"type": "sole", "thickness": 0.024, "out": 0.013, "heel": 0.02}
+      ]
+    },
+    "gear/shoes/mary_janes_a": {
+      "shape": "shoe_low",
+      "options": {"cut": "low"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "strap", "paint": ["dye", "secondary"]},
+        {"zone": "strap", "where": {"abs_x": [0.03, 1]}, "paint": ["gold", "trim"]},
+        {"zone": "sole_edge", "paint": ["sole_edge", "none"]}
+      ],
+      "trims": [
+        {"type": "shoe_collar", "at": "collar.*", "paint": ["dye", "primary"]},
+        {"type": "sole", "thickness": 0.012, "out": 0.008, "heel": 0.022}
+      ]
+    },
+    "gear/shoes/brogues_wingtip_a": {
+      "shape": "shoe_low",
+      "options": {"cut": "oxford"},
+      "base": ["dye", "primary"],
+      "paint": [
+        {"zone": "toe_cap", "paint": ["dye", "secondary"]},
+        {"zone": "wing", "paint": ["dye_stitch", "secondary"]},
+        {"zone": "heel_counter", "paint": ["dye", "secondary"]},
+        {"zone": "laces", "paint": ["lace", "trim"]},
+        {"zone": "sole_edge", "paint": ["sole_edge", "none"]}
+      ],
+      "trims": [
+        {"type": "shoe_collar", "at": "collar.*", "paint": ["dye", "primary"]},
+        {"type": "sole", "thickness": 0.015, "out": 0.011, "heel": 0.012}
+      ]
+    }
+  }
+}

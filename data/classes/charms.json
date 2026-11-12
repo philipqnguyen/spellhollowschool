@@ -1,0 +1,88 @@
+{
+  "version": 2,
+  "id": "charms",
+  "subject": "charms",
+  "professor": {
+    "id": "charms_professor",
+    "name": "Professor Tobin Pimm",
+    "house": "skytalon",
+    "appearance": {
+      "body_type": 1,
+      "height": 0,
+      "face": [128, 150, 140, 110, 128],
+      "skin_tone": 1,
+      "hair_style": 19,
+      "hair_colour": 10,
+      "eye_colour": 6,
+      "outfit": {
+        "hat": { "item_def": 101, "dyes": [32, 21, 21], "finish": "none" },
+        "body": { "item_def": 217, "dyes": [32, 21, 38], "finish": "none" },
+        "legs": { "item_def": 308, "dyes": [1, 1, 1], "finish": "none" },
+        "shoes": { "item_def": 403, "dyes": [14, 14, 21], "finish": "none" }
+      }
+    },
+    "pos": [0, 0, -6.5],
+    "yaw": 0
+  },
+  "lesson": [
+    { "at_secs": 2, "kind": "emote", "emote": "wave" },
+    { "at_secs": 3, "kind": "say", "line": "Good day, good day! Come in, find a place, wands out please!" },
+    { "at_secs": 40, "kind": "say", "line": "Today we practise the most essential wand movements of all." },
+    { "at_secs": 80, "kind": "say", "line": "Remember: it is all in the wrist. Precision of movement, and clear pronunciation!" },
+    { "at_secs": 120, "kind": "say", "line": "Latecomers, hurry along now. The door closes very shortly." },
+    { "at_secs": 165, "kind": "say", "line": "Wands at the ready! Eyes on me." },
+    { "at_secs": 185, "kind": "demonstrate", "gesture": "twirl_and_tap", "spell": "elevara",
+      "duration_ms": 1800, "line": "Watch closely: twirl, and tap!" },
+    { "at_secs": 195, "kind": "say", "line": "Follow the prompts, on the beat. Twirl, and tap!" },
+    { "at_secs": 200, "kind": "practice", "round": 1, "window_ms": 600,
+      "beats": [
+        { "at_ms": 5000, "gesture": "twirl_and_tap" }, { "at_ms": 9800, "gesture": "twirl_and_tap" },
+        { "at_ms": 14600, "gesture": "twirl_and_tap" }, { "at_ms": 19400, "gesture": "twirl_and_tap" },
+        { "at_ms": 24200, "gesture": "twirl_and_tap" }, { "at_ms": 29000, "gesture": "twirl_and_tap" },
+        { "at_ms": 33800, "gesture": "twirl_and_tap" }
+      ] },
+    { "at_secs": 240, "kind": "demonstrate", "gesture": "lucerna_flick", "spell": "lucerna",
+      "duration_ms": 1200, "line": "Now a little light. A sharp upward flick: Lucerna!" },
+    { "at_secs": 250, "kind": "practice", "round": 2, "window_ms": 550,
+      "beats": [
+        { "at_ms": 5000, "gesture": "lucerna_flick" }, { "at_ms": 9800, "gesture": "lucerna_flick" },
+        { "at_ms": 14600, "gesture": "lucerna_flick" }, { "at_ms": 19400, "gesture": "lucerna_flick" },
+        { "at_ms": 24200, "gesture": "lucerna_flick" }, { "at_ms": 29000, "gesture": "lucerna_flick" },
+        { "at_ms": 33800, "gesture": "lucerna_flick" }
+      ] },
+    { "at_secs": 290, "kind": "demonstrate", "gesture": "circle", "duration_ms": 1600,
+      "line": "A smooth circle next. No corners, if you please!" },
+    { "at_secs": 300, "kind": "practice", "round": 3, "window_ms": 600,
+      "beats": [
+        { "at_ms": 5000, "gesture": "circle" }, { "at_ms": 9800, "gesture": "twirl_and_tap" },
+        { "at_ms": 14600, "gesture": "circle" }, { "at_ms": 19400, "gesture": "twirl_and_tap" },
+        { "at_ms": 24200, "gesture": "circle" }, { "at_ms": 29000, "gesture": "lucerna_flick" },
+        { "at_ms": 33800, "gesture": "circle" }
+      ] },
+    { "at_secs": 340, "kind": "demonstrate", "gesture": "zigzag", "duration_ms": 1600,
+      "line": "And a zigzag, crisp and clean. Then all together, a little faster!" },
+    { "at_secs": 350, "kind": "practice", "round": 4, "window_ms": 500,
+      "beats": [
+        { "at_ms": 5000, "gesture": "zigzag" }, { "at_ms": 9600, "gesture": "twirl_and_tap" },
+        { "at_ms": 14200, "gesture": "lucerna_flick" }, { "at_ms": 18800, "gesture": "circle" },
+        { "at_ms": 23400, "gesture": "zigzag" }, { "at_ms": 28000, "gesture": "lucerna_flick" },
+        { "at_ms": 32600, "gesture": "twirl_and_tap" }, { "at_ms": 37200, "gesture": "zigzag" },
+        { "at_ms": 41800, "gesture": "circle" }, { "at_ms": 46400, "gesture": "twirl_and_tap" }
+      ] },
+    { "at_secs": 402, "kind": "say", "line": "Splendid, splendid! Let us see how you all did." },
+    { "at_secs": 410, "kind": "results", "line": "Well done, everyone! Practise those movements, and I shall see you next lesson." },
+    { "at_secs": 415, "kind": "emote", "emote": "bow" },
+    { "at_secs": 500, "kind": "say", "line": "Off you go now. The class is nearly over!" }
+  ],
+  "rewards": {
+    "attend_skill_xp": 30,
+    "bonus_skill_xp_max": 40,
+    "min_answers": 3,
+    "house_points": [
+      { "min_pct": 60, "points": 1 },
+      { "min_pct": 75, "points": 3 },
+      { "min_pct": 90, "points": 5 }
+    ],
+    "crowns": { "attend": 10, "bonus_max": 10 }
+  }
+}

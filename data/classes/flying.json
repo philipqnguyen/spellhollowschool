@@ -1,0 +1,152 @@
+{
+  "version": 2,
+  "id": "flying",
+  "subject": "flying",
+  "professor": {
+    "id": "flying_professor",
+    "name": "Madam Petra Swift",
+    "house": "burrowsby",
+    "appearance": {
+      "body_type": 1,
+      "height": 170,
+      "face": [140, 118, 165, 150, 110],
+      "skin_tone": 2,
+      "hair_style": 19,
+      "hair_colour": 10,
+      "eye_colour": 9,
+      "outfit": {
+        "hat": null,
+        "body": {"item_def": 212, "dyes": [1, 40, 5], "finish": "none"},
+        "legs": {"item_def": 308, "dyes": [1, 1, 2], "finish": "none"},
+        "shoes": {"item_def": 404, "dyes": [15, 15, 38], "finish": "none"}
+      }
+    },
+    "pos": [0, 0, 10],
+    "yaw": 0
+  },
+  "lesson": [
+    {"at_secs": 2, "kind": "emote", "emote": "wave"},
+    {
+      "at_secs": 3,
+      "kind": "say",
+      "line": "Welcome to the pitch. Find a space on the grass, stand to the left of your broom, and keep your hands to yourselves until I say otherwise."
+    },
+    {
+      "at_secs": 45,
+      "kind": "say",
+      "line": "Your broom rises when you ask it to and not before. Ask it calmly. A nervous rider makes a nervous broom."
+    },
+    {
+      "at_secs": 90,
+      "kind": "say",
+      "line": "Knees together, weight forward, and both hands on the handle. Nobody here is trying to win a race today."
+    },
+    {
+      "at_secs": 130,
+      "kind": "say",
+      "line": "If you find yourself higher than the tower tops, you have misunderstood the lesson. Come down slowly."
+    },
+    {"at_secs": 170, "kind": "say", "line": "The gate is shut. Mount up and hover where you are."},
+    {
+      "at_secs": 185,
+      "kind": "demonstrate",
+      "duration_ms": 2000,
+      "line": "Eight rings round the field. Each one glows when it wants you, and it wants you through the middle, on the beat, not early and not late. Round the course the way the sun goes."
+    },
+    {
+      "at_secs": 200,
+      "kind": "practice",
+      "round": 1,
+      "window_ms": 2000,
+      "beats": [
+        {"at_ms": 8000, "ring": 0},
+        {"at_ms": 12000, "ring": 1},
+        {"at_ms": 16000, "ring": 2},
+        {"at_ms": 20000, "ring": 3},
+        {"at_ms": 24000, "ring": 4},
+        {"at_ms": 28000, "ring": 5},
+        {"at_ms": 32000, "ring": 6},
+        {"at_ms": 36000, "ring": 7}
+      ]
+    },
+    {
+      "at_secs": 240,
+      "kind": "demonstrate",
+      "duration_ms": 2000,
+      "line": "Not bad at all. Again, a little quicker, and keep going past the first ring when you come round to it."
+    },
+    {
+      "at_secs": 250,
+      "kind": "practice",
+      "round": 2,
+      "window_ms": 1800,
+      "beats": [
+        {"at_ms": 8000, "ring": 0},
+        {"at_ms": 11500, "ring": 1},
+        {"at_ms": 15000, "ring": 2},
+        {"at_ms": 18500, "ring": 3},
+        {"at_ms": 22000, "ring": 4},
+        {"at_ms": 25500, "ring": 5},
+        {"at_ms": 29000, "ring": 6},
+        {"at_ms": 32500, "ring": 7},
+        {"at_ms": 36000, "ring": 0},
+        {"at_ms": 39500, "ring": 1},
+        {"at_ms": 43000, "ring": 2},
+        {"at_ms": 46500, "ring": 3}
+      ]
+    },
+    {
+      "at_secs": 300,
+      "kind": "demonstrate",
+      "duration_ms": 2000,
+      "line": "Two whole laps now, and the rings will not wait for stragglers. Lean into the turns; your broom knows the way if you let it."
+    },
+    {
+      "at_secs": 310,
+      "kind": "practice",
+      "round": 3,
+      "window_ms": 1200,
+      "beats": [
+        {"at_ms": 8000, "ring": 0},
+        {"at_ms": 10500, "ring": 1},
+        {"at_ms": 13000, "ring": 2},
+        {"at_ms": 15500, "ring": 3},
+        {"at_ms": 18000, "ring": 4},
+        {"at_ms": 20500, "ring": 5},
+        {"at_ms": 23000, "ring": 6},
+        {"at_ms": 25500, "ring": 7},
+        {"at_ms": 28000, "ring": 0},
+        {"at_ms": 30500, "ring": 1},
+        {"at_ms": 33000, "ring": 2},
+        {"at_ms": 35500, "ring": 3},
+        {"at_ms": 38000, "ring": 4},
+        {"at_ms": 40500, "ring": 5},
+        {"at_ms": 43000, "ring": 6},
+        {"at_ms": 45500, "ring": 7}
+      ]
+    },
+    {
+      "at_secs": 362,
+      "kind": "say",
+      "line": "And down. Gently. The ground has been here longer than any of you and it does not move out of the way."
+    },
+    {
+      "at_secs": 380,
+      "kind": "results",
+      "line": "Good flying. Brooms back on the rack, handles up, bristles down."
+    },
+    {"at_secs": 385, "kind": "emote", "emote": "bow"},
+    {
+      "at_secs": 500,
+      "kind": "say",
+      "line": "The pitch is yours whenever there is no lesson on it. Fly sensibly, and stay well clear of the castle."
+    }
+  ],
+  "rewards": {
+    "attend_skill_xp": 30,
+    "bonus_skill_xp_max": 40,
+    "min_answers": 3,
+    "house_points": [{"min_pct": 60, "points": 1}, {"min_pct": 75, "points": 3}, {"min_pct": 90, "points": 5}],
+    "crowns": {"attend": 10, "bonus_max": 10}
+  }
+}

@@ -1,0 +1,139 @@
+/* The potions satchel and the skills panel: smaller windows on the right,
+   under the HUD's top-right corner (the friends window's spot; only one is open at a time
+   in practice). Shares the crafting window's header, pager and errors. */
+
+.potions,
+.skills {
+  pointer-events: auto;
+  position: absolute;
+  top: calc(var(--hud-corner-bottom) + 8px);
+  right: 12px;
+  width: min(400px, calc(100% - 24px));
+  /* Between the top-right corner and the bars at the bottom right. */
+  max-height: calc(100% - var(--hud-corner-bottom) - var(--hud-br-h) - 16px);
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px 12px;
+  z-index: 3;
+}
+
+.potion-list,
+.skills-body {
+  overflow-y: auto;
+  min-height: 0;
+  margin-top: 6px;
+}
+
+.potion-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.potion-row {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 10px;
+  padding: 6px 4px;
+  border-bottom: 1px solid rgba(201, 154, 69, 0.14);
+}
+
+.potion-text {
+  display: grid;
+  gap: 2px;
+}
+
+.potion-tint,
+.potion-count {
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+/* A little flask filled with the potion's colour. */
+.vial {
+  --liquid: #6a9fd0;
+  position: relative;
+  width: 22px;
+  height: 30px;
+  margin-top: 2px;
+  border: 1px solid rgba(234, 223, 200, 0.55);
+  border-radius: 40% 40% 45% 45% / 22% 22% 60% 60%;
+  background: linear-gradient(transparent 38%, var(--liquid) 38%);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--liquid) 45%, transparent), inset 0 -4px 6px rgba(0, 0, 0, 0.35);
+}
+
+.vial::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: -6px;
+  height: 6px;
+  border-radius: 2px 2px 0 0;
+  background: #8a6a45;
+}
+
+.muted-line.inline {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+/* ---------------------------------------------------------------- skills */
+
+.skill-rows,
+.pattern-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.skill-row {
+  display: grid;
+  gap: 3px;
+}
+
+.skill-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.skill-line strong {
+  font-family: var(--display);
+  font-size: 0.9rem;
+  color: var(--parchment);
+}
+
+.skill-level {
+  font-size: 0.82rem;
+  color: var(--gilt-bright);
+}
+
+.skill-bar {
+  height: 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(201, 154, 69, 0.45);
+  background: rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.skill-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gilt), var(--gilt-bright));
+}
+
+.skill-where {
+  font-style: italic;
+}
+
+.pattern-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+}

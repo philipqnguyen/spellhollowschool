@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>Music listening room</title>
+    <style>
+      :root { --bg: #17140f; --fg: #eadfc8; --dim: #a89b80; --line: #3b3326; --accent: #d9a441; }
+      body { background: var(--bg); color: var(--fg); font: 15px/1.45 Georgia, serif; margin: 0; padding: 16px; }
+      h1 { font-size: 20px; margin: 0 0 4px; }
+      p { color: var(--dim); margin: 0 0 12px; }
+      table { border-collapse: collapse; width: 100%; max-width: 980px; }
+      td, th { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+      th { color: var(--dim); font-weight: normal; }
+      button { background: #2a241a; color: var(--fg); border: 1px solid var(--line); border-radius: 4px; padding: 3px 9px; cursor: pointer; font: inherit; }
+      button:hover { border-color: var(--accent); }
+      #status { position: sticky; top: 0; background: var(--bg); padding: 8px 0; border-bottom: 1px solid var(--line); margin-bottom: 8px; font-family: ui-monospace, monospace; font-size: 13px; }
+      .small { color: var(--dim); font-size: 13px; }
+    </style>
+  </head>
+  <body>
+    <h1>Music listening room</h1>
+    <p>Dev only. Every piece and stinger, played by the game's music engine. The first click starts the audio.</p>
+    <div id="status">
+      <label>Quality <select id="quality"><option>low</option><option selected>medium</option><option>high</option></select></label>
+      <label><input type="checkbox" id="norest" checked /> skip the rest between plays</label>
+      <button id="stop">Stop (fade)</button>
+      <span id="stats"></span>
+    </div>
+    <table id="list"></table>
+    <script type="module" src="./listen.ts"></script>
+  </body>
+</html>

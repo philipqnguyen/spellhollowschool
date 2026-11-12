@@ -1,0 +1,91 @@
+{
+  "version": 2,
+  "id": "creatures",
+  "subject": "creatures",
+  "professor": {
+    "id": "creatures_professor", "name": "Professor Hamish Tull", "house": "roarwing",
+    "appearance": {
+      "body_type": 0,
+      "height": 255,
+      "face": [170, 120, 170, 120, 140],
+      "skin_tone": 3,
+      "hair_style": 16,
+      "hair_colour": 1,
+      "eye_colour": 0,
+      "outfit": {
+        "body": {"item_def": 212, "dyes": [10, 11, 38], "finish": "none"},
+        "legs": {"item_def": 303, "dyes": [13, 13, 10], "finish": "none"},
+        "shoes": {"item_def": 406, "dyes": [15, 11, 39], "finish": "none"}
+      }
+    },
+    "pos": [0, 0, -6], "yaw": 0
+  },
+  "picks": {"prompts": "creatures_needs", "options": "creatures_care"},
+  "lesson": [
+    {"at_secs": 2, "kind": "emote", "emote": "wave"},
+    {"at_secs": 3, "kind": "say", "line": "Come in, all of you. Mind the gate, it sticks, and mind the Fluffbell, it rolls."},
+    {"at_secs": 45, "kind": "say", "line": "These two have been looking forward to meeting you. Mostly. The Lynxkit is still making up its mind."},
+    {"at_secs": 90, "kind": "say", "line": "Every creature tells you what it needs. Watch its ears, its fur and its tail, and you won't go far wrong."},
+    {"at_secs": 130, "kind": "say", "line": "Last ones in, quick as you can. I'm shutting the gate before the Fluffbell wanders off again."},
+    {"at_secs": 170, "kind": "say", "line": "Gate's shut. Gather round the fence, nice and quiet."},
+    {"at_secs": 185, "kind": "demonstrate", "duration_ms": 2000, "line": "The Fluffbell first. Humming with its tongue out means it's hungry. A tight ball means it's frightened, so hum to it. Muddy fluff wants brushing, sulky circles want a ball, and shivering wants a blanket."},
+    {"at_secs": 200, "kind": "practice", "round": 1, "window_ms": 2000, "beats": [
+        {"at_ms": 5000, "prompt": "puff_hungry", "options": ["c_ball", "c_paw", "c_feed"]},
+        {"at_ms": 9000, "prompt": "puff_scared", "options": ["c_paw", "c_hum", "c_ball"]},
+        {"at_ms": 13000, "prompt": "puff_muddy", "options": ["c_hum", "c_brush", "c_ball"]},
+        {"at_ms": 17000, "prompt": "puff_bored", "options": ["c_ball", "c_paw", "c_feed"]},
+        {"at_ms": 21000, "prompt": "puff_cold", "options": ["c_brush", "c_feed", "c_blanket"]},
+        {"at_ms": 25000, "prompt": "puff_scared", "options": ["c_paw", "c_hum", "c_brush"]}
+      ] },
+    {"at_secs": 240, "kind": "demonstrate", "duration_ms": 2000, "line": "Now the Lynxkit. An empty dish means food, a dry trough means water. Flat ears mean hold out a still hand and let it come to you. A burr wants brushing, and a lifted paw wants looking at."},
+    {"at_secs": 250, "kind": "practice", "round": 2, "window_ms": 2000, "beats": [
+        {"at_ms": 5000, "prompt": "lynxkit_hungry", "options": ["c_ball", "c_feed", "c_brush"]},
+        {"at_ms": 9000, "prompt": "lynxkit_wary", "options": ["c_hand", "c_feed", "c_ball"]},
+        {"at_ms": 13000, "prompt": "lynxkit_burr", "options": ["c_hum", "c_ball", "c_brush"]},
+        {"at_ms": 17000, "prompt": "lynxkit_limp", "options": ["c_brush", "c_paw", "c_ball"]},
+        {"at_ms": 21000, "prompt": "lynxkit_thirsty", "options": ["c_brush", "c_ball", "c_water"]},
+        {"at_ms": 25000, "prompt": "lynxkit_wary", "options": ["c_paw", "c_hand", "c_feed"]}
+      ] },
+    {"at_secs": 290, "kind": "demonstrate", "duration_ms": 2000, "line": "Both of them now, and four ways to help each time. Calm hands, everyone. They can tell when you're hurrying."},
+    {"at_secs": 300, "kind": "practice", "round": 3, "window_ms": 2000, "beats": [
+        {"at_ms": 5000, "prompt": "puff_cold", "options": ["c_feed", "c_water", "c_paw", "c_blanket"]},
+        {"at_ms": 9000, "prompt": "lynxkit_thirsty", "options": ["c_water", "c_paw", "c_blanket", "c_hum"]},
+        {"at_ms": 13000, "prompt": "puff_muddy", "options": ["c_paw", "c_blanket", "c_hum", "c_brush"]},
+        {"at_ms": 17000, "prompt": "lynxkit_limp", "options": ["c_brush", "c_ball", "c_paw", "c_hum"]},
+        {"at_ms": 21000, "prompt": "puff_hungry", "options": ["c_ball", "c_blanket", "c_brush", "c_feed"]},
+        {"at_ms": 25000, "prompt": "lynxkit_burr", "options": ["c_hand", "c_paw", "c_ball", "c_brush"]}
+      ] },
+    {"at_secs": 340, "kind": "demonstrate", "duration_ms": 2000, "line": "A bit quicker now. Watch the creature, not the bucket."},
+    {"at_secs": 350, "kind": "practice", "round": 4, "window_ms": 1800, "beats": [
+        {"at_ms": 4000, "prompt": "lynxkit_wary", "options": ["c_feed", "c_hand", "c_brush", "c_ball"]},
+        {"at_ms": 7500, "prompt": "puff_bored", "options": ["c_hand", "c_ball", "c_blanket", "c_feed"]},
+        {"at_ms": 11000, "prompt": "lynxkit_hungry", "options": ["c_feed", "c_brush", "c_hum", "c_blanket"]},
+        {"at_ms": 14500, "prompt": "puff_scared", "options": ["c_feed", "c_paw", "c_brush", "c_hum"]},
+        {"at_ms": 18000, "prompt": "lynxkit_burr", "options": ["c_hum", "c_water", "c_brush", "c_blanket"]},
+        {"at_ms": 21500, "prompt": "puff_cold", "options": ["c_blanket", "c_water", "c_ball", "c_feed"]},
+        {"at_ms": 25000, "prompt": "lynxkit_limp", "options": ["c_ball", "c_paw", "c_feed", "c_blanket"]},
+        {"at_ms": 28500, "prompt": "puff_muddy", "options": ["c_brush", "c_paw", "c_ball", "c_hum"]}
+      ] },
+    {"at_secs": 392, "kind": "say", "line": "That'll do. Leave them be now, they've had a busy lesson."},
+    {"at_secs": 405, "kind": "results", "line": "Well done, the lot of you. They've shed a little fur and feather for you, and the better the whole class did, the more you've all learned."},
+    {"at_secs": 410, "kind": "emote", "emote": "bow"},
+    {"at_secs": 500, "kind": "say", "line": "Off you go. Wash your hands, and close the gate behind you."}
+  ],
+  "rewards": {
+    "attend_skill_xp": 30,
+    "bonus_skill_xp_max": 40,
+    "min_answers": 3,
+    "house_points": [{"min_pct": 60, "points": 1}, {"min_pct": 75, "points": 3}, {"min_pct": 90, "points": 5}],
+    "crowns": {"attend": 10, "bonus_max": 10},
+    "items": [
+      {"item": 3008, "quantity": [1, 2], "min_pct": 0},
+      {"item": 3006, "quantity": [1, 1], "min_pct": 50},
+      {"item": 3004, "quantity": [1, 1], "min_pct": 85, "draw": true},
+      {"item": 3028, "quantity": [1, 1], "min_pct": 85, "draw": true},
+      {"item": 3030, "quantity": [1, 1], "min_pct": 85, "draw": true},
+      {"item": 3031, "quantity": [1, 1], "min_pct": 85, "draw": true},
+      {"item": 3010, "quantity": [1, 1], "min_pct": 85, "draw": true}
+    ],
+    "section_bonus_skill_xp_max": 10
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "lost_property_floor", "kind": "room", "name": "Lost Property Vault", "level": 0, "cell": "lost_property_vault", "min": [-12.0, -10.0], "max": [12.0, 10.0], "y": 0.0, "ceiling": 12.0}
+  ],
+  "spawns": [
+    {"id": "wishing_room_entry", "pos": [0.0, 0.0, 8.0], "yaw": 3.1415927}
+  ],
+  "landmarks": [
+    {"id": "wishing_room_heap", "name": "Mound of Unclaimed Oddments", "pos": [0.0, 0.0, -7.0]}
+  ],
+  "interactables": [
+    {"id": "wishing_room_exit", "kind": "instance_exit", "name": "Door", "pos": [0.0, 0.0, 9.3], "yaw": 3.1415927, "radius": 1.5},
+    {"id": "find_lost_property_vault", "kind": "find_spot", "name": "Mound of Unclaimed Oddments", "pos": [0.0, 0.0, -6.0], "radius": 1.8}
+  ],
+  "solids": [
+    {"id": "lost_property_vault/armchair_0", "at": [-6.018, 8.63], "half": [0.504, 0.435], "y": [-0.3, 1.145], "yaw": -0.5416},
+    {"id": "lost_property_vault/armchair_1", "at": [5.824, 8.426], "half": [0.504, 0.435], "y": [-0.3, 1.145], "yaw": 0.7416},
+    {"id": "lost_property_vault/barrels", "at": [6.6, -9.38], "half": [2.837, 0.6], "y": [-0.3, 1.9]},
+    {"id": "lost_property_vault/barrels_sw", "at": [-6.6, 9.38], "half": [2.837, 0.6], "y": [-0.3, 1.9]},
+    {"id": "lost_property_vault/bookcase_e", "at": [11.77, 7.5], "half": [0.23, 1], "y": [-0.3, 1.9]},
+    {"id": "lost_property_vault/bookcase_w", "at": [-11.77, -2.5], "half": [0.23, 1.8], "y": [-0.3, 1.9]},
+    {"id": "lost_property_vault/case_e", "at": [11.73, 2.5], "half": [0.27, 1.23], "y": [-0.3, 1.9]},
+    {"id": "lost_property_vault/case_w", "at": [-11.73, -7.5], "half": [0.27, 1.23], "y": [-0.3, 1.9]},
+    {"id": "lost_property_vault/crates_e", "at": [10.9, -7.375], "half": [0.37, 0.875], "y": [-0.3, 1.376]},
+    {"id": "lost_property_vault/crates_n", "at": [-5.575, -9.2], "half": [0.875, 0.37], "y": [-0.3, 1.376]},
+    {"id": "lost_property_vault/crates_w", "at": [-10.9, 7.175], "half": [0.37, 0.875], "y": [-0.3, 1.376]},
+    {"id": "lost_property_vault/heap", "at": [0.204, -8.437], "half": [2.569, 1.345], "y": [-0.3, 1.9]},
+    {"id": "lost_property_vault/heap_e", "at": [5.87, 9.011], "half": [1.654, 0.967], "y": [-0.3, 1.9], "yaw": -0.3416},
+    {"id": "lost_property_vault/heap_w", "at": [-9.257, -7.306], "half": [1.814, 1.103], "y": [-0.3, 1.9], "yaw": 0.6},
+    {"id": "lost_property_vault/stack_0", "at": [-3.57, 5.628], "half": [0.662, 0.602], "y": [-0.3, 1.9], "yaw": -0.6},
+    {"id": "lost_property_vault/stack_1", "at": [-4.216, 2.466], "half": [0.673, 0.64], "y": [-0.3, 1.9], "yaw": -0.23},
+    {"id": "lost_property_vault/stack_10", "at": [-7.321, -0.649], "half": [0.677, 0.677], "y": [-0.3, 1.9], "yaw": -0.5},
+    {"id": "lost_property_vault/stack_11", "at": [-8.137, -4.505], "half": [0.77, 0.763], "y": [-0.3, 1.9], "yaw": -0.13},
+    {"id": "lost_property_vault/stack_12", "at": [7.696, 6.117], "half": [0.67, 0.617], "y": [-0.3, 1.9], "yaw": 0.24},
+    {"id": "lost_property_vault/stack_13", "at": [8.176, 2.594], "half": [0.775, 0.775], "y": [-0.3, 1.9], "yaw": -0.59},
+    {"id": "lost_property_vault/stack_14", "at": [7.65, -0.969], "half": [0.632, 0.616], "y": [-0.3, 1.9], "yaw": -0.22},
+    {"id": "lost_property_vault/stack_15", "at": [7.99, -4.656], "half": [0.753, 0.607], "y": [-0.3, 1.9], "yaw": 0.15},
+    {"id": "lost_property_vault/stack_16", "at": [-10.389, 5.052], "half": [0.807, 0.732], "y": [-0.3, 1.9], "yaw": 0.52},
+    {"id": "lost_property_vault/stack_17", "at": [-10.472, 1.124], "half": [0.827, 0.827], "y": [-0.3, 1.9], "round": true},
+    {"id": "lost_property_vault/stack_18", "at": [10.402, 0.14], "half": [0.865, 0.744], "y": [-0.3, 1.9], "yaw": 0.06},
+    {"id": "lost_property_vault/stack_19", "at": [10.356, -3.144], "half": [0.635, 0.635], "y": [-0.3, 1.9], "yaw": 0.43},
+    {"id": "lost_property_vault/stack_2", "at": [-3.394, -0.894], "half": [0.629, 0.629], "y": [-0.3, 1.9], "yaw": 0.14},
+    {"id": "lost_property_vault/stack_21", "at": [9.424, 7.861], "half": [0.792, 0.765], "y": [-0.3, 1.9], "yaw": -0.03},
+    {"id": "lost_property_vault/stack_22", "at": [4.708, 8.611], "half": [0.781, 0.781], "y": [-0.3, 1.9], "yaw": 0.34},
+    {"id": "lost_property_vault/stack_3", "at": [-4.08, -4.253], "half": [0.763, 0.542], "y": [-0.3, 1.9], "yaw": 0.51},
+    {"id": "lost_property_vault/stack_4", "at": [3.766, 4.936], "half": [0.713, 0.713], "y": [-0.3, 1.9], "yaw": -0.32},
+    {"id": "lost_property_vault/stack_5", "at": [3.355, 1.51], "half": [0.695, 0.64], "y": [-0.3, 1.9], "yaw": 0.05},
+    {"id": "lost_property_vault/stack_6", "at": [4.101, -1.861], "half": [0.701, 0.463], "y": [-0.3, 1.9], "yaw": 0.42},
+    {"id": "lost_property_vault/stack_7", "at": [3.641, -4.7], "half": [0.797, 0.797], "y": [-0.3, 1.9], "round": true},
+    {"id": "lost_property_vault/stack_8", "at": [-7.664, 6.647], "half": [0.733, 0.806], "y": [-0.3, 1.9], "yaw": -0.04},
+    {"id": "lost_property_vault/stack_9", "at": [-7.964, 2.985], "half": [0.609, 0.654], "y": [-0.3, 1.9], "yaw": 0.33},
+    {"id": "lost_property_vault/statue_e", "at": [2.6, -9], "half": [0.68, 0.68], "y": [-0.3, 1.9], "round": true},
+    {"id": "lost_property_vault/statue_w", "at": [-1.9, -3.6], "half": [0.68, 0.68], "y": [-0.3, 1.9], "round": true}
+  ]
+}

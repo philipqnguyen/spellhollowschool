@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "wishing_room_gathering_floor", "kind": "room", "name": "Gathering Room", "level": 0, "cell": "wishing_room_gathering", "min": [-9.0, -8.0], "max": [9.0, 8.0], "y": 0.0, "ceiling": 6.0}
+  ],
+  "spawns": [
+    {"id": "wishing_room_entry", "pos": [0.0, 0.0, 6.0], "yaw": 3.1415927}
+  ],
+  "landmarks": [
+    {"id": "wishing_room_hearth", "name": "Hearth", "pos": [0.0, 0.0, -7.0]}
+  ],
+  "interactables": [
+    {"id": "wishing_room_exit", "kind": "instance_exit", "name": "Door", "pos": [0.0, 0.0, 7.3], "yaw": 3.1415927, "radius": 1.5}
+  ],
+  "solids": [
+    {"id": "wishing_room_gathering/armchair_ne", "at": [3.427, -6.422], "half": [0.504, 0.435], "y": [-0.3, 1.145], "yaw": -0.9},
+    {"id": "wishing_room_gathering/armchair_nw", "at": [-3.427, -6.422], "half": [0.504, 0.435], "y": [-0.3, 1.145], "yaw": 0.9},
+    {"id": "wishing_room_gathering/armchair_se0", "at": [6.6, 3.165], "half": [0.504, 0.435], "y": [-0.3, 1.145]},
+    {"id": "wishing_room_gathering/armchair_se1", "at": [6.6, 5.635], "half": [0.504, 0.435], "y": [-0.3, 1.145]},
+    {"id": "wishing_room_gathering/armchair_sw0", "at": [-6.6, 3.165], "half": [0.504, 0.435], "y": [-0.3, 1.145]},
+    {"id": "wishing_room_gathering/armchair_sw1", "at": [-6.6, 5.635], "half": [0.504, 0.435], "y": [-0.3, 1.145]},
+    {"id": "wishing_room_gathering/bookcase_e", "at": [8.77, -5.6], "half": [0.23, 1.8], "y": [-0.3, 1.9]},
+    {"id": "wishing_room_gathering/bookcase_e2", "at": [8.77, 5.25], "half": [0.23, 1], "y": [-0.3, 1.9]},
+    {"id": "wishing_room_gathering/bookcase_se", "at": [6.25, 7.77], "half": [1.8, 0.23], "y": [-0.3, 1.9]},
+    {"id": "wishing_room_gathering/bookcase_sw", "at": [-6.25, 7.77], "half": [1.8, 0.23], "y": [-0.3, 1.9]},
+    {"id": "wishing_room_gathering/bookcase_w", "at": [-8.77, -5.6], "half": [0.23, 1.8], "y": [-0.3, 1.9]},
+    {"id": "wishing_room_gathering/bookcase_w2", "at": [-8.77, 5.25], "half": [0.23, 1], "y": [-0.3, 1.9]},
+    {"id": "wishing_room_gathering/lamp_se", "at": [6.6, 4.4], "half": [0.13, 0.13], "y": [-0.3, 1.2], "round": true},
+    {"id": "wishing_room_gathering/lamp_sw", "at": [-6.6, 4.4], "half": [0.13, 0.13], "y": [-0.3, 1.2], "round": true},
+    {"id": "wishing_room_gathering/sofa_e", "at": [3.835, -3.6], "half": [0.435, 1.604], "y": [-0.3, 0.945]},
+    {"id": "wishing_room_gathering/sofa_front", "at": [0, -0.365], "half": [1.604, 0.435], "y": [-0.3, 0.945]},
+    {"id": "wishing_room_gathering/sofa_w", "at": [-3.835, -3.6], "half": [0.435, 1.604], "y": [-0.3, 0.945]},
+    {"id": "wishing_room_gathering/table_fire", "at": [0, -3.4], "half": [0.7, 0.7], "y": [-0.3, 0.74], "round": true},
+    {"id": "wishing_room_gathering/table_se", "at": [6.6, 4.4], "half": [0.7, 0.7], "y": [-0.3, 0.74], "round": true},
+    {"id": "wishing_room_gathering/table_sw", "at": [-6.6, 4.4], "half": [0.7, 0.7], "y": [-0.3, 0.74], "round": true}
+  ]
+}

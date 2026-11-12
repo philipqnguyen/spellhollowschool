@@ -1,0 +1,44 @@
+[package]
+name = "server"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "shs-server"
+path = "src/main.rs"
+
+[dependencies]
+protocol.workspace = true
+sim-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "signal", "sync", "time"] }
+axum = { version = "0.8", features = ["macros", "ws"] }
+tower-http = { version = "0.6", features = ["trace", "fs", "set-header"] }
+# SMTP over rustls (ring): no OpenSSL, so the image cross-compiles with only a C cross compiler.
+lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "pool", "hostname", "tokio1-rustls-tls"] }
+sqlx = { version = "0.8", default-features = false, features = ["postgres", "runtime-tokio", "migrate", "macros", "chrono", "json"] }
+chrono = { version = "0.4.38", default-features = false, features = ["clock", "serde", "std"] }
+# argon2 0.5 and rand 0.8 share rand_core 0.6, so salts and tokens use one OS RNG.
+argon2 = { version = "0.5", features = ["std"] }
+rand = "0.8"
+sha2 = "0.10"
+base64 = "0.22"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+bytes = "1"
+futures-util = { version = "0.3", default-features = false, features = ["sink", "std"] }
+rayon = "1.10"
+postcard.workspace = true
+# ServiceExt::oneshot: the static files call ServeDir per request (static_files.rs).
+tower = { version = "0.5", features = ["util"] }
+
+[dev-dependencies]
+tokio-tungstenite = "0.29"

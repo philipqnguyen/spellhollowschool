@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sound effects preview</title>
+    <style>
+      :root { color-scheme: light dark; --bg: #f6f1e7; --fg: #2b2118; --muted: #7a6a58; --line: #d9ccb6; --accent: #7a3b1d; }
+      @media (prefers-color-scheme: dark) { :root { --bg: #1b1713; --fg: #eee3d1; --muted: #a8977f; --line: #3a3128; --accent: #e0a46f; } }
+      body { margin: 0; padding: 16px; background: var(--bg); color: var(--fg); font: 14px/1.4 system-ui, sans-serif; }
+      h1 { font-size: 20px; margin: 0 0 4px; }
+      p { color: var(--muted); margin: 0 0 12px; max-width: 70ch; }
+      .bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+      button { font: inherit; padding: 4px 10px; border: 1px solid var(--line); background: transparent; color: var(--fg); border-radius: 6px; cursor: pointer; }
+      button:hover { border-color: var(--accent); }
+      h2 { font-size: 15px; margin: 16px 0 6px; color: var(--accent); }
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 6px; }
+      .row { display: flex; gap: 6px; align-items: center; border: 1px solid var(--line); border-radius: 6px; padding: 4px 6px; }
+      .row .id { flex: 1; font-family: ui-monospace, monospace; font-size: 12px; overflow-wrap: anywhere; }
+      .row .kind { color: var(--muted); font-size: 11px; }
+      pre { white-space: pre-wrap; font-size: 11px; border: 1px solid var(--line); padding: 8px; border-radius: 6px; max-height: 40vh; overflow: auto; }
+    </style>
+  </head>
+  <body>
+    <h1>Sound effects preview</h1>
+    <p>Every effect and ambience id (dev server only). Click an id to hear it (files, synths, beds for a few seconds). "Measure all" renders every synthesized recipe offline and prints levels.ts.</p>
+    <div class="bar">
+      <button id="measure">Measure all</button>
+      <button id="stop">Stop</button>
+      <span id="status"></span>
+    </div>
+    <pre id="levels" hidden></pre>
+    <div id="list"></div>
+    <script type="module" src="./preview.ts"></script>
+  </body>
+</html>

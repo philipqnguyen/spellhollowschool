@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "class_floor", "kind": "room", "name": "Potions Classroom", "level": 0, "cell": "class_potions", "min": [-10.0, -8.0], "max": [10.0, 8.0], "y": 0.0, "ceiling": 7.2}
+  ],
+  "spawns": [
+    {"id": "class_entry_a", "pos": [-1.0, 0.0, 5.5], "yaw": 3.1415927},
+    {"id": "class_entry_b", "pos": [1.0, 0.0, 5.5], "yaw": 3.1415927}
+  ],
+  "landmarks": [
+    {"id": "class_professor", "name": "Professor's Desk", "pos": [0.0, 0.0, -6.0]}
+  ],
+  "interactables": [
+    {"id": "class_exit", "kind": "instance_exit", "name": "Classroom Door", "pos": [0.0, 0.0, 7.5], "yaw": 3.1415927, "radius": 1.5}
+  ],
+  "solids": [
+    {"id": "class_potions/barrels", "at": [6.415, 7.031], "half": [0.651, 0.528], "y": [-0.3, 0.9], "yaw": 0.4},
+    {"id": "class_potions/cauldron_00", "at": [-6.534, -2.6], "half": [0.734, 0.4], "y": [-0.3, 0.935]},
+    {"id": "class_potions/cauldron_01", "at": [-2.134, -2.6], "half": [0.734, 0.4], "y": [-0.3, 0.935]},
+    {"id": "class_potions/cauldron_02", "at": [2.266, -2.6], "half": [0.734, 0.4], "y": [-0.3, 0.935]},
+    {"id": "class_potions/cauldron_03", "at": [6.666, -2.6], "half": [0.734, 0.4], "y": [-0.3, 0.935]},
+    {"id": "class_potions/cauldron_10", "at": [-6.534, 1.4], "half": [0.734, 0.4], "y": [-0.3, 0.935]},
+    {"id": "class_potions/cauldron_11", "at": [-2.134, 1.4], "half": [0.734, 0.4], "y": [-0.3, 0.935]},
+    {"id": "class_potions/cauldron_12", "at": [2.266, 1.4], "half": [0.734, 0.4], "y": [-0.3, 0.935]},
+    {"id": "class_potions/cauldron_13", "at": [6.666, 1.4], "half": [0.734, 0.4], "y": [-0.3, 0.935]},
+    {"id": "class_potions/cupboard", "at": [-6, 7.698], "half": [0.8, 0.283], "y": [-0.3, 1.9]},
+    {"id": "class_potions/master_desk", "at": [0, -7.2], "half": [1, 0.45], "y": [-0.3, 1.088]},
+    {"id": "class_potions/shelves_n0", "at": [-5.6, -7.74], "half": [2.005, 0.21], "y": [-0.3, 1.9]},
+    {"id": "class_potions/shelves_n1", "at": [5.6, -7.74], "half": [2.005, 0.21], "y": [-0.3, 1.9]},
+    {"id": "class_potions/shelves_w0", "at": [-9.74, -2.75], "half": [0.21, 2.005], "y": [-0.3, 1.9]},
+    {"id": "class_potions/shelves_w1", "at": [-9.74, 2.75], "half": [0.21, 2.005], "y": [-0.3, 1.9]}
+  ]
+}

@@ -1,0 +1,228 @@
+/* The HUD clock chip and the timetable popover (schedule.ts), and the strip
+   that holds the level badge, the chip and the class bar (class-bar.css): in
+   the HUD's top-right corner, under the name and counts (ui/hud.ts
+   .hud-corner lays it out). */
+
+.school-strip {
+  pointer-events: auto;
+  display: flex;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px 3px 3px;
+  border-radius: 999px;
+  background: var(--smoke);
+  border: 1px solid var(--smoke-edge);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.school-strip .sched-chip {
+  border-color: transparent;
+  min-width: 0;
+}
+
+.school-strip > *,
+.school-strip .sched-clockface {
+  flex: none;
+}
+
+.sched-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 9px 3px 7px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  font-size: 0.88rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.sched-chip:hover,
+.sched-chip[aria-expanded="true"] {
+  border-color: var(--gilt);
+}
+
+/* The time of day in a part of its own (a clock face, "1:31 am", the sun or moon),
+   apart from the class bar, so it never reads as a lesson's timer. */
+.sched-clockface {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sched-clock-icon {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  fill: none;
+  stroke: var(--gilt-bright);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sched-time {
+  font-variant-numeric: tabular-nums;
+  color: var(--gilt-bright);
+}
+
+.sched-icon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.sched-icon.sun {
+  background: radial-gradient(circle at 40% 40%, #fff6c4, #ffc23d 70%);
+  box-shadow: 0 0 6px rgba(255, 200, 80, 0.8);
+}
+
+/* A crescent: a pale disc with a dark bite out of it. */
+.sched-icon.moon {
+  background: transparent;
+  box-shadow: inset -4px -1px 0 0 #cfdcff;
+  transform: rotate(-20deg);
+}
+
+.sched-pop {
+  pointer-events: auto;
+  position: absolute;
+  /* Under the strip at the top right. */
+  top: calc(var(--hud-corner-bottom) + 6px);
+  right: 12px;
+  width: min(360px, calc(100% - 24px));
+  padding: 12px 14px 14px;
+  display: grid;
+  gap: 10px;
+  /* The full day (18 lessons) runs down past the chat; the open timetable sits over it. */
+  z-index: 2;
+}
+
+.sched-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sched-head h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--gilt-bright);
+}
+
+.sched-body {
+  display: grid;
+  gap: 10px;
+}
+
+.sched-clock {
+  margin: 0;
+  color: var(--text);
+}
+
+.sched-sub,
+.sched-foot,
+.sched-note {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.sched-foot {
+  margin: 0;
+}
+
+.sched-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.sched-row {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+}
+
+.sched-row.join {
+  border-color: #7fe0b0;
+}
+
+.sched-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sched-status {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.sched-status.join,
+.sched-status.attending {
+  color: #9ff0c6;
+}
+
+.sched-detail {
+  font-variant-numeric: tabular-nums;
+}
+
+.sched-where {
+  font-style: italic;
+  color: var(--text-dim);
+}
+
+/* The timetable by period and slot. */
+.sched-pop {
+  /* Between the top-right corner and the bars at the bottom right. */
+  max-height: calc(100% - var(--hud-corner-bottom) - var(--hud-br-h) - 16px);
+  overflow-y: auto;
+}
+
+.sched-groups {
+  display: grid;
+  gap: 10px;
+}
+
+.sched-period {
+  display: grid;
+  gap: 6px;
+}
+
+.sched-period h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.sched-slot {
+  display: grid;
+  grid-template-columns: 3.2em 1fr;
+  gap: 8px;
+  align-items: start;
+}
+
+.sched-at {
+  padding-top: 8px;
+  font-variant-numeric: tabular-nums;
+  color: var(--gilt-bright);
+}
+
+.sched-row.later {
+  opacity: 0.75;
+}

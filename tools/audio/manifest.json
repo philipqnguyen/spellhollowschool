@@ -1,0 +1,1452 @@
+{
+ "about": "What each committed file under client/public/audio/sfx/ is made of: tools/audio/convert.py reads it (layers from .out/audio-downloads/<dl>/<f>; ss/t cut seconds; rate changes speed and pitch together; af an ffmpeg filter; at a delay; gain dB). See README.md.",
+ "files": [
+  {
+   "out": "foot/stone_0",
+   "ids": [
+    "foot.stone"
+   ],
+   "layers": [
+    {
+     "dl": "owlish_sfx",
+     "f": "x/Footsteps/hard-footstep1.wav",
+     "ss": 0.095,
+     "t": 0.25,
+     "af": "highpass=f=130,highpass=f=130,lowpass=f=10000,volume=15.3dB,alimiter=limit=0.5:attack=1:release=15:level=0"
+    }
+   ],
+   "fadeOut": 0.12,
+   "note": "A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short"
+  },
+  {
+   "out": "foot/stone_1",
+   "ids": [
+    "foot.stone"
+   ],
+   "layers": [
+    {
+     "dl": "owlish_sfx",
+     "f": "x/Footsteps/hard-footstep2.wav",
+     "ss": 0.105,
+     "t": 0.24,
+     "af": "highpass=f=130,highpass=f=130,lowpass=f=10000,volume=14.6dB,alimiter=limit=0.5:attack=1:release=15:level=0"
+    }
+   ],
+   "fadeOut": 0.12,
+   "note": "A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short"
+  },
+  {
+   "out": "foot/stone_2",
+   "ids": [
+    "foot.stone"
+   ],
+   "layers": [
+    {
+     "dl": "owlish_sfx",
+     "f": "x/Footsteps/hard-footstep3.wav",
+     "ss": 0.105,
+     "t": 0.26,
+     "af": "highpass=f=130,highpass=f=130,lowpass=f=10000,volume=15.3dB,alimiter=limit=0.5:attack=1:release=15:level=0"
+    }
+   ],
+   "fadeOut": 0.12,
+   "note": "A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short"
+  },
+  {
+   "out": "foot/stone_3",
+   "ids": [
+    "foot.stone"
+   ],
+   "layers": [
+    {
+     "dl": "owlish_sfx",
+     "f": "x/Footsteps/hard-footstep1.wav",
+     "ss": 0.095,
+     "t": 0.25,
+     "rate": 0.94,
+     "af": "highpass=f=130,highpass=f=130,lowpass=f=10000,volume=15.3dB,alimiter=limit=0.5:attack=1:release=15:level=0"
+    }
+   ],
+   "fadeOut": 0.12,
+   "note": "A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short; slowed a little for a heavier tread"
+  },
+  {
+   "out": "foot/stone_4",
+   "ids": [
+    "foot.stone"
+   ],
+   "layers": [
+    {
+     "dl": "owlish_sfx",
+     "f": "x/Footsteps/hard-footstep2.wav",
+     "ss": 0.105,
+     "t": 0.24,
+     "rate": 1.06,
+     "af": "highpass=f=130,highpass=f=130,lowpass=f=10000,volume=14.6dB,alimiter=limit=0.5:attack=1:release=15:level=0"
+    }
+   ],
+   "fadeOut": 0.12,
+   "note": "A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short; quickened a little for a lighter tread"
+  },
+  {
+   "out": "foot/stone_5",
+   "ids": [
+    "foot.stone"
+   ],
+   "layers": [
+    {
+     "dl": "owlish_sfx",
+     "f": "x/Footsteps/hard-footstep3.wav",
+     "ss": 0.105,
+     "t": 0.26,
+     "rate": 1.04,
+     "af": "highpass=f=130,highpass=f=130,lowpass=f=10000,volume=15.3dB,alimiter=limit=0.5:attack=1:release=15:level=0"
+    }
+   ],
+   "fadeOut": 0.12,
+   "note": "A hard-soled step on a hard indoor floor (castle flagstones): heel and toe clicks, about 3 dB of transient limiting, the sole's scuff tail cut short; quickened a little for a lighter tread"
+  },
+  {
+   "out": "foot/wood_0",
+   "ids": [
+    "foot.wood"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/footstep00.ogg",
+     "af": "highpass=f=60"
+    }
+   ]
+  },
+  {
+   "out": "foot/wood_1",
+   "ids": [
+    "foot.wood"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/footstep01.ogg",
+     "af": "highpass=f=60"
+    }
+   ]
+  },
+  {
+   "out": "foot/wood_2",
+   "ids": [
+    "foot.wood"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/footstep03.ogg",
+     "af": "highpass=f=60"
+    }
+   ]
+  },
+  {
+   "out": "foot/wood_3",
+   "ids": [
+    "foot.wood"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/footstep06.ogg",
+     "af": "highpass=f=60"
+    }
+   ]
+  },
+  {
+   "out": "foot/wood_4",
+   "ids": [
+    "foot.wood"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/footstep07.ogg",
+     "af": "highpass=f=60"
+    }
+   ]
+  },
+  {
+   "out": "foot/carpet_0",
+   "ids": [
+    "foot.carpet"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/footstep02.ogg",
+     "af": "lowpass=f=850,lowpass=f=850,highpass=f=60"
+    }
+   ],
+   "rms": -23,
+   "note": "A boot on boards muffled to stand for a step on a rug (no CC0 rug footsteps found)"
+  },
+  {
+   "out": "foot/carpet_1",
+   "ids": [
+    "foot.carpet"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/footstep04.ogg",
+     "af": "lowpass=f=850,lowpass=f=850,highpass=f=60"
+    }
+   ],
+   "rms": -23,
+   "note": "A boot on boards muffled to stand for a step on a rug (no CC0 rug footsteps found)"
+  },
+  {
+   "out": "foot/carpet_2",
+   "ids": [
+    "foot.carpet"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/footstep05.ogg",
+     "af": "lowpass=f=850,lowpass=f=850,highpass=f=60"
+    }
+   ],
+   "rms": -23,
+   "note": "A boot on boards muffled to stand for a step on a rug (no CC0 rug footsteps found)"
+  },
+  {
+   "out": "foot/carpet_3",
+   "ids": [
+    "foot.carpet"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/footstep09.ogg",
+     "af": "lowpass=f=850,lowpass=f=850,highpass=f=60"
+    }
+   ],
+   "rms": -23,
+   "note": "A boot on boards muffled to stand for a step on a rug (no CC0 rug footsteps found)"
+  },
+  {
+   "out": "foot/grass_0",
+   "ids": [
+    "foot.grass"
+   ],
+   "layers": [
+    {
+     "dl": "fantozzi_steps",
+     "f": "x/Fantozzi-footsteps/flac/Fantozzi-SandL1.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "The recordist's 'sand' steps, which sound like grass"
+  },
+  {
+   "out": "foot/grass_1",
+   "ids": [
+    "foot.grass"
+   ],
+   "layers": [
+    {
+     "dl": "fantozzi_steps",
+     "f": "x/Fantozzi-footsteps/flac/Fantozzi-SandL2.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "The recordist's 'sand' steps, which sound like grass"
+  },
+  {
+   "out": "foot/grass_2",
+   "ids": [
+    "foot.grass"
+   ],
+   "layers": [
+    {
+     "dl": "fantozzi_steps",
+     "f": "x/Fantozzi-footsteps/flac/Fantozzi-SandL3.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "The recordist's 'sand' steps, which sound like grass"
+  },
+  {
+   "out": "foot/grass_3",
+   "ids": [
+    "foot.grass"
+   ],
+   "layers": [
+    {
+     "dl": "fantozzi_steps",
+     "f": "x/Fantozzi-footsteps/flac/Fantozzi-SandR1.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "The recordist's 'sand' steps, which sound like grass"
+  },
+  {
+   "out": "foot/grass_4",
+   "ids": [
+    "foot.grass"
+   ],
+   "layers": [
+    {
+     "dl": "fantozzi_steps",
+     "f": "x/Fantozzi-footsteps/flac/Fantozzi-SandR2.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "The recordist's 'sand' steps, which sound like grass"
+  },
+  {
+   "out": "foot/grass_5",
+   "ids": [
+    "foot.grass"
+   ],
+   "layers": [
+    {
+     "dl": "fantozzi_steps",
+     "f": "x/Fantozzi-footsteps/flac/Fantozzi-SandR3.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "The recordist's 'sand' steps, which sound like grass"
+  },
+  {
+   "out": "foot/gravel_0",
+   "ids": [
+    "foot.gravel"
+   ],
+   "layers": [
+    {
+     "dl": "corsica_snow",
+     "f": "x/Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_01.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "Steps on snow-covered gravel"
+  },
+  {
+   "out": "foot/gravel_1",
+   "ids": [
+    "foot.gravel"
+   ],
+   "layers": [
+    {
+     "dl": "corsica_snow",
+     "f": "x/Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_04.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "Steps on snow-covered gravel"
+  },
+  {
+   "out": "foot/gravel_2",
+   "ids": [
+    "foot.gravel"
+   ],
+   "layers": [
+    {
+     "dl": "corsica_snow",
+     "f": "x/Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_05.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "Steps on snow-covered gravel"
+  },
+  {
+   "out": "foot/gravel_3",
+   "ids": [
+    "foot.gravel"
+   ],
+   "layers": [
+    {
+     "dl": "corsica_snow",
+     "f": "x/Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_07.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "Steps on snow-covered gravel"
+  },
+  {
+   "out": "foot/gravel_4",
+   "ids": [
+    "foot.gravel"
+   ],
+   "layers": [
+    {
+     "dl": "corsica_snow",
+     "f": "x/Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_08.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "Steps on snow-covered gravel"
+  },
+  {
+   "out": "foot/gravel_5",
+   "ids": [
+    "foot.gravel"
+   ],
+   "layers": [
+    {
+     "dl": "corsica_snow",
+     "f": "x/Corsica_S-Walking_in_Snow/Corsica_S-Walking_on_snow_covered_gravel_09.flac",
+     "af": "highpass=f=80"
+    }
+   ],
+   "note": "Steps on snow-covered gravel"
+  },
+  {
+   "out": "foot/land_0",
+   "ids": [
+    "foot.land"
+   ],
+   "layers": [
+    {
+     "dl": "fantozzi_steps",
+     "f": "x/Fantozzi-footsteps/flac/Fantozzi-StoneL1.flac",
+     "af": "bass=g=5:f=110"
+    },
+    {
+     "dl": "fantozzi_steps",
+     "f": "x/Fantozzi-footsteps/flac/Fantozzi-StoneR1.flac",
+     "af": "bass=g=5:f=110",
+     "at": 0.045,
+     "gain": -1
+    }
+   ],
+   "rms": -18,
+   "note": "Two steps 45 ms apart: both feet down"
+  },
+  {
+   "out": "foot/land_1",
+   "ids": [
+    "foot.land"
+   ],
+   "layers": [
+    {
+     "dl": "fantozzi_steps",
+     "f": "x/Fantozzi-footsteps/flac/Fantozzi-StoneL2.flac",
+     "af": "bass=g=5:f=110"
+    },
+    {
+     "dl": "fantozzi_steps",
+     "f": "x/Fantozzi-footsteps/flac/Fantozzi-StoneR3.flac",
+     "af": "bass=g=5:f=110",
+     "at": 0.045,
+     "gain": -1
+    }
+   ],
+   "rms": -18,
+   "note": "Two steps 45 ms apart: both feet down"
+  },
+  {
+   "out": "door/heavy_0",
+   "ids": [
+    "door.heavy"
+   ],
+   "layers": [
+    {
+     "dl": "qubodup_doorset",
+     "f": "x/qubodup-DoorSet/flac/qubodup-DoorOpen03.flac",
+     "rate": 0.86
+    },
+    {
+     "dl": "qubodup_doorset",
+     "f": "x/qubodup-DoorSet/flac/qubodup-DoorClose07.flac",
+     "rate": 0.86,
+     "at": 1.15,
+     "gain": -2
+    }
+   ],
+   "fadeOut": 0.15,
+   "note": "Slowed for a bigger, heavier door: opens, then closes behind"
+  },
+  {
+   "out": "door/heavy_1",
+   "ids": [
+    "door.heavy"
+   ],
+   "layers": [
+    {
+     "dl": "qubodup_doorset",
+     "f": "x/qubodup-DoorSet/flac/qubodup-DoorOpen04.flac",
+     "rate": 0.84
+    },
+    {
+     "dl": "qubodup_doorset",
+     "f": "x/qubodup-DoorSet/flac/qubodup-DoorClose09.flac",
+     "rate": 0.84,
+     "at": 1.2,
+     "gain": -2
+    }
+   ],
+   "fadeOut": 0.15,
+   "note": "Slowed for a bigger, heavier door: opens, then closes behind"
+  },
+  {
+   "out": "door/wood_0",
+   "ids": [
+    "door.wood"
+   ],
+   "layers": [
+    {
+     "dl": "qubodup_door",
+     "f": "x/door/door-01.flac",
+     "af": "highpass=f=50"
+    }
+   ],
+   "fadeOut": 0.08,
+   "note": "A wooden room door"
+  },
+  {
+   "out": "door/wood_1",
+   "ids": [
+    "door.wood"
+   ],
+   "layers": [
+    {
+     "dl": "qubodup_door",
+     "f": "x/door/door-06.flac",
+     "af": "highpass=f=50"
+    }
+   ],
+   "fadeOut": 0.08,
+   "note": "A wooden room door"
+  },
+  {
+   "out": "door/wood_2",
+   "ids": [
+    "door.wood"
+   ],
+   "layers": [
+    {
+     "dl": "qubodup_door",
+     "f": "x/door/door-08.flac",
+     "af": "highpass=f=50"
+    }
+   ],
+   "fadeOut": 0.08,
+   "note": "A wooden room door"
+  },
+  {
+   "out": "door/portrait_0",
+   "ids": [
+    "entrance.portrait"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/creak2.ogg",
+     "rate": 0.9
+    },
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/doorClose_2.ogg",
+     "at": 0.75,
+     "gain": -10,
+     "af": "lowpass=f=1500"
+    }
+   ],
+   "fadeOut": 0.1,
+   "note": "A hinge's creak and a soft wooden knock as the frame swings"
+  },
+  {
+   "out": "door/double_0",
+   "ids": [
+    "entrance.double"
+   ],
+   "layers": [
+    {
+     "dl": "qubodup_doorset",
+     "f": "x/qubodup-DoorSet/flac/qubodup-DoorOpen01.flac",
+     "rate": 0.92
+    },
+    {
+     "dl": "qubodup_doorset",
+     "f": "x/qubodup-DoorSet/flac/qubodup-DoorOpen05.flac",
+     "rate": 0.9,
+     "at": 0.14,
+     "gain": -1
+    }
+   ],
+   "fadeOut": 0.15,
+   "note": "Two door leaves opening a moment apart"
+  },
+  {
+   "out": "door/tapestry_0",
+   "ids": [
+    "entrance.tapestry"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/cloth1.ogg",
+     "rate": 0.82
+    }
+   ],
+   "rms": -22,
+   "note": "Slowed for a heavy hanging"
+  },
+  {
+   "out": "door/tapestry_1",
+   "ids": [
+    "entrance.tapestry"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/cloth2.ogg",
+     "rate": 0.78
+    },
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/cloth1.ogg",
+     "rate": 0.9,
+     "at": 0.12,
+     "gain": -6
+    }
+   ],
+   "rms": -22,
+   "note": "Slowed for a heavy hanging"
+  },
+  {
+   "out": "door/panel_0",
+   "ids": [
+    "entrance.panel"
+   ],
+   "layers": [
+    {
+     "dl": "rubberduck_metalwood",
+     "f": "x/wood_squeak_01.ogg",
+     "rate": 0.7
+    },
+    {
+     "dl": "rubberduck_metalwood",
+     "f": "x/wood_close_01.ogg",
+     "at": 0.6,
+     "gain": -5
+    }
+   ],
+   "fadeOut": 0.1,
+   "note": "A slow wooden squeak, then the panel stops"
+  },
+  {
+   "out": "door/painting_0",
+   "ids": [
+    "entrance.painting"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/creak1.ogg",
+     "rate": 0.92
+    }
+   ]
+  },
+  {
+   "out": "door/painting_1",
+   "ids": [
+    "entrance.painting"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/creak3.ogg",
+     "rate": 0.88
+    },
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/creak1.ogg",
+     "rate": 1.05,
+     "at": 0.25,
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "out": "door/barrels_0",
+   "ids": [
+    "entrance.barrels"
+   ],
+   "layers": [
+    {
+     "dl": "rubberduck_loops",
+     "f": "x/rolling.ogg",
+     "rate": 0.8
+    },
+    {
+     "dl": "rubberduck_metalwood",
+     "f": "x/wood_hit_03.ogg",
+     "at": 0.25,
+     "gain": -5
+    },
+    {
+     "dl": "rubberduck_metalwood",
+     "f": "x/wood_hit_05.ogg",
+     "at": 0.75,
+     "gain": -7
+    }
+   ],
+   "fadeOut": 0.15,
+   "note": "Barrels rolling aside with wooden knocks"
+  },
+  {
+   "out": "ui/coins_in_0",
+   "ids": [
+    "ui.coins_in"
+   ],
+   "layers": [
+    {
+     "dl": "rubberduck_rpg80",
+     "f": "x/item_coins_01.ogg"
+    }
+   ],
+   "rms": -22
+  },
+  {
+   "out": "ui/coins_in_1",
+   "ids": [
+    "ui.coins_in"
+   ],
+   "layers": [
+    {
+     "dl": "rubberduck_rpg80",
+     "f": "x/item_coins_02.ogg"
+    }
+   ],
+   "rms": -22
+  },
+  {
+   "out": "ui/coins_in_2",
+   "ids": [
+    "ui.coins_in"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/handleCoins.ogg"
+    }
+   ],
+   "rms": -22
+  },
+  {
+   "out": "ui/coins_out_0",
+   "ids": [
+    "ui.coins_out"
+   ],
+   "layers": [
+    {
+     "dl": "rubberduck_rpg80",
+     "f": "x/item_coins_03.ogg",
+     "rate": 0.94
+    }
+   ],
+   "rms": -22
+  },
+  {
+   "out": "ui/coins_out_1",
+   "ids": [
+    "ui.coins_out"
+   ],
+   "layers": [
+    {
+     "dl": "rubberduck_rpg80",
+     "f": "x/item_coins_04.ogg",
+     "rate": 0.94
+    }
+   ],
+   "rms": -22
+  },
+  {
+   "out": "ui/coins_out_2",
+   "ids": [
+    "ui.coins_out"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/handleCoins2.ogg",
+     "rate": 0.94
+    }
+   ],
+   "rms": -22
+  },
+  {
+   "out": "ui/equip_0",
+   "ids": [
+    "ui.equip"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/cloth3.ogg"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "ui/equip_1",
+   "ids": [
+    "ui.equip"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/cloth4.ogg"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "ui/equip_2",
+   "ids": [
+    "ui.equip"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/clothBelt.ogg"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "ui/equip_3",
+   "ids": [
+    "ui.equip"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/clothBelt2.ogg"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "ui/parchment_open_0",
+   "ids": [
+    "ui.parchment_open"
+   ],
+   "layers": [
+    {
+     "dl": "luckius_paper",
+     "f": "x/WAV/Paper Sound - 1.wav"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "ui/parchment_open_1",
+   "ids": [
+    "ui.parchment_open"
+   ],
+   "layers": [
+    {
+     "dl": "luckius_paper",
+     "f": "x/WAV/Paper Sound - 2.wav"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "ui/parchment_close_0",
+   "ids": [
+    "ui.parchment_close"
+   ],
+   "layers": [
+    {
+     "dl": "luckius_paper",
+     "f": "x/WAV/Paper Sound - 3.wav"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "ui/parchment_close_1",
+   "ids": [
+    "ui.parchment_close"
+   ],
+   "layers": [
+    {
+     "dl": "luckius_paper",
+     "f": "x/WAV/Paper Sound - 4.wav",
+     "t": 1.4
+    }
+   ],
+   "rms": -23,
+   "fadeOut": 0.25
+  },
+  {
+   "out": "ui/page_0",
+   "ids": [
+    "ui.page",
+    "sprinkle.page"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/bookFlip1.ogg"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "ui/page_1",
+   "ids": [
+    "ui.page",
+    "sprinkle.page"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/bookFlip2.ogg"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "ui/page_2",
+   "ids": [
+    "ui.page",
+    "sprinkle.page"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/bookFlip3.ogg"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "ui/page_3",
+   "ids": [
+    "ui.page",
+    "sprinkle.page"
+   ],
+   "layers": [
+    {
+     "dl": "starninjas_book",
+     "f": "x/book_flip.1.ogg"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "craft/station_0",
+   "ids": [
+    "craft.station_open"
+   ],
+   "layers": [
+    {
+     "dl": "rubberduck_rpg80",
+     "f": "x/item_wood_01.ogg"
+    },
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/metalClick.ogg",
+     "at": 0.12,
+     "gain": -4
+    }
+   ],
+   "note": "Something set down on the bench and a latch"
+  },
+  {
+   "out": "craft/station_1",
+   "ids": [
+    "craft.station_open"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/beltHandle1.ogg"
+    },
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/metalLatch.ogg",
+     "at": 0.18,
+     "gain": -6
+    }
+   ]
+  },
+  {
+   "out": "craft/search_0",
+   "ids": [
+    "find.search"
+   ],
+   "layers": [
+    {
+     "dl": "tinyworlds_steps",
+     "f": "x/leaves01.ogg"
+    },
+    {
+     "dl": "tinyworlds_steps",
+     "f": "x/leaves02.ogg",
+     "at": 0.28
+    },
+    {
+     "dl": "tinyworlds_steps",
+     "f": "x/leaves01.ogg",
+     "at": 0.55,
+     "rate": 1.1,
+     "gain": -3
+    }
+   ],
+   "note": "Leaves rustled three times: rummaging in a find spot"
+  },
+  {
+   "out": "craft/search_1",
+   "ids": [
+    "find.search"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/beltHandle2.ogg"
+    },
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/cloth4.ogg",
+     "at": 0.25,
+     "gain": -2
+    }
+   ],
+   "note": "Rummaging in a bag"
+  },
+  {
+   "out": "potion/drink_0",
+   "ids": [
+    "potion.drink"
+   ],
+   "layers": [
+    {
+     "dl": "owlish_more",
+     "f": "x/Drink/Drink_04.wav",
+     "af": "highpass=f=110"
+    }
+   ],
+   "rms": -22
+  },
+  {
+   "out": "potion/drink_1",
+   "ids": [
+    "potion.drink"
+   ],
+   "layers": [
+    {
+     "dl": "owlish_more",
+     "f": "x/Drink/Drink_02.wav",
+     "af": "highpass=f=110"
+    }
+   ],
+   "rms": -22
+  },
+  {
+   "out": "potion/drink_2",
+   "ids": [
+    "potion.drink"
+   ],
+   "layers": [
+    {
+     "dl": "owlish_more",
+     "f": "x/Drink/Drink_03.wav",
+     "af": "highpass=f=110"
+    }
+   ],
+   "rms": -22
+  },
+  {
+   "out": "mail/send_0",
+   "ids": [
+    "mail.send"
+   ],
+   "layers": [
+    {
+     "dl": "luckius_paper",
+     "f": "x/WAV/Paper Sound - 2.wav"
+    },
+    {
+     "dl": "antum_wings",
+     "f": "x/wings_flap_large.flac",
+     "rate": 1.4,
+     "at": 0.35,
+     "gain": -4
+    }
+   ],
+   "note": "Paper folded, then an owl's wings (the wings sped up for a smaller bird)"
+  },
+  {
+   "out": "mail/send_1",
+   "ids": [
+    "mail.send"
+   ],
+   "layers": [
+    {
+     "dl": "luckius_paper",
+     "f": "x/WAV/Paper Sound - 4.wav"
+    },
+    {
+     "dl": "antum_wings",
+     "f": "x/wings_flap_large.flac",
+     "rate": 1.55,
+     "at": 0.3,
+     "gain": -4
+    }
+   ],
+   "note": "Paper folded, then an owl's wings (the wings sped up for a smaller bird)"
+  },
+  {
+   "out": "mail/collect_0",
+   "ids": [
+    "mail.collect"
+   ],
+   "layers": [
+    {
+     "dl": "rubberduck_100",
+     "f": "x/paper_01.ogg"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "mail/collect_1",
+   "ids": [
+    "mail.collect"
+   ],
+   "layers": [
+    {
+     "dl": "rubberduck_100",
+     "f": "x/paper_02.ogg"
+    }
+   ],
+   "rms": -23
+  },
+  {
+   "out": "mail/flutter_0",
+   "ids": [
+    "owl.flutter"
+   ],
+   "layers": [
+    {
+     "dl": "antum_wings",
+     "f": "x/wings_flap_large.flac",
+     "rate": 1.35
+    }
+   ],
+   "note": "Sped up for an owl's smaller wings"
+  },
+  {
+   "out": "mail/flutter_1",
+   "ids": [
+    "owl.flutter"
+   ],
+   "layers": [
+    {
+     "dl": "antum_wings",
+     "f": "x/wings_flap_large.flac",
+     "rate": 1.6,
+     "af": "highpass=f=120"
+    }
+   ],
+   "note": "Sped up for an owl's smaller wings"
+  },
+  {
+   "out": "sprinkle/bird_0",
+   "ids": [
+    "sprinkle.bird"
+   ],
+   "layers": [
+    {
+     "dl": "isaiah_birds",
+     "f": "birds-isaiah658.ogg",
+     "ss": 0.7,
+     "t": 0.62,
+     "af": "highpass=f=900"
+    }
+   ],
+   "rms": -22,
+   "fadeOut": 0.08
+  },
+  {
+   "out": "sprinkle/bird_1",
+   "ids": [
+    "sprinkle.bird"
+   ],
+   "layers": [
+    {
+     "dl": "isaiah_birds",
+     "f": "birds-isaiah658.ogg",
+     "ss": 7.8,
+     "t": 1.9,
+     "af": "highpass=f=900"
+    }
+   ],
+   "rms": -22,
+   "fadeOut": 0.08
+  },
+  {
+   "out": "sprinkle/bird_2",
+   "ids": [
+    "sprinkle.bird"
+   ],
+   "layers": [
+    {
+     "dl": "isaiah_birds",
+     "f": "birds-isaiah658.ogg",
+     "ss": 14.85,
+     "t": 2.45,
+     "af": "highpass=f=900"
+    }
+   ],
+   "rms": -22,
+   "fadeOut": 0.08
+  },
+  {
+   "out": "sprinkle/bird_3",
+   "ids": [
+    "sprinkle.bird"
+   ],
+   "layers": [
+    {
+     "dl": "isaiah_birds",
+     "f": "birds-isaiah658.ogg",
+     "ss": 24.75,
+     "t": 3.1,
+     "af": "highpass=f=900"
+    }
+   ],
+   "rms": -22,
+   "fadeOut": 0.08
+  },
+  {
+   "out": "sprinkle/crow_0",
+   "ids": [
+    "sprinkle.crow"
+   ],
+   "layers": [
+    {
+     "dl": "zeroisnotnull_crow",
+     "f": "crow_caw.wav",
+     "af": "highpass=f=200"
+    }
+   ],
+   "rms": -22
+  },
+  {
+   "out": "sprinkle/crow_1",
+   "ids": [
+    "sprinkle.crow"
+   ],
+   "layers": [
+    {
+     "dl": "zeroisnotnull_crow",
+     "f": "crow_caw.wav",
+     "af": "highpass=f=200",
+     "rate": 0.95
+    },
+    {
+     "dl": "zeroisnotnull_crow",
+     "f": "crow_caw.wav",
+     "af": "highpass=f=200",
+     "rate": 0.97,
+     "at": 0.62,
+     "gain": -2
+    }
+   ],
+   "rms": -22,
+   "note": "Two caws"
+  },
+  {
+   "out": "sprinkle/fire_pop_0",
+   "ids": [
+    "sprinkle.fire_pop"
+   ],
+   "layers": [
+    {
+     "dl": "antum_fire",
+     "f": "fire-1.wav",
+     "ss": 0.1,
+     "t": 0.26
+    }
+   ],
+   "rms": -21,
+   "fadeOut": 0.04
+  },
+  {
+   "out": "sprinkle/fire_pop_1",
+   "ids": [
+    "sprinkle.fire_pop"
+   ],
+   "layers": [
+    {
+     "dl": "antum_fire",
+     "f": "fire-1.wav",
+     "ss": 1.09,
+     "t": 0.14
+    }
+   ],
+   "rms": -21,
+   "fadeOut": 0.04
+  },
+  {
+   "out": "sprinkle/fire_pop_2",
+   "ids": [
+    "sprinkle.fire_pop"
+   ],
+   "layers": [
+    {
+     "dl": "antum_fire",
+     "f": "fire-1.wav",
+     "ss": 2.12,
+     "t": 0.24
+    }
+   ],
+   "rms": -21,
+   "fadeOut": 0.04
+  },
+  {
+   "out": "sprinkle/creak_0",
+   "ids": [
+    "sprinkle.creak"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/creak1.ogg",
+     "rate": 0.78,
+     "af": "lowpass=f=3500"
+    }
+   ],
+   "rms": -23,
+   "note": "Slowed and darkened: old timber rather than a door"
+  },
+  {
+   "out": "sprinkle/creak_1",
+   "ids": [
+    "sprinkle.creak"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/creak2.ogg",
+     "rate": 0.78,
+     "af": "lowpass=f=3500"
+    }
+   ],
+   "rms": -23,
+   "note": "Slowed and darkened: old timber rather than a door"
+  },
+  {
+   "out": "sprinkle/creak_2",
+   "ids": [
+    "sprinkle.creak"
+   ],
+   "layers": [
+    {
+     "dl": "kenney_rpg",
+     "f": "x/OGG/creak3.ogg",
+     "rate": 0.78,
+     "af": "lowpass=f=3500"
+    }
+   ],
+   "rms": -23,
+   "note": "Slowed and darkened: old timber rather than a door"
+  },
+  {
+   "out": "amb/fountain",
+   "ids": [
+    "loop.fountain"
+   ],
+   "layers": [
+    {
+     "dl": "thimras_park_river",
+     "f": "park_ambience_river.wav",
+     "ss": 120,
+     "t": 33,
+     "af": "highpass=f=150"
+    }
+   ],
+   "loop": 30,
+   "lufs": -20,
+   "note": "Water falling over a low step in a park stream; the river's low rumble filtered out"
+  },
+  {
+   "out": "amb/hearth",
+   "ids": [
+    "loop.hearth"
+   ],
+   "layers": [
+    {
+     "dl": "pagdev_fire",
+     "f": "fire.wav",
+     "ss": 3,
+     "t": 24,
+     "af": "highpass=f=140,highpass=f=140"
+    }
+   ],
+   "loop": 21.5,
+   "lufs": -21,
+   "note": "The low rumble under the fire filtered out, leaving the crackle"
+  },
+  {
+   "out": "amb/courtyard_day",
+   "ids": [
+    "amb.courtyard_day"
+   ],
+   "layers": [
+    {
+     "dl": "thimras_park_birds",
+     "f": "park_ambience_birds.wav",
+     "ss": 40,
+     "t": 43,
+     "af": "highpass=f=250"
+    }
+   ],
+   "ch": 2,
+   "loop": 40,
+   "lufs": -26,
+   "note": "Birds in a copse; the city's low rumble filtered out"
+  },
+  {
+   "out": "amb/courtyard_night",
+   "ids": [
+    "amb.courtyard_night"
+   ],
+   "layers": [
+    {
+     "dl": "wolfgang_crickets",
+     "f": "crickets_1.mp3",
+     "af": "highpass=f=300"
+    }
+   ],
+   "ch": 2,
+   "loop": 10.4,
+   "xfade": 1.0,
+   "lufs": -28
+  },
+  {
+   "out": "amb/lake_night",
+   "ids": [
+    "loop.lake"
+   ],
+   "layers": [
+    {
+     "dl": "randommind_vistula",
+     "f": "VistulaShort.mp3",
+     "ss": 150,
+     "t": 43,
+     "af": "lowpass=f=2200,highpass=f=60"
+    }
+   ],
+   "ch": 2,
+   "loop": 40,
+   "lufs": -26,
+   "note": "River waves on a shore, low-passed to calm them into lapping"
+  }
+ ]
+}

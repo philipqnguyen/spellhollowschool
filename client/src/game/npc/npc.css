@@ -1,0 +1,70 @@
+/* Speech bubbles over NPCs (bubbles.ts): a clean, bright card with a tail,
+   readable over any background. */
+
+.npc-bubbles {
+  position: absolute;
+  inset: 0;
+  /* Under the HUD's strips and panels, like the nameplates (style.css). */
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.npc-bubble {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: min(320px, 70vw);
+  padding: 6px 11px 7px;
+  border-radius: 10px;
+  background: rgba(252, 246, 232, 0.95);
+  color: #2b1d12;
+  font-size: 0.92rem;
+  line-height: 1.3;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  will-change: transform;
+}
+
+/* The tail, pointing down at the speaker. */
+.npc-bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 14px;
+  height: 14px;
+  background: inherit;
+  transform: translateX(-50%) rotate(45deg);
+  border-radius: 2px;
+}
+
+.npc-bubble-name {
+  display: block;
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: #2f5aa8;
+}
+
+.npc-bubble-text {
+  position: relative;
+  z-index: 1;
+}
+
+.npc-bubble.pop .npc-bubble-text,
+.npc-bubble.pop .npc-bubble-name {
+  animation: npc-pop 0.25s ease-out;
+}
+
+@keyframes npc-pop {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .npc-bubble.pop .npc-bubble-text,
+  .npc-bubble.pop .npc-bubble-name {
+    animation: none;
+  }
+}

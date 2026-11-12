@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "class": "potions",
+  "answers": {
+    "madder_root": "madder_root",
+    "weld_flowers": "weld_flowers",
+    "woad_leaves": "woad_leaves",
+    "oakmoss_lichen": "oakmoss_lichen",
+    "elderberries": "elderberries",
+    "walnut_hulls": "walnut_hulls",
+    "moonflower_petals": "moonflower_petals",
+    "oak_galls": "oak_galls",
+    "rose_hips": "rose_hips",
+    "moonknot": "moonknot",
+    "moonstone_dust": "moonstone_dust",
+    "lacewing_flies": "lacewing_flies",
+    "puffer_fish_eyes": "puffer_fish_eyes",
+    "wrinklefig": "wrinklefig",
+    "ginger_root": "ginger_root",
+    "glowing_mushroom": "glowing_mushroom",
+    "pearl_dust": "pearl_dust",
+    "valerian_sprigs": "valerian_sprigs"
+  }
+}

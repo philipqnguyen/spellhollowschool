@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "class_floor", "kind": "room", "name": "Defence Classroom", "level": 0, "cell": "class_defence", "min": [-10.0, -8.0], "max": [10.0, 8.0], "y": 0.0, "ceiling": 9.6}
+  ],
+  "spawns": [
+    {"id": "class_entry_a", "pos": [-1.0, 0.0, 5.5], "yaw": 3.1415927},
+    {"id": "class_entry_b", "pos": [1.0, 0.0, 5.5], "yaw": 3.1415927}
+  ],
+  "landmarks": [
+    {"id": "class_professor", "name": "Professor's Desk", "pos": [0.0, 0.0, -6.0]}
+  ],
+  "interactables": [
+    {"id": "class_exit", "kind": "instance_exit", "name": "Classroom Door", "pos": [0.0, 0.0, 7.5], "yaw": 3.1415927, "radius": 1.5}
+  ],
+  "solids": [
+    {"id": "class_defence/bookcase_n0", "at": [-6.2, -7.77], "half": [1.5, 0.23], "y": [-0.3, 1.9]},
+    {"id": "class_defence/bookcase_n1", "at": [6.2, -7.77], "half": [1.5, 0.23], "y": [-0.3, 1.9]},
+    {"id": "class_defence/bookcase_w0", "at": [-9.77, -6], "half": [0.23, 1.5], "y": [-0.3, 1.9]},
+    {"id": "class_defence/bookcase_w3", "at": [-9.77, 6], "half": [0.23, 1.5], "y": [-0.3, 1.9]},
+    {"id": "class_defence/cupboard", "at": [-7.4, 7.648], "half": [0.8, 0.283], "y": [-0.3, 1.9]},
+    {"id": "class_defence/professor_table", "at": [6.4, -5.6], "half": [0.8, 0.45], "y": [-0.3, 0.76]},
+    {"id": "class_defence/professor_things", "at": [6.317, -5.597], "half": [0.687, 0.329], "y": [-0.3, 1.022]},
+    {"id": "class_defence/target_0", "at": [-9.015, -1.8], "half": [0.125, 0.45], "y": [-0.3, 1.9]},
+    {"id": "class_defence/target_1", "at": [-9.015, 2.2], "half": [0.125, 0.45], "y": [-0.3, 1.9]},
+    {"id": "class_defence/target_2", "at": [9.015, -2], "half": [0.125, 0.45], "y": [-0.3, 1.9]},
+    {"id": "class_defence/target_3", "at": [9.015, 2], "half": [0.125, 0.45], "y": [-0.3, 1.9]}
+  ]
+}

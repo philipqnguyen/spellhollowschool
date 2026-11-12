@@ -1,0 +1,87 @@
+# One game server deployment: Postgres plus shs-server on a single VPS
+# (2 vCPU / 4 GB), without Kamal and without automatic HTTPS (put your own
+# proxy in front). docs/deploy.md deploys with Kamal instead. Usage, from the
+# repository root:
+#
+#   cp docker/.env.example docker/.env     # then set POSTGRES_PASSWORD etc.
+#   npm run build -w client                # the image serves client/dist
+#   docker compose -f docker/compose.yml up -d --build
+#
+# Development can run just the database: `docker compose -f docker/compose.yml up -d db`
+# (published on 127.0.0.1:${SHS_DB_PORT:-5432}).
+
+name: shs
+
+services:
+  db:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: shs
+      POSTGRES_DB: shs
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in docker/.env}
+    # Sized for a 4 GB box shared with the game server (~1 GB for Postgres).
+    command:
+      - postgres
+      - -c
+      - shared_buffers=512MB
+      - -c
+      - effective_cache_size=1GB
+      - -c
+      - work_mem=8MB
+      - -c
+      - max_connections=40
+    volumes:
+      # Postgres 18 keeps its data under /var/lib/postgresql/18/docker.
+      - pgdata:/var/lib/postgresql
+    ports:
+      - "127.0.0.1:${SHS_DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shs -d shs"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    shm_size: 256mb
+
+  server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: shs-server:latest
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://shs:${POSTGRES_PASSWORD}@db:5432/shs
+      SHS_BIND: 0.0.0.0:8080
+      SHS_PUBLIC_URL: ${SHS_PUBLIC_URL:-http://localhost:8080}
+      SHS_PLAYER_CAP: ${SHS_PLAYER_CAP:-1000}
+      SHS_DEV: ${SHS_DEV:-}
+      SHS_SMTP_URL: ${SHS_SMTP_URL:-}
+      SHS_MAIL_FROM: ${SHS_MAIL_FROM:-}
+      SHS_TRUST_PROXY: ${SHS_TRUST_PROXY:-}
+      SHS_CLIENT_IP_HEADER: ${SHS_CLIENT_IP_HEADER:-}
+      SHS_ASSETS_CDN_URL: ${SHS_ASSETS_CDN_URL:-}
+      RUST_LOG: ${RUST_LOG:-info}
+    ports:
+      # Loopback by default: the proxy in front runs on this host. Publishing
+      # on every interface lets clients skip the proxy (and, with
+      # SHS_TRUST_PROXY or SHS_CLIENT_IP_HEADER set, pick their rate-limit key).
+      - "${SHS_HTTP_HOST:-127.0.0.1}:${SHS_HTTP_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "shs-server", "healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    stop_grace_period: 30s
+    # Plenty of open sockets for 1,000 WebSocket players.
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+volumes:
+  pgdata:

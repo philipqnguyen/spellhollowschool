@@ -1,0 +1,88 @@
+# Load-test stack: the launch VPS (2 vCPU / 4 GB) emulated with container
+# limits. Both containers are pinned to the same two CPUs, so shs-server and
+# Postgres share 2 cores exactly as they will on the VPS, and memory is capped
+# at 3 GB (server) + 1 GB (Postgres). The bots (tools/loadtest) run on the
+# host, outside these limits. See tools/loadtest/README.md.
+#
+#   docker compose -f docker/compose.loadtest.yml up -d --build --wait
+#   cargo run --release -p loadtest -- --bots 1000 --scenario spread \
+#       --containers shs-loadtest-server-1,shs-loadtest-db-1
+#   docker compose -f docker/compose.loadtest.yml down -v
+#
+# Why a shared cpuset and not `--cpus 1.6` / `--cpus 0.4` quotas: Rust's
+# `available_parallelism` rounds a 1.6 CPU quota down to 1, so the server
+# would start one tokio worker and one snapshot thread where the VPS gives it
+# two, and CFS throttling stalls every thread at once when a 100 ms quota
+# period runs out, which a real 2-core machine never does. SHS_LT_CPUSET
+# picks other CPUs (e.g. "2,3") if 0 and 1 are busy.
+
+name: shs-loadtest
+
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: shs
+      POSTGRES_DB: shs
+      # Local throwaway database, reachable only inside this compose network.
+      POSTGRES_PASSWORD: loadtest
+    # The production tuning from compose.yml.
+    command:
+      - postgres
+      - -c
+      - shared_buffers=512MB
+      - -c
+      - effective_cache_size=1GB
+      - -c
+      - work_mem=8MB
+      - -c
+      - max_connections=40
+    cpuset: ${SHS_LT_CPUSET:-0,1}
+    mem_limit: 1g
+    memswap_limit: 1g
+    shm_size: 256mb
+    volumes:
+      # Postgres 18 keeps its data under /var/lib/postgresql/18/docker.
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shs -d shs"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: shs-server:loadtest
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://shs:loadtest@db:5432/shs
+      SHS_BIND: 0.0.0.0:8080
+      SHS_DEV: "1"
+      SHS_PLAYER_CAP: "1000"
+      RUST_LOG: ${RUST_LOG:-info}
+    # The image ships only the layout; mount the chat word filter so chat
+    # takes the same path as in production.
+    volumes:
+      - ../data/moderation/blocked_words.txt:/app/data/moderation/blocked_words.txt:ro
+    ports:
+      - "127.0.0.1:${SHS_HTTP_PORT:-8080}:8080"
+    cpuset: ${SHS_LT_CPUSET:-0,1}
+    mem_limit: 3g
+    memswap_limit: 3g
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    healthcheck:
+      test: ["CMD", "shs-server", "healthcheck"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+    stop_grace_period: 30s
+
+volumes:
+  pgdata:

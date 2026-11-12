@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "dorm_floor", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-1.361, -5.08], "max": [1.361, -4.399], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_2", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-2.54, -4.399], "max": [2.54, -3.719], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_3", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-3.719, -3.719], "max": [3.719, -2.54], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_4", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-4.399, -2.54], "max": [4.399, -1.361], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_5", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-5.08, -1.361], "max": [5.08, 0.0], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_6", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-5.08, 0.0], "max": [-4.877, 1.361], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_7", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-4.877, 0.0], "max": [-2.085, 0.742], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_8", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-2.085, 0.0], "max": [5.08, 1.361], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_9", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-2.085, 1.361], "max": [3.411, 2.54], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_10", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [3.411, 1.361], "max": [4.399, 1.507], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_11", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-3.719, 3.278], "max": [-2.085, 3.719], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_12", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-2.085, 2.54], "max": [3.411, 3.719], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_13", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [3.411, 3.293], "max": [3.719, 3.719], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_14", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-2.54, 3.719], "max": [2.54, 4.399], "y": 0, "ceiling": 5.0},
+    {"id": "dorm_floor_15", "kind": "room", "name": "Tower Dormitory", "level": 0, "cell": "dorm_house_c", "min": [-1.361, 4.399], "max": [1.361, 5.08], "y": 0, "ceiling": 5.0}
+  ],
+  "spawns": [
+    {"id": "dorm_entry", "pos": [0.0, 0.0, 3.6], "yaw": 3.1415927}
+  ],
+  "interactables": [
+    {"id": "dorm_exit", "kind": "dorm_exit", "name": "Spiral Stair Down", "pos": [0.0, 0.0, 4.5], "yaw": 3.1415927, "radius": 1.5}
+  ],
+  "place_areas": [
+    {"id": "floor", "surface": "floor", "min": [-2.085, 0, -4.46], "max": [2.575, 0, 3.9]},
+    {"id": "floor_2", "surface": "floor", "min": [-3.77, 0, -3.77], "max": [3.77, 0, 0.742]},
+    {"id": "floor_3", "surface": "floor", "min": [-2.085, 0, -2.575], "max": [4.46, 0, 1.507]},
+    {"id": "floor_4", "surface": "floor", "min": [-4.877, 0, -1.38], "max": [4.903, 0, 0.742]},
+    {"id": "floor_5", "surface": "floor", "min": [-4.46, 0, -2.575], "max": [-1.38, 0, 0.742]},
+    {"id": "floor_6", "surface": "floor", "min": [-2.575, 0, -4.46], "max": [-0.8, 0, -1.38]},
+    {"id": "wall_north", "surface": "wall", "min": [-1.273, 0.3, -5.2], "max": [1.273, 4.6, -5.2], "facing": 0.0},
+    {"id": "wall_east", "surface": "wall", "min": [5.2, 0.3, -1.273], "max": [5.2, 4.6, 1.273], "facing": 4.712389},
+    {"id": "wall_west", "surface": "wall", "min": [-5.2, 0.3, -1.273], "max": [-5.2, 4.6, 1.273], "facing": 1.5707963}
+  ]
+}
