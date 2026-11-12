@@ -117,6 +117,13 @@ export class Animator {
     out[2] = Math.min(1, rest);
   }
 
+  /** Seconds into `anim`'s clip while it is the animation playing, else -1 (a cast's release: spells/controller.ts). */
+  timeIn(anim: ClipKey): number {
+    if (this.target !== anim) return -1;
+    for (let i = 0; i < this.active.length; i++) if (this.active[i]!.anim === anim) return this.active[i]!.time;
+    return -1;
+  }
+
   /** Advances time and the crossfade by `dt` seconds. */
   update(dt: number): void {
     if (dt <= 0) return;

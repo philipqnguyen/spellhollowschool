@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Anim } from "../../wasm/sim_wasm";
 import { composeTRS, mul4 } from "./math";
-import { attachMatrix, FALLBACK_TIP, fallbackMatrix, holdsWand, riding, stepWand, WAND_GROW_S, wandMatrix, wandSize, wandTipOf, wandWanted, type WandRoot } from "./wand-state";
+import { attachMatrix, FALLBACK_TIP, fallbackMatrix, holdsWand, raiseWanted, riding, stepRaise, stepWand, WAND_GROW_S, WAND_RAISE_S, wandMatrix, wandSize, wandTipOf, wandWanted, type WandRoot } from "./wand-state";
 
 /** Steps the wand `n` frames of `dt` from growth `t`. */
 function run(t: number, anim: Anim, held: boolean, n: number, dt = 1 / 60): number {
@@ -57,6 +57,27 @@ describe("when the wand is out", () => {
     expect(wandSize(1)).toBe(1);
     expect(wandSize(0.5)).toBeCloseTo(0.5);
     expect(wandSize(0.25)).toBeLessThan(0.25);
+  });
+});
+
+describe("the arm holding a lit wand up", () => {
+  it("raises while held out standing, walking or running, not while casting, sitting or riding", () => {
+    for (const anim of ["idle", "walk", "run"] as const) expect(raiseWanted(anim, true), anim).toBe(true);
+    for (const anim of ["cast", "sit", "wave", "bow", "fly", "hover"] as const) expect(raiseWanted(anim, true), anim).toBe(false);
+    expect(raiseWanted("idle", false)).toBe(false);
+  });
+
+  it("eases up and down over WAND_RAISE_S", () => {
+    let t = 0;
+    const frames = Math.round(WAND_RAISE_S * 60);
+    for (let i = 0; i < frames / 2; i++) t = stepRaise(t, "walk", true, 1 / 60);
+    expect(t).toBeGreaterThan(0.3);
+    expect(t).toBeLessThan(0.7);
+    for (let i = 0; i < frames; i++) t = stepRaise(t, "walk", true, 1 / 60);
+    expect(t).toBe(1);
+    // A cast takes the arm: the raise lets go while the cast clip plays.
+    for (let i = 0; i < frames + 1; i++) t = stepRaise(t, "cast", true, 1 / 60);
+    expect(t).toBe(0);
   });
 });
 

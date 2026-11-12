@@ -106,6 +106,8 @@ export interface SchoolHubOptions {
   headHeight: (id: number) => number;
   plateHeight: (id: number) => number;
   wandTip: (id: number, out: Vector3) => boolean;
+  /** Seconds into a drawn character's cast animation while it plays, else -1 (spell effects wait for its release). */
+  castTime?: (id: number) => number;
   feet: () => [number, number, number];
   look: () => [number, number];
   room: () => DormRoom;
@@ -244,6 +246,7 @@ export class SchoolHub {
       poseOf: opts.poseOf,
       headHeight: opts.headHeight,
       wandTip: opts.wandTip,
+      castTime: opts.castTime,
       feet: opts.feet,
       look: opts.look,
       room: opts.room,

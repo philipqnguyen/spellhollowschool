@@ -145,12 +145,26 @@ def to_gltf(v) -> Vector:
     return Vector((v[0], v[2], -v[1]))
 
 
+def body_of(doc: dict, body_id: str):
+    """The proportions an exported body's skeleton was built from (its
+    `body_params` extra: the build's shape step adjusts them), else the
+    shipped ones."""
+    from charlib import proportions as P
+
+    for n in doc.get("nodes", []):
+        params = (n.get("extras") or {}).get("body_params")
+        if params:
+            return P.from_json(params)
+    return P.get(body_id)
+
+
 def wand_attach(assets: str) -> dict:
     """The wand's transform under `socket_hand.R` per body, so its local +Y
     (the shaft) runs along the character clips' wand direction from the
-    grip, with its local +X toward the palm."""
+    grip (charlib/wand_grip.py), with its local +X toward the palm. The grip
+    comes from the proportions the body's rig was built from, so the handle
+    sits in the fist the clips close."""
     from charlib import anim_spells as SP
-    from charlib import proportions as P
 
     out = {}
     for body_id in BODIES:
@@ -158,11 +172,12 @@ def wand_attach(assets: str) -> dict:
         if not os.path.exists(path):
             print(f"[vfx] warning: {path} missing; wand attach for {body_id} left out (build the characters first)")
             continue
-        sock = node_world(read_glb_json(path), "socket_hand.R")
+        doc = read_glb_json(path)
+        sock = node_world(doc, "socket_hand.R")
         if sock is None:
             print(f"[vfx] warning: {path} has no socket_hand.R")
             continue
-        g = SP.Grip(P.get(body_id))
+        g = SP.Grip(body_of(doc, body_id))
         y = to_gltf(g.wand).normalized()
         x = to_gltf(g.palm)
         x = (x - y * x.dot(y)).normalized()

@@ -234,6 +234,11 @@ export class Cast {
     return this.renderer.wandTip(id, out);
   }
 
+  /** Seconds into `id`'s cast animation while it plays, else -1. */
+  castTime(id: number): number {
+    return this.renderer.castTime(id);
+  }
+
   /** Whether `id`'s wand is out now (tests and probes). */
   wandOut(id: number): boolean {
     return this.renderer.wandOut(id);

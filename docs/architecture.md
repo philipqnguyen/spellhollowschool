@@ -972,10 +972,19 @@ green (`--club`); someone in the player's party and club shows party blue
   lit (Lucerna), while we trace gestures in class and while we aim
   Elevara; it is never drawn on a broom. It hangs under the body's
   `socket_hand.R` joint by the transform the asset build fitted
-  (`vfx/manifest.json` `wand.attach`), so spell effects, wand lights and
-  duel charges start at its drawn tip (`renderer.ts` `wandTip`). Every wand
-  out is one thin instance of one mesh (one draw call). Without the built
-  assets (or on a greybox rig) a stand-in wand hangs along `DEF-hand.R`.
+  (`vfx/manifest.json` `wand.attach`, from the same diagonal grip the clips
+  are solved for: `charlib/wand_grip.py`). While it is drawn the right hand
+  closes round it, and while it is held out without a cast (a lit wand, an
+  aim) the arm holds it up in front over idle, walk and run; both come from
+  the rig's `wand_light` clip as layers on the right arm's bones only
+  (`wand-hold.ts`). A cast's effects (its burst, the gesture traced in the
+  air, a conjured feather, the light) wait for the caster's wand to reach
+  the release in the `cast` animation and start at the drawn tip
+  (`renderer.ts` `wandTip`, `spells/controller.ts` `CAST_RELEASE_S`); wand
+  lights and duel charges follow the drawn tip. Every wand out is one thin
+  instance of one mesh (one draw call). Without the built assets (or on a
+  greybox rig) a stand-in wand hangs along `DEF-hand.R` and the hand keeps
+  its clip.
 - **Dueling** (`sim_core::duel`, fully server-side): two players in the
   Dueling Club's area challenge each other; the duel runs in an arena
   instance. Each duelist has Poise 100; the first at 0 loses, or the higher
