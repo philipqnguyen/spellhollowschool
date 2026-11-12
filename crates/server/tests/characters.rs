@@ -84,6 +84,49 @@ async fn creation_grants_the_starter_set_and_wears_the_default_outfit() {
     }
 }
 
+/// A new character's room starts furnished with their Four-Poster Bed: the
+/// granted instance, in its house's colours, placed at the house's starter
+/// spot (the dorm shell's `starter_furniture`), as the room loads it.
+#[tokio::test]
+async fn a_new_characters_dorm_has_the_bed_placed_at_the_house_spot() {
+    let app = TestApp::new().await;
+    let c = shipped();
+    for house in [House::Roarwing, House::Burrowsby, House::Serpentyne] {
+        let p = app.player(&format!("{house:?}")).await;
+        let spot = server::dorm::shells::shipped().starter_furniture(house)[0];
+        let bed = c.catalog.get(spot.item).unwrap();
+        let room = server::dorm::store::load_room(&app.state.pool, p.id)
+            .await
+            .unwrap();
+        assert_eq!(room.len(), 1, "{house:?}");
+        let placed = room[0];
+        assert_eq!(placed.item_def, bed.id);
+        assert_eq!(placed.pos, protocol::QPos::from_m(spot.pos));
+        assert_eq!(placed.yaw, protocol::yaw_to_u8(spot.yaw));
+        assert_eq!(placed.dyes, bed.granted_dyes(house, &c.palette));
+        let colours = c.palette.house(house).unwrap();
+        assert!(
+            placed.dyes.contains(&colours.primary),
+            "{house:?}: house hangings"
+        );
+        // The inventory lists it in the dorm, not as a second bed to place.
+        let items = all_items(&app, &p.token).await;
+        let beds: Vec<_> = items.iter().filter(|i| i["item_def"] == bed.id).collect();
+        assert_eq!(beds.len(), 1);
+        assert_eq!(beds[0]["location"], "dorm");
+        assert_eq!(beds[0]["id"], placed.item_id);
+        // Granted into the room in the ledger.
+        let to: String = sqlx::query_scalar(
+            "SELECT to_location FROM item_ledger WHERE item_id = $1 AND reason = 'starter'",
+        )
+        .bind(placed.item_id)
+        .fetch_one(&app.state.pool)
+        .await
+        .unwrap();
+        assert_eq!(to, "dorm");
+    }
+}
+
 #[tokio::test]
 async fn creation_with_an_appearance() {
     let app = TestApp::new().await;

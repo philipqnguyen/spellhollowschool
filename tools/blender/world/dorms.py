@@ -2,8 +2,11 @@
 the walkable / placeable data written to data/world/instances/.
 
 A shell is the fixed architecture of a player's room: walls, windows, the
-door out, fireplace or stove, light fittings and the player's own bed. The
-furniture players place comes on top (furniture_models.py).
+door out, fireplace or stove and light fittings. The furniture players
+place comes on top (furniture_models.py); a new character's room starts with
+their Four-Poster Bed (a catalog item) placed against the wall the shell
+keeps for it (`Shell.starter`, written into the layout's `starter_furniture`
+by dorm_layouts.py).
 
 Rooms are keyed by neutral house slots (`house_a`..`house_d`, the house ids
 in sorted order, as in the style guide); their layout ids are
@@ -27,7 +30,9 @@ room is centred on the origin, floor at y = 0, the way out on the south
 
 from __future__ import annotations
 
+import json
 import math
+import os
 from dataclasses import dataclass, field
 
 import furniture_models as fm
@@ -37,6 +42,8 @@ from castle_kit import fire as FI
 from meshkit import Mesh
 
 TAU = 2 * math.pi
+REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".."))
+CATALOG = os.path.join(REPO, "data", "items", "catalog.json")
 FACING = {"north": 0.0, "west": math.pi / 2, "south": math.pi, "east": 3 * math.pi / 2}
 
 
@@ -79,31 +86,67 @@ class Shell:
     keep_clear: list[tuple[float, float, float, float]] = field(default_factory=list)  # no furniture (door)
     spawn: tuple[float, float, float, float] = (0.0, 0.0, 3.0, math.pi)
     exit: tuple[float, float, float, float] = (0.0, 0.0, 3.9, 1.5)  # x, y, z, radius
+    # Floor areas turned to a wall (`frame`: sim_core::placement::AreaFrame), e.g. the bed's wall.
+    framed_areas: list[dict] = field(default_factory=list)
+    # Furniture a new character's room starts with: {asset, pos, yaw}, wire-exact (cm, 1/256 turn).
+    starter: list[dict] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
 # Shared pieces
 
 
-def remap(m: Mesh, mark, table: dict) -> None:
-    """Gives the faces added since `mark` shell materials: `table` maps
-    (tile, zone) or tile to a material role."""
-    for f in m.faces[mark[1]:]:
-        f.material = table.get((f.material, f.zone), table.get(f.material, f.material))
-        f.zone = 0
+BED_ASSET = "furniture/bed_four_poster_a"
+# A framed floor area along a wall starts `WALL_AREA_GAP` off it: turned to
+# the wire's yaw (up to 0.7 degrees off a diagonal wall), its ends still stay
+# `dorm_layouts.PLACE_MARGIN` off the wall, clear of skirting, panelling and
+# dado rails. The bed's back stands `BED_GAP` off the wall, inside it.
+WALL_AREA_GAP = 0.07
+BED_GAP = 0.08
+BED_AREA_DEPTH = 2.6  # how far the bed's area reaches into the room
+YAW_UNITS = 256  # the wire's yaw: 1/256 turn (protocol::yaw_to_u8)
 
 
-def fixed_bed(m: Mesh, pos, yaw: float, table: dict, size=(1.6, 2.3), height: float = 2.5) -> tuple:
-    """The player's own four-poster, part of the shell. Returns its floor AABB."""
-    mark = m.mark()
-    item = {"asset": "furniture/bed_four_poster_a", "id": 0,
-            "furniture": {"surface": "floor", "footprint": list(size), "height": height}}
-    m.extend(fm.bed_four_poster(item))
-    remap(m, mark, table)
-    m.place(mark, yaw, pos)
-    hx = abs(math.cos(yaw)) * size[0] / 2 + abs(math.sin(yaw)) * size[1] / 2
-    hz = abs(math.sin(yaw)) * size[0] / 2 + abs(math.cos(yaw)) * size[1] / 2
-    return (pos[0] - hx, pos[2] - hz, pos[0] + hx, pos[2] + hz)
+def catalog_item(asset: str) -> dict:
+    with open(CATALOG, encoding="utf-8") as f:
+        return next(i for i in json.load(f)["items"] if i["asset"] == asset)
+
+
+def wire_yaw(yaw: float) -> float:
+    """`yaw` as the wire carries it (whole 1/256 turns), in radians."""
+    return (round((yaw % TAU) / TAU * YAW_UNITS) % YAW_UNITS) * TAU / YAW_UNITS
+
+
+def frame_to_world(frame: dict, local) -> tuple:
+    """`sim_core::placement::AreaFrame::to_world`."""
+    s, c = math.sin(frame["yaw"]), math.cos(frame["yaw"])
+    o = frame["origin"]
+    return (o[0] + local[0] * c + local[2] * s, o[1] + local[1], o[2] - local[0] * s + local[2] * c)
+
+
+def bed_wall(facet: sk.Facet, max_width: float = 3.0) -> tuple[dict, dict]:
+    """A new character's Four-Poster Bed against `facet` (head to the wall,
+    centred on it) and the floor area along that wall it stands in, turned
+    to the wall: axis-aligned floor areas cannot reach into the corners of a
+    diagonal facet, so this is what lets the spot pass the placement rule.
+    Returns (starter piece, framed floor area)."""
+    bed = catalog_item(BED_ASSET)["furniture"]
+    yaw = wire_yaw(sk.yaw_facing(facet.n))
+    o = facet.at(facet.centre, 0.0, 0.0)
+    frame = {"origin": [round(o[0], 3), 0.0, round(o[2], 3)], "yaw": round(yaw, 7)}
+    half = min(facet.length - 0.2, max_width) / 2
+    area = {"id": "floor_bed_wall", "surface": "floor", "min": [-round(half, 3), 0, WALL_AREA_GAP],
+            "max": [round(half, 3), 0, round(WALL_AREA_GAP + BED_AREA_DEPTH, 3)], "frame": frame}
+    p = frame_to_world(frame, (0.0, 0.0, BED_GAP + bed["footprint"][1] / 2))
+    piece = {"asset": BED_ASSET, "pos": [round(p[0], 2), 0.0, round(p[2], 2)], "yaw": round(yaw, 7)}
+    return piece, area
+
+
+def framed_corners(area: dict) -> list[tuple[float, float]]:
+    """A framed floor area's corners in room coordinates (x, z)."""
+    (x0, _, z0), (x1, _, z1) = area["min"], area["max"]
+    pts = (frame_to_world(area["frame"], (x, 0.0, z)) for x, z in ((x0, z0), (x1, z0), (x1, z1), (x0, z1)))
+    return [(p[0], p[2]) for p in pts]
 
 
 def against(facet: sk.Facet, depth: float, gap: float = 0.03):
@@ -347,12 +390,9 @@ def house_a() -> Shell:
         curtains(m, f[theta], f[theta].openings[0], 3.85, "velvet", rod="gold")
     door_details(m, f[180], door, "iron")
     tapestry(m, f[210], 1.1, 0.9, 3.7, "velvet", "gold", "house_a")
-    # The player's own bed against the north-west facets, the stove to the
+    # The new character's bed against the north-west facet, the stove to the
     # north-east, a wardrobe south-east.
-    bed_table = {("wood", 1): "wood_dark", ("wood", 3): "gold", ("fabric", 2): "velvet", ("fabric", 3): "gold",
-                 "linen": "linen", "wood": "wood_dark", "fabric": "velvet", "fabric_cover": "velvet"}
-    pos, yaw = against(f[300], 2.3)
-    bed = fixed_bed(m, pos, yaw, bed_table)
+    bed, bed_area = bed_wall(f[300])
     stove_c = mk.add(f[60].at(f[60].centre, 0.0, 0.0), mk.scale(f[60].n, 0.75))
     stove(m, stove_c, h + rise * (1 - (a - 0.75) / a), yaw_face=sk.yaw_facing(f[60].n))
     lights.append({"id": "stove", "pos": [round(stove_c[0] + f[60].n[0] * 0.4, 3), 0.45, round(stove_c[2] + f[60].n[2] * 0.4, 3)],
@@ -382,7 +422,6 @@ def house_a() -> Shell:
         "velvet": MatSpec("#8E0A0A", ("velvet", dict(base="#981212", seed=17, folds=4)), 512, 1.0, 0.85),
         "gold": MatSpec("#CF9F23", None, 64, 1.0, 0.35, 0.8),
         "iron": MatSpec("#42444B", None, 64, 1.0, 0.6, 0.6),
-        "linen": MatSpec("#E9E1CE", ("weave", dict(base="#E9E1CE", seed=18)), 256, 0.5, 0.9),
         "wax": MatSpec("#F1E6C7", None, 64, 1.0, 0.6),
         "flame": MatSpec("#FFC46E", None, 64, 1.0, 0.5, 0.0, 6.0),
         "fire": FIRE,
@@ -390,11 +429,12 @@ def house_a() -> Shell:
     }
     return Shell("house_a", "dorm_house_a", "Tower Dormitory", "Spiral Stair Down", m, mats, lights,
                  {"sky": "#8F9CB2", "ground": "#604732", "intensity": 0.35}, round_outline(a), h,
-                 obstacles=[bed, stove_box, wbox],
+                 obstacles=[stove_box, wbox],
                  wall_areas=[wall_area("wall_north", f[0], 0.3, h - 0.3), wall_area("wall_east", f[90], 0.3, h - 0.3),
                              wall_area("wall_west", f[270], 0.3, h - 0.3)],
                  keep_clear=[(-0.8, a - 1.3, 0.8, a)],
-                 spawn=(0.0, 0.0, a - 1.6, math.pi), exit=(0.0, 0.0, a - 0.7, 1.5))
+                 spawn=(0.0, 0.0, a - 1.6, math.pi), exit=(0.0, 0.0, a - 0.7, 1.5),
+                 framed_areas=[bed_area], starter=[bed])
 
 
 def _aabb_of(pos, yaw: float, size) -> tuple:
@@ -477,10 +517,7 @@ def house_b() -> Shell:
     # Hearth with a copper hood (east), the bed (south-west), a plant shelf (north-east).
     fbox, flight = fireplace(m, f[90], 1.3, 0.85, 0.5, "hearth_stone", "soot", "fire", "oak_dark", hood="copper")
     lights.append({"id": "hearth", "pos": flight, "color": "#FF8238", "intensity": 6.0, "range": 5.0})
-    bed_table = {("wood", 1): "oak_dark", ("wood", 3): "copper", ("fabric", 2): "hangings", ("fabric", 3): "mustard",
-                 "linen": "linen", "wood": "oak_dark", "fabric": "hangings", "fabric_cover": "quilt"}
-    pos, yaw = against(f[240], 2.1)
-    bed = fixed_bed(m, pos, yaw, bed_table, size=(1.5, 2.1), height=2.2)
+    bed, bed_area = bed_wall(f[240])
     shelf_f = f[60]
     for v in (1.2, 1.7):
         shelf_f.local_box(m, 0.25, shelf_f.length - 0.25, v, v + 0.04, 0.0, 0.26, "oak_dark")
@@ -508,22 +545,18 @@ def house_b() -> Shell:
                                                             block_px=(60, 140), seed=27)), 512, 1.0, 0.9),
         "soot": MatSpec("#443A34", None, 64, 1.0, 0.95),
         "fire": FIRE,
-        "quilt": MatSpec("#EEB31D", ("patchwork", dict(colours=["#EEB31D", "#C18E17", "#7D4F23", "#EBD47F", "#4F4037", "#CF7419"],
-                                                       seed=28)), 512, 1.0, 0.9),
-        "mustard": MatSpec("#C18E17", None, 64, 1.0, 0.9),
-        "hangings": MatSpec("#DE9E1B", ("velvet", dict(base="#DE9E1B", seed=32, folds=4)), 512, 1.0, 0.85),
-        "linen": MatSpec("#E9E1CE", ("weave", dict(base="#EEE5CF", seed=29)), 256, 0.5, 0.9),
         "leaves": MatSpec("#567D39", ("plaster", dict(base="#598A2F", seed=30, contrast=0.3)), 256, 0.5, 0.9),
         "lamp_glow": MatSpec("#FFD9A0", None, 64, 1.0, 0.5, 0.0, 5.0),
         "garden": MatSpec("#BFD8A0", ("garden_view", dict(seed=31)), 256, 1.0, 0.3, 0.0, 1.4, "fit"),
     }
     return Shell("house_b", "dorm_house_b", "Burrow Dormitory", "Round Door", m, mats, lights,
                  {"sky": "#E9D19F", "ground": "#6E4A26", "intensity": 0.45}, round_outline(a), h,
-                 obstacles=[bed, fbox],
+                 obstacles=[fbox],
                  wall_areas=[wall_area("wall_north", f[0], DADO_B + 0.1, h - 0.16),
                              wall_area("wall_west", f[270], DADO_B + 0.1, h - 0.16)],
                  keep_clear=[(-1.0, a - 1.3, 1.0, a)],
-                 spawn=(0.0, 0.0, a - 1.5, math.pi), exit=(0.0, 0.0, a - 0.7, 1.5))
+                 spawn=(0.0, 0.0, a - 1.5, math.pi), exit=(0.0, 0.0, a - 0.7, 1.5),
+                 framed_areas=[bed_area], starter=[bed])
 
 
 def _clip_below_floor(m: Mesh) -> None:
@@ -571,10 +604,7 @@ def house_c() -> Shell:
         tapestry(m, f[theta], 1.0, 1.0, 4.1, "velvet", "bronze", "house_c")
     fbox, flight = fireplace(m, f[120], 1.4, 1.1, 0.45, "marble", "soot", "fire", "marble_dark", breast_to=h - 0.29)
     lights.append({"id": "fire", "pos": flight, "color": "#FF8238", "intensity": 5.0, "range": 5.0})
-    bed_table = {("wood", 1): "wood_pale", ("wood", 3): "bronze", ("fabric", 2): "velvet", ("fabric", 3): "bronze",
-                 "linen": "linen", "wood": "wood_pale", "fabric": "velvet", "fabric_cover": "velvet"}
-    pos, yaw = against(f[240], 2.3)
-    bed = fixed_bed(m, pos, yaw, bed_table)
+    bed, bed_area = bed_wall(f[240])
     for theta in (150, 210, 270, 90):
         d = sk.direction(theta + 15)
         r = a / math.cos(math.pi / 12) - 0.02
@@ -594,12 +624,10 @@ def house_c() -> Shell:
         "bronze": MatSpec("#A16C1D", None, 64, 1.0, 0.35, 0.85),
         "velvet": MatSpec("#192E6E", ("velvet", dict(base="#19317C", seed=45, folds=4)), 512, 1.0, 0.85),
         "door_wood": MatSpec("#7D4F23", ("planks", dict(base="#7F4E25", planks_per_tile=5, seed=46, joint_dark=0.55)), 512, 1.0, 0.7),
-        "wood_pale": MatSpec("#8A5F35", ("wood_grain", dict(base="#8D6036", seed=47)), 512, 1.0, 0.7),
         "marble": MatSpec("#DED6C7", ("plaster", dict(base="#E0D9C9", seed=48, contrast=0.12)), 512, 1.0, 0.3),
         "marble_dark": MatSpec("#9C9791", ("plaster", dict(base="#AAA59F", seed=49, contrast=0.12)), 512, 1.0, 0.3),
         "soot": MatSpec("#443A34", None, 64, 1.0, 0.95),
         "fire": FIRE,
-        "linen": MatSpec("#E9E1CE", ("weave", dict(base="#ECE7D9", seed=50)), 256, 0.5, 0.9),
         "wax": MatSpec("#F1E6C7", None, 64, 1.0, 0.6),
         "flame": MatSpec("#FFC46E", None, 64, 1.0, 0.5, 0.0, 6.0),
         "glass": MatSpec("#B9CCDD", ("leaded_glass", dict(glass="#C9DAE8", lead="#5A4A30", seed=51, diamonds=5)), 256, 1.0, 0.2,
@@ -607,11 +635,12 @@ def house_c() -> Shell:
     }
     return Shell("house_c", "dorm_house_c", "Tower Dormitory", "Spiral Stair Down", m, mats, lights,
                  {"sky": "#B1C2DE", "ground": "#6E6254", "intensity": 0.5}, round_outline(a), h,
-                 obstacles=[bed, fbox],
+                 obstacles=[fbox],
                  wall_areas=[wall_area("wall_north", f[0], 0.3, h - 0.4), wall_area("wall_east", f[90], 0.3, h - 0.4),
                              wall_area("wall_west", f[270], 0.3, h - 0.4)],
                  keep_clear=[(-0.8, a - 1.3, 0.8, a)],
-                 spawn=(0.0, 0.0, a - 1.6, math.pi), exit=(0.0, 0.0, a - 0.7, 1.5))
+                 spawn=(0.0, 0.0, a - 1.6, math.pi), exit=(0.0, 0.0, a - 0.7, 1.5),
+                 framed_areas=[bed_area], starter=[bed])
 
 
 # ---------------------------------------------------------------------------
@@ -670,9 +699,7 @@ def house_d() -> Shell:
     for du in (-1.05, 1.05):
         sconce(m, south.at(south.centre + du, 1.85, 0.0), sk.yaw_facing(south.n), "brass", "flame", "wax")
     lights.append({"id": "sconces_door", "pos": [0.0, 2.1, hz - 0.45], "color": "#FFC46E", "intensity": 5.0, "range": 6.5})
-    bed_table = {("wood", 1): "wood_black", ("wood", 3): "silver", ("fabric", 2): "silk", ("fabric", 3): "silver",
-                 "linen": "linen", "wood": "wood_black", "fabric": "silk", "fabric_cover": "silk"}
-    bed = fixed_bed(m, (-hx + 1.15 + 0.03, 0.0, 0.0), math.pi / 2, bed_table)
+    bed, bed_area = bed_wall(west)
     # Moonlit water: one soft, dim light between the two lake windows that swells slowly (the client's `ripple`),
     # never the room's key light (the room's six lights: the fire, three lanterns, the door sconces, the lake).
     pos = [0.0, 1.6, -hz + 0.9]
@@ -691,7 +718,6 @@ def house_d() -> Shell:
                                                           seed=64, joint_px=1.5, variation=0.06)), 512, 1.0, 0.88),
         "stone_dark": MatSpec("#59514A", None, 64, 1.0, 0.9),
         "door_wood": MatSpec("#522D16", ("planks", dict(base="#552E18", planks_per_tile=5, seed=65, joint_dark=0.5)), 512, 1.0, 0.7),
-        "wood_black": MatSpec("#44291A", ("wood_grain", dict(base="#472A19", seed=66)), 512, 1.0, 0.6),
         "silk": MatSpec("#175D30", ("velvet", dict(base="#1A6737", seed=67, folds=5, depth=0.34)), 512, 1.0, 0.55),
         "silver": MatSpec("#B4B1AE", None, 64, 1.0, 0.3, 0.9),
         "brass": MatSpec("#9C7E4E", None, 64, 1.0, 0.45, 0.7),
@@ -700,7 +726,6 @@ def house_d() -> Shell:
         "flame": MatSpec("#FFC46E", None, 64, 1.0, 0.5, 0.0, 6.0),
         "soot": MatSpec("#393530", None, 64, 1.0, 0.95),
         "fire": FIRE,
-        "linen": MatSpec("#D5D1C9", ("weave", dict(base="#D7D2C8", seed=68)), 256, 0.5, 0.9),
         "lake": MatSpec("#34505C", ("lake_view", dict(seed=69)), 256, 1.0, 0.2, 0.0, 0.4, "fit"),
     }
     outline = [(-hx, -hz), (hx, -hz), (hx, hz), (-hx, hz)]
@@ -727,9 +752,10 @@ def house_d() -> Shell:
     tables.append(table_area("mantel", east.at(east.centre - 0.86, 1.13, 0.02), east.at(east.centre + 0.86, 1.13, 0.6)))
     return Shell("house_d", "dorm_house_d", "Dungeon Dormitory", "Stone Archway", m, mats, lights,
                  {"sky": "#A08670", "ground": "#4C3E32", "intensity": 0.75}, outline, spring,
-                 obstacles=[bed, fbox, *pilasters],
+                 obstacles=[fbox, *pilasters],
                  wall_areas=areas, table_areas=tables, keep_clear=[(-0.9, hz - 1.3, 0.9, hz)],
-                 spawn=(0.0, 0.0, hz - 1.5, math.pi), exit=(0.0, 0.0, hz - 0.7, 1.5))
+                 spawn=(0.0, 0.0, hz - 1.5, math.pi), exit=(0.0, 0.0, hz - 0.7, 1.5),
+                 framed_areas=[bed_area], starter=[bed])
 
 
 def _rib(m: Mesh, x: float, arc, width: float, depth: float, material: str) -> None:

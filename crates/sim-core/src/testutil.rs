@@ -47,6 +47,7 @@ pub fn layout(surfaces: Vec<Surface>) -> Layout {
         areas: Vec::new(),
         solids: Vec::new(),
         rings: Vec::new(),
+        starter_furniture: Vec::new(),
     }
 }
 

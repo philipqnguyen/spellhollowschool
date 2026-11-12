@@ -505,6 +505,30 @@ mod tests {
                 check_placement(&l.place_areas, &banner, on_wall, 0.0),
                 Ok(())
             );
+            // The starter bed's spot: exact on the wire, and the rule takes it
+            // (its wall's framed floor area).
+            assert_eq!(l.starter_furniture.len(), 1);
+            for p in &l.starter_furniture {
+                let units = (p.yaw / std::f32::consts::TAU * 256.0).round();
+                assert!((units * std::f32::consts::TAU / 256.0 - p.yaw).abs() < 1e-5);
+                assert!(
+                    p.pos
+                        .iter()
+                        .all(|v| (v * 100.0 - (v * 100.0).round()).abs() < 1e-3)
+                );
+                assert_eq!(check_placement(&l.place_areas, &bed, p.pos, p.yaw), Ok(()));
+                let off_axis = p.yaw.rem_euclid(FRAC_PI_2);
+                if off_axis.min(FRAC_PI_2 - off_axis) > 1e-4 {
+                    // Against a diagonal wall only that wall's framed area holds it.
+                    let axis: Vec<_> = l
+                        .place_areas
+                        .iter()
+                        .filter(|a| a.frame.is_none())
+                        .cloned()
+                        .collect();
+                    assert!(check_placement(&axis, &bed, p.pos, p.yaw).is_err());
+                }
+            }
         }
     }
 

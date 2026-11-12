@@ -182,7 +182,13 @@ the Wishing Room's rooms) share one schema, `sim_core::layout::Layout`
   `wishing_room_door`. In reach means horizontal distance within `radius`
   and height within 1.5 m. A gated one is used only by its house.
 - **`place_areas`** (instance layouts): where dorm furniture may stand
-  (floor, wall and table areas).
+  (floor, wall and table areas). A floor area may carry a `frame` (origin
+  and yaw; its box is in those axes): a dorm's floor along a diagonal wall,
+  where the starter bed stands.
+- **`starter_furniture`** (dorm layouts): `{ item, pos, yaw }`, catalog
+  furniture a new character's room starts with, placed by the starter grant
+  (their Four-Poster Bed by its wall). Generated with the shell by
+  `tools/blender/world/dorm_layouts.py`.
 - **`areas`**: named boxes with a purpose: `dueling_club` (where duels may
   be challenged and watched), `solid` (masonry standing on walkable ground),
   `airspace` and `no_fly` (where brooms may fly).
@@ -603,7 +609,7 @@ someone bought, a trade, letters it sent.
 | --- | --- |
 | `GET /api/creator`, `GET /api/catalog` | The shipped creator data and palette, the item catalog. Public and cacheable (`ETag`) |
 | `GET /api/characters` | The account's characters for the picker, oldest first: `{ characters: [{ id, name, house, level, appearance, appearance_version }], max: 5 }`. Session only (no character needs to be selected) |
-| `POST /api/characters` | `{ name, house, appearance? }`: creates a character, grants the starter wardrobe, furniture and purse, and selects it for the session. `409 character_limit` when the account already has 5 |
+| `POST /api/characters` | `{ name, house, appearance? }`: creates a character, grants the starter wardrobe, furniture (the bed placed in their dorm room) and purse, and selects it for the session. `409 character_limit` when the account already has 5 |
 | `POST /api/characters/{id}/select` | The session plays this character from now on → `200` the character. `404 character_not_found` unless it is the account's. Counts against the account's write budget. If the session has a live game connection playing another character, it is kicked `Replaced` |
 | `DELETE /api/characters/{id}` | `{ confirm_name }` (the character's name, case and surrounding spaces ignored) → `204`. Checked in this order: `404 character_not_found` unless it is the account's, `409 character_online` while it is in the world (on any device) or within a duel's disconnect grace, `400 name_mismatch`. Deletes it for good (below); sessions that played it play nothing until they select again |
 | `GET /api/characters/me` | The session's selected character, or `404 no_character` ("Choose a character first.") |
@@ -719,7 +725,10 @@ The integration tests run against a real database (see
 
 - Each character owns a dorm room (an instance of
   `data/world/instances/dorm_<house>.json`), entered through their house's
-  `dorm_door`. The room is alive while its owner is online and anyone is in
+  `dorm_door`. The shell is only the architecture (walls, windows, hearth,
+  lights); a new character's granted Four-Poster Bed starts placed at the
+  room's `starter_furniture` spot, in their house's colours (the item's
+  `house_dyes`), and is moved, turned or put away like any placed piece. The room is alive while its owner is online and anyone is in
   it; it holds the owner and at most 11 guests.
 - Guests are friends only: an invitation (`DormInvite`, valid two minutes)
   or a visit while the room is open to friends (`DormSetOpen`). The owner

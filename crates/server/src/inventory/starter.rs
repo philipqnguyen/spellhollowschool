@@ -1,6 +1,9 @@
 //! The starter grant: every new character gets the `starter` items of the
 //! catalog for their house (about 14 clothing items and 12 furniture pieces),
-//! one row each, and wears the starter outfit chosen in the creator.
+//! one row each, and wears the starter outfit chosen in the creator. Their
+//! Four-Poster Bed comes placed in their dorm room, by the wall the room's
+//! shell keeps for it (the layout's `starter_furniture`); it is ordinary
+//! placed furniture from then on.
 //! Characters made before starter wardrobes get the same on their first request
 //! ([`ensure_granted`], called by `characters::Player`) or WebSocket `Hello`
 //! ([`grant_once`], called by the gateway), whichever comes first.
@@ -10,13 +13,14 @@
 //! dressed before the wear rule, or a later data change). A guard, not a
 //! migration: it costs nothing unless the stored look breaks the rule.
 
-use protocol::{Appearance, GearSlot, House, Outfit, Worn};
+use protocol::{Appearance, GearSlot, House, Outfit, QPos, Worn, yaw_to_u8};
+use sim_core::ItemDef;
 use sqlx::{PgConnection, PgPool};
 
 use super::equip::{
     body_wear, forbidden_for, lock_appearance, refresh_appearance, set_slot, wear_message,
 };
-use super::{LOCATION_EQUIPPED, LOCATION_INVENTORY};
+use super::{LOCATION_DORM, LOCATION_EQUIPPED, LOCATION_INVENTORY};
 use crate::AppState;
 use crate::catalog::shipped;
 use crate::characters::{CHARACTER_COLUMNS, Character, CharacterRow};
@@ -83,9 +87,66 @@ pub fn check_starter_outfit(appearance: &Appearance, house: House) -> Result<(),
     Ok(())
 }
 
-/// Inserts the starter items of `house` for `character_id` and equips the
+/// Where a starter item goes ([`starter_locations`]).
+struct Planned {
+    item: &'static ItemDef,
+    /// `items.location`.
+    location: &'static str,
+    /// Placed in the dorm room here (wire values).
+    spot: Option<(QPos, u8)>,
+}
+
+/// Where each starter item of `house` goes, in catalog order: worn (an item
+/// of `outfit`), placed in the dorm room (a piece of the room's
+/// `starter_furniture`, each spot taken once: `Some((pos, yaw))`) or the
+/// inventory.
+fn starter_locations(house: House, outfit: &Outfit) -> Vec<Planned> {
+    let content = shipped();
+    let mut spots: Vec<_> = crate::dorm::shells::shipped()
+        .starter_furniture(house)
+        .iter()
+        .map(Some)
+        .collect();
+    let worn = |def: u16| {
+        GearSlot::ALL
+            .into_iter()
+            .any(|s| outfit.get(s).is_some_and(|w| w.item_def == def))
+    };
+    content
+        .catalog
+        .starter_items(house)
+        .map(|item| {
+            if worn(item.id) {
+                return Planned {
+                    item,
+                    location: LOCATION_EQUIPPED,
+                    spot: None,
+                };
+            }
+            let spot = spots
+                .iter_mut()
+                .find(|s| s.is_some_and(|p| p.item == item.id))
+                .and_then(Option::take);
+            match spot {
+                Some(p) => Planned {
+                    item,
+                    location: LOCATION_DORM,
+                    spot: Some((QPos::from_m(p.pos), yaw_to_u8(p.yaw))),
+                },
+                None => Planned {
+                    item,
+                    location: LOCATION_INVENTORY,
+                    spot: None,
+                },
+            }
+        })
+        .collect()
+}
+
+/// Inserts the starter items of `house` for `character_id`, equips the
 /// granted instances of `outfit`'s items with its dyes (which must be starter
-/// items of that house, see [`check_starter_outfit`]). Every other item gets
+/// items of that house, see [`check_starter_outfit`]) and places the room's
+/// starter furniture (`dorms`, `dorm_placements`). Every item not worn gets
 /// `ItemDef::granted_dyes`. Runs inside the caller's transaction.
 pub(crate) async fn grant(
     conn: &mut PgConnection,
@@ -99,16 +160,14 @@ pub(crate) async fn grant(
             .into_iter()
             .find(|&s| outfit.get(s).is_some_and(|w| w.item_def == def))
     };
+    let plan = starter_locations(house, outfit);
     let mut defs = Vec::new();
     let mut dyes: [Vec<i16>; 3] = Default::default();
     let mut locations = Vec::new();
-    for item in content.catalog.starter_items(house) {
-        let (d, location) = match worn_slot(item.id).and_then(|s| outfit.get(s)) {
-            Some(worn) => (worn.dyes, LOCATION_EQUIPPED),
-            None => (
-                item.granted_dyes(house, &content.palette),
-                LOCATION_INVENTORY,
-            ),
+    for &Planned { item, location, .. } in &plan {
+        let d = match worn_slot(item.id).and_then(|s| outfit.get(s)) {
+            Some(worn) => worn.dyes,
+            None => item.granted_dyes(house, &content.palette),
         };
         defs.push(i32::from(item.id));
         for (column, dye) in dyes.iter_mut().zip(d) {
@@ -152,17 +211,42 @@ pub(crate) async fn grant(
     .execute(&mut *conn)
     .await?;
 
+    // Each starter item is granted once, so its def finds its plan.
+    let planned = |def: i32| plan.iter().find(|p| i32::from(p.item.id) == def);
+    // The starter furniture placed in the room.
+    let placed: Vec<(i64, QPos, u8)> = granted
+        .iter()
+        .filter_map(|&(id, def)| planned(def)?.spot.map(|(pos, yaw)| (id, pos, yaw)))
+        .collect();
+    if !placed.is_empty() {
+        sqlx::query("INSERT INTO dorms (owner_id) VALUES ($1) ON CONFLICT (owner_id) DO NOTHING")
+            .bind(character_id)
+            .execute(&mut *conn)
+            .await?;
+        let column = |f: fn(&(i64, QPos, u8)) -> i32| placed.iter().map(f).collect::<Vec<i32>>();
+        let ids: Vec<i64> = placed.iter().map(|p| p.0).collect();
+        sqlx::query(
+            "INSERT INTO dorm_placements (item_id, owner_id, pos_x, pos_y, pos_z, yaw)
+             SELECT i, $1, x, y, z, w
+             FROM unnest($2::bigint[], $3::int[], $4::int[], $5::int[], $6::int[]) AS u(i, x, y, z, w)",
+        )
+        .bind(character_id)
+        .bind(&ids)
+        .bind(column(|p| p.1.x))
+        .bind(column(|p| p.1.y))
+        .bind(column(|p| p.1.z))
+        .bind(column(|p| i32::from(p.2)))
+        .execute(&mut *conn)
+        .await?;
+    }
+
     // Every granted item enters the ledger, and the starting
     // purse comes with the wardrobe (once: `purse_granted_at`).
     let moves: Vec<ItemMove<'_>> = granted
         .iter()
         .map(|&(id, def)| {
             let item_def = u16::try_from(def).unwrap_or(0);
-            let location = if worn_slot(item_def).is_some() {
-                LOCATION_EQUIPPED
-            } else {
-                LOCATION_INVENTORY
-            };
+            let location = planned(def).map_or(LOCATION_INVENTORY, |p| p.location);
             ItemMove::new(id, item_def, ItemOp::Grant, 1, Reason::Starter)
                 .to(character_id, location)
         })
@@ -357,6 +441,45 @@ mod tests {
             let robe = outfit.body.unwrap();
             let colours = c.palette.house(house).unwrap();
             assert!(robe.dyes.contains(&colours.primary));
+        }
+    }
+
+    /// The starter grant's plan: the default outfit worn, the Four-Poster
+    /// Bed placed at the house's spot (the shell's `starter_furniture`), and
+    /// everything else in the inventory.
+    #[test]
+    fn the_bed_is_planned_into_the_room() {
+        for house in House::ALL {
+            let outfit = default_outfit(house);
+            let plan = starter_locations(house, &outfit);
+            let spot = crate::dorm::shells::shipped().starter_furniture(house)[0];
+            let placed: Vec<_> = plan
+                .iter()
+                .filter(|p| p.location == LOCATION_DORM)
+                .collect();
+            assert_eq!(placed.len(), 1, "{house:?}");
+            let Planned {
+                item: bed,
+                spot: at,
+                ..
+            } = placed[0];
+            assert_eq!(bed.name, "Four-Poster Bed");
+            assert_eq!(
+                *at,
+                Some((QPos::from_m(spot.pos), yaw_to_u8(spot.yaw))),
+                "{house:?}"
+            );
+            assert_eq!(
+                plan.iter()
+                    .filter(|p| p.location == LOCATION_EQUIPPED)
+                    .count(),
+                3
+            );
+            assert!(
+                plan.iter()
+                    .all(|p| (p.location == LOCATION_DORM) == p.spot.is_some())
+            );
+            assert_eq!(plan.len(), shipped().catalog.starter_items(house).count());
         }
     }
 

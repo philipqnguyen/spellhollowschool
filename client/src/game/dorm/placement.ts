@@ -14,7 +14,8 @@
 // bottom centre of their back and face the wall's `facing`. The tops and
 // shelves of placed pieces (`furnitureTopAreas`, from the catalog) carry the
 // piece's frame: they are picked and snapped in the piece's own axes, so
-// they turn with it at any yaw.
+// they turn with it at any yaw. A dorm shell's floor area along a diagonal
+// wall (where the starter bed stands) carries a frame too, turned to that wall.
 
 import type { AreaFrame, PlaceArea, PlaceSurface, Vec3 } from "../../wasm/sim_wasm";
 
@@ -243,6 +244,11 @@ function inward(v: number, lo: number, hi: number): number {
   return cm;
 }
 
+/** A yaw in wire units relative to `frame`'s (as the item turns in that frame's axes). */
+function relativeUnits(yawUnits: number, frame: AreaFrame): number {
+  return (((yawUnits - yawToUnits(frame.yaw)) % YAW_UNITS) + YAW_UNITS) % YAW_UNITS;
+}
+
 /**
  * The placement for an item of `shape` where `ray` (from the camera through
  * the cursor) meets the nearest area it can stand on. `areas` are the
@@ -255,12 +261,21 @@ export function pickPlacement(ray: Ray, areas: readonly PlaceArea[], shape: Furn
   for (const area of areas) {
     if (!usable.includes(area.surface)) continue;
     if (area.frame) {
-      // A placed piece's top or shelf, in the piece's own axes.
+      // A placed piece's top or shelf, or a floor area turned to a wall (the
+      // bed's wall in a dorm), in its own axes.
       const f = area.frame;
       const hit = rayHitCatch({ origin: toLocal(f, ray.origin), dir: toLocalDir(f, ray.dir) }, area);
-      // A shelf beats the top's catch box it lies in (both start at the front face).
-      const t = hit ? hit.t - (area.clear !== undefined ? 0.02 : 0) : Infinity;
-      if (hit && (!best || t < best.t)) best = { t, area, point: hit.point };
+      if (!hit) continue;
+      let t = hit.t;
+      if (area.clear !== undefined) {
+        t -= 0.02; // a shelf beats the top's catch box it lies in (both start at the front face)
+      } else if (area.surface === "floor") {
+        // A wall's floor area beats the room's floor around it, for a piece that fits it:
+        // pointing by that wall puts the piece flush with it.
+        if (!placeOnArea(shape, { ...area, frame: undefined }, hit.point, relativeUnits(yawUnits, f), fine)) continue;
+        t -= 0.01;
+      }
+      if (!best || t < best.t) best = { t, area, point: hit.point };
       continue;
     }
     // Only the floor and walls catch a cursor past their edge; a table top
@@ -276,10 +291,8 @@ export function pickPlacement(ray: Ray, areas: readonly PlaceArea[], shape: Furn
   if (!best) return null;
   const f = best.area.frame;
   if (!f) return placeOnArea(shape, best.area, best.point, yawUnits, fine);
-  // Snap and clamp in the piece's axes (its own grid), then back to the world.
-  const frameUnits = yawToUnits(f.yaw);
-  const rel = (((yawUnits - frameUnits) % YAW_UNITS) + YAW_UNITS) % YAW_UNITS;
-  const local = placeOnArea(shape, { ...best.area, frame: undefined }, best.point, rel, fine);
+  // Snap and clamp in the area's axes (its own grid), then back to the world.
+  const local = placeOnArea(shape, { ...best.area, frame: undefined }, best.point, relativeUnits(yawUnits, f), fine);
   if (!local) return null;
   const w = toWorld(f, local.pos);
   return { pos: [toCm(w[0]), toCm(w[1]), toCm(w[2])], yawUnits, area: best.area.id };
