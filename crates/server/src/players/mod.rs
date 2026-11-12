@@ -8,10 +8,10 @@
 //!   default 25, at most 100. `400 invalid_query` for a longer `q`. Served
 //!   from the realtime side's [`Presence`](crate::realtime::presence::Presence)
 //!   (no database read for the list); empty when the world is not running.
-//! - `GET /api/players/{name}/card` → `{ name, house, year, year_name,
-//!   level, skills: [{ discipline, level }], appearance, club }` (`club`:
-//!   `{ name, tag }` or null) for any character
-//!   by name (case-insensitive), online or not; `404 player_not_found`.
+//! - `GET /api/players/{name}/card` → `{ name, house, level, skills:
+//!   [{ discipline, level }], appearance, club }` (`club`: `{ name, tag }` or
+//!   null) for any character by name (case-insensitive), online or not;
+//!   `404 player_not_found`.
 //!
 //! Both are signed in and share one read budget per account
 //! ([`PLAYERS_RATE_LIMIT`]). No opt-out: the card shows nothing private (name,
@@ -96,8 +96,6 @@ pub struct CardSkill {
 pub struct PlayerCard {
     pub name: String,
     pub house: House,
-    pub year: u8,
-    pub year_name: String,
     pub level: u8,
     /// Every subject, in `Subject::ALL` order.
     pub skills: Vec<CardSkill>,
@@ -180,8 +178,6 @@ pub async fn card(
     Ok(Json(PlayerCard {
         name: row.name,
         house,
-        year: progress.year,
-        year_name: progress.year_name,
         level: progress.level,
         skills,
         appearance,

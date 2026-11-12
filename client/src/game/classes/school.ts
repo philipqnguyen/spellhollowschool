@@ -1,7 +1,7 @@
 // School life in the running game, in one place for
 // game.ts: the game clock (the server's time, day and night over the
 // castle, the HUD's timetable), levels (the HUD badge, the level-up
-// flourish, school years on nameplates, required levels in the wardrobe),
+// flourish, levels on nameplates, required levels in the wardrobe),
 // classes (controller.ts), NPCs (speech bubbles, demonstrations), spells
 // outside duels (game/spells) with the social hotbar (ui/hotbar.ts), and the wayfinding trail (the
 // "Monstra Viam" charm: game/wayfinding, started from the timetable or the
@@ -114,8 +114,8 @@ export interface SchoolHubOptions {
   onSelfCast: () => void;
   /** Spells L20 (SOCIAL): the character selected in the world (Tab/E), or null. */
   selected: () => number | null;
-  /** Spells L20 (SOCIAL): whether character `id` is a friend (only for the refusal's words; the server decides). */
-  isFriend: (id: number) => boolean;
+  /** Spells L20 (SOCIAL): whether character `id` is a friend, party member or club member (only for the refusal's words; the server decides). */
+  isAlly: (id: number) => boolean;
   /** Our level changed (the wardrobe shows required levels against it). */
   onLevel: (level: number) => void;
   /** We are dueling: the duel's spell bar has the number keys, and the hotbar hides. */
@@ -251,7 +251,7 @@ export class SchoolHub {
       onSelfCast: opts.onSelfCast,
       // Spells L20 (SOCIAL).
       selected: opts.selected,
-      isFriend: opts.isFriend,
+      isAlly: opts.isAlly,
     });
     this.spells.onChange(() => this.refreshBook());
     // Under the name and counts at the top right (in the HUD layer, first in the HUD, so toasts and windows cover it).
@@ -303,7 +303,7 @@ export class SchoolHub {
           this.opts.notify(`You learned ${listWords(names)}! Open your spellbook (Y) to see ${names.length > 1 ? "them" : "it"}.`);
         }
         return true;
-      // Protocol v16: the hotbar the server kept.
+      // Protocol v17: the hotbar the server kept.
       case "hotbar":
       case "spellCast":
       case "levitating":
@@ -328,7 +328,7 @@ export class SchoolHub {
       const up = levelUp(before, p.level);
       if (up) {
         this.flourish.show(up);
-        this.opts.notify(`You reached level ${up.level}${up.newYear ? ` and are now in Year ${up.year}` : ""}!${up.slots !== null ? ` Your dueling loadout holds ${up.slots} spells now.` : ""}`);
+        this.opts.notify(`You reached level ${up.level}!${up.slots !== null ? ` Your dueling loadout holds ${up.slots} spells now.` : ""}`);
         audio.stinger("stinger.level_up");
         this.burstAt(this.opts.selfId(), GOLD, true);
       }
@@ -743,7 +743,7 @@ export class SchoolHub {
 
   // ---------------------------------------------------------------- nameplates
 
-  /** The nameplate text for a character in view: its name and school year and level. */
+  /** The nameplate text for a character in view: its name and level. */
   plateName(id: number, name: string): string {
     const level = this.roster.npc(id) ? 0 : this.roster.level(id);
     const held = this.plates.get(id);

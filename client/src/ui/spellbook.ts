@@ -1,25 +1,25 @@
-// The spellbook (Y, or the level badge in the HUD bar): your level and
-// school year, then every spell of data/spells.json by school (Charms,
+// The spellbook (Y, or the level badge in the HUD bar): your level, then
+// every spell of data/spells.json by school (Charms,
 // Transfiguration, Defence and dueling), learned or locked. A learned spell
 // shows its incantation, its wand gesture (drawn from the gesture's
 // template), what it does outside a duel and, for dueling spells, in one,
 // and a button to cast it (its words from `castLabel`: "Light (L)",
-// "Recolour", "Summon guardian"...); spells aimed at a friend say how to
+// "Recolour", "Summon guardian"...); spells aimed at someone else say how to
 // aim them. A locked one says the level it needs and where it is taught.
 // Dueling spells in your loadout are marked; the loadout itself is set at
 // the Dueling Club. The model is spellbook-state.ts.
 //
 // The social hotbar (ui/hotbar.ts): each spell that can go on it has its
 // glyph by the Cast button, to drag onto a hotbar slot (or click: the first
-// empty slot); a flourish-only or locked spell's glyph won't move. Rows on
-// the bar say which key casts them.
+// empty slot); a locked spell's glyph won't move, and a flourish-only spell
+// has none. Rows on the bar say which key casts them.
 
 import "./spellbook.css";
 import type { Progress } from "../wasm/sim_wasm";
 import { gestureByKey, spellRgb, type GestureDef, type SpellDef } from "../game/spells/data";
 import { focusOrigin, h, restoreFocus } from "./dom";
 import { lineIcon, SPELLBOOK_ICON } from "./effects-icons";
-import { levelFraction, xpText, yearName } from "./progression-state";
+import { levelFraction, xpText } from "./progression-state";
 import { spellbookGroups, type SpellRow } from "./spellbook-state";
 import { dragRefusal, isHotbarSpell, normalize, slotKey } from "./hotbar-state";
 import { startSpellDrag } from "./hotbar";
@@ -125,7 +125,7 @@ export class SpellbookWindow {
     const summary = h(
       "div",
       { class: "spellbook-me" },
-      h("strong", { class: "spellbook-level" }, `Level ${level}`, p ? h("span", { class: "spellbook-year" }, ` · ${yearName(p.year)}`) : null),
+      h("strong", { class: "spellbook-level" }, `Level ${level}`),
       h("span", { class: "sb-bar", role: "progressbar", "aria-valuemin": 0, "aria-valuemax": 100, "aria-valuenow": pct, "aria-label": "Progress to the next level" }, h("span", { class: "sb-fill", style: `width: ${pct}%` })),
       h("span", { class: "detail-sub" }, `${p ? xpText(p) : "–"} · ${v.learned.length} spell${v.learned.length === 1 ? "" : "s"} learned · dueling loadout: ${v.loadout.length} of ${v.slots} slots`),
     );

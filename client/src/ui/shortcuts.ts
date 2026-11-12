@@ -75,8 +75,8 @@ export const SHORTCUTS: readonly ShortcutGroup[] = [
       { keys: ["V"], what: "Levitate" },
       { keys: ["Tab", "←", "→"], what: "Aiming a spell: choose the target" },
       { keys: ["E", "V", "Enter"], what: "Aiming a spell: cast" },
-      // Spells L20 (SOCIAL): the spells aimed at a friend.
-      { keys: ["Tab"], what: "Select a friend, then cast the Colour Charm, Binding Curse, Summoning Charm, Unweaving or Slowing Jinx on them from the spellbook (Y), their card or /cast" },
+      // Spells L20 (SOCIAL): the spells aimed at a friend, party or club member.
+      { keys: ["Tab"], what: "Select a friend, party or club member, then cast the Colour Charm, Binding Curse, Summoning Charm, Unweaving or Slowing Jinx on them from the spellbook (Y), their card or /cast" },
       { keys: ["Esc"], what: "Nothing selected: the Colour Charm and the Unweaving work on you" },
       { keys: ["1–9", "0"], what: "Cast the spell in that hotbar slot (bottom of the screen). Drag slots to rearrange them, drag a spell's glyph onto one from the spellbook (Y), right-click a slot to remove it" },
       { keys: ["1–9"], what: "In a duel: cast that spell (the hotbar hides)" },

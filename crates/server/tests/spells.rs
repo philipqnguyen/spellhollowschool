@@ -139,7 +139,7 @@ async fn loadout_writes_are_rate_limited() {
     assert!(limited, "10, then one every 2 s");
 }
 
-/// The social hotbar's storage (protocol v16): a character that never set
+/// The social hotbar's storage (protocol v17): a character that never set
 /// one gets its learned hotbar spells in spellbook order; a stored one keeps
 /// its slots, and a spell learned later goes into the first empty slot, but
 /// only when learned.

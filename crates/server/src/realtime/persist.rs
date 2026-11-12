@@ -8,7 +8,7 @@
 //! The same batches carry the map's new reveals (`crate::map`),
 //! written after the positions in one `INSERT ... ON CONFLICT DO NOTHING`
 //! statement, so a retried batch changes nothing, and social hotbars
-//! (`crate::spells::hotbar`, protocol v16), the latest per character, sent
+//! (`crate::spells::hotbar`, protocol v17), the latest per character, sent
 //! at once whenever one changes. One task writes them in the order sent, so
 //! the last layout the world held is the one stored.
 

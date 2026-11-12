@@ -1,4 +1,4 @@
-//! The social hotbar's storage (protocol v16): `characters.hotbar`, ten
+//! The social hotbar's storage (protocol v17): `characters.hotbar`, ten
 //! spell ids or NULLs in key order; NULL for the column while the character
 //! never set one.
 //!

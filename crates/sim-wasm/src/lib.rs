@@ -232,7 +232,7 @@ export interface EntityInfo {
   effectsVersion: number;
   /** Active potion effects to draw (usually none), and `lucerna` while the wand is lit. */
   effects: VisibleEffect[];
-  /** The player's level (1-20) for the nameplate's school year; 0 for NPCs. */
+  /** The player's level (1-20) for the nameplate; 0 for NPCs. */
   level: number;
   /** The NPC's data id (`data/classes/<class>.json` `professor.id`), or null for players. */
   npc: string | null;
@@ -376,8 +376,6 @@ export interface Progress {
   levelXp: number;
   /** Total XP the next level needs; null at the cap. */
   nextLevelXp: number | null;
-  /** School year (1-7) shown beside the level. */
-  year: number;
 }
 export interface XpGain { source: XpSource; amount: number; capped: boolean }
 export type Grade = "miss" | "good" | "great" | "perfect";
@@ -644,7 +642,7 @@ export type ServerMessage =
   /** A visible character's (or the client's own) level changed. */
   | { type: "levelChanged"; id: number; level: number; effectsVersion: number }
   /**
-   * Learned spells, the dueling loadout and its slots; `new`: just learned. Protocol v16:
+   * Learned spells, the dueling loadout and its slots; `new`: just learned. Protocol v17:
    * `hotbar`, the social hotbar's 10 slots in key order (null: empty), the spells just learned already in it.
    */
   | { type: "spellbook"; learned: number[]; loadout: number[]; slots: number; new: number[]; hotbar: (number | null)[] }
@@ -711,7 +709,7 @@ export type ServerMessage =
   | { type: "clubPresence"; characterId: number; online: boolean; level: number }
   | { type: "clubNotice"; notice: ClubNotice }
   | { type: "clubError"; code: ClubErrorCode }
-  // ---- Protocol v16: the social hotbar.
+  // ---- Protocol v17: the social hotbar.
   /** The social hotbar kept after `encodeSetHotbar` (the old one when refused): 10 slots, null empty. */
   | { type: "hotbar"; slots: (number | null)[] };
 
@@ -2034,7 +2032,7 @@ pub fn encode_club_disband() -> Vec<u8> {
     encode(ClientMsg::ClubDisband)
 }
 
-// ---- Protocol v16: the social hotbar.
+// ---- Protocol v17: the social hotbar.
 
 /// `ClientMsg::SetHotbar`: the social hotbar's slots in key order, a spell
 /// id or 0 for an empty slot (spell ids start at 1). Throws on more than

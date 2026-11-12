@@ -221,7 +221,7 @@ async fn the_list_finds_online_players_by_name_and_pages() {
 }
 
 #[tokio::test]
-async fn the_card_shows_house_year_skills_and_outfit() {
+async fn the_card_shows_house_level_skills_and_outfit() {
     let (app, _addr) = live_server(sim_core::World::from_json(LAYOUT).unwrap()).await;
     let viewer = app.player("Skytalon").await;
     let seen = app.player("Burrowsby").await;
@@ -250,16 +250,7 @@ async fn the_card_shows_house_year_skills_and_outfit() {
     keys.sort();
     assert_eq!(
         keys,
-        [
-            "appearance",
-            "club",
-            "house",
-            "level",
-            "name",
-            "skills",
-            "year",
-            "year_name"
-        ]
+        ["appearance", "club", "house", "level", "name", "skills"]
     );
     // In no club.
     assert!(card["club"].is_null());
@@ -267,8 +258,6 @@ async fn the_card_shows_house_year_skills_and_outfit() {
     assert_eq!(card["house"], "Burrowsby");
     let progression = app.get("/api/progression", seen.token()).await.body;
     assert_eq!(card["level"], progression["level"]);
-    assert_eq!(card["year"], progression["year"]);
-    assert_eq!(card["year_name"], progression["year_name"]);
     let skills = card["skills"].as_array().unwrap();
     assert_eq!(skills.len(), Subject::ALL.len());
     for (s, want) in skills.iter().zip(Subject::ALL) {

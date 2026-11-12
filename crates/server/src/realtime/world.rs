@@ -167,7 +167,7 @@ pub enum Input {
     PartyPromote(i64),
     /// Protocol v15: the club messages (`club.rs`).
     Club(ClubInput),
-    /// Protocol v16: `ClientMsg::SetHotbar` (`crate::spells::hotbar`).
+    /// Protocol v17: `ClientMsg::SetHotbar` (`crate::spells::hotbar`).
     SetHotbar(Vec<Option<protocol::SpellId>>),
     DormPlace {
         item_id: i64,

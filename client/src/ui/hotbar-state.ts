@@ -1,4 +1,4 @@
-// The social hotbar (protocol v16; docs/architecture.md "Spells and
+// The social hotbar (protocol v17; docs/architecture.md "Spells and
 // dueling"): ten slots at the bottom of the HUD, keys 1-9 then 0, each a
 // learned spell that does something outside a duel (every spell of
 // data/spells.json but the flourishes) or empty. The server stores the

@@ -1,22 +1,18 @@
 import { describe, expect, it } from "vitest";
 import progressionJson from "../../../data/progression.json";
 import type { Progress } from "../wasm/sim_wasm";
-import { FlourishGate, gainText, LEVEL_MAX, levelFraction, levelTitle, levelUp, loadoutSlots, mergeLevelUps, xpText, yearName, yearOf } from "./progression-state";
+import { FlourishGate, gainText, LEVEL_MAX, levelFraction, levelTitle, levelUp, loadoutSlots, mergeLevelUps, xpText } from "./progression-state";
 import { levelNeeded } from "./wardrobe-state";
 
 const progress = (level: number, xp: number): Progress => {
   const levels = progressionJson.levels;
-  return { level, xp, levelXp: levels[level - 1]!, nextLevelXp: level < levels.length ? levels[level]! : null, year: yearOf(level) };
+  return { level, xp, levelXp: levels[level - 1]!, nextLevelXp: level < levels.length ? levels[level]! : null };
 };
 
-describe("levels and school years", () => {
-  it("puts Year 1 at levels 1-3, one year per three levels, Year 7 at 19-20", () => {
+describe("levels", () => {
+  it("runs to level 20 and titles a name with its level", () => {
     expect(LEVEL_MAX).toBe(20);
-    expect([1, 2, 3].map(yearOf)).toEqual([1, 1, 1]);
-    expect([4, 6, 7, 10, 13, 16, 18].map(yearOf)).toEqual([2, 2, 3, 4, 5, 6, 6]);
-    expect([19, 20].map(yearOf)).toEqual([7, 7]);
-    expect(yearName(2)).toBe("Second Year");
-    expect(levelTitle(5)).toBe("Year 2 · Lv 5");
+    expect(levelTitle(5)).toBe("Lv 5");
     expect(levelTitle(0)).toBe(""); // NPCs
   });
 
@@ -42,8 +38,8 @@ describe("levels and school years", () => {
   it("says what a level-up brings", () => {
     expect(levelUp(3, 3)).toBeNull();
     expect(levelUp(4, 3)).toBeNull();
-    expect(levelUp(2, 3)).toEqual({ level: 3, year: 1, newYear: false, slots: null });
-    expect(levelUp(3, 5)).toEqual({ level: 5, year: 2, newYear: true, slots: 4 });
+    expect(levelUp(2, 3)).toEqual({ level: 3, slots: null });
+    expect(levelUp(3, 5)).toEqual({ level: 5, slots: 4 });
   });
 
   it("marks clothes above the player's level in the wardrobe", () => {
@@ -59,7 +55,7 @@ describe("levels and school years", () => {
 });
 
 describe("the level-up flourish and the results card (2a, 2d review fix)", () => {
-  const up = (level: number, newYear = false, slots: number | null = null) => ({ level, year: yearOf(level), newYear, slots });
+  const up = (level: number, slots: number | null = null) => ({ level, slots });
 
   it("plays at once while no results card is open", () => {
     const g = new FlourishGate();
@@ -70,9 +66,9 @@ describe("the level-up flourish and the results card (2a, 2d review fix)", () =>
   it("waits while the card is open and plays when it closes", () => {
     const g = new FlourishGate();
     expect(g.hold(true)).toBeNull();
-    expect(g.offer(up(4, true))).toBeNull();
+    expect(g.offer(up(4))).toBeNull();
     expect(g.waiting).toBe(true);
-    expect(g.hold(false)).toEqual(up(4, true));
+    expect(g.hold(false)).toEqual(up(4));
     expect(g.hold(false)).toBeNull();
   });
 
@@ -82,12 +78,12 @@ describe("the level-up flourish and the results card (2a, 2d review fix)", () =>
     expect(g.hold(false)).toEqual(up(3));
   });
 
-  it("shows two waiting level-ups as one, keeping a new year and new slots", () => {
+  it("shows two waiting level-ups as one, keeping new slots", () => {
     const g = new FlourishGate();
     g.hold(true);
-    g.offer(up(4, true));
-    g.offer(up(5, false, 4));
-    expect(g.hold(false)).toEqual({ level: 5, year: yearOf(5), newYear: true, slots: 4 });
-    expect(mergeLevelUps(up(7, false, 5), up(6))).toEqual({ level: 7, year: yearOf(7), newYear: false, slots: 5 });
+    g.offer(up(4));
+    g.offer(up(5, 4));
+    expect(g.hold(false)).toEqual({ level: 5, slots: 4 });
+    expect(mergeLevelUps(up(7, 5), up(6))).toEqual({ level: 7, slots: 5 });
   });
 });

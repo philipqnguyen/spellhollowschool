@@ -2,11 +2,9 @@
 //! ([`Progression`]).
 //!
 //! A character's level (1 to [`protocol::LEVEL_MAX`]) follows from its total
-//! XP through the curve `levels` (the total XP each level starts at). Beside
-//! the level the HUD and nameplates show a school year: Year 1 at levels
-//! 1-3, then one year per three levels, up to Year 7 at levels 19-20
-//! (`years`, checked to cover every level). XP comes from classes, crafting,
-//! finds and duels (`xp`); crafting, finds, duels and classes
+//! XP through the curve `levels` (the total XP each level starts at). XP
+//! comes from classes, crafting, finds and duels (`xp`); crafting, finds,
+//! duels and classes
 //! count against daily caps (`xp.daily_caps`, per real UTC day) so nothing
 //! can be farmed.
 //!
@@ -28,15 +26,6 @@ pub enum ProgressionError {
     Json(#[from] serde_json::Error),
     #[error("progression is inconsistent: {0}")]
     Invalid(String),
-}
-
-/// A school year and the first level it covers.
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct YearTitle {
-    pub year: u8,
-    /// Display text ("First Year").
-    pub name: String,
-    pub from_level: u8,
 }
 
 /// From `level` on, a loadout has `slots` slots.
@@ -76,7 +65,6 @@ pub struct Progression {
     pub version: u32,
     /// `levels[k]` is the total XP level `k + 1` starts at (`levels[0]` = 0).
     pub levels: Vec<u32>,
-    pub years: Vec<YearTitle>,
     pub xp: XpRules,
     pub loadout_slots: Vec<SlotStep>,
 }
@@ -103,15 +91,6 @@ impl Progression {
     /// The total XP the level after `level` needs; `None` at the cap.
     pub fn next_level_xp(&self, level: u8) -> Option<u32> {
         self.levels.get(usize::from(level.max(1))).copied()
-    }
-
-    /// The school year of `level`.
-    pub fn year(&self, level: u8) -> &YearTitle {
-        self.years
-            .iter()
-            .rev()
-            .find(|y| y.from_level <= level)
-            .unwrap_or(&self.years[0])
     }
 
     /// Loadout slots at `level`.
@@ -151,7 +130,6 @@ impl Progression {
             xp,
             level_xp: self.level_start(level),
             next_level_xp: self.next_level_xp(level),
-            year: self.year(level).year,
         }
     }
 
@@ -167,25 +145,6 @@ impl Progression {
         }
         if self.levels.windows(2).any(|w| w[0] >= w[1]) {
             return Err("levels must rise".into());
-        }
-        // Years: 1..=7 in order, from level 1, every level covered.
-        if self.years.is_empty() || self.years[0].from_level != 1 {
-            return Err("years must start at level 1".into());
-        }
-        for (k, y) in self.years.iter().enumerate() {
-            if usize::from(y.year) != k + 1 || y.name.is_empty() || y.from_level > LEVEL_MAX {
-                return Err(format!(
-                    "year {}: numbered in order, named, within the cap",
-                    y.year
-                ));
-            }
-        }
-        if self
-            .years
-            .windows(2)
-            .any(|w| w[0].from_level >= w[1].from_level)
-        {
-            return Err("years must start at rising levels".into());
         }
         if self
             .loadout_slots
@@ -247,19 +206,9 @@ mod tests {
         assert_eq!(p.next_level_xp(1), Some(l2));
         assert_eq!(p.next_level_xp(LEVEL_MAX), None);
         let top = p.progress(p.levels[19] + 5);
-        assert_eq!((top.level, top.next_level_xp, top.year), (20, None, 7));
+        assert_eq!((top.level, top.next_level_xp), (20, None));
         let mid = p.progress(l2 + 1);
         assert_eq!((mid.level, mid.level_xp), (2, l2));
-    }
-
-    #[test]
-    fn school_years_are_three_levels_each() {
-        let p = shipped();
-        let years: Vec<u8> = (1..=LEVEL_MAX).map(|l| p.year(l).year).collect();
-        assert_eq!(
-            years,
-            [1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7]
-        );
     }
 
     #[test]

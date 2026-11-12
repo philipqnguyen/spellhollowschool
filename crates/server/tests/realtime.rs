@@ -1745,7 +1745,7 @@ async fn a_party_talks_across_zones() {
     );
 }
 
-/// The social hotbar (protocol v16) end to end: a character that never set
+/// The social hotbar (protocol v17) end to end: a character that never set
 /// one gets its learned hotbar spells at join; `SetHotbar` is answered,
 /// saved, and sent again after a reconnect.
 #[tokio::test]

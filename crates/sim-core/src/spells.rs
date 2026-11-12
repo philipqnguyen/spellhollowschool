@@ -28,7 +28,7 @@
 //! (`data/progression.json`, by level) filled from learned dueling spells
 //! ([`Spells::check_loadout`], [`Spells::default_loadout`]).
 //!
-//! The social **hotbar** (protocol v16) is [`HOTBAR_SLOTS`] slots of learned
+//! The social **hotbar** (protocol v17) is [`HOTBAR_SLOTS`] slots of learned
 //! spells that do something outside a duel ([`SpellDef::on_hotbar`]: every
 //! spell but the flourishes), each at most once ([`Spells::check_hotbar`]).
 //! A character that never set one has its learned ones in spellbook order
@@ -121,15 +121,16 @@ pub enum Social {
         bob_m: f32,
         bob_hz: f32,
     },
-    /// Tinctura: a friend's (or the caster's) body garment shows one of
-    /// `colours` (palette indices) for `duration_ms`.
+    /// Tinctura: an ally's (a friend, party or club member; or the
+    /// caster's) body garment shows one of `colours` (palette indices) for
+    /// `duration_ms`.
     Recolour {
         cooldown_ms: u32,
         range_m: f32,
         duration_ms: u32,
         colours: Vec<u8>,
     },
-    /// Rigora outside duels: a friend stiffens (no walking) for
+    /// Rigora outside duels: an ally stiffens (no walking) for
     /// `duration_ms`; they are immune to further hindrances for `immune_ms`.
     Bind {
         cooldown_ms: u32,
@@ -145,7 +146,7 @@ pub enum Social {
         count: u8,
         duration_ms: u32,
     },
-    /// Adveni outside duels: a friend slides up to `distance_m` toward the
+    /// Adveni outside duels: an ally slides up to `distance_m` toward the
     /// caster (at least `min_m`, never closer than `gap_m`) over `move_ms`,
     /// held still until `hold_ms`.
     Pull {
@@ -158,7 +159,7 @@ pub enum Social {
         hold_ms: u32,
         immune_ms: u32,
     },
-    /// Dissolvo outside duels: ends a friend's (or the caster's) Lucerna, bind,
+    /// Dissolvo outside duels: ends an ally's (or the caster's) Lucerna, bind,
     /// slow and recolour, or lands a floating piece.
     Dispel { cooldown_ms: u32, range_m: f32 },
     /// Aperio: the caster alone sees passage doors and find spots within
@@ -169,7 +170,7 @@ pub enum Social {
         height_m: f32,
         duration_ms: u32,
     },
-    /// Tardara outside duels: a friend walks at `pct`% for `duration_ms`.
+    /// Tardara outside duels: an ally walks at `pct`% for `duration_ms`.
     Slow {
         cooldown_ms: u32,
         range_m: f32,

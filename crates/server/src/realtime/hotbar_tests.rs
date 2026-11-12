@@ -1,4 +1,4 @@
-//! The social hotbar on the world thread (protocol v16): sent in
+//! The social hotbar on the world thread (protocol v17): sent in
 //! `Spellbook` after `Welcome`, set with `SetHotbar` (checked, answered by
 //! `Hotbar`, a change handed to the saver), and spells learned while online
 //! added to the first empty slot.

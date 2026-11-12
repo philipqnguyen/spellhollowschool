@@ -136,9 +136,10 @@ pub use snapshot::{
 /// ClubInvite, ClubRespond, ClubLeave, ClubKick, ClubSetRole, ClubTransfer,
 /// ClubRename, ClubSetMotd, ClubDisband}` and `ServerMsg::{ClubInvited,
 /// ClubState, ClubPresence, ClubNotice, ClubError}`.
-/// 16: the social hotbar ([`HOTBAR_SLOTS`]): `Spellbook.hotbar`,
+/// 16: no school years: `Progress` drops `year`.
+/// 17: the social hotbar ([`HOTBAR_SLOTS`]): `Spellbook.hotbar`,
 /// `ClientMsg::SetHotbar` and `ServerMsg::Hotbar`.
-pub const PROTOCOL_VERSION: u16 = 16;
+pub const PROTOCOL_VERSION: u16 = 17;
 
 /// Mimic Draught consent requests may be answered for this long (seconds).
 pub const MIMIC_DRAUGHT_REQUEST_SECS: u16 = 30;
@@ -673,7 +674,7 @@ pub enum ClientMsg {
     /// The owner disbands the club.
     ClubDisband,
 
-    // ---- Protocol v16: the social hotbar.
+    // ---- Protocol v17: the social hotbar.
     /// Sets the social hotbar: at most [`HOTBAR_SLOTS`] slots in key order
     /// (missing ones are empty), each a learned spell that does something
     /// outside duels (not a flourish) or `None`, no spell twice. Answered by
@@ -706,9 +707,9 @@ pub struct EntityInfo {
     /// Active potion effects as viewers draw them (usually empty), plus
     /// `Lucerna` while the wand is lit.
     pub effects: Vec<VisibleEffect>,
-    /// The player's level (1-20), for the nameplate's school
-    /// year; 0 for NPCs. A change bumps `effects_version` (it is part of the
-    /// world's half of the look) and is sent as `LevelChanged`.
+    /// The player's level (1-20), for the nameplate; 0 for NPCs. A change
+    /// bumps `effects_version` (it is part of the world's half of the look)
+    /// and is sent as `LevelChanged`.
     pub level: u8,
     /// `Some` for a scripted NPC (the professor): its id in
     /// the data (`data/classes/<class>.json` `professor.id`). NPCs cannot be
@@ -1149,7 +1150,7 @@ pub enum ServerMsg {
     },
     /// The client's spells: every learned one, the dueling loadout and how
     /// many slots it has. After `Welcome` and on every change; `new` lists
-    /// the spells just learned (empty after `Welcome`). Protocol v16:
+    /// the spells just learned (empty after `Welcome`). Protocol v17:
     /// `hotbar`, the social hotbar ([`HOTBAR_SLOTS`] slots; `None`: empty),
     /// with the spells just learned already added where there was room.
     Spellbook {
@@ -1364,7 +1365,7 @@ pub enum ServerMsg {
     /// A club action was refused.
     ClubError { code: ClubErrorCode },
 
-    // ---- Protocol v16: the social hotbar.
+    // ---- Protocol v17: the social hotbar.
     /// The client's social hotbar after `SetHotbar` ([`HOTBAR_SLOTS`]
     /// slots; `None`: empty).
     Hotbar { slots: Vec<Option<SpellId>> },
@@ -2564,10 +2565,10 @@ mod tests {
         assert!(ClubRole::Member < ClubRole::Officer && ClubRole::Officer < ClubRole::Owner);
     }
 
-    /// Protocol v16 appends the hotbar messages after the club ones; they
+    /// Protocol v17 appends the hotbar messages after the club ones; they
     /// round-trip with empty slots.
     #[test]
-    fn v16_hotbar_appends_and_round_trips() {
+    fn v17_hotbar_appends_and_round_trips() {
         let first = |b: Vec<u8>| b[0];
         assert_eq!(
             first(encode_client(&ClientMsg::ClubDisband)) + 1,
@@ -2767,7 +2768,6 @@ mod tests {
             xp: 820,
             level_xp: 760,
             next_level_xp: Some(1_160),
-            year: 2,
         };
         vec![
             ServerMsg::Progress {

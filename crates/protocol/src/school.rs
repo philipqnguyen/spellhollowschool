@@ -23,7 +23,7 @@
 //! character's own level and XP; viewers see the level in
 //! `EntityInfo.level` and `LevelChanged`. Learned spells and the dueling
 //! loadout come in `Spellbook`, and so does the social **hotbar** (protocol
-//! v16): [`HOTBAR_SLOTS`] slots, each a learned spell that does something
+//! v17): [`HOTBAR_SLOTS`] slots, each a learned spell that does something
 //! outside duels or empty, set with `SetHotbar` (answered by `Hotbar`).
 //!
 //! **Spells outside duels.** `CastSpell` / `EndSpell`: Lucerna lights the
@@ -52,7 +52,7 @@ pub const TRACE_POINTS_MAX: usize = 128;
 /// Most spells in a dueling loadout at any level (`Spellbook.slots` is the
 /// character's own number, from `data/progression.json`).
 pub const LOADOUT_MAX: usize = 8;
-/// Slots on the social hotbar (protocol v16; keys 1-9 and 0): `Spellbook.hotbar`,
+/// Slots on the social hotbar (protocol v17; keys 1-9 and 0): `Spellbook.hotbar`,
 /// `Hotbar.slots` and `SetHotbar.slots` hold this many (`None`: empty).
 pub const HOTBAR_SLOTS: usize = 10;
 /// Most beats in one practice round (`LessonRound.beats`).
@@ -147,8 +147,6 @@ pub struct Progress {
     pub level_xp: u32,
     /// Total XP the next level needs; `None` at the cap.
     pub next_level_xp: Option<u32>,
-    /// School year shown beside the level (1..=7, from the level).
-    pub year: u8,
 }
 
 /// An XP grant, as `Progress.gained` reports it.
@@ -410,14 +408,15 @@ pub enum SpellErrorCode {
     BadTarget,
     /// The target is out of range.
     TooFar,
-    /// That piece is already floating. Protocol v11: also that friend was
+    /// That piece is already floating. Protocol v11: also that target was
     /// hindered a moment ago (immune for a while), or the caster is bound.
     Busy,
     /// Too many casts; slow down.
     RateLimited,
-    /// Protocol v11: the target must be a friend (no block either way).
+    /// Protocol v11: the target must be a friend, party member or club
+    /// member (no block either way).
     NotFriend,
-    /// Protocol v11: the spell needs a target (a selected friend) and got
+    /// Protocol v11: the spell needs a target (a selected ally) and got
     /// none, or got the caster.
     NeedsTarget,
     /// Protocol v11: the target is sitting, in class, trading, dueling, on

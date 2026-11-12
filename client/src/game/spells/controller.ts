@@ -11,8 +11,8 @@
 // succeed.
 //
 // Spells to level 20 (protocol v11): the new spells aim at the world
-// selection (aim.ts: a friend for Rigora, Tardara and Adveni; a
-// friend or yourself for Tinctura and Dissolvo, Dissolvo first landing a piece
+// selection (aim.ts: an ally, i.e. a friend, party or club member, for
+// Rigora, Tardara and Adveni; an ally or yourself for Tinctura and Dissolvo, Dissolvo first landing a piece
 // floating in reach), Custodio toggles like Lucerna, and the casts are
 // drawn: a streak to the target and each spell's signature (cast-fx.ts),
 // Volucra's birds (volucra.ts), Aperio's shining spots for its caster
@@ -26,8 +26,8 @@ import type { Quality } from "../../settings";
 import { encodeCastSpell, encodeEndSpell, encodeSetHotbar, type ServerMessage, type SpellErrorCode, type VisibleEffect, type Zone } from "../../wasm/sim_wasm";
 import type { DormRoom } from "../dorm/room";
 import { furnitureDef } from "../dorm/catalog";
-import { gestureByKey, LEVITATION, WAND_LIGHT, spellById, spellRgb, targetsFriend, type SpellDef } from "./data";
-import { chooseAim, nearestFloating } from "./aim";
+import { gestureByKey, LEVITATION, WAND_LIGHT, spellById, spellRgb, targetsAlly, type SpellDef } from "./data";
+import { chooseAim, nearestFloating, onlyAllies, SELECT_AN_ALLY } from "./aim";
 import { Volucra } from "./volucra";
 import { CastSignatures, signatureOf, type Spot } from "./cast-fx";
 import { Levitations } from "./levitate";
@@ -43,7 +43,7 @@ export interface SpellbookState {
   learned: number[];
   loadout: number[];
   slots: number;
-  /** Protocol v16: the social hotbar, one spell id or null per slot (ui/hotbar-state.ts). */
+  /** Protocol v17: the social hotbar, one spell id or null per slot (ui/hotbar-state.ts). */
   hotbar: (number | null)[];
 }
 
@@ -78,8 +78,8 @@ export interface SpellControllerOptions {
   onSelfCast: () => void;
   /** Spells L20: the character selected in the world (Tab/E), or null. */
   selected: () => number | null;
-  /** Spells L20: whether character `id` is a friend (the server decides; this only words a refusal). */
-  isFriend: (id: number) => boolean;
+  /** Spells L20: whether character `id` is a friend, party member or club member (the server decides; this only words a refusal). */
+  isAlly: (id: number) => boolean;
 }
 
 /** The logical folder of the game files (src/assets.ts). */
@@ -239,7 +239,7 @@ export class SpellController {
     const aim = chooseAim(spell, {
       selected,
       selfId: this.opts.selfId(),
-      isFriend: this.opts.isFriend,
+      isAlly: this.opts.isAlly,
       floatingInReach: spell.social.kind === "dispel" && this.opts.zone()?.kind === "dorm" ? this.floatingInReach(spell.social.range_m) : null,
     });
     switch (aim.kind) {
@@ -255,9 +255,9 @@ export class SpellController {
     }
   }
 
-  /** Spells L20: the learned spells that can be aimed at a friend (the player card's "Cast on" row). */
-  friendSpells(): SpellDef[] {
-    return this.book.learned.map((id) => spellById(id)).filter((s): s is SpellDef => !!s && targetsFriend(s));
+  /** Spells L20: the learned spells that can be aimed at an ally (the player card's "Cast on" row). */
+  allySpells(): SpellDef[] {
+    return this.book.learned.map((id) => spellById(id)).filter((s): s is SpellDef => !!s && targetsAlly(s));
   }
 
   /** Spells L20: casts `spell` on the character called `name` (the player card), found by `find` among those in view. */
@@ -514,7 +514,7 @@ export function spellErrorText(spellId: number, code: SpellErrorCode, zone: Zone
     case "too_far":
       return "That is out of reach. Step a little closer.";
     case "busy":
-      // Spells L20: bound stiff, only the Unweaving works; a friend just hindered is immune for a few seconds.
+      // Spells L20: bound stiff, only the Unweaving works; a target just hindered is immune for a few seconds.
       if (bound) return "You are bound stiff: only the Unweaving works now.";
       if (spell?.kind === "bind" || spell?.kind === "slow" || spell?.kind === "pull") return "They were hindered a moment ago; give them a few seconds.";
       return "You are in the middle of something else.";
@@ -522,9 +522,9 @@ export function spellErrorText(spellId: number, code: SpellErrorCode, zone: Zone
       return "Slow down a little: your wand needs a breather.";
     // Spells L20.
     case "not_friend":
-      return `${name} works only on a friend.`;
+      return onlyAllies({ name });
     case "needs_target":
-      return "Select a friend first (Tab).";
+      return SELECT_AN_ALLY;
     case "unavailable":
       return `${name} can't reach them right now: they are sitting, flying, trading, dueling, in class or already moving.`;
     case "no_path":

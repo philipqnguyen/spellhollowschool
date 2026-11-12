@@ -1,5 +1,5 @@
 //! Player levels over HTTP: `GET /api/progression` along the
-//! XP curve (years, slots, the cap), `GET /api/xp/history` pages, and the
+//! XP curve (levels, slots, the cap), `GET /api/xp/history` pages, and the
 //! required level when wearing a saved outfit (slots that need more are
 //! skipped and listed).
 
@@ -34,21 +34,19 @@ async fn progression_follows_the_curve_to_the_cap() {
         res.body,
         json!({
             "level": 1, "xp": 0, "level_xp": 0, "next_level_xp": prog.levels[1],
-            "year": 1, "year_name": prog.year(1).name, "loadout_slots": 3
+            "loadout_slots": 3
         })
     );
-    // Straight to level 4: the second year.
+    // Straight to level 4.
     grant(&app, &p, XpSource::Admin, None, prog.levels[3] + 5).await;
     let res = app.get("/api/progression", p.token()).await;
     assert_eq!(res.body["level"], 4);
-    assert_eq!(res.body["year"], 2);
     assert_eq!(res.body["level_xp"], prog.levels[3]);
     assert_eq!(res.body["next_level_xp"], prog.levels[4]);
-    // Past the top: level 20, Year 7, nothing next.
+    // Past the top: level 20, nothing next.
     grant(&app, &p, XpSource::Admin, None, 50_000).await;
     let res = app.get("/api/progression", p.token()).await;
     assert_eq!(res.body["level"], 20);
-    assert_eq!(res.body["year"], 7);
     assert!(res.body["next_level_xp"].is_null());
     assert_eq!(res.body["loadout_slots"], 5);
     assert_eq!(

@@ -48,12 +48,6 @@
   gap: 4px;
 }
 
-.spellbook-year {
-  font-weight: normal;
-  font-style: italic;
-  color: var(--text-dim);
-}
-
 .sb-bar {
   display: block;
   height: 6px;

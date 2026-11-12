@@ -1,4 +1,4 @@
-// The social hotbar (protocol v16): ten slots at the bottom centre of the
+// The social hotbar (protocol v17): ten slots at the bottom centre of the
 // HUD, keys 1-9 then 0, each a learned spell that does something outside a
 // duel. A click or the slot's key casts it the way the spellbook's Cast
 // button does (game/spells/controller.ts); slots drag onto each other

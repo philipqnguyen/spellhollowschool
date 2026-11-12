@@ -1,5 +1,5 @@
 // Who the characters in view are, beyond their names and looks: each one's
-// player level (for the school year on its nameplate) and, for NPCs, the
+// player level (for its nameplate) and, for NPCs, the
 // data id (`EntityInfo.npc`, a professor of data/classes/<class>.json).
 // Kept from snapshots (`entered` brings `level` and `npc`, `left` drops
 // them) and `LevelChanged`, versioned like effects so a late cached entry
