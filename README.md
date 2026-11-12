@@ -6,9 +6,8 @@ dorm, explore the castle and its grounds, team up in parties, found and join
 clubs, fly, and duel when they choose to.
 Each account can have up to five characters. Players must be 18 or older.
 
-The game is in development and has not launched yet. The official server will
-be at <https://game.spellhollowschool.com>. Anyone can run their own server
-from this repository.
+The official server is at <https://game.spellhollowschool.com>. Anyone can 
+run their own server with this repository.
 
 This is a non-commercial, open-source game.
 
