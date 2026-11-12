@@ -51,6 +51,8 @@ import { SchoolHub } from "./classes/school";
 import { ZoneDirector } from "./zones-director";
 import { castleTorches } from "./zones";
 import { Cast, type SelfPose } from "./characters/cast";
+import { holdsWand } from "./characters/wand-state";
+import { hasWandLight } from "./spells/controller";
 import { autoRunStopFor, cameraStep, isTyping, Keyboard, StallWatch, type MoveInput } from "./input";
 import { Connection, gameSocketUrl, type ConnectionStatus } from "./net";
 import { LocalPlayer, MoveSender } from "./player";
@@ -621,6 +623,7 @@ class Game implements RunningGame {
       house: house.id as House,
       // On a broom no emote plays (the cast refuses it): auto run keeps flying.
       stopAutoRun: () => !this.mount.mounted && this.keyboard.state.stopAutoRun("emote"),
+      assetsBase: ASSETS_BASE,
     });
     // Spells L20: a duel's binds, slows and wards sound through its cues (arena-fx), not twice.
     this.effects = new EffectsController({ scene, headHeight: (id) => this.characters.headHeight(id), inDuel: (id) => this.dueling?.isDuelist(id) ?? false });
@@ -679,6 +682,7 @@ class Game implements RunningGame {
       viewport: () => ({ width: this.canvas.clientWidth, height: this.canvas.clientHeight }),
       headHeight: (id) => this.characters.headHeight(id),
       castAnimMs: world.protocol.castAnimMs,
+      wandTip: (id, out) => this.characters.wandTip(id, out),
       // Spells L20 (DUELCLIENT): a Guardian ward stopped a spell: the guarding guardian flares.
       onWardBlock: (entity) => this.guardian.flare(entity),
     });
@@ -728,6 +732,8 @@ class Game implements RunningGame {
     });
     // Speech bubbles hide behind walls and floors as the nameplates do.
     this.school.setSightTest(this.sightTest);
+    // The wand is out while a character casts, and stays out while it is lit, while we trace a gesture in class and while we aim Elevara (characters/wand-state.ts).
+    this.characters.setWandHeld((id) => holdsWand(hasWandLight(this.effects.book.get(id)), id === this.selfId && this.school.tracing, id === this.selfId && this.school.aiming));
     this.cup = new HouseCupHub({
       hudRoot: this.hudRoot,
       hudActions: this.hud.actions,

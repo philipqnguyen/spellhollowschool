@@ -493,7 +493,8 @@ export class SpellController {
   }
 }
 
-function hasWandLight(effects: readonly VisibleEffect[]): boolean {
+/** Whether a character's wand is lit (Lucerna), from its visible effects. */
+export function hasWandLight(effects: readonly VisibleEffect[]): boolean {
   for (const e of effects) if (e.kind === "lucerna") return true;
   return false;
 }

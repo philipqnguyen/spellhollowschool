@@ -446,8 +446,13 @@ furniture from its model, everything else from `icons/icon_models*.py`.
 
 **Spell effects** (`vfx/`): `vfx/effects.glb` holds every effect as a node
 `spell_<spell id>_<role>`, sharing one unlit, alpha-blended material (draw
-additively); `vfx/wand.glb` is the wand; `vfx/manifest.json` maps spells to
-nodes and colours and gives the wand's attach transform per body.
+additively); `vfx/wand.glb` is the wand (`vfx_models.py` `wand_mesh`: about
+35 cm, a carved handle with a pommel, a gold collar and a tapering shaft,
+under 400 triangles, origin at the grip and the tip `WAND_TIP` up +Y);
+`vfx/manifest.json` maps spells to nodes and colours and gives the wand's
+attach transform per body. The client draws the wand in the right hand only
+while a character casts or holds it out (docs/architecture.md, "Spells and
+dueling").
 
 **Talking portraits** (`npcs/`): frames per canvas size, painted backdrops and
 their placements on the castle walls (`data/npcs/portraits.json`).

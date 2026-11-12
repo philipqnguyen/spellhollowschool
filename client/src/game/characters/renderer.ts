@@ -56,6 +56,11 @@
 // separable (assemble.ts `track`), whose colour buffers are rewritten when
 // the colour steps; nobody else's look is touched. Glows, steam and the like
 // are drawn by game/effects.
+//
+// The wand (wand-state.ts, wands.ts): while a character casts, or holds its
+// wand out for a lit wand, a trace or an aim (`holdWand`), the wand grows
+// into its right hand, posed with it every frame (one thin instance each,
+// one draw for all). Spell effects start at its drawn tip (`wandTip`).
 
 import { Bone } from "@babylonjs/core/Bones/bone";
 import { Skeleton } from "@babylonjs/core/Bones/skeleton";
@@ -86,7 +91,9 @@ import type { FaceTextureUrls, PartLibrary, RigKit } from "./library";
 import { recipeFor, type Recipe } from "./recipe";
 import { applySway, extendRig, resetSway, swayState, type SwayRig } from "./sway";
 import { kneeLift, legBones, liftKnees, measureSeatedLegs, seatShift, type SeatedLegs } from "./seated";
-import { anglesTo, applyLook, bodyToWorld, eyeInBody, lookBones, lookState, resetLook, stepLook, worldToBody, type LookState } from "./look";
+import { anglesTo, applyLook, bodyToWorld, eyeInBody, lookBones, lookState, modelMatrix, resetLook, stepLook, worldToBody, type LookState } from "./look";
+import { fallbackMatrix, STAND_IN_TIP, stepWand, WAND_HAND, wandMatrix, wandSize, wandTipOf, type WandFit, type WandRoot } from "./wand-state";
+import type { Wands } from "./wands";
 import { BlobShadows } from "./blobs";
 import { characterAllowance, characterFloor, drawnTriangles, governTiers, LOD_RULES, PROTECT_NEAREST, SELECT_INTERVAL, TIER_COUNT, tierFor, WORLD_WINDOW, type LodRule, type Tier } from "./lod";
 import { CHARACTER_FX } from "./fx-flag";
@@ -125,9 +132,8 @@ const ASSEMBLY_BUDGET_MS = 4;
 const MAX_ASSEMBLIES_PER_FRAME = 2;
 /** Nameplates sit this far above the top of the head (m). */
 const PLATE_GAP = 0.32;
-/** Wand lights (game/spells): the wand hand's bone, and where the tip sits along it (m). */
-const WAND_BONE = "DEF-hand.R";
-const WAND_TIP = new Vector3(0, 0.24, 0);
+/** Wands farther than this from the camera (m) are not drawn (a few pixels long). */
+const WAND_DRAW_M = 40;
 /** The bone a broom's seat goes under (the hips: rigify's root spine bone), as clips.ts finds it. */
 const HIPS_BONES = ["DEF-spine", "hips", "root"];
 const ORIGIN = Vector3.Zero();
@@ -194,6 +200,8 @@ export interface CharacterRendererOptions {
   shadows?: CharacterShadowHost | null;
   /** Draw blob shadows (default true). */
   blobs?: boolean;
+  /** Wands in the casters' hands (wands.ts; null or absent: none drawn, and the tip is still found). Disposed with the renderer. */
+  wands?: Wands | null;
 }
 
 export interface CharacterStats {
@@ -349,6 +357,9 @@ interface View {
   lookBones: Int16Array | null;
   /** How it is drawn apart from its look (NPCs; `setStyle`), or null. */
   style: CharacterStyle | null;
+  /** Holds its wand out apart from casting (`holdWand`), and the wand's growth now (0 away .. 1 in the hand; wand-state.ts). */
+  wandHeld: boolean;
+  wandGrow: number;
 }
 
 /** A seat's reach along the sitter's facing (castle/seats.ts `SeatPlace`): ahead to its front edge, behind to its back, its drop to the floor (m). */
@@ -366,6 +377,9 @@ const LOOK_EYE = new Float64Array(3);
 const LOOK_AT = new Float64Array(3);
 const LOOK_WORLD = new Float64Array(3);
 const LOOK_ANGLES: [number, number] = [0, 0];
+/** Wand scratch: where a character is drawn and its hand bone's model matrix. */
+const WAND_ROOT: WandRoot = { x: 0, y: 0, z: 0, yaw: 0, scale: 1 };
+const WAND_BONE_M = new Float32Array(16);
 
 /** Distance without Math.hypot (V8 allocates for its arguments). */
 function dist3(ax: number, ay: number, az: number, bx: number, by: number, bz: number): number {
@@ -703,19 +717,80 @@ export class CharacterRenderer {
   }
 
   /**
-   * Where `id`'s wand tip is in the world, as last posed: a little past the
-   * right hand along its bone (Lucerna lights and spell effects).
-   * False while the character has no skeleton (not drawn, or still loading).
+   * Whether `id` holds its wand out apart from casting (a lit wand, a
+   * trace in class, an aim: wand-state.ts `holdsWand`). Kept until changed;
+   * call after `show`.
+   */
+  holdWand(id: number, held: boolean): void {
+    const v = this.views.get(id);
+    if (v) v.wandHeld = held;
+  }
+
+  /** Whether `id`'s wand is drawn now (tests and probes). */
+  wandOut(id: number): boolean {
+    const v = this.views.get(id);
+    return !!v?.enabled && v.wandGrow > 0;
+  }
+
+  /**
+   * Where `id`'s wand tip is in the world, as last posed: the drawn wand's
+   * tip in its right hand (Lucerna lights and spell effects start there),
+   * out or not. False while the character has no skeleton (not drawn, or
+   * still loading).
    */
   wandTip(id: number, out: Vector3): boolean {
     const v = this.views.get(id);
-    if (!v?.enabled || !v.skeleton || !v.rig) return false;
-    const bone = v.skeleton.bones[v.rig.boneIndex(WAND_BONE)];
-    if (!bone) return false;
-    // The root moved this frame (`show`); the pose is the last one applied.
-    v.root.computeWorldMatrix(true);
-    bone.getAbsolutePositionFromLocalToRef(WAND_TIP, v.root, out);
+    const fit = v?.enabled ? this.wandFit(v) : null;
+    if (!v || !fit) return false;
+    // The root moved this frame (`show`); the pose is the last one sampled.
+    modelMatrix(v.poseRig!, v.pose, fit.bone, WAND_BONE_M);
+    wandTipOf(this.wandRoot(v), WAND_BONE_M, fit.matrix, fit.tip, out);
     return true;
+  }
+
+  /** How the wand hangs on `v`'s rig (wands.ts `fit`), or null without a skeleton or a hand bone. */
+  private wandFit(v: View): WandFit | null {
+    const rig = v.poseRig;
+    const kit = v.showing?.kit;
+    if (!rig || !kit || !v.skeleton) return null;
+    const fit = this.opts.wands ? this.opts.wands.fit(rig, kit.greybox ? null : kit.key) : this.fallbackFit(rig);
+    return fit.bone >= 0 ? fit : null;
+  }
+
+  /** Without a wand prop (a mirror, a stress scene): the fallback along the hand bone, once per rig. */
+  private readonly fallbackFits = new WeakMap<Rig, WandFit>();
+  private fallbackFit(rig: Rig): WandFit {
+    let f = this.fallbackFits.get(rig);
+    if (!f) {
+      f = { bone: rig.boneIndex(WAND_HAND), matrix: fallbackMatrix(STAND_IN_TIP), tip: STAND_IN_TIP };
+      this.fallbackFits.set(rig, f);
+    }
+    return f;
+  }
+
+  /** Where `v` is drawn, as the wand maths take it (scratch, reused). */
+  private wandRoot(v: View): WandRoot {
+    const p = v.root.position;
+    const r = WAND_ROOT;
+    r.x = p.x;
+    r.y = p.y;
+    r.z = p.z;
+    r.yaw = v.yaw;
+    r.scale = v.root.scaling.x;
+    return r;
+  }
+
+  /** Grows or shrinks `v`'s wand by `dt` and, while it is out and near, adds it to this frame's wands. */
+  private poseWand(v: View, dt: number): void {
+    v.wandGrow = stepWand(v.wandGrow, v.anim, v.wandHeld, dt);
+    const wands = this.opts.wands;
+    if (!wands || v.wandGrow <= 0 || v.dist > WAND_DRAW_M) return;
+    const fit = this.wandFit(v);
+    if (!fit) return;
+    const o = wands.reserve();
+    if (o < 0) return;
+    modelMatrix(v.poseRig!, v.pose, fit.bone, WAND_BONE_M);
+    wandMatrix(this.wandRoot(v), WAND_BONE_M, fit.matrix, wandSize(v.wandGrow), wands.buffer, o);
   }
 
   /**
@@ -812,6 +887,8 @@ export class CharacterRenderer {
       look: lookState(),
       lookBones: null,
       style: null,
+      wandHeld: false,
+      wandGrow: 0,
     };
   }
 
@@ -1107,8 +1184,10 @@ export class CharacterRenderer {
     let hidden = 0;
     const list = this.list;
     list.length = 0;
+    this.opts.wands?.begin();
     for (const v of this.views.values()) {
       if (!v.shownThisFrame) {
+        v.wandGrow = 0;
         if (v.enabled) {
           v.root.setEnabled(false);
           v.enabled = false;
@@ -1122,7 +1201,10 @@ export class CharacterRenderer {
         v.root.setEnabled(ready);
         v.enabled = ready;
       }
-      if (!ready) continue;
+      if (!ready) {
+        v.wandGrow = 0;
+        continue;
+      }
       list.push(v);
       if (v.showing!.track && v.tintColour) this.recolourEntry(v.showing!, v.tintColour);
       const p = v.root.position;
@@ -1170,6 +1252,7 @@ export class CharacterRenderer {
         }
         applyPose(v.skeleton!, v.pose);
       }
+      this.poseWand(v, dt);
       this.updateHull(v);
       const p = v.root.position;
       const m = v.shadowed ? v.meshes[v.drawn] : null;
@@ -1183,6 +1266,7 @@ export class CharacterRenderer {
       } else if (v.anim !== "fly" && v.anim !== "hover") blobs?.add(p.x, v.floorY, p.z, v.yaw, v.baseScale * v.fxScale); // no blob in mid-air
     }
     blobs?.commit();
+    this.opts.wands?.commit();
     if (this.opts.shadows) {
       const k = Math.max(1, casters.length);
       this.opts.shadows.setCasters(casters, casters.length, cx / k, cy / k, cz / k);
@@ -1505,6 +1589,7 @@ export class CharacterRenderer {
     for (const g of [...this.geometries.values()]) this.disposeGeometry(g);
     this.queue.length = 0;
     this.blobs?.dispose();
+    this.opts.wands?.dispose();
     for (const m of this.variants.values()) m.dispose(false, false);
     this.variants.clear();
     this.plain.dispose();

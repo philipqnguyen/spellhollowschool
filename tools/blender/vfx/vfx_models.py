@@ -482,28 +482,39 @@ def effects(spells: list[dict] | None = None) -> tuple[dict[str, Fx], dict]:
 # The wand
 
 
-WAND_SWATCHES = ["#3A2216", "#6A4028", "#E2B33C", "#F2E6C8"]  # dark wood, warm wood, gold band, tip
+WAND_SWATCHES = ["#3A2216", "#7A4529", "#E2B33C", "#F2E6C8"]  # dark wood, warm wood (castle `oak_rail`), gold collar, pale tip
+# A small prop (docs/art/style-guide.md, triangle budgets: 50-400).
+WAND_BUDGET = 400
+WAND_SIDES = 8
 
 
 def wand_swatch_uv(i: int) -> tuple[float, float]:
     return ((i % 2 + 0.5) / 2, (i // 2 + 0.5) / 2)
 
 
+def wand_profile() -> list[tuple[list[tuple[float, float]], int]]:
+    """The wand's lathe profile, butt to tip, as parts `([(radius, y)], swatch)`:
+    a round pommel, a handle carved into three beads (the fist closes round
+    the grip at y 0), a gold collar just past the fist, then a warm shaft
+    tapering to a pale tip at `WAND_TIP`."""
+    b = -WAND_BUTT - 0.01  # the end of the pommel (35 cm overall)
+    return [
+        ([(0.0, b), (0.0085, b + 0.003), (0.0125, b + 0.01), (0.0112, b + 0.017), (0.0084, b + 0.021)], 0),
+        ([(0.0084, b + 0.021), (0.0106, b + 0.028), (0.0108, -0.046), (0.0090, -0.040), (0.0107, -0.034),
+          (0.0107, -0.021), (0.0090, -0.015), (0.0104, -0.009), (0.0102, 0.018), (0.0088, 0.030)], 0),
+        ([(0.0088, 0.030), (0.0104, 0.033), (0.0104, 0.040), (0.0084, 0.043)], 2),
+        ([(0.0084, 0.043), (0.0076, 0.08), (0.0064, 0.14), (0.0052, 0.20), (0.0042, WAND_TIP - 0.012)], 1),
+        ([(0.0042, WAND_TIP - 0.012), (0.0034, WAND_TIP - 0.004), (0.0, WAND_TIP)], 3),
+    ]
+
+
 def wand_mesh() -> Mesh:
-    """A stylized wand: a carved dark handle with a pommel and gold bands,
+    """A stylized wand: a carved dark handle with a pommel, a gold collar,
     a warm tapering shaft and a pale tip. Origin at the grip, +Y to the tip."""
     m = Mesh()
-    parts = [
-        # (profile [(r, y)], swatch)
-        ([(0.0, -WAND_BUTT - 0.012), (0.011, -WAND_BUTT - 0.008), (0.012, -WAND_BUTT)], 2),
-        ([(0.012, -WAND_BUTT), (0.0105, -0.06), (0.011, -0.04), (0.0095, -0.02), (0.0105, 0.0), (0.009, 0.02)], 0),
-        ([(0.0095, 0.02), (0.0095, 0.03)], 2),
-        ([(0.0085, 0.03), (0.0068, 0.12), (0.0052, 0.2), (0.0042, WAND_TIP - 0.012)], 1),
-        ([(0.0042, WAND_TIP - 0.012), (0.0035, WAND_TIP - 0.003), (0.0, WAND_TIP)], 3),
-    ]
-    for prof, sw in parts:
+    for prof, sw in wand_profile():
         n = len(m.faces)
-        mk.lathe(m, prof, 8, "wand", smooth=True, cap_top=False, cap_bottom=False)
+        mk.lathe(m, prof, WAND_SIDES, "wand", smooth=True, cap_top=False, cap_bottom=False)
         uv = wand_swatch_uv(sw)
         for f in m.faces[n:]:
             f.uvs = [uv] * len(f.idx)

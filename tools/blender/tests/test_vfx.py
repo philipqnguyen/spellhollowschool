@@ -105,6 +105,37 @@ class WandTests(unittest.TestCase):
         self.assertIn(f"WAND_TIP = {vm.WAND_TIP}", src)
         self.assertIn(f"WAND_BUTT = {vm.WAND_BUTT}", src)
 
+    def test_wand_size_and_tip(self):
+        # About 30-35 cm overall, slim, the tip on the shaft's axis at WAND_TIP above the grip.
+        m = vm.wand_mesh()
+        lo, hi = m.bounds()
+        self.assertGreaterEqual(hi[1] - lo[1], 0.30)
+        self.assertLessEqual(hi[1] - lo[1], 0.355)
+        self.assertLess(max(hi[0] - lo[0], hi[2] - lo[2]), 0.03)
+        top = [v for v in m.verts if abs(v[1] - hi[1]) < 1e-9]
+        self.assertTrue(top)
+        for v in top:
+            self.assertAlmostEqual(v[0], 0.0, places=6)
+            self.assertAlmostEqual(v[2], 0.0, places=6)
+        # The grip (origin) is on the handle, which is thicker than the shaft and tapers toward the tip.
+        parts = vm.wand_profile()
+        ys = [y for prof, _ in parts for _, y in prof]
+        self.assertEqual(ys, sorted(ys))
+        handle = max(r for prof, sw in parts if sw == 0 for r, _ in prof)
+        shaft = [r for prof, sw in parts if sw == 1 for r, _ in prof]
+        self.assertGreater(handle, max(shaft))
+        self.assertEqual(shaft, sorted(shaft, reverse=True))
+        grip = [y for prof, sw in parts if sw == 0 for _, y in prof]
+        self.assertLess(min(grip), 0.0)
+        self.assertGreater(max(grip), 0.0)
+
+    def test_wand_poly_budget(self):
+        # A small prop (docs/art/style-guide.md): one mesh, one material, within budget.
+        m = vm.wand_mesh()
+        self.assertLessEqual(m.triangle_count(), vm.WAND_BUDGET)
+        self.assertGreater(m.triangle_count(), 50)
+        self.assertEqual(set(m.materials()), {"wand"})
+
     def test_wand_texture_swatches(self):
         img = vm.wand_texture()
         self.assertEqual(img.shape[2], 4)

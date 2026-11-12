@@ -15,6 +15,7 @@ import { CharacterRenderer, sharedLibrary, type CharacterFx, type CharacterShado
 import { seatPlace, type SeatPlace } from "../castle/seats";
 import { BENCH_TUCK, SeatTurns, type SeatedFacing } from "../bench-flip";
 import { RecolouredLooks } from "../effects/state";
+import { Wands } from "./wands";
 
 /**
  * How potion effects change a character this frame (game/effects): a look
@@ -62,6 +63,8 @@ export interface CastOptions {
   house?: House;
   /** Asked as an emote is chosen: true if it stopped auto run (we stand from this frame, so the emote may start). */
   stopAutoRun?: () => boolean;
+  /** The logical folder of the game files (src/assets.ts), for the wand (default `assets/`). */
+  assetsBase?: string;
 }
 
 /**
@@ -134,12 +137,17 @@ export class Cast {
   private readonly recoloured = new RecolouredLooks();
   /** NPCs: how an entity is drawn apart from its look (a ghost, a background student), once the game sets it. */
   private styles: ((id: number) => CharacterStyle | null) | null = null;
+  /** Who holds a wand out apart from casting (wand-state.ts `holdsWand`), once the game sets it. */
+  private wandHeld: ((id: number) => boolean) | null = null;
+  private readonly wands: Wands;
 
   constructor(private readonly opts: CastOptions) {
+    this.wands = new Wands(opts.scene, opts.assetsBase ?? "assets/");
     this.renderer = new CharacterRenderer(opts.scene, {
       library: sharedLibrary(opts.speeds),
       onMesh: (m, added) => (added ? opts.shadows.add(m) : opts.shadows.remove(m)),
       shadows: opts.characterShadows ?? null,
+      wands: this.wands,
     });
     if (opts.quality) this.renderer.setQuality(opts.quality);
     this.emote = new LocalEmote(opts.emotes);
@@ -226,6 +234,16 @@ export class Cast {
     return this.renderer.wandTip(id, out);
   }
 
+  /** Whether `id`'s wand is out now (tests and probes). */
+  wandOut(id: number): boolean {
+    return this.renderer.wandOut(id);
+  }
+
+  /** Who holds a wand out apart from casting: a lit wand, a trace, an aim (null: nobody; casts still draw it). */
+  setWandHeld(source: ((id: number) => boolean) | null): void {
+    this.wandHeld = source;
+  }
+
   /** Where `id`'s hips are as drawn (a broom's seat), returning its drawn scale; 0 while it has no skeleton. */
   hips(id: number, out: Vector3): number {
     return this.renderer.hips(id, out);
@@ -297,6 +315,7 @@ export class Cast {
       ["shadows", `${s.shadowCasters} in the map, ${s.blobs} blobs, ${s.swaying} swaying`],
       ["part files", `${s.partFiles} requested, ${s.missingFiles} missing (greybox)`],
       ["recoloured", `${s.recoloured} live (chameleon), ${this.renderer.styledMaterials} styled materials (npcs)`],
+      this.wands.perfLine(),
     ];
   }
 
@@ -358,6 +377,7 @@ export class Cast {
       } else {
         r.show(me.id, shown ? shown.version : this.self.version, shown?.appearance ?? this.self.appearance, me.x, me.y, me.z, me.yaw, anim, motion.speed, look?.fx ?? null);
       }
+      r.holdWand(me.id, this.wandHeld?.(me.id) ?? false);
       this.look(me.id);
     }
     for (const v of visible) {
@@ -375,6 +395,7 @@ export class Cast {
         r.show(v.id, shown ? shown.version : v.appearanceVersion, shown?.appearance ?? v.appearance, p.x, p.y, p.z, p.yaw, p.anim, v.speed, look?.fx ?? null);
       }
       if (this.styles) r.setStyle(v.id, this.styles(v.id));
+      r.holdWand(v.id, this.wandHeld?.(v.id) ?? false);
       this.look(v.id);
     }
     for (const f of figures) {

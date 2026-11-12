@@ -33,6 +33,8 @@ export interface DuelistPose {
   y: number;
   z: number;
   yaw: number;
+  /** The drawn wand's tip (characters/renderer.ts `wandTip`), when the duelist is drawn; else it is estimated (`wandTip`). */
+  tip?: readonly [number, number, number] | null;
 }
 
 /** Chest height above the feet, where spells fly and shields stand (m). */
@@ -320,8 +322,9 @@ export function facing(me: DuelistPose, opp: DuelistPose | null): [number, numbe
   return [Math.sin(me.yaw), Math.cos(me.yaw)];
 }
 
-/** Where a wand's tip is held while casting toward (fx, fz): chest high, a little ahead and to the right. */
+/** Where a wand's tip is while casting toward (fx, fz): the drawn wand's, else chest high, a little ahead and to the right. */
 export function wandTip(me: DuelistPose, fx: number, fz: number): [number, number, number] {
+  if (me.tip) return [me.tip[0], me.tip[1], me.tip[2]];
   // Right of the facing direction: (cos yaw, -sin yaw) for facing (sin yaw, cos yaw).
   const rx = fz;
   const rz = -fx;
