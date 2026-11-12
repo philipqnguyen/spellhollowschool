@@ -42,6 +42,7 @@ export const BLOCKED_DIRS = [
   { prefix: "client/src/wasm/", why: "The wasm bindings are built by scripts/build-wasm.sh (client/scripts/prepare.mjs runs it)." },
   { prefix: "vendor_assets/", why: "Third-party source assets are not distributed (docs/art/repo-layout.md)." },
   { prefix: ".blender-user/", why: "The local Blender user folder (MPFB install, tools/blender/install_mpfb.sh)." },
+  { prefix: ".claude/worktrees/", why: "Agent git worktrees (Claude Code): each is its own checkout, merged through git, never committed." },
   { prefix: "target/", why: "Cargo build output." },
   { prefix: "node_modules/", why: "npm install output." },
 ];

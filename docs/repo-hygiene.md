@@ -19,6 +19,7 @@ and every clone pays for it.
 | The wasm bindings (`client/src/wasm/`, any `.wasm`) | gitignored | `scripts/build-wasm.sh` (`client/scripts/prepare.mjs` runs it) |
 | Built binaries anywhere (`.glb`, `.gltf`, `.ktx2`, `.wasm`) | wherever the build writes them (gitignored) | the build |
 | Third-party source assets, the MPFB install | `vendor_assets/`, `.blender-user/` (gitignored, not distributed) | `tools/blender/install_mpfb.sh`; `vendor_assets` is never a build input (`docs/art/repo-layout.md`) |
+| Agent git worktrees (Claude Code) | `.claude/worktrees/<name>` (gitignored) | `git worktree add .claude/worktrees/<name>`; merge the branch, never commit the folder |
 | `target/`, `node_modules/`, `dist/`, `__pycache__/`, logs, `.env` files, OS and editor files | gitignored | `cargo build`, `npm ci` |
 | Any file over 2 MiB | - | almost always generated; a real source that big needs an allowlist line (below) |
 
@@ -36,7 +37,7 @@ hair meshes and the sculpt shape targets, `.npz`; `docs/art/repo-layout.md`).
   policy. It refuses: anything under `docs/screenshots/`, `.out/`,
   `.playwright-mcp/`, `loadtest-results/`, `art/renders/`,
   `client/public/assets/`, `client/src/wasm/`, `vendor_assets/`,
-  `.blender-user/`, `target/`, `node_modules/`; any `dist/`, `node_modules/`
+  `.blender-user/`, `.claude/worktrees/`, `target/`, `node_modules/`; any `dist/`, `node_modules/`
   or `__pycache__/` folder at any depth; any `screenshots/` folder or
   `*.screenshot.png`; any `.blend`, `.blend1`, `.blend2`; videos (`.mp4`,
   `.webm`, `.mov`, `.mkv`, `.avi`, `.m4v`); `.glb`, `.gltf`, `.ktx2`, `.wasm`;

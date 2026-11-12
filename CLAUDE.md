@@ -29,6 +29,12 @@ changes.
 - Full policy and the reasons: `docs/repo-hygiene.md`; what under `art/` is
   committed and the commands that rebuild the rest: `docs/art/repo-layout.md`.
 
+## Worktrees
+
+Put agent git worktrees under `.claude/worktrees/<name>` (gitignored and
+refused by the committed-files check), never next to the repository or
+elsewhere in it.
+
 ## Getting the generated files
 
 - `bin/dev` (or `node client/scripts/prepare.mjs`) builds the wasm bindings
