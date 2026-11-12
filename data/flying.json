@@ -1,0 +1,16 @@
+{
+  "_doc": "Brooms (sim_core::flight::FlightRules; docs/architecture.md). Speeds by Flying skill level (8 / 9 / 10 m/s); Featherlight Elixir multiplies them by data/economy.json effects.featherlight.broom_pct (115: 11.5 m/s at the top tier). ceiling_y is the top of the layout's airspace boxes over the grounds and the lake (tools/blender/terrain_layout.py CEILING_Y).",
+  "version": 1,
+  "tiers": [
+    { "from_level": 1, "speed": 8.0 },
+    { "from_level": 4, "speed": 9.0 },
+    { "from_level": 7, "speed": 10.0 }
+  ],
+  "acceleration": 6.0,
+  "climb_speed": 4.0,
+  "speed_tolerance": 1.25,
+  "ground_clearance": 0.3,
+  "margin": 0.4,
+  "dismount_height": 0.5,
+  "ceiling_y": 45.0
+}

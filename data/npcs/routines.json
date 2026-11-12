@@ -1,0 +1,1036 @@
+{
+  "_doc": "Where the castle's entity NPCs are on the game clock (sim_core::npcs::RoutinesFile; RoutinePlan::pose). points: named spots on walkable ground (yaw: facing once there); a point `door:<class id>` is that class's door. routines: per ghost, staff member, shopkeeper and clerk, steps sorted by game time `at`: at that time the NPC sets off from the previous step's point (the last step's, for the first) for `to` along the NPC nav graph (no moving staircase flight, no hidden passage; its own house's rooms for ghosts and students) at rules.walk_speed_mps (ghosts ghost_speed_mps), then stands there (anim idle or sit) until the next step; `hidden`: gone (the server removes the entity) until the next step. The walk must fit before the next step (checked). A shopkeeper or a clerk has one step (where it stands). students: the generator's rules (lead_mins before a session they set off for its door, hidden through it; bed and rise; bed_walk_mins to reach the night point) and per student its classes, idle point (idle_anim) and night point. The seventh floor is an island of the NPC graph (only moving flights reach it): ghost_house_a stays there. Tune points so the walks look right in game. docs/architecture.md 'NPCs'.",
+  "version": 1,
+  "points": {
+    "cr_a_hearth": {
+      "pos": [
+        -54.5,
+        63,
+        -40.5
+      ],
+      "yaw": -1.5708
+    },
+    "cr_a_window": {
+      "pos": [
+        -47.0,
+        63,
+        -44.0
+      ]
+    },
+    "l7_north_mid": {
+      "pos": [
+        -48.5,
+        63,
+        -21.5
+      ]
+    },
+    "gs_l7_balcony": {
+      "pos": [
+        -36.0,
+        63,
+        7.25
+      ],
+      "yaw": -1.5708
+    },
+    "l7_east_mid": {
+      "pos": [
+        -6.0,
+        63,
+        3.5
+      ]
+    },
+    "cr_b_hearth": {
+      "pos": [
+        82.5,
+        -9,
+        20.5
+      ],
+      "yaw": 1.5708
+    },
+    "cr_b_mid": {
+      "pos": [
+        71.0,
+        -9,
+        16.0
+      ]
+    },
+    "kc_east": {
+      "pos": [
+        55.0,
+        -9,
+        26.5
+      ]
+    },
+    "kc_west": {
+      "pos": [
+        28.0,
+        -9,
+        26.5
+      ]
+    },
+    "kitchens_mid": {
+      "pos": [
+        47.0,
+        -9,
+        37.0
+      ]
+    },
+    "cr_c_statue": {
+      "pos": [
+        -100.0,
+        54,
+        -16.5
+      ],
+      "yaw": 3.1416
+    },
+    "cr_c_west": {
+      "pos": [
+        -107.0,
+        54,
+        -12.0
+      ]
+    },
+    "wt_top_mid": {
+      "pos": [
+        -100.0,
+        54,
+        -2.0
+      ]
+    },
+    "l6_corr_mid": {
+      "pos": [
+        -76.0,
+        54,
+        2.5
+      ]
+    },
+    "gs_l6_west": {
+      "pos": [
+        -62.0,
+        54,
+        0.0
+      ]
+    },
+    "cr_d_windows": {
+      "pos": [
+        8.5,
+        -18,
+        85.6
+      ],
+      "yaw": 0.0
+    },
+    "cr_d_mid": {
+      "pos": [
+        4.0,
+        -18,
+        78.0
+      ]
+    },
+    "dungeon_north": {
+      "pos": [
+        7.5,
+        -9,
+        25.0
+      ]
+    },
+    "dungeon_south": {
+      "pos": [
+        7.5,
+        -9,
+        45.0
+      ]
+    },
+    "eh_front": {
+      "pos": [
+        16.0,
+        0,
+        36.5
+      ],
+      "yaw": 0.0
+    },
+    "eh_mid": {
+      "pos": [
+        16.0,
+        0,
+        26.0
+      ]
+    },
+    "eh_stair_foot": {
+      "pos": [
+        16.0,
+        0,
+        20.5
+      ],
+      "yaw": 3.1416
+    },
+    "eh_clubs_desk": {
+      "pos": [
+        31.2,
+        0,
+        36.9
+      ],
+      "yaw": -1.5708
+    },
+    "uc_walk_mid": {
+      "pos": [
+        2.0,
+        0,
+        -8.0
+      ]
+    },
+    "trophy_mid": {
+      "pos": [
+        4.0,
+        0,
+        -21.0
+      ]
+    },
+    "ff_corr_mid": {
+      "pos": [
+        0.0,
+        9,
+        -8.0
+      ]
+    },
+    "gallery_mid": {
+      "pos": [
+        70.0,
+        9,
+        -9.0
+      ]
+    },
+    "gh_east_aisle": {
+      "pos": [
+        85.0,
+        0,
+        26.0
+      ]
+    },
+    "court_mid": {
+      "pos": [
+        16.0,
+        0,
+        50.0
+      ]
+    },
+    "clock_court_mid": {
+      "pos": [
+        85.0,
+        0,
+        58.0
+      ]
+    },
+    "kc_mid": {
+      "pos": [
+        40.0,
+        -9,
+        26.5
+      ]
+    },
+    "dungeon_mid": {
+      "pos": [
+        7.5,
+        -9,
+        33.0
+      ]
+    },
+    "gf_west_mid": {
+      "pos": [
+        -15.0,
+        0,
+        8.5
+      ]
+    },
+    "library_desk": {
+      "pos": [
+        -103.0,
+        18,
+        11.0
+      ],
+      "yaw": 0.0
+    },
+    "library_stacks": {
+      "pos": [
+        -107.6,
+        18,
+        0.9
+      ]
+    },
+    "library_lamps": {
+      "pos": [
+        -98.0,
+        18,
+        13.0
+      ]
+    },
+    "library_door": {
+      "pos": [
+        -95.5,
+        18,
+        2.5
+      ]
+    },
+    "sf_corr_mid": {
+      "pos": [
+        -80.0,
+        18,
+        2.5
+      ]
+    },
+    "tf_corr_mid": {
+      "pos": [
+        -80.0,
+        27,
+        2.5
+      ]
+    },
+    "gh_staff_end": {
+      "pos": [
+        92.0,
+        0,
+        20.0
+      ],
+      "yaw": 1.5708
+    },
+    "hut_door": {
+      "pos": [
+        92.0,
+        -6.6,
+        172.0
+      ]
+    },
+    "paddock_gate_out": {
+      "pos": [
+        100.0,
+        -6.77,
+        186.0
+      ]
+    },
+    "greenhouse_gate_out": {
+      "pos": [
+        42.0,
+        0.58,
+        95.0
+      ]
+    },
+    "lake_path": {
+      "pos": [
+        5.0,
+        -14.77,
+        246.0
+      ]
+    },
+    "pitch_gate_out": {
+      "pos": [
+        -34.0,
+        -9.5,
+        175.0
+      ]
+    },
+    "owl_loft_knoll": {
+      "pos": [
+        -84.0,
+        4.14,
+        124.0
+      ]
+    },
+    "shop_exchange": {
+      "pos": [
+        3.1,
+        0,
+        27.2
+      ],
+      "yaw": 1.5708
+    },
+    "shop_order_a": {
+      "pos": [
+        -39.4,
+        63,
+        -45.0
+      ],
+      "yaw": -1.5708
+    },
+    "shop_order_b": {
+      "pos": [
+        86.7,
+        -9,
+        10.7
+      ],
+      "yaw": 0.0
+    },
+    "shop_order_c": {
+      "pos": [
+        -90.2,
+        54,
+        -28.4
+      ],
+      "yaw": 0.0
+    },
+    "shop_order_d": {
+      "pos": [
+        -0.7,
+        -18,
+        70.4
+      ],
+      "yaw": 0.0
+    },
+    "eh_chat_1": {
+      "pos": [
+        24.0,
+        0,
+        33.0
+      ],
+      "yaw": 0.0
+    },
+    "eh_chat_2": {
+      "pos": [
+        24.0,
+        0,
+        34.3
+      ],
+      "yaw": 3.1416
+    },
+    "court_sit_1": {
+      "pos": [
+        10.0,
+        0,
+        55.0
+      ],
+      "yaw": 1.5708
+    },
+    "gh_chat_1": {
+      "pos": [
+        40.0,
+        0,
+        20.0
+      ],
+      "yaw": 1.5708
+    },
+    "gh_chat_2": {
+      "pos": [
+        41.3,
+        0,
+        20.0
+      ],
+      "yaw": -1.5708
+    },
+    "kc_idle": {
+      "pos": [
+        33.0,
+        -9,
+        24.0
+      ],
+      "yaw": 0.0
+    },
+    "library_read_1": {
+      "pos": [
+        -104.0,
+        18,
+        3.0
+      ],
+      "yaw": 1.5708
+    },
+    "library_read_2": {
+      "pos": [
+        -102.7,
+        18,
+        3.0
+      ],
+      "yaw": -1.5708
+    },
+    "sf_idle": {
+      "pos": [
+        -76.0,
+        18,
+        5.0
+      ],
+      "yaw": 3.1416
+    },
+    "dungeon_idle_1": {
+      "pos": [
+        9.0,
+        -9,
+        40.0
+      ],
+      "yaw": -1.5708
+    },
+    "dungeon_idle_2": {
+      "pos": [
+        7.7,
+        -9,
+        40.0
+      ],
+      "yaw": 1.5708
+    },
+    "clock_sit_1": {
+      "pos": [
+        78.0,
+        0,
+        56.0
+      ],
+      "yaw": 0.0
+    },
+    "gs_foot": {
+      "pos": [
+        -48.0,
+        0,
+        8.0
+      ]
+    },
+    "cr_b_bed": {
+      "pos": [
+        75.75,
+        -9,
+        12.0
+      ]
+    },
+    "cr_c_bed": {
+      "pos": [
+        -100.0,
+        54,
+        -27.0
+      ]
+    },
+    "cr_d_bed": {
+      "pos": [
+        -5.0,
+        -18,
+        79.5
+      ]
+    }
+  },
+  "routines": {
+    "ghost_house_a": {
+      "steps": [
+        {
+          "at": "00:00",
+          "to": "cr_a_hearth"
+        },
+        {
+          "at": "02:00",
+          "to": "l7_north_mid"
+        },
+        {
+          "at": "04:00",
+          "to": "gs_l7_balcony"
+        },
+        {
+          "at": "06:00",
+          "to": "l7_east_mid"
+        },
+        {
+          "at": "08:00",
+          "to": "gs_l7_balcony"
+        },
+        {
+          "at": "10:00",
+          "to": "cr_a_window"
+        },
+        {
+          "at": "12:00",
+          "to": "cr_a_hearth"
+        },
+        {
+          "at": "14:00",
+          "to": "l7_north_mid"
+        },
+        {
+          "at": "16:00",
+          "to": "gs_l7_balcony"
+        },
+        {
+          "at": "18:00",
+          "to": "l7_east_mid"
+        },
+        {
+          "at": "20:00",
+          "to": "gs_l7_balcony"
+        },
+        {
+          "at": "22:00",
+          "to": "cr_a_window"
+        }
+      ]
+    },
+    "ghost_house_b": {
+      "steps": [
+        {
+          "at": "00:00",
+          "to": "cr_b_hearth"
+        },
+        {
+          "at": "02:00",
+          "to": "cr_b_mid"
+        },
+        {
+          "at": "04:00",
+          "to": "kc_east"
+        },
+        {
+          "at": "06:00",
+          "to": "kitchens_mid"
+        },
+        {
+          "at": "08:00",
+          "to": "kc_west"
+        },
+        {
+          "at": "10:00",
+          "to": "kc_east"
+        },
+        {
+          "at": "12:00",
+          "to": "cr_b_hearth"
+        },
+        {
+          "at": "14:00",
+          "to": "cr_b_mid"
+        },
+        {
+          "at": "16:00",
+          "to": "kc_east"
+        },
+        {
+          "at": "18:00",
+          "to": "kitchens_mid"
+        },
+        {
+          "at": "20:00",
+          "to": "kc_west"
+        },
+        {
+          "at": "22:00",
+          "to": "kc_east"
+        }
+      ]
+    },
+    "ghost_house_c": {
+      "steps": [
+        {
+          "at": "00:00",
+          "to": "cr_c_statue"
+        },
+        {
+          "at": "02:00",
+          "to": "cr_c_west"
+        },
+        {
+          "at": "04:00",
+          "to": "wt_top_mid"
+        },
+        {
+          "at": "06:00",
+          "to": "l6_corr_mid"
+        },
+        {
+          "at": "08:00",
+          "to": "gs_l6_west"
+        },
+        {
+          "at": "10:00",
+          "to": "wt_top_mid"
+        },
+        {
+          "at": "12:00",
+          "to": "cr_c_statue"
+        },
+        {
+          "at": "14:00",
+          "to": "cr_c_west"
+        },
+        {
+          "at": "16:00",
+          "to": "wt_top_mid"
+        },
+        {
+          "at": "18:00",
+          "to": "l6_corr_mid"
+        },
+        {
+          "at": "20:00",
+          "to": "gs_l6_west"
+        },
+        {
+          "at": "22:00",
+          "to": "wt_top_mid"
+        }
+      ]
+    },
+    "ghost_house_d": {
+      "steps": [
+        {
+          "at": "00:00",
+          "to": "cr_d_windows"
+        },
+        {
+          "at": "02:00",
+          "to": "cr_d_mid"
+        },
+        {
+          "at": "04:00",
+          "to": "dungeon_north"
+        },
+        {
+          "at": "06:00",
+          "to": "dungeon_south"
+        },
+        {
+          "at": "08:00",
+          "to": "dungeon_north"
+        },
+        {
+          "at": "10:00",
+          "to": "cr_d_mid"
+        },
+        {
+          "at": "12:00",
+          "to": "cr_d_windows"
+        },
+        {
+          "at": "14:00",
+          "to": "cr_d_mid"
+        },
+        {
+          "at": "16:00",
+          "to": "dungeon_north"
+        },
+        {
+          "at": "18:00",
+          "to": "dungeon_south"
+        },
+        {
+          "at": "20:00",
+          "to": "dungeon_north"
+        },
+        {
+          "at": "22:00",
+          "to": "cr_d_mid"
+        }
+      ]
+    },
+    "staff_caretaker": {
+      "steps": [
+        {
+          "at": "02:00",
+          "to": "gf_west_mid"
+        },
+        {
+          "at": "04:00",
+          "to": "eh_mid"
+        },
+        {
+          "at": "06:00",
+          "to": "eh_front"
+        },
+        {
+          "at": "07:00",
+          "to": "uc_walk_mid"
+        },
+        {
+          "at": "08:30",
+          "to": "trophy_mid"
+        },
+        {
+          "at": "10:00",
+          "to": "ff_corr_mid"
+        },
+        {
+          "at": "11:30",
+          "to": "gallery_mid"
+        },
+        {
+          "at": "12:30",
+          "to": "gh_east_aisle"
+        },
+        {
+          "at": "14:00",
+          "to": "court_mid"
+        },
+        {
+          "at": "15:30",
+          "to": "clock_court_mid"
+        },
+        {
+          "at": "17:00",
+          "to": "eh_mid"
+        },
+        {
+          "at": "19:00",
+          "to": "kc_mid"
+        },
+        {
+          "at": "21:00",
+          "to": "dungeon_mid"
+        },
+        {
+          "at": "22:00",
+          "to": "eh_front"
+        },
+        {
+          "at": "23:00",
+          "to": "eh_stair_foot"
+        }
+      ]
+    },
+    "staff_librarian": {
+      "steps": [
+        {
+          "at": "07:00",
+          "to": "sf_corr_mid"
+        },
+        {
+          "at": "08:00",
+          "to": "library_desk"
+        },
+        {
+          "at": "10:00",
+          "to": "library_stacks"
+        },
+        {
+          "at": "12:00",
+          "to": "library_desk"
+        },
+        {
+          "at": "13:00",
+          "to": "gh_staff_end"
+        },
+        {
+          "at": "14:30",
+          "to": "library_desk"
+        },
+        {
+          "at": "17:00",
+          "to": "library_stacks"
+        },
+        {
+          "at": "18:00",
+          "to": "tf_corr_mid"
+        },
+        {
+          "at": "19:00",
+          "to": "library_desk"
+        },
+        {
+          "at": "21:30",
+          "to": "library_lamps"
+        },
+        {
+          "at": "22:30",
+          "to": "library_door"
+        },
+        {
+          "at": "23:00",
+          "to": "library_door",
+          "hidden": true
+        }
+      ]
+    },
+    "staff_groundskeeper": {
+      "steps": [
+        {
+          "at": "06:00",
+          "to": "hut_door"
+        },
+        {
+          "at": "07:00",
+          "to": "paddock_gate_out"
+        },
+        {
+          "at": "09:00",
+          "to": "greenhouse_gate_out"
+        },
+        {
+          "at": "11:00",
+          "to": "court_mid"
+        },
+        {
+          "at": "12:30",
+          "to": "clock_court_mid"
+        },
+        {
+          "at": "14:00",
+          "to": "paddock_gate_out"
+        },
+        {
+          "at": "16:00",
+          "to": "lake_path"
+        },
+        {
+          "at": "18:00",
+          "to": "pitch_gate_out"
+        },
+        {
+          "at": "19:30",
+          "to": "owl_loft_knoll"
+        },
+        {
+          "at": "20:30",
+          "to": "greenhouse_gate_out"
+        },
+        {
+          "at": "21:30",
+          "to": "hut_door"
+        },
+        {
+          "at": "22:00",
+          "to": "hut_door",
+          "hidden": true
+        }
+      ]
+    },
+    "shop_owl_exchange": {
+      "steps": [
+        {
+          "at": "00:00",
+          "to": "shop_exchange"
+        }
+      ]
+    },
+    "shop_owl_order_a": {
+      "steps": [
+        {
+          "at": "00:00",
+          "to": "shop_order_a"
+        }
+      ]
+    },
+    "shop_owl_order_b": {
+      "steps": [
+        {
+          "at": "00:00",
+          "to": "shop_order_b"
+        }
+      ]
+    },
+    "shop_owl_order_c": {
+      "steps": [
+        {
+          "at": "00:00",
+          "to": "shop_order_c"
+        }
+      ]
+    },
+    "shop_owl_order_d": {
+      "steps": [
+        {
+          "at": "00:00",
+          "to": "shop_order_d"
+        }
+      ]
+    },
+    "clerk_clubs": {
+      "steps": [
+        {
+          "at": "00:00",
+          "to": "eh_clubs_desk"
+        }
+      ]
+    }
+  },
+  "students": {
+    "lead_mins": 45,
+    "bed": "21:30",
+    "rise": "06:00",
+    "bed_walk_mins": 60,
+    "spec": {
+      "student_a1": {
+        "classes": [
+          "charms",
+          "transfiguration"
+        ],
+        "idle": "eh_chat_1",
+        "night": "gs_foot"
+      },
+      "student_a2": {
+        "classes": [
+          "history",
+          "flying"
+        ],
+        "idle": "eh_chat_2",
+        "night": "gs_foot"
+      },
+      "student_a3": {
+        "classes": [
+          "potions",
+          "defence"
+        ],
+        "idle": "court_sit_1",
+        "night": "gs_foot",
+        "idle_anim": "sit"
+      },
+      "student_b1": {
+        "classes": [
+          "herbology",
+          "history"
+        ],
+        "idle": "gh_chat_1",
+        "night": "cr_b_bed"
+      },
+      "student_b2": {
+        "classes": [
+          "potions",
+          "creatures"
+        ],
+        "idle": "gh_chat_2",
+        "night": "cr_b_bed"
+      },
+      "student_b3": {
+        "classes": [
+          "transfiguration",
+          "defence"
+        ],
+        "idle": "kc_idle",
+        "night": "cr_b_bed"
+      },
+      "student_c1": {
+        "classes": [
+          "charms",
+          "history"
+        ],
+        "idle": "library_read_1",
+        "night": "cr_c_bed"
+      },
+      "student_c2": {
+        "classes": [
+          "transfiguration",
+          "defence"
+        ],
+        "idle": "library_read_2",
+        "night": "cr_c_bed"
+      },
+      "student_c3": {
+        "classes": [
+          "herbology",
+          "charms"
+        ],
+        "idle": "sf_idle",
+        "night": "cr_c_bed"
+      },
+      "student_d1": {
+        "classes": [
+          "potions",
+          "defence"
+        ],
+        "idle": "dungeon_idle_1",
+        "night": "cr_d_bed"
+      },
+      "student_d2": {
+        "classes": [
+          "creatures",
+          "flying"
+        ],
+        "idle": "clock_sit_1",
+        "night": "cr_d_bed",
+        "idle_anim": "sit"
+      },
+      "student_d3": {
+        "classes": [
+          "charms",
+          "transfiguration"
+        ],
+        "idle": "dungeon_idle_2",
+        "night": "cr_d_bed"
+      }
+    }
+  }
+}

@@ -1,0 +1,253 @@
+{
+ "_doc": "Geometry fingerprints of the castle kit M1.0 build (commit f9a9395, castle kit M1): sha1 of the Planner's polygons per cell and material (layout_lib.plan_layout, no wall openings) and of each cell's props kit (kit.assemble without extra slots). Un-kitted cells must keep them (tests/test_castle_kit.py). Castle M5 layout commits re-record the cells a new space changes (docs/art/castle-kit.md).",
+ "kit": {
+  "dungeon_cellars": "bb466cc4c8ab8632",
+  "entrance_hall": "dc0d11f4c787e066",
+  "ff_corridor_north": "aafc2c3b03b6936f",
+  "gf_corridor_west": "823314e4dd8e6316",
+  "grand_staircase": "b565d56139b95447",
+  "grand_staircase_upper": "ae449e8dc6813248",
+  "great_hall": "42472bd4289f74ba",
+  "grounds_r0_c1": "399e06547bcfc825",
+  "grounds_r0_c3": "0cc5c53b0a52bf49",
+  "grounds_r1_c4": "bf82dbbb837e869f",
+  "grounds_r2_c5": "94a4d8911eb0f167",
+  "grounds_r4_c3": "1d6decf5eecf18e3",
+  "l7_corridor_north": "a1c5566c2ff47d20",
+  "west_tower_stair": "26f6e6cc6430b9e4"
+ },
+ "plan": {
+  "clock_courtyard": {
+   "ceiling": "59682478bfa02152",
+   "floor_corridor": "d2dbbbe7d718fcc5",
+   "floor_courtyard": "c456cc9bbd6b0b0d",
+   "floor_door": "5eee5c73b88accc1",
+   "roof": "ca551257cd9240ca",
+   "wall": "eff9aad2e5165df8",
+   "wall_exterior": "abf5fcb2365ee7c5"
+  },
+  "covered_bridge": {
+   "ceiling": "e419a4e98fe471ff",
+   "floor_bridge": "18233a31491d1d9d",
+   "roof": "764febfcb8f26015",
+   "wall": "a905f7dfe83f931a",
+   "wall_exterior": "81b6d9bf112055c7"
+  },
+  "dungeon_cellars": {
+   "ceiling": "13f7eb66e3ff3734",
+   "floor_dungeon": "90674b31546c9eae",
+   "floor_stair": "0f0b00b3120a2aa6",
+   "roof": "a75d7c842fedbbb3",
+   "wall_dungeon": "f902c882c1e8c7c4",
+   "wall_exterior": "f7d6c391a87e60a4"
+  },
+  "entrance_hall": {
+   "ceiling": "4eb5f5a425e659f2",
+   "floor_door": "8f71f9ec266d8f86",
+   "floor_room": "0ea7c80afb23879e",
+   "floor_stair": "48e5d8dfa7b1b5b2",
+   "railing": "9d3ec8c46f4215fd",
+   "roof": "3c9bab1d936e6c36",
+   "trim": "f53323c3bce23119",
+   "wall": "32f3d681b689efec",
+   "wall_exterior": "fe2e5adeff1f6171"
+  },
+  "ff_corridor_north": {
+   "ceiling": "adaed6ca8ebd5049",
+   "floor_corridor": "61511b733d0aba80",
+   "floor_door": "2168635829b62c5b",
+   "prop_wood": "5e3425dbb87a578d",
+   "roof": "871550310a0bc250",
+   "wall": "54df51c579b1d93f",
+   "wall_exterior": "1825323bac6ab2e2"
+  },
+  "gf_corridor_west": {
+   "ceiling": "06b345bf86e1c191",
+   "floor_corridor": "42e666bd8bbf00a5",
+   "roof": "f397fd8753004c3c",
+   "wall": "79b6caccc98665f7",
+   "wall_exterior": "2b69f449d5a2d9a8"
+  },
+  "grand_staircase": {
+   "ceiling": "92ad2c310195b7d0",
+   "floor_corridor": "cf485fcb9a419d0e",
+   "floor_door": "b19b47d1b431224a",
+   "floor_room": "494523467e0a1277",
+   "floor_stair": "dcc1550b6ff8250c",
+   "railing": "26f34b29f24ef8f1",
+   "roof": "5010a228127773fe",
+   "trim": "7d6410767abdac85",
+   "wall": "0abc7ac418766d53",
+   "wall_exterior": "938b12607ebd55a1"
+  },
+  "grand_staircase_upper": {
+   "ceiling": "5297b98773a12e52",
+   "floor_corridor": "55aee7c7ffe49662",
+   "floor_door": "ee3f710e4808f7ea",
+   "floor_stair": "af6efc694fa1dcf3",
+   "prop_canvas": "5e5b80daaa7e2484",
+   "prop_gold": "22b724b399059702",
+   "railing": "697f739ec87b25fb",
+   "trim": "7c88b3d81ad9dc62",
+   "wall": "08fa503cc3445655"
+  },
+  "great_hall": {
+   "ceiling": "2ad8c482042a19c4",
+   "floor_door": "d177e3e2cb82ae04",
+   "floor_room": "9be64a368341ec92",
+   "floor_stair": "fc394dc0de214a53",
+   "prop_glass": "f448de4a8df300a5",
+   "prop_gold": "61714ea8447a6ae6",
+   "prop_wood": "e9710951a5d30e9f",
+   "roof": "743d12e29174969d",
+   "trim": "c8f825e9f758c3fe",
+   "wall": "cd5efad329215119",
+   "wall_exterior": "d0571a178fa6c2fc"
+  },
+  "grounds_r0_c0": {
+   "floor_grounds": "e1d1b8043ab496e1"
+  },
+  "grounds_r0_c1": {
+   "floor_grounds": "1318166b092dc58f"
+  },
+  "grounds_r0_c2": {
+   "floor_grounds": "ee1d791767fe48d1"
+  },
+  "grounds_r0_c3": {
+   "floor_grounds": "7ef90335aad2a9dc"
+  },
+  "grounds_r0_c4": {
+   "floor_grounds": "1cb2ce6b00d10c2f"
+  },
+  "grounds_r0_c5": {
+   "floor_grounds": "ce1aee72903efe6e"
+  },
+  "grounds_r1_c0": {
+   "floor_grounds": "a2888c971e44e4c4"
+  },
+  "grounds_r1_c1": {
+   "floor_grounds": "312f8963024e7759"
+  },
+  "grounds_r1_c2": {
+   "floor_grounds": "079ce85b4889ef5d"
+  },
+  "grounds_r1_c3": {
+   "floor_grounds": "0e78c6076446343b"
+  },
+  "grounds_r1_c4": {
+   "floor_grounds": "5215b9852bbfaa70"
+  },
+  "grounds_r1_c5": {
+   "floor_grounds": "b8a4f207ebf494ca"
+  },
+  "grounds_r2_c0": {
+   "floor_grounds": "258fddf6c01fd590"
+  },
+  "grounds_r2_c1": {
+   "floor_grounds": "9d0d410958aa2937"
+  },
+  "grounds_r2_c2": {
+   "floor_grounds": "d66bb3eb9f92d505"
+  },
+  "grounds_r2_c3": {
+   "floor_grounds": "f88dfcdea713a555"
+  },
+  "grounds_r2_c4": {
+   "floor_grounds": "cddf3e6fce8670cf"
+  },
+  "grounds_r2_c5": {
+   "floor_grounds": "7b46bdc1f43290b4"
+  },
+  "grounds_r3_c0": {
+   "floor_grounds": "3101816ad3c33ccf"
+  },
+  "grounds_r3_c1": {
+   "floor_grounds": "d35dacdc2090d06f"
+  },
+  "grounds_r3_c2": {
+   "floor_grounds": "ee65b6f9ad9b469f"
+  },
+  "grounds_r3_c3": {
+   "floor_grounds": "799aecfc17ed73a6"
+  },
+  "grounds_r3_c4": {
+   "floor_grounds": "de2e81fd3dcd2ba9"
+  },
+  "grounds_r3_c5": {
+   "floor_grounds": "1db81b3906fa4b13"
+  },
+  "grounds_r4_c2": {
+   "floor_grounds": "8bffa4aba18ccd86"
+  },
+  "grounds_r4_c3": {
+   "floor_grounds": "3a8a352da386e3b6"
+  },
+  "grounds_r4_c4": {
+   "floor_grounds": "87c67e13fb751ec9"
+  },
+  "hospital_wing": {
+   "ceiling": "33a7e698d53e61da",
+   "floor_door": "98e5560a1fdb69a7",
+   "floor_room": "d012efa4c8bc800a",
+   "roof": "a72f71b4e3b38f56",
+   "trim": "ed24e24f100f8842",
+   "wall": "55e833d642411071",
+   "wall_exterior": "6759fc31d0cfac4a"
+  },
+  "l7_corridor_east": {
+   "ceiling": "a9a89ad905a88d93",
+   "floor_corridor": "2a17b6f3ccfcfb53",
+   "floor_door": "7f7d6017f7a96c2f",
+   "roof": "0bd603eb48907fd2",
+   "trim": "caae90c3f9d8ed05",
+   "wall": "0f2e3fbea9d4e69c",
+   "wall_exterior": "9d2bd94bfde086ba"
+  },
+  "l7_corridor_north": {
+   "ceiling": "c2dfc38a9ae0cff9",
+   "fabric_house_a": "ce359f621373adbc",
+   "floor_corridor": "6f0e55dddf27a217",
+   "floor_door": "a1679a0db473133d",
+   "glow_fire": "1e1d0e6533f8dd30",
+   "prop_canvas": "72f830557a42c579",
+   "prop_gold": "8be408998658e6df",
+   "prop_iron": "940d4388cc55cda3",
+   "prop_wood": "c49d91637827ac8e",
+   "roof": "d641006243da6490",
+   "wall": "cfca2f29aab2f296",
+   "wall_exterior": "9e63a4463f963492"
+  },
+  "owl_loft": {
+   "ceiling": "7067d03502dbd9bd",
+   "floor_corridor": "90e74706e0a0996b",
+   "floor_room": "ed6e195af12743fb",
+   "floor_stair": "be3fc5255258ce82",
+   "railing": "2285e7dc942ea16e",
+   "roof": "c261c72639509363",
+   "trim": "9b160fbd9253a543"
+  },
+  "tf_corridor_east": {
+   "ceiling": "8b3831eefdd5e74a",
+   "floor_corridor": "94ce43755376a7ba",
+   "floor_door": "4b6df1a89f44e04b",
+   "roof": "91f94e78c52542cd",
+   "trim": "193d1649860b87a2",
+   "wall": "c368b62293f16784",
+   "wall_exterior": "866b7f03ccfd5083"
+  },
+  "west_tower_stair": {
+   "ceiling": "972f473244a23fe9",
+   "floor_corridor": "03497fbf088472dc",
+   "floor_door": "5a5f40cadcf46c07",
+   "floor_stair": "ec626b726ab943f8",
+   "glow_candle": "84771da8b33a13c5",
+   "prop_bronze": "f1e0ec68157c3859",
+   "prop_wood": "99e5bcaa3c1c0777",
+   "railing": "b509e523ea77b92e",
+   "roof": "de52fe8e3f04370c",
+   "trim": "f243379cd6aab674",
+   "wall": "2ab742b340fb42e3",
+   "wall_exterior": "eb7b745e7e47c830"
+  }
+ }
+}

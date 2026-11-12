@@ -1,0 +1,37 @@
+{
+  "_doc": "The Grand Staircase's moving flights (sim_core::stairs; docs/architecture.md). Each flight is two stair surfaces of data/world/layout.json tagged moving {flight, position}: `a` (its resting place in the layout) and `b`, which is `a` turned by `angle_deg` about the vertical axis through `pivot` [x, z] (right-handed, y up: a point (dx, dz) from the pivot goes to (dx cos a + dz sin a, -dx sin a + dz cos a)). The schedule is a pure function of the server's clock, the same on every end, with no message: a flight switches position every `period_s` seconds at epoch_ms + (phase + k) x period (k even: to A, odd: to B); the `swing_s` seconds before a switch it swings toward its next position, the `warning_s` before that it shudders (the chat line, dust). Moves within `grace_ms` of a switch are accepted against the old or the new position. `dev_period_s` is the short period a development server, the load test and a client may all opt into together (never in production). Each gate is a short railing gate on a landing edge a flight meets: open while its flight rests in `position`, closing over `gate_s` as the flight swings away, opening over `gate_s` after it arrives; `line` is the gate's two hinges [x, z] (two leaves, one from each hinge), `opens` the unit direction [dx, dz] the leaves swing to (onto the landing). Flights are in the layout's order: bit i of a staircase state is flights[i] at B.",
+  "version": 1,
+  "period_s": 180,
+  "dev_period_s": 20,
+  "warning_s": 5,
+  "swing_s": 6,
+  "gate_s": 1,
+  "grace_ms": 1000,
+  "epoch_ms": 0,
+  "flights": [
+    { "id": "flight_3_4", "name": "Flight 3-4", "a": "gs_flight_3_4_a", "b": "gs_flight_3_4_a_east",
+      "pivot": [-46, 2], "angle_deg": -90, "phase": 0,
+      "gates": [
+        { "id": "flight_3_4_a_landing", "position": "a", "landing": "gs_landing_3_4_a", "line": [[-48, -8], [-44, -8]], "y": 27, "opens": [0, -1] },
+        { "id": "flight_3_4_a_pier", "position": "a", "landing": "gs_pier_3_4", "line": [[-48, -0.25], [-44, -0.25]], "y": 31.5, "opens": [0, 1] },
+        { "id": "flight_3_4_b_pier", "position": "b", "landing": "gs_pier_3_4", "line": [[-43.75, 0], [-43.75, 4]], "y": 31.5, "opens": [-1, 0] },
+        { "id": "flight_3_4_b_balcony", "position": "b", "landing": "gs_balcony_l3", "line": [[-36, 0], [-36, 4]], "y": 27, "opens": [1, 0] }
+      ] },
+    { "id": "flight_5_6", "name": "Flight 5-6", "a": "gs_flight_5_6_b", "b": "gs_flight_5_6_b_west",
+      "pivot": [-46, 2], "angle_deg": 90, "phase": 0.3333333,
+      "gates": [
+        { "id": "flight_5_6_a_landing", "position": "a", "landing": "gs_landing_5_6_b", "line": [[-48, -8], [-44, -8]], "y": 54, "opens": [0, -1] },
+        { "id": "flight_5_6_a_pier", "position": "a", "landing": "gs_pier_5_6", "line": [[-48, -0.25], [-44, -0.25]], "y": 49.5, "opens": [0, 1] },
+        { "id": "flight_5_6_b_pier", "position": "b", "landing": "gs_pier_5_6", "line": [[-48.25, 0], [-48.25, 4]], "y": 49.5, "opens": [1, 0] },
+        { "id": "flight_5_6_b_corbel", "position": "b", "landing": "gs_corbel_l6", "line": [[-56, 0], [-56, 4]], "y": 54, "opens": [-1, 0] }
+      ] },
+    { "id": "flight_6_7", "name": "Flight 6-7", "a": "gs_flight_6_7", "b": "gs_flight_6_7_south",
+      "pivot": [-39.75, -9.5], "angle_deg": 90, "phase": 0.6666667,
+      "gates": [
+        { "id": "flight_6_7_a_gallery", "position": "a", "landing": "gs_l6_east", "line": [[-37.75, -11.5], [-37.75, -7.5]], "y": 54, "opens": [1, 0] },
+        { "id": "flight_6_7_a_landing", "position": "a", "landing": "gs_landing_l7", "line": [[-53.75, -11.5], [-53.75, -7.5]], "y": 63, "opens": [-1, 0] },
+        { "id": "flight_6_7_b_gallery", "position": "b", "landing": "gs_l6_north", "line": [[-41.75, -11.5], [-37.75, -11.5]], "y": 54, "opens": [0, -1] },
+        { "id": "flight_6_7_b_balcony", "position": "b", "landing": "gs_balcony_l7", "line": [[-41.75, 4.5], [-37.75, 4.5]], "y": 63, "opens": [0, 1] }
+      ] }
+  ]
+}

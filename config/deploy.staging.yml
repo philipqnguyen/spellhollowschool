@@ -1,0 +1,5 @@
+# The staging destination: kamal setup -d staging, kamal deploy -d staging.
+# Its settings (server, domain, passwords) are in .kamal/deploy.staging.env
+# (gitignored; copy .kamal/deploy.env.example). config/deploy.yml holds the
+# configuration every destination shares; put anything only staging needs here.
+{}

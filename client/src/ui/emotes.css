@@ -1,0 +1,54 @@
+/* The emote bar: three small buttons at the bottom right, just above the menu bar (ui/hud.ts). */
+
+.emote-bar {
+  pointer-events: auto;
+  position: absolute;
+  right: 12px;
+  bottom: calc(var(--hud-dock-h) + 6px);
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+}
+
+.emote-button {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  width: 52px;
+  padding: 4px 2px 3px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: none;
+  color: var(--text-dim);
+  font-family: var(--display);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.emote-button svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--gilt);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.emote-button:hover {
+  color: var(--text);
+  border-color: var(--smoke-edge);
+  background: rgba(201, 154, 69, 0.1);
+}
+
+.emote-button[aria-pressed="true"] {
+  color: var(--gilt-bright);
+  border-color: var(--gilt);
+  background: rgba(201, 154, 69, 0.18);
+}
+
+.emote-button[aria-pressed="true"] svg {
+  stroke: var(--gilt-bright);
+}

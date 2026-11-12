@@ -1,0 +1,156 @@
+{
+  "spread": {
+    "description": "Bots roam the whole castle and grounds, choosing destinations in proportion to floor area. Bots walk round the furniture of data/world/keep_out.json (keep_out: in the Great Hall each house table with its two benches, the staff table and chairs, the owl lectern, the hourglass plinth, the Dueling Club benches; footprints from the castle kit placements, data/world/castle_kit.json and props.json) and the Undercroft Walk's dry well (castle M5a: grid.WELL_RADIUS round the hero `well`, on gf_undercroft only, so the first-floor corridor above keeps its floor), and castle M5b's room furniture that stands in the way (docs/art/castle-kit.md): the Kitchens' four long tables with their benches, the library's four free-standing double bookcases and two reading tables with their chairs, and the Trophy Room's cases along its walls (each run of cases one rectangle), each scoped to its cell, and castle M5c's courtyard and court dressing that stand in the way (docs/art/castle-kit.md): the fountain, the Exchange Yard's market stalls, the benches, the planters, the lamp posts, the gatehouse's two towers (the gate's passage between them stays open) and every free-standing arcade pier, each scoped to the courtyard; the Owl Exchange court's notice wall, perch tree and crate stacks, scoped to the Entrance Hall (footprints: the pieces' LOD0 below 2 m). The hilly grounds (about 33,000 m2) count at 0.45 of their area (cell_weights), so about 40 % of the destinations are on the grounds, as with the 2d greybox's 120 x 120 m, instead of the 60 % their area alone would draw; the walkers keep out of the grounds' trees and rocks (keep_out.json `grounds_*`).",
+    "cells": null,
+    "furniture_keep_out": true,
+    "cell_weights": { "grounds_*": 0.45 }
+  },
+  "grounds": {
+    "description": "300 bots (grounds.walkers; all of them if fewer) walk out of the Entrance Hall through the courtyard gate and tour the hilly grounds: down the hill to the Lake Shore, along the shore to the Boathouse and back, up to the Groundskeeper's Cottage, the paddock gate, the stone circle and the greenhouse gate, and back to the hall. Each starts at a random stop, stops within 4 m of each, and makes a quarter of its trips to a random point of the hall, the courtyard and the grounds instead, round the furniture and the grounds' keep-outs. The rest of the bots stay packed in the Entrance Hall and the Great Hall, as in `packed`. The summary's roles line reports the grounds walkers' bandwidth on its own.",
+    "cells": ["entrance_hall", "great_hall"],
+    "furniture_keep_out": true,
+    "grounds": {
+      "walkers": 300,
+      "cells": ["entrance_hall", "courtyard", "grounds_*"],
+      "stops": [
+        { "landmark": "lake_shore" },
+        { "landmark": "boathouse" },
+        { "landmark": "lake_shore" },
+        { "landmark": "groundskeepers_cottage" },
+        { "interactable": "paddock_gate" },
+        { "landmark": "stone_circle" },
+        { "interactable": "greenhouse_gate" },
+        { "pos": [16, 0, 30] }
+      ],
+      "jitter": 4.0,
+      "stray": 0.25
+    }
+  },
+  "stairs": {
+    "description": "300 bots (stairs.walkers; all of them if fewer) walk out of the Entrance Hall by the west door and tour the Grand Staircase up and down through its three moving flights: the ground floor, the third floor's north landing, the third-floor east balcony (flight 3-4's B landing) and on through the east wing to the Hospital Wing, the fifth floor's east gallery, the sixth floor's west corbel (flight 5-6's B landing), the seventh-floor east balcony (flight 6-7's B landing) and the seventh-floor east corridor's tapestry, the seventh floor's north gallery, the sixth floor's north landing, and back to the hall. Each starts at a random stop, stops within 1.5 m of each, and makes 15 % of its trips to a random point of its cells instead. They plan with the navigation of their staircase state (from the server's clock, as the browser does), carry themselves on a flight that switches, hold still on one that swings, and plan again at each switch. Run the server with SHS_STAIRS_PERIOD_S=20 (SHS_DEV=1) and the bots with --stairs-period-s 20 to see a switch every 6.7 s. The rest of the bots stay packed in the Entrance Hall and the Great Hall, as in `packed`. The summary's roles line reports the stair walkers' bandwidth on its own; its stairs line the switches, riders carried, grace accepts and the world tick within a second of a switch.",
+    "cells": ["entrance_hall", "great_hall"],
+    "furniture_keep_out": true,
+    "stairs": {
+      "walkers": 300,
+      "cells": ["entrance_hall", "gf_corridor_west", "grand_staircase", "grand_staircase_upper", "tf_corridor_east", "hospital_wing", "l7_corridor_east"],
+      "stops": [
+        { "landmark": "grand_staircase" },
+        { "pos": [-46, 27, -9.75] },
+        { "landmark": "grand_staircase_l3_balcony" },
+        { "landmark": "hospital_wing" },
+        { "pos": [-34, 45, 2] },
+        { "pos": [-57.125, 54, 2] },
+        { "landmark": "grand_staircase_l7_balcony" },
+        { "landmark": "wishing_room_tapestry" },
+        { "landmark": "grand_staircase_top" },
+        { "pos": [-46, 54, -9.75] },
+        { "pos": [16, 0, 30] }
+      ],
+      "jitter": 1.5,
+      "stray": 0.15
+    }
+  },
+  "packed": {
+    "description": "Every bot stays inside the Entrance Hall and the Great Hall (marble staircase and staff dais included). Bots walk round the furniture of data/world/keep_out.json (keep_out: in the Great Hall each house table with its two benches, the staff table and chairs, the owl lectern, the hourglass plinth, the Dueling Club benches; footprints from the castle kit placements, data/world/castle_kit.json and props.json); castle M5c: the Owl Exchange court's notice wall, perch tree and crate stacks, scoped to the hall.",
+    "cells": ["entrance_hall", "great_hall"],
+    "furniture_keep_out": true
+  },
+  "exchange": {
+    "description": "The Owl Exchange court (castle kit M2) and, out through the Owl Gate, the Exchange Yard in the courtyard's north-west corner (castle M5c, docs/art/castle-kit.md): 20 bots stand in the court and 20 in the yard (`more`), outside the counter's reach ring and clear of the court dressing, the yard's stalls, bench, lamp posts and arcade piers and the gate's approach; some now and then walk in (from the yard through the Owl Gate) to use the counter; the rest walk from the hall's spawns to the ring and back (--bots 50 with an observer: 51 characters).",
+    "cells": ["entrance_hall", "courtyard"],
+    "exchange": {
+      "interactable": "owl_exchange",
+      "area": { "min": [0.5, 22.5], "max": [11.5, 37.5] },
+      "keep_out": [
+        { "min": [0, 21.5], "max": [2, 38.5] },
+        { "min": [8.03, 23.2], "max": [10.57, 24.0] },
+        { "min": [9.21, 33.38], "max": [10.79, 34.22] },
+        { "min": [6.75, 36.33], "max": [10.75, 37.37] },
+        { "min": [0.5, 37.5], "max": [4.5, 46.0] },
+        { "min": [-8.82, 50.68], "max": [-8.18, 51.32] },
+        { "min": [1.18, 51.68], "max": [1.82, 52.32] },
+        { "min": [-11.48, 55.52], "max": [-8.52, 57.42] },
+        { "min": [-6.98, 55.52], "max": [-4.02, 57.42] },
+        { "min": [-2.48, 55.52], "max": [0.48, 57.42] },
+        { "min": [-13.52, 48.52], "max": [-11.62, 51.48] },
+        { "min": [4.52, 50.52], "max": [6.42, 53.48] },
+        { "min": [-7.7, 49.3], "max": [-5.3, 49.7] },
+        { "min": [-15.5, 44.5], "max": [-14.5, 45.5] },
+        { "min": [-15.5, 50.5], "max": [-14.5, 51.5] },
+        { "min": [-15.5, 56.5], "max": [-14.5, 57.5] },
+        { "min": [-9.5, 44.5], "max": [-8.5, 45.5] },
+        { "min": [-3.5, 44.5], "max": [-2.5, 45.5] }
+      ],
+      "standers": 20,
+      "spacing": 1.0,
+      "open_share": 0.25,
+      "open_every_secs": 45,
+      "more": [
+        { "name": "the Exchange Yard", "area": { "min": [-17.5, 42.5], "max": [7.5, 57.5] }, "standers": 20 }
+      ]
+    }
+  },
+  "pitch": {
+    "description": "300 bots (pitch.flyers) get the Flying skill from the dev grant (a third at each broom tier: 8, 9 and 10 m/s), are teleported to a launch spot on and round the Flying Pitch, mount and fly loops over it at 92 % of their broom's speed, each leg to a random point 5-40 m over the floor, hovering 2-8 s at 30 % of the points; 10 % of them a minute come down, land, stand a few seconds and take off again. 100 bots (pitch.spectators) stand on the two stands' decks and at the field's ends between the towers, facing the field. Every flight position comes from sim_core's fly_and_slide, so the server never corrects one. The rest stay packed in the Entrance Hall and the Great Hall. With --class-pct 6 --class-only flying (the default 10:30 slot), 60 students attend the Flying class in two sections and fly its ring course. The summary's roles line reports the flyers' and the spectators' bandwidth on their own.",
+    "cells": ["entrance_hall", "great_hall"],
+    "furniture_keep_out": true,
+    "pitch": {
+      "flyers": 300,
+      "spectators": 100,
+      "fly": {
+        "region": { "min": [-55, 150], "max": [75, 250] },
+        "heights": [5, 40],
+        "hover_share": 0.3,
+        "churn_per_min": 0.1
+      },
+      "decks": ["pitch_stand_n", "pitch_stand_s"],
+      "edges": [
+        { "min": [-44, 193], "max": [-40, 207] },
+        { "min": [60, 193], "max": [64, 207] }
+      ],
+      "centre": [10, 200]
+    }
+  },
+  "secrets": {
+    "description": "Every role at once. Every bot fetches GET /api/map once at sign-in. 100 walkers (grounds.walkers) tour the hilly grounds as in `grounds`; 100 (stairs.walkers) tour the Grand Staircase through its moving flights as in `stairs` (run the server with SHS_STAIRS_PERIOD_S=20 and the bots with --stairs-period-s 20); 100 explorers (explore.walkers) tour the five hidden passages: each passage's two public doorsteps in turn (from data/world/secrets.json and the layout), so they walk every passage (each a shortcut) and cross the castle between them, finding each once per character, within 0.5 m of each doorstep and with 10 % of their trips to a random point of the castle; 50 ritual bots (ritual.bots) are put on the seventh-floor east corridor, pace past the blank wall three times, walk to the door when it opens for them, enter the Lost Property Vault or the Gathering Room (alternating), stay 20-40 s, come out and rest 5-15 s. The rest of the walking bots stay packed in the Entrance Hall and the Great Hall, as in `packed`; add --class-pct 35 --class-slot 10:30 (a slot with Flying), --duel-pct 10, --fly-pct 75 (150 of the 200 walking bots left fly over the grounds), --cup-poll-secs 30 and --long-window for the plan's run. The summary's roles line reports each role's bandwidth; its secrets lines the map requests, the saver's batch time with reveals, the secrets found and the Wishing Room.",
+    "cells": ["entrance_hall", "great_hall"],
+    "furniture_keep_out": true,
+    "grounds": {
+      "walkers": 100,
+      "cells": ["entrance_hall", "courtyard", "grounds_*"],
+      "stops": [
+        { "landmark": "lake_shore" },
+        { "landmark": "boathouse" },
+        { "landmark": "lake_shore" },
+        { "landmark": "groundskeepers_cottage" },
+        { "interactable": "paddock_gate" },
+        { "landmark": "stone_circle" },
+        { "interactable": "greenhouse_gate" },
+        { "pos": [16, 0, 30] }
+      ],
+      "jitter": 4.0,
+      "stray": 0.25
+    },
+    "stairs": {
+      "walkers": 100,
+      "cells": ["entrance_hall", "gf_corridor_west", "grand_staircase", "grand_staircase_upper", "tf_corridor_east", "hospital_wing", "l7_corridor_east"],
+      "stops": [
+        { "landmark": "grand_staircase" },
+        { "pos": [-46, 27, -9.75] },
+        { "landmark": "grand_staircase_l3_balcony" },
+        { "landmark": "hospital_wing" },
+        { "pos": [-34, 45, 2] },
+        { "pos": [-57.125, 54, 2] },
+        { "landmark": "grand_staircase_l7_balcony" },
+        { "landmark": "wishing_room_tapestry" },
+        { "landmark": "grand_staircase_top" },
+        { "pos": [-46, 54, -9.75] },
+        { "pos": [16, 0, 30] }
+      ],
+      "jitter": 1.5,
+      "stray": 0.15
+    },
+    "explore": { "walkers": 100, "jitter": 0.5, "stray": 0.1 },
+    "ritual": { "bots": 50, "stay_secs": [20, 40], "rest_secs": [5, 15] }
+  }
+}

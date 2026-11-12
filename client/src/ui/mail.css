@@ -1,0 +1,329 @@
+/* Owl mail: the mailbox (list and reading pane), the letter form, and the
+   owl that flies in when mail arrives. */
+
+.mail-window {
+  height: min(620px, calc(100% - 150px));
+}
+
+.mail-inbox {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(240px, 40%) 1fr;
+  gap: 14px;
+}
+
+.mail-list-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.mail-list {
+  flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.mail-row {
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  grid-template-areas:
+    "dot from date"
+    "dot subject subject"
+    "dot kind kind";
+  column-gap: 8px;
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  border-bottom-color: rgba(201, 154, 69, 0.12);
+  background: none;
+  color: var(--text-dim);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mail-row:hover,
+.mail-row[aria-pressed="true"] {
+  border-color: var(--smoke-edge);
+  background: rgba(201, 154, 69, 0.1);
+}
+
+.mail-row.unread {
+  color: var(--text);
+}
+
+.mail-dot {
+  grid-area: dot;
+  align-self: start;
+  margin-top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.mail-row.unread .mail-dot {
+  background: var(--wax);
+  box-shadow: 0 0 0 1px var(--gilt);
+}
+
+.mail-from {
+  grid-area: from;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mail-date {
+  grid-area: date;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.mail-subject {
+  grid-area: subject;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mail-row.unread .mail-subject {
+  color: var(--gilt-bright);
+}
+
+.mail-kind {
+  grid-area: kind;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.mail-enclosed {
+  color: var(--gilt);
+}
+
+.mail-read {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 4px 6px;
+  scrollbar-width: thin;
+}
+
+.mail-placeholder {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.mail-title {
+  margin: 4px 0;
+  font-family: var(--display);
+  font-size: 1.05rem;
+  color: var(--gilt-bright);
+}
+
+.mail-meta {
+  margin: 0 0 10px;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+}
+
+.mail-meta strong {
+  color: var(--text);
+}
+
+/* A letter is parchment, even in the smoked-glass HUD. */
+.mail-body {
+  padding: 14px 16px;
+  border-radius: 3px;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(255, 250, 235, 0.5), transparent 60%),
+    linear-gradient(var(--parchment), var(--parchment-deep));
+  box-shadow: inset 0 0 30px rgba(120, 80, 30, 0.3);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.45;
+}
+
+.mail-enclosure {
+  margin-top: 10px;
+  padding: 8px 10px;
+  border: 1px dashed var(--gilt);
+  border-radius: 4px;
+}
+
+.mail-enclosure.collected {
+  border-color: var(--smoke-edge);
+  opacity: 0.75;
+}
+
+.mail-items,
+.mail-attachments {
+  list-style: none;
+  margin: 0 0 6px;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.mail-attachments li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mail-compose {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+}
+
+.mail-summary p {
+  margin: 10px 0 0;
+}
+
+/* ---------------------------------------------------------------- the Outbox */
+
+.mail-status {
+  color: var(--text-dim);
+}
+
+.mail-status.read,
+.mail-status.collected {
+  color: var(--text);
+}
+
+.mail-status.read-not-collected {
+  color: var(--gilt);
+}
+
+.mail-meta .mail-status {
+  font-weight: 600;
+}
+
+/* "Owl Mail is on the way": under the tabs, whichever tab is shown. */
+.mail-sent-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--gilt);
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgba(201, 154, 69, 0.22), rgba(201, 154, 69, 0.06));
+  color: var(--text);
+  animation: mail-sent-in 0.35s ease-out;
+}
+
+.mail-sent-banner[hidden] {
+  display: none;
+}
+
+.mail-sent-owl {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  fill: rgba(120, 92, 60, 0.9);
+  stroke: var(--gilt-bright);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mail-sent-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mail-sent-text strong {
+  font-family: var(--display);
+  color: var(--gilt-bright);
+}
+
+.mail-sent-text span {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+@keyframes mail-sent-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mail-sent-banner {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------- the owl */
+
+.owl-flight {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  z-index: 30;
+  pointer-events: none;
+  color: #e9dcc0;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.6));
+}
+
+.owl-flight-icon {
+  width: 40px;
+  height: 40px;
+  fill: rgba(120, 92, 60, 0.9);
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hud-mail.owl-landed {
+  animation: owl-landed 0.9s ease-out;
+}
+
+@keyframes owl-landed {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.3) rotate(-8deg);
+    color: var(--gilt-bright);
+  }
+  55% {
+    transform: scale(0.95) rotate(4deg);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud-mail.owl-landed {
+    animation: none;
+    outline: 2px solid var(--gilt);
+  }
+}
+
+@media (max-width: 640px) {
+  .mail-inbox {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(160px, 45%) 1fr;
+  }
+}

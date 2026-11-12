@@ -1,0 +1,38 @@
+/* The list of duels to watch at the Dueling Club (ui/spectate.ts). */
+.spectate-window {
+  width: min(520px, calc(100% - 24px));
+}
+
+.spectate-list {
+  display: grid;
+  gap: 6px;
+  margin: 6px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.spectate-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 4px;
+  background: rgba(10, 8, 12, 0.45);
+}
+
+.spectate-vs {
+  flex: 1;
+  min-width: 0;
+}
+
+.spectate-name {
+  color: color-mix(in srgb, var(--house) 45%, white);
+  font-weight: 600;
+}
+
+.spectate-meta {
+  display: block;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+}

@@ -1,0 +1,89 @@
+{
+  "version": 2,
+  "id": "herbology",
+  "subject": "herbology",
+  "professor": {
+    "id": "herbology_professor", "name": "Professor Mirabel Fernsby", "house": "burrowsby",
+    "appearance": {
+      "body_type": 1,
+      "height": 70,
+      "face": [150, 150, 128, 120, 140],
+      "skin_tone": 3,
+      "hair_style": 19,
+      "hair_colour": 10,
+      "eye_colour": 1,
+      "outfit": {
+        "hat": {"item_def": 101, "dyes": [29, 10, 23], "finish": "none"},
+        "body": {"item_def": 209, "dyes": [30, 13, 38], "finish": "none"},
+        "legs": {"item_def": 304, "dyes": [10, 10, 11], "finish": "none"},
+        "shoes": {"item_def": 402, "dyes": [11, 10, 15], "finish": "none"}
+      }
+    },
+    "pos": [0, 0, -6], "yaw": 0
+  },
+  "picks": {"prompts": "herbology_plants", "options": "herbology_tools"},
+  "lesson": [
+    {"at_secs": 2, "kind": "emote", "emote": "wave"},
+    {"at_secs": 3, "kind": "say", "line": "Come in, come in. Gloves on, sleeves rolled up, and keep your fingers where you can count them."},
+    {"at_secs": 45, "kind": "say", "line": "Every plant on this bench wants something. Your task is to notice what, and to give it before the plant helps itself."},
+    {"at_secs": 90, "kind": "say", "line": "Watch the stems and the leaves. A plant always says what it needs, if you are quick enough to listen."},
+    {"at_secs": 130, "kind": "say", "line": "Close the glasshouse door behind you, please. The draught upsets the ferns."},
+    {"at_secs": 170, "kind": "say", "line": "The door is shut. Let's meet the bench."},
+    {"at_secs": 185, "kind": "demonstrate", "duration_ms": 2000, "line": "The Gnashvine first: shears for a snapping vine, a stake for a sprawling one, water for a droop. And the Shriekroot: earmuffs on you before it wails, water for cracked soil, compost when it shivers."},
+    {"at_secs": 200, "kind": "practice", "round": 1, "window_ms": 2000, "beats": [
+        {"at_ms": 5000, "prompt": "vine_lunge", "options": ["t_compost", "t_shears", "t_stake"]},
+        {"at_ms": 9000, "prompt": "root_wail", "options": ["t_earmuffs", "t_compost", "t_duster"]},
+        {"at_ms": 13000, "prompt": "vine_sprawl", "options": ["t_duster", "t_earmuffs", "t_stake"]},
+        {"at_ms": 17000, "prompt": "root_dry", "options": ["t_water", "t_shears", "t_duster"]},
+        {"at_ms": 21000, "prompt": "vine_wilt", "options": ["t_stake", "t_duster", "t_water"]},
+        {"at_ms": 25000, "prompt": "root_shiver", "options": ["t_duster", "t_shade", "t_compost"]}
+      ] },
+    {"at_secs": 240, "kind": "demonstrate", "duration_ms": 2000, "line": "The Needlebriar: gloves when it bristles, shears when it reaches for the path, shade when it scorches. The Shiverfern: a feather duster to tease it open, a stake when it leans, compost when it pales."},
+    {"at_secs": 250, "kind": "practice", "round": 2, "window_ms": 2000, "beats": [
+        {"at_ms": 5000, "prompt": "briar_bristle", "options": ["t_gloves", "t_shade", "t_compost"]},
+        {"at_ms": 9000, "prompt": "fern_curl", "options": ["t_duster", "t_earmuffs", "t_compost"]},
+        {"at_ms": 13000, "prompt": "briar_overgrown", "options": ["t_stake", "t_shears", "t_water"]},
+        {"at_ms": 17000, "prompt": "fern_lean", "options": ["t_stake", "t_shears", "t_shade"]},
+        {"at_ms": 21000, "prompt": "briar_scorch", "options": ["t_shade", "t_compost", "t_duster"]},
+        {"at_ms": 25000, "prompt": "fern_pale", "options": ["t_duster", "t_earmuffs", "t_compost"]}
+      ] },
+    {"at_secs": 290, "kind": "demonstrate", "duration_ms": 2000, "line": "The whole bench at once now, and four tools to choose from. They will not wait their turn, so neither shall we."},
+    {"at_secs": 300, "kind": "practice", "round": 3, "window_ms": 2000, "beats": [
+        {"at_ms": 5000, "prompt": "root_wail", "options": ["t_stake", "t_gloves", "t_earmuffs", "t_shears"]},
+        {"at_ms": 9000, "prompt": "fern_lean", "options": ["t_shears", "t_shade", "t_water", "t_stake"]},
+        {"at_ms": 13000, "prompt": "vine_lunge", "options": ["t_shade", "t_earmuffs", "t_shears", "t_compost"]},
+        {"at_ms": 17000, "prompt": "briar_scorch", "options": ["t_shears", "t_earmuffs", "t_stake", "t_shade"]},
+        {"at_ms": 21000, "prompt": "root_shiver", "options": ["t_shade", "t_compost", "t_earmuffs", "t_gloves"]},
+        {"at_ms": 25000, "prompt": "fern_curl", "options": ["t_duster", "t_gloves", "t_shade", "t_compost"]}
+      ] },
+    {"at_secs": 340, "kind": "demonstrate", "duration_ms": 2000, "line": "A little faster. Keep your eyes on the leaves, not on your neighbour's shears."},
+    {"at_secs": 350, "kind": "practice", "round": 4, "window_ms": 1800, "beats": [
+        {"at_ms": 4000, "prompt": "briar_overgrown", "options": ["t_earmuffs", "t_compost", "t_shears", "t_stake"]},
+        {"at_ms": 7500, "prompt": "vine_wilt", "options": ["t_shears", "t_earmuffs", "t_gloves", "t_water"]},
+        {"at_ms": 11000, "prompt": "fern_pale", "options": ["t_shears", "t_stake", "t_compost", "t_gloves"]},
+        {"at_ms": 14500, "prompt": "root_wail", "options": ["t_compost", "t_earmuffs", "t_stake", "t_duster"]},
+        {"at_ms": 18000, "prompt": "briar_bristle", "options": ["t_gloves", "t_stake", "t_earmuffs", "t_compost"]},
+        {"at_ms": 21500, "prompt": "vine_sprawl", "options": ["t_compost", "t_earmuffs", "t_stake", "t_duster"]},
+        {"at_ms": 25000, "prompt": "root_dry", "options": ["t_water", "t_shears", "t_gloves", "t_shade"]},
+        {"at_ms": 28500, "prompt": "fern_curl", "options": ["t_earmuffs", "t_shade", "t_stake", "t_duster"]}
+      ] },
+    {"at_secs": 392, "kind": "say", "line": "Tools down, and wipe your shears before you hang them up."},
+    {"at_secs": 405, "kind": "results", "line": "Well tended, all of you. Take a little of what the bench gave up today; it can spare it."},
+    {"at_secs": 410, "kind": "emote", "emote": "bow"},
+    {"at_secs": 500, "kind": "say", "line": "Off you go. Mind the Gnashvine on your way past; it holds a grudge."}
+  ],
+  "rewards": {
+    "attend_skill_xp": 30,
+    "bonus_skill_xp_max": 40,
+    "min_answers": 3,
+    "house_points": [{"min_pct": 60, "points": 1}, {"min_pct": 75, "points": 3}, {"min_pct": 90, "points": 5}],
+    "crowns": {"attend": 10, "bonus_max": 10},
+    "items": [
+      {"item": 3015, "quantity": [1, 2], "min_pct": 0},
+      {"item": 3019, "quantity": [1, 1], "min_pct": 50},
+      {"item": 3026, "quantity": [1, 1], "min_pct": 75, "draw": true},
+      {"item": 3022, "quantity": [1, 1], "min_pct": 75, "draw": true},
+      {"item": 3020, "quantity": [1, 1], "min_pct": 75, "draw": true}
+    ]
+  }
+}

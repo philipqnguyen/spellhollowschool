@@ -1,0 +1,294 @@
+/* Dorm HUD: the room panel (top right) and the decorating strip (bottom).
+   Smoked-glass panels like the rest of the HUD (style.css). */
+
+.dorm-panel {
+  pointer-events: auto;
+  position: absolute;
+  top: calc(var(--hud-corner-bottom) + 8px);
+  right: 12px;
+  width: 240px;
+  padding: 10px 12px 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.dorm-panel h2,
+.decor-strip h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--gilt-bright);
+}
+
+.dorm-owner {
+  display: grid;
+  gap: 8px;
+}
+
+.dorm-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.dorm-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--gilt);
+}
+
+.dorm-invite {
+  display: flex;
+  gap: 6px;
+}
+
+.dorm-invite-select {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 6px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: rgba(10, 8, 12, 0.6);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.92rem;
+}
+
+.dorm-people {
+  margin: 0;
+  padding: 6px 0 0;
+  list-style: none;
+  border-top: 1px solid rgba(201, 154, 69, 0.18);
+  display: grid;
+  gap: 4px;
+  font-size: 0.92rem;
+}
+
+.dorm-people li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.dorm-person {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gilt);
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  color: var(--gilt-bright);
+}
+
+.dorm-panel button.secondary {
+  text-align: center;
+}
+
+.dorm-panel button[aria-pressed="true"] {
+  border-color: var(--gilt);
+  background: rgba(201, 154, 69, 0.2);
+  color: var(--gilt-bright);
+}
+
+/* Decorating strip */
+.decor-strip {
+  pointer-events: auto;
+  position: absolute;
+  right: 12px;
+  /* Above the menu bar and the emote bar at the bottom right (ui/hud.ts). */
+  bottom: calc(var(--hud-br-h) + 8px);
+  width: min(440px, calc(100% - 476px));
+  padding: 8px 10px 8px;
+  display: grid;
+  /* The list scrolls inside; it must not widen the panel. */
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+}
+
+.decor-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.decor-head h2 {
+  flex: 1;
+}
+
+.decor-count {
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+}
+
+.decor-count.full {
+  color: #e98a7a;
+}
+
+.decor-head button[aria-pressed="true"] {
+  border-color: var(--gilt);
+  color: var(--gilt-bright);
+  background: rgba(201, 154, 69, 0.2);
+}
+
+.decor-tools {
+  display: flex;
+  gap: 6px;
+}
+
+.decor-search,
+.decor-filter {
+  min-width: 0;
+  padding: 5px 8px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--night) 55%, transparent);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.decor-search {
+  flex: 1;
+}
+
+.decor-filter {
+  flex: 0 1 46%;
+}
+
+.decor-search:focus-visible,
+.decor-filter:focus-visible {
+  outline: 2px solid var(--gilt);
+  outline-offset: 1px;
+}
+
+/* A real list: one row per look, scrolled inside the panel. */
+.decor-list {
+  margin: 0;
+  padding: 2px;
+  list-style: none;
+  display: grid;
+  gap: 3px;
+  max-height: min(260px, 32vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+/* The door prompt moves above the strip while decorating. */
+#hud:has(.decor-strip:not([hidden])) .interact-prompt {
+  bottom: 300px;
+}
+
+.decor-row {
+  width: 100%;
+  padding: 4px 8px 4px 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--parchment) 4%, transparent);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.decor-row:hover:not(:disabled),
+.decor-row:focus-visible {
+  border-color: var(--gilt);
+}
+
+.decor-row.selected {
+  border-color: var(--gilt-bright);
+  background: color-mix(in srgb, var(--gilt) 22%, transparent);
+}
+
+.decor-row:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.decor-row-text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+
+.decor-name {
+  font-size: 0.92rem;
+  line-height: 1.15;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.decor-surface {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.decor-qty {
+  flex: none;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.86rem;
+}
+
+.decor-empty {
+  padding: 12px 4px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.decor-selected {
+  display: flex;
+  gap: 6px;
+}
+
+.decor-selected button.secondary {
+  text-align: center;
+  min-width: 40px;
+}
+
+.decor-hint,
+.decor-status {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.decor-status {
+  color: var(--system);
+  font-style: italic;
+  min-height: 1.1em;
+}
+
+.decor-status:empty {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .decor-strip {
+    left: 12px;
+    width: auto;
+    bottom: 230px;
+  }
+}

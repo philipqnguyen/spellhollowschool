@@ -1,0 +1,141 @@
+/* The owl-order catalogue: a list of basics on the left, the basket on the right. */
+
+.shop-window {
+  height: min(620px, calc(100% - 150px));
+}
+
+.shop-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr minmax(220px, 32%);
+  gap: 14px;
+}
+
+.shop-list {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.shop-items {
+  flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.shop-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 4px;
+  border-bottom: 1px solid rgba(201, 154, 69, 0.12);
+}
+
+.shop-item-text {
+  display: grid;
+  min-width: 0;
+}
+
+.shop-item-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shop-item-kind {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.shop-item-buy {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.shop-item-buy .whole-input {
+  width: 3.5em;
+  text-align: right;
+}
+
+.shop-basket {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 4px;
+  background: rgba(10, 8, 12, 0.35);
+}
+
+.shop-basket h3 {
+  margin: 0 0 6px;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  color: var(--gilt-bright);
+}
+
+.basket-lines {
+  flex: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.basket-line {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+
+.basket-line .item-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.basket-name {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.basket-line .whole-input {
+  width: 3.2em;
+  text-align: right;
+}
+
+.basket-line-total {
+  min-width: 4em;
+  text-align: right;
+  color: var(--gilt-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+.basket-totals p {
+  margin: 6px 0 0;
+}
+
+.basket-total {
+  color: var(--gilt-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+.shop-basket > button.primary {
+  margin-top: 10px;
+}
+
+@media (max-width: 680px) {
+  .shop-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+  }
+}

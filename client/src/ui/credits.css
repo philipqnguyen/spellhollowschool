@@ -1,0 +1,117 @@
+/* The Credits panel (ui/credits.ts): on its own parchment card from the
+   sign-in screens, and as a page of the Settings window (dark panel). The
+   colours follow whichever it sits in. */
+
+.credits {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  text-align: left;
+}
+
+.credit-section h3 {
+  margin: 0 0 6px;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.credit-intro {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.credit-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.credit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.credit-work {
+  font-weight: 600;
+}
+
+.credit-licence {
+  font-size: 0.78rem;
+  padding: 0 6px;
+  border-radius: 3px;
+}
+
+.credit-note {
+  flex-basis: 100%;
+  font-size: 0.8rem;
+}
+
+.credits a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  overflow-wrap: anywhere;
+}
+
+/* On parchment (the sign-in screens). */
+.credits-card {
+  width: min(680px, 100%);
+}
+
+.credits-card .credits {
+  max-height: min(56vh, 560px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.credits-card .credit-section h3 {
+  color: var(--ink);
+}
+
+.credits-card .credit-intro,
+.credits-card .credit-by,
+.credits-card .credit-note {
+  color: var(--ink-soft);
+}
+
+.credits-card .credit-licence {
+  background: rgba(90, 60, 25, 0.12);
+  color: var(--ink);
+}
+
+.credits-card .credits a:hover {
+  color: var(--wax);
+}
+
+/* In Settings (the dark panel): a grid item that must not widen the window. */
+.settings-credits {
+  min-width: 0;
+}
+
+.settings-credits .credit-section h3 {
+  color: var(--gilt-bright);
+}
+
+.settings-credits .credit-intro,
+.settings-credits .credit-by,
+.settings-credits .credit-note {
+  color: var(--text-dim);
+}
+
+.settings-credits .credit-licence {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+
+.settings-credits .credits a:hover {
+  color: var(--gilt-bright);
+}

@@ -1,0 +1,13 @@
+# Chat word filter for the game server (crates/server/src/realtime/chat.rs).
+#
+# One word per line, matched case-insensitively against whole words (runs of
+# letters and digits). A line containing one is refused: it is delivered to no
+# one and the sender gets ChatRejected { reason: Filtered } (protocol v2; 1a
+# masked the word with asterisks instead). Blank lines and lines starting with # are ignored. The server
+# reads this file at startup.
+#
+# These are neutral placeholders so the filter can be tested end to end.
+# Moderators replace them with the real list for a deployment.
+badword
+blockedword
+forbiddenword

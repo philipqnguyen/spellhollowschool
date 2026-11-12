@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "class_floor", "kind": "grounds", "name": "Practice Pitch", "level": 0, "cell": "class_pitch", "min": [-30.0, -20.0], "max": [30.0, 20.0], "y": 0.0}
+  ],
+  "spawns": [
+    {"id": "class_entry_a", "pos": [-1.0, 0.0, 16.0], "yaw": 3.1415927},
+    {"id": "class_entry_b", "pos": [1.0, 0.0, 16.0], "yaw": 3.1415927}
+  ],
+  "landmarks": [
+    {"id": "class_professor", "name": "Madam Swift", "pos": [0.0, 0.0, 10.0]}
+  ],
+  "interactables": [
+    {"id": "class_exit", "kind": "instance_exit", "name": "Pitch Gate", "pos": [0.0, 0.0, 18.5], "yaw": 3.1415927, "radius": 1.5}
+  ],
+  "solids": [
+    {"id": "class_pitch/hoop_0", "at": [-27, -3.5], "half": [0.168, 0.168], "y": [-0.3, 1.9], "round": true},
+    {"id": "class_pitch/hoop_1", "at": [-27, 3.5], "half": [0.168, 0.168], "y": [-0.3, 1.9], "round": true},
+    {"id": "class_pitch/hoop_2", "at": [27, -3.5], "half": [0.168, 0.168], "y": [-0.3, 1.9], "round": true},
+    {"id": "class_pitch/hoop_3", "at": [27, 3.5], "half": [0.168, 0.168], "y": [-0.3, 1.9], "round": true}
+  ],
+  "areas": [
+    {"id": "class_air", "kind": "airspace", "name": "Over the practice pitch", "min": [-29.0, 0.0, -19.0], "max": [29.0, 20.0, 19.0]}
+  ],
+  "rings": [
+    {"id": "ring_0", "pos": [0.0, 5.0, -12.0], "yaw": 1.5708, "radius": 2.5},
+    {"id": "ring_1", "pos": [14.14, 7.0, -8.49], "yaw": 1.0304, "radius": 2.5},
+    {"id": "ring_2", "pos": [20.0, 9.0, 0.0], "yaw": 0.0, "radius": 2.5},
+    {"id": "ring_3", "pos": [14.14, 7.0, 8.49], "yaw": -1.0304, "radius": 2.5},
+    {"id": "ring_4", "pos": [0.0, 5.0, 12.0], "yaw": -1.5708, "radius": 2.5},
+    {"id": "ring_5", "pos": [-14.14, 7.0, 8.49], "yaw": -2.1112, "radius": 2.5},
+    {"id": "ring_6", "pos": [-20.0, 9.0, 0.0], "yaw": -3.1416, "radius": 2.5},
+    {"id": "ring_7", "pos": [-14.14, 7.0, -8.49], "yaw": 2.1112, "radius": 2.5}
+  ]
+}

@@ -1,0 +1,166 @@
+/* The HUD class bar (class-bar.ts): the segment in the level and clock strip
+   (schedule.css .school-strip) and its panel of the slot's classes, which
+   opens just under the top-right corner like the timetable. */
+
+.cbar {
+  display: inline-flex;
+  align-items: center;
+  /* The space before the countdown (a flex item's trailing space is dropped). */
+  gap: 0.3em;
+  min-width: 0;
+  flex: 0 1 auto;
+  padding: 3px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* In the strip, the class bar is the part that gives way when the corner is narrow. */
+.school-strip > .cbar {
+  flex: 0 1 auto;
+}
+
+.cbar[hidden] {
+  display: none;
+}
+
+.cbar:hover,
+.cbar[aria-expanded="true"] {
+  border-color: var(--gilt);
+}
+
+/* The words give way (an ellipsis; the whole line is the title); the countdown never does. */
+.cbar-lead {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cbar-time {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+/* Doors open: the segment glows until the last one closes. */
+.cbar.open {
+  border-color: #7fe0b0;
+  background: rgba(62, 196, 140, 0.18);
+  color: #c9f7df;
+  font-weight: 600;
+  animation: cbar-glow 1.6s ease-in-out infinite;
+}
+
+.cbar.open .cbar-time {
+  color: #e6fff2;
+}
+
+@keyframes cbar-glow {
+  50% {
+    box-shadow: 0 0 12px rgba(110, 230, 170, 0.55);
+  }
+}
+
+.cbar-pop {
+  pointer-events: auto;
+  position: absolute;
+  /* Under the strip at the top right. */
+  top: calc(var(--hud-corner-bottom) + 6px);
+  right: 12px;
+  width: min(340px, calc(100% - 24px));
+  max-height: calc(100% - var(--hud-corner-bottom) - var(--hud-br-h) - 16px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 12px 14px 14px;
+  display: grid;
+  gap: 10px;
+  z-index: 2;
+}
+
+.cbar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cbar-head h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--gilt-bright);
+}
+
+.cbar-body {
+  display: grid;
+  gap: 10px;
+}
+
+.cbar-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.cbar-row {
+  display: grid;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+}
+
+.cbar-row.open {
+  border-color: #7fe0b0;
+}
+
+.cbar-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.cbar-status {
+  flex: none;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-dim);
+}
+
+.cbar-status.open,
+.cbar-status.attending {
+  color: #9ff0c6;
+}
+
+.cbar-where {
+  font-style: italic;
+  color: var(--text-dim);
+}
+
+.cbar-way {
+  justify-self: start;
+  margin-top: 4px;
+}
+
+.cbar-all {
+  justify-self: start;
+}
+
+@media (max-width: 640px) {
+  .cbar-long {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cbar.open {
+    animation: none;
+  }
+}

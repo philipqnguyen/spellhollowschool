@@ -1,0 +1,185 @@
+/* The players list (players.ts) and a player's card
+   (player-card.ts). Both are economy-style windows (economy.css
+   .econ-window): only their size and their rows are set here. */
+
+.econ-window.players-window {
+  width: min(440px, calc(100% - 24px));
+  max-height: calc(100% - var(--hud-corner-bottom) - var(--hud-br-h) - 16px);
+  left: auto;
+  top: calc(var(--hud-corner-bottom) + 8px);
+  right: 12px;
+  transform: none;
+}
+
+.players-bar {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0 4px;
+}
+
+.players-bar .players-search {
+  flex: 1;
+  min-width: 0;
+}
+
+.players-summary {
+  margin: 4px 0;
+  font-size: 0.85rem;
+}
+
+.players-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1;
+}
+
+.players-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 3px 2px;
+  border-bottom: 1px solid rgba(201, 154, 69, 0.14);
+}
+
+.players-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.players-name:hover,
+.players-name:focus-visible,
+.players-name[aria-expanded="true"] {
+  border-color: var(--smoke-edge);
+  color: var(--gilt-bright);
+}
+
+.players-you {
+  color: var(--text-dim);
+}
+
+.players-house {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+/* A small disc in the house's colour (houses.json). */
+.players-crest {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--house, var(--gilt));
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+  flex: none;
+}
+
+.players-nav {
+  margin-top: 6px;
+}
+
+/* ---------------------------------------------------------------- the card */
+
+.econ-window.player-card {
+  width: min(620px, calc(100% - 24px));
+}
+
+.card-sub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0 8px;
+  color: var(--text-dim);
+}
+
+.card-cols {
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) 1fr;
+  gap: 14px;
+  min-height: 0;
+}
+
+.card-figure {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+}
+
+.card-canvas {
+  width: 100%;
+  height: 280px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: radial-gradient(ellipse at 50% 70%, rgba(201, 154, 69, 0.14), transparent 70%);
+  touch-action: none;
+}
+
+.card-note {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
+.card-facts h3 {
+  margin: 0 0 4px;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--gilt-bright);
+}
+
+.card-skills,
+.card-worn {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+  font-size: 0.88rem;
+}
+
+.card-skills li,
+.card-worn li {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.card-worn li {
+  justify-content: flex-start;
+}
+
+.card-slot {
+  min-width: 52px;
+  color: var(--text-dim);
+}
+
+.card-actions {
+  margin-top: 8px;
+}
+
+@media (max-width: 560px) {
+  .card-cols {
+    grid-template-columns: 1fr;
+  }
+
+  .card-canvas {
+    height: 200px;
+  }
+}

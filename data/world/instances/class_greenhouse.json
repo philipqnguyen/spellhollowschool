@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "class_floor", "kind": "grounds", "name": "Greenhouse", "level": 0, "cell": "class_greenhouse", "min": [-10.0, -8.0], "max": [10.0, 8.0], "y": 0.0}
+  ],
+  "spawns": [
+    {"id": "class_entry_a", "pos": [-1.0, 0.0, 5.5], "yaw": 3.1415927},
+    {"id": "class_entry_b", "pos": [1.0, 0.0, 5.5], "yaw": 3.1415927}
+  ],
+  "landmarks": [
+    {"id": "class_professor", "name": "Professor's Desk", "pos": [0.0, 0.0, -6.0]},
+    {"id": "plant_vine", "name": "Gnashvine", "pos": [-3.0, 0.9, -4.0]},
+    {"id": "plant_root", "name": "Shriekroot", "pos": [-1.0, 0.9, -4.0]},
+    {"id": "plant_briar", "name": "Needlebriar", "pos": [1.0, 0.9, -4.0]},
+    {"id": "plant_fern", "name": "Shiverfern", "pos": [3.0, 0.9, -4.0]}
+  ],
+  "interactables": [
+    {"id": "class_exit", "kind": "instance_exit", "name": "Greenhouse Door", "pos": [0.0, 0.0, 7.5], "yaw": 3.1415927, "radius": 1.5}
+  ],
+  "solids": [
+    {"id": "class_greenhouse/bench_0", "at": [-4.25, -1.015], "half": [2, 0.415], "y": [-0.3, 1.22]},
+    {"id": "class_greenhouse/bench_1", "at": [4.25, -1.015], "half": [2, 0.415], "y": [-0.3, 1.222]},
+    {"id": "class_greenhouse/bench_2", "at": [-4.25, 1.785], "half": [2, 0.415], "y": [-0.3, 1.219]},
+    {"id": "class_greenhouse/bench_3", "at": [4.25, 1.785], "half": [2, 0.415], "y": [-0.3, 1.208]},
+    {"id": "class_greenhouse/bench_4", "at": [-4.25, 4.585], "half": [2, 0.415], "y": [-0.3, 1.223]},
+    {"id": "class_greenhouse/bench_5", "at": [4.25, 4.585], "half": [2, 0.415], "y": [-0.3, 1.221]},
+    {"id": "class_greenhouse/plant_pot_0", "at": [-8.91, -7.12], "half": [0.643, 0.643], "y": [-0.3, 1.31], "round": true},
+    {"id": "class_greenhouse/plant_pot_1", "at": [8.879, -7.109], "half": [0.643, 0.643], "y": [-0.3, 1.31], "round": true},
+    {"id": "class_greenhouse/plant_pot_2", "at": [-8.922, 7.107], "half": [0.643, 0.643], "y": [-0.3, 1.31], "round": true},
+    {"id": "class_greenhouse/plant_pot_3", "at": [8.888, 7.119], "half": [0.643, 0.643], "y": [-0.3, 1.31], "round": true},
+    {"id": "class_greenhouse/plant_pot_4", "at": [-6.197, -7.277], "half": [0.643, 0.643], "y": [-0.3, 1.31], "round": true},
+    {"id": "class_greenhouse/plant_pot_5", "at": [6.217, -7.285], "half": [0.643, 0.643], "y": [-0.3, 1.31], "round": true},
+    {"id": "class_greenhouse/plant_pot_6", "at": [-3.577, -7.299], "half": [0.643, 0.643], "y": [-0.3, 1.31], "round": true},
+    {"id": "class_greenhouse/plant_pot_7", "at": [3.618, -7.314], "half": [0.643, 0.643], "y": [-0.3, 1.31], "round": true},
+    {"id": "class_greenhouse/plant_pot_8", "at": [-3.995, 7.178], "half": [0.643, 0.643], "y": [-0.3, 1.31], "round": true},
+    {"id": "class_greenhouse/plant_pot_9", "at": [3.989, 7.18], "half": [0.643, 0.643], "y": [-0.3, 1.31], "round": true},
+    {"id": "class_greenhouse/plant_staging", "at": [0, -4], "half": [4.2, 0.35], "y": [-0.3, 0.97]},
+    {"id": "class_greenhouse/professor_bench", "at": [0, -7.315], "half": [1.2, 0.415], "y": [-0.3, 1.223]},
+    {"id": "class_greenhouse/side_e0", "at": [9.408, -5], "half": [0.422, 2], "y": [-0.3, 1.54]},
+    {"id": "class_greenhouse/side_e1", "at": [9.415, -0.5], "half": [0.415, 2], "y": [-0.3, 1.53]},
+    {"id": "class_greenhouse/side_e2", "at": [9.415, 4], "half": [0.415, 2], "y": [-0.3, 1.552]},
+    {"id": "class_greenhouse/side_w0", "at": [-9.415, -5], "half": [0.415, 2], "y": [-0.3, 1.561]},
+    {"id": "class_greenhouse/side_w1", "at": [-9.394, -0.5], "half": [0.436, 2], "y": [-0.3, 1.554]},
+    {"id": "class_greenhouse/side_w2", "at": [-9.396, 4], "half": [0.434, 2], "y": [-0.3, 1.562]}
+  ]
+}

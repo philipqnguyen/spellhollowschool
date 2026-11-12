@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Kamal runs this after building and pushing the image, before the new version
+# goes live: with an asset bucket (DEPLOY_ASSETS_BUCKET), uploads the game
+# assets of client/dist (built by the pre-build hook) that the bucket does not
+# have yet, by their content-addressed keys, and checks the public URL serves
+# them. Without a bucket it does nothing. docs/deploy.md, "Assets from a bucket".
+set -euo pipefail
+
+# The destination's settings file, as config/deploy.yml reads it (the file
+# wins over the shell; the access keys may come from either).
+settings=".kamal/deploy.${KAMAL_DESTINATION:-}.env"
+args=()
+if [[ -f "$settings" ]]; then
+  args+=(--env-file "$settings")
+fi
+# (The ${a[@]+...} form: bash 3.2, macOS's, rejects an empty array under set -u.)
+exec node client/scripts/upload-assets.mjs ${args[@]+"${args[@]}"}

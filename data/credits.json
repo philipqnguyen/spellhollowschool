@@ -1,0 +1,152 @@
+{
+  "version": 1,
+  "about": "The game's credits: the one source client/scripts/credits.mjs builds the in-game Credits panel and client/public/assets/CREDITS.md from (the sound rows come from client/public/audio/CREDITS.md, the code libraries from client/package.json and the Rust crates of the WebAssembly). The full records stay in art/CREDITS.md and art/CREDITS-makehuman.md; client/scripts/credits.test.mjs checks the two agree. Not an asset build input: editing it never changes the asset fingerprint.",
+  "game": {
+    "name": "SpellHollow School",
+    "repository": "https://github.com/philipqnguyen/spellhollowschool",
+    "licences": [
+      {
+        "what": "Code and game data",
+        "licence": "MIT",
+        "licenceUrl": "https://opensource.org/license/mit"
+      },
+      {
+        "what": "Art sources (art/) and the character models and hair built from them",
+        "licence": "CC BY-SA 4.0",
+        "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+      }
+    ]
+  },
+  "sections": [
+    {
+      "id": "models",
+      "title": "Character models",
+      "intro": "The two bodies keep our own mesh, skeleton and paint; their proportions come from these sculpts, and their topology, shape keys and weights from MakeHuman.",
+      "entries": [
+        {
+          "work": "Anime boy male model T-pose base basic FREE",
+          "author": "ALexzart",
+          "link": "https://skfb.ly/oxIPp",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "note": "The male body's shape. Adapted: retopologised onto our base mesh, posed, smoothed."
+        },
+        {
+          "work": "Anime BaseMesh Sculpt 01",
+          "author": "DJP3D",
+          "link": "https://skfb.ly/oPv6y",
+          "licence": "CC BY 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "note": "The female body's shape. Adapted: retopologised onto our base mesh, posed, smoothed."
+        },
+        {
+          "work": "MakeHuman base mesh, targets, rig, weights and skin masks (MPFB 2)",
+          "author": "The MakeHuman team",
+          "link": "http://www.makehumancommunity.org",
+          "licence": "CC0 1.0",
+          "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "note": "The bodies' topology, shape keys, expressions and skin weights."
+        }
+      ]
+    },
+    {
+      "id": "hair",
+      "title": "Hair",
+      "intro": "The eleven hairstyles are our own meshes derived from Meshy-generated models (meshy.ai), generated for this project by Philip Nguyen: segmented, fitted to our heads, cleaned and re-topologised.",
+      "entries": [
+        {
+          "work": "Hair meshes",
+          "author": "Philip Nguyen, derived from Meshy-generated models (meshy.ai)",
+          "link": "https://github.com/philipqnguyen/spellhollowschool/tree/main/art/characters/hair_meshy",
+          "licence": "CC BY-SA 4.0",
+          "licenceUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+          "note": "Short Tousled, Side-Swept Fringe, Shaggy Layers, Swept-Back Undercut, Tied-Back Ponytail, Crew Cut, Long with Bangs, High Ponytail, Bob with Front Locks, Twin Tails and Low Side Braid.",
+          "styles": [
+            "short_tousled",
+            "side_swept",
+            "shaggy_layers",
+            "swept_undercut",
+            "low_tail",
+            "crew_cut",
+            "long_bangs",
+            "ponytail_locks",
+            "bob_locks",
+            "twin_tails",
+            "side_braid"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "animation",
+      "title": "Animation",
+      "entries": [
+        {
+          "work": "Universal Animation Library: Walk_Loop and Sprint_Loop",
+          "author": "Quaternius",
+          "link": "https://quaternius.com",
+          "licence": "CC0 1.0",
+          "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "note": "The walk and run, retargeted onto our rig. Every other animation is our own."
+        }
+      ]
+    },
+    {
+      "id": "sound",
+      "title": "Sound",
+      "intro": "Recorded sounds by these authors, all CC0, with thanks. Every other sound, and all the music, is synthesized in the game's own code.",
+      "from": "client/public/audio/CREDITS.md"
+    },
+    {
+      "id": "fonts",
+      "title": "Fonts",
+      "entries": [
+        {
+          "work": "Cinzel",
+          "author": "The Cinzel Project Authors",
+          "link": "https://github.com/NDISCOVER/Cinzel",
+          "licence": "SIL Open Font License 1.1",
+          "licenceUrl": "https://openfontlicense.org",
+          "note": "Copyright 2020 The Cinzel Project Authors. Unmodified, from @fontsource/cinzel."
+        },
+        {
+          "work": "EB Garamond",
+          "author": "The EB Garamond Project Authors",
+          "link": "https://github.com/octaviopardo/EBGaramond12",
+          "licence": "SIL Open Font License 1.1",
+          "licenceUrl": "https://openfontlicense.org",
+          "note": "Copyright 2017 The EB Garamond Project Authors. Unmodified, from @fontsource/eb-garamond."
+        }
+      ]
+    },
+    {
+      "id": "code",
+      "title": "Code libraries",
+      "intro": "Libraries that run in the game. Their full licence texts ship with the game in THIRD-PARTY-NOTICES.txt.",
+      "from": "client/package.json"
+    },
+    {
+      "id": "tools",
+      "title": "Made with",
+      "intro": "Tools the game is built with. None of their code ships in the game.",
+      "entries": [
+        {
+          "work": "Blender",
+          "author": "The Blender Foundation and contributors",
+          "link": "https://www.blender.org",
+          "licence": "GPL-3.0-or-later",
+          "licenceUrl": "https://www.gnu.org/licenses/gpl-3.0.html",
+          "note": "Builds every 3D model, texture and icon from scripts."
+        },
+        {
+          "work": "MPFB 2 (MakeHuman Plugin for Blender)",
+          "author": "The MakeHuman team",
+          "link": "https://extensions.blender.org/add-ons/mpfb/",
+          "licence": "GPL-3.0-or-later",
+          "licenceUrl": "https://www.gnu.org/licenses/gpl-3.0.html",
+          "note": "Generates the MakeHuman bodies during the build."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "version": 2,
+  "spells": [
+    {
+      "id": 1, "key": "lucerna", "name": "Lantern Charm", "incantation": "Lucerna!",
+      "school": "charms", "kind": "utility", "unlock": { "level": 1, "at": "charms" },
+      "colour": "#fff1b8", "gesture": "lucerna_flick",
+      "social": { "kind": "light", "cooldown_ms": 1000, "radius_m": 7.0, "intensity": 1.2 }
+    },
+    {
+      "id": 2, "key": "elevara", "name": "Levitation Charm", "incantation": "Elevara!",
+      "school": "charms", "kind": "utility", "unlock": { "level": 2, "at": "charms" },
+      "colour": "#8fe3ff", "gesture": "twirl_and_tap",
+      "social": { "kind": "levitate", "cooldown_ms": 6000, "range_m": 6.0, "duration_ms": 5000,
+                  "height_m": 0.5, "bob_m": 0.08, "bob_hz": 0.8 }
+    },
+    {
+      "id": 10, "key": "scutara", "name": "Shield Charm", "incantation": "Scutara!",
+      "school": "defence", "kind": "shield", "unlock": { "level": 1, "at": "dueling_club" },
+      "colour": "#6fb4ff", "gesture": "shield_arc",
+      "social": { "kind": "flourish", "cooldown_ms": 1500, "range_m": 12.0 },
+      "duel": { "cast_ms": 100, "cooldown_ms": 2400,
+                "effect": { "kind": "shield", "shield_ms": 700, "perfect_ms": 220 } }
+    },
+    {
+      "id": 11, "key": "torpeo", "name": "Stunning Spell", "incantation": "Torpeo!",
+      "school": "defence", "kind": "attack", "unlock": { "level": 1, "at": "dueling_club" },
+      "colour": "#ff3b4e", "gesture": "jab",
+      "social": { "kind": "flourish", "cooldown_ms": 1500, "range_m": 12.0 },
+      "duel": { "cast_ms": 600, "cooldown_ms": 1800,
+                "effect": { "kind": "projectile", "speed_mps": 14.0, "radius_m": 0.2, "poise_damage": 10 } }
+    },
+    {
+      "id": 12, "key": "dimitto", "name": "Disarming Charm", "incantation": "Dimitto!",
+      "school": "defence", "kind": "disarm", "unlock": { "level": 1, "at": "dueling_club" },
+      "colour": "#ff8a1f", "gesture": "sweep",
+      "social": { "kind": "flourish", "cooldown_ms": 1500, "range_m": 12.0 },
+      "duel": { "cast_ms": 1100, "cooldown_ms": 5000, "interruptible": true,
+                "effect": { "kind": "projectile", "speed_mps": 16.0, "radius_m": 0.22, "poise_damage": 4,
+                            "breaks_shield": true, "disarm_ms": 2000 } }
+    },
+    {
+      "id": 13, "key": "titillara", "name": "Tickling Charm", "incantation": "Titillara!",
+      "school": "defence", "kind": "attack", "unlock": { "level": 3, "at": "defence" },
+      "colour": "#c46bff", "gesture": "spiral",
+      "social": { "kind": "flourish", "cooldown_ms": 1500, "range_m": 12.0 },
+      "duel": { "cast_ms": 350, "cooldown_ms": 1200,
+                "effect": { "kind": "projectile", "speed_mps": 18.0, "radius_m": 0.18, "poise_damage": 5 } }
+    },
+    {
+      "id": 14, "key": "repulsa", "name": "Knockback Jinx", "incantation": "Repulsa!",
+      "school": "defence", "kind": "attack", "unlock": { "level": 5, "at": "defence" },
+      "colour": "#3dffa0", "gesture": "push",
+      "social": { "kind": "flourish", "cooldown_ms": 1500, "range_m": 12.0 },
+      "duel": { "cast_ms": 900, "cooldown_ms": 3000,
+                "effect": { "kind": "projectile", "speed_mps": 11.0, "radius_m": 0.26, "poise_damage": 16 } }
+    },
+    {
+      "id": 3, "key": "tinctura", "name": "Colour Charm", "incantation": "Tinctura!",
+      "school": "charms", "kind": "utility", "unlock": { "level": 6, "at": "charms" },
+      "colour": "#ff9ad5", "gesture": "colour_wave",
+      "social": { "kind": "recolour", "cooldown_ms": 5000, "range_m": 10.0, "duration_ms": 30000,
+                  "colours": [17, 19, 21, 22, 24, 27, 31, 34, 35, 36, 41, 42, 44, 45] }
+    },
+    {
+      "id": 15, "key": "rigora", "name": "Binding Curse", "incantation": "Rigora!",
+      "school": "defence", "kind": "bind", "unlock": { "level": 8, "at": "defence" },
+      "colour": "#f0f0ff", "gesture": "bind",
+      "social": { "kind": "bind", "cooldown_ms": 6000, "range_m": 10.0, "duration_ms": 1200, "immune_ms": 8000 },
+      "duel": { "cast_ms": 700, "cooldown_ms": 6000,
+                "effect": { "kind": "projectile", "speed_mps": 8.0, "radius_m": 0.2, "poise_damage": 8,
+                            "root": { "ms": 1500 } } }
+    },
+    {
+      "id": 30, "key": "volucra", "name": "Bird Conjuring", "incantation": "Volucra!",
+      "school": "transfiguration", "kind": "utility", "unlock": { "level": 9, "at": "transfiguration" },
+      "colour": "#ffe45c", "gesture": "flutter",
+      "social": { "kind": "birds", "cooldown_ms": 8000, "range_m": 25.0, "count": 7, "duration_ms": 4500 }
+    },
+    {
+      "id": 4, "key": "adveni", "name": "Summoning Charm", "incantation": "Adveni!",
+      "school": "charms", "kind": "pull", "unlock": { "level": 10, "at": "charms" },
+      "colour": "#1fd1c1", "gesture": "hook",
+      "social": { "kind": "pull", "cooldown_ms": 10000, "range_m": 10.0, "distance_m": 2.5, "min_m": 1.5,
+                  "gap_m": 1.2, "move_ms": 350, "hold_ms": 450, "immune_ms": 8000 },
+      "duel": { "cast_ms": 1000, "cooldown_ms": 8000, "interruptible": true,
+                "effect": { "kind": "projectile", "speed_mps": 15.0, "radius_m": 0.22, "poise_damage": 4,
+                            "pull": { "distance_m": 3.0, "gap_m": 2.0, "move_ms": 300, "stagger_ms": 500 } } }
+    },
+    {
+      "id": 16, "key": "dissolvo", "name": "Unweaving", "incantation": "Dissolvo!",
+      "school": "defence", "kind": "counter", "unlock": { "level": 12, "at": "defence" },
+      "colour": "#ffd27a", "gesture": "unravel",
+      "social": { "kind": "dispel", "cooldown_ms": 3000, "range_m": 10.0 },
+      "duel": { "cast_ms": 250, "cooldown_ms": 10000, "effect": { "kind": "dispel" } }
+    },
+    {
+      "id": 5, "key": "aperio", "name": "Revealing Charm", "incantation": "Aperio!",
+      "school": "charms", "kind": "utility", "unlock": { "level": 14, "at": "charms" },
+      "colour": "#a6ffcf", "gesture": "figure_eight",
+      "social": { "kind": "reveal", "cooldown_ms": 30000, "radius_m": 20.0, "height_m": 4.0, "duration_ms": 10000 }
+    },
+    {
+      "id": 17, "key": "tardara", "name": "Slowing Jinx", "incantation": "Tardara!",
+      "school": "defence", "kind": "slow", "unlock": { "level": 16, "at": "defence" },
+      "colour": "#ff4fd8", "gesture": "cupped_sweep",
+      "social": { "kind": "slow", "cooldown_ms": 8000, "range_m": 10.0, "duration_ms": 4000, "pct": 40, "immune_ms": 8000 },
+      "duel": { "cast_ms": 800, "cooldown_ms": 7000,
+                "effect": { "kind": "projectile", "speed_mps": 6.0, "radius_m": 0.3, "poise_damage": 8,
+                            "wave": { "half_width_m": 1.5 }, "slow": { "ms": 3000, "pct": 50 } } }
+    },
+    {
+      "id": 18, "key": "custodio", "name": "Guardian Charm", "incantation": "Custodio!",
+      "school": "defence", "kind": "ward", "unlock": { "level": 19, "at": "defence" },
+      "colour": "#cfe6ff", "gesture": "rising_spiral",
+      "social": { "kind": "guardian", "cooldown_ms": 60000, "range_m": 25.0, "duration_ms": 60000 },
+      "duel": { "cast_ms": 1500, "cooldown_ms": 30000, "interruptible": true,
+                "effect": { "kind": "ward", "ward_ms": 10000 } }
+    }
+  ]
+}

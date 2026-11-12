@@ -1,0 +1,90 @@
+{
+  "version": 2,
+  "id": "astronomy",
+  "subject": "astronomy",
+  "professor": {
+    "id": "astronomy_professor", "name": "Professor Celeste Arden", "house": "burrowsby",
+    "appearance": {
+      "body_type": 1,
+      "height": 150,
+      "face": [128, 150, 120, 130, 128],
+      "skin_tone": 7,
+      "hair_style": 18,
+      "hair_colour": 0,
+      "eye_colour": 0,
+      "outfit": {
+        "hat": {"item_def": 103, "dyes": [32, 32, 5], "finish": "none"},
+        "body": {"item_def": 217, "dyes": [32, 33, 5], "finish": "none"},
+        "legs": {"item_def": 306, "dyes": [33, 33, 5], "finish": "none"},
+        "shoes": {"item_def": 405, "dyes": [0, 0, 5], "finish": "none"}
+      }
+    },
+    "pos": [0, 0, -6], "yaw": 0
+  },
+  "lesson": [
+    {"at_secs": 2, "kind": "emote", "emote": "wave"},
+    {"at_secs": 3, "kind": "say", "line": "Good evening. Mind the parapet, and give your eyes a moment to learn the dark."},
+    {"at_secs": 45, "kind": "say", "line": "Every constellation is a path from star to star. Trace it in order, as the old charts drew it."},
+    {"at_secs": 90, "kind": "say", "line": "Tonight we chart five figures. None of them will wait for latecomers."},
+    {"at_secs": 130, "kind": "say", "line": "The door at the foot of the tower closes very soon."},
+    {"at_secs": 170, "kind": "say", "line": "Telescopes down, wands up. Look to the east."},
+    {"at_secs": 182, "kind": "demonstrate", "gesture": "const_lantern", "duration_ms": 2400, "line": "The Lantern: the handle first, then down and around its glass."},
+    {"at_secs": 191, "kind": "demonstrate", "gesture": "const_heron", "duration_ms": 2400, "line": "The Heron: from its feet, up the long neck, to the tip of its beak."},
+    {"at_secs": 200, "kind": "practice", "round": 1, "window_ms": 900, "beats": [
+        {"at_ms": 5000, "gesture": "const_lantern"},
+        {"at_ms": 10000, "gesture": "const_heron"},
+        {"at_ms": 15000, "gesture": "const_lantern"},
+        {"at_ms": 20000, "gesture": "const_heron"},
+        {"at_ms": 25000, "gesture": "const_lantern"},
+        {"at_ms": 30000, "gesture": "const_heron"}
+      ] },
+    {"at_secs": 236, "kind": "demonstrate", "gesture": "const_kettle", "duration_ms": 2400, "line": "The Kettle: from the spout, round the pot, and up to the lid."},
+    {"at_secs": 244, "kind": "demonstrate", "gesture": "const_hound", "duration_ms": 2400, "line": "The Sleeping Hound: nose to tail along its back, then home along its belly."},
+    {"at_secs": 252, "kind": "practice", "round": 2, "window_ms": 900, "beats": [
+        {"at_ms": 5000, "gesture": "const_kettle"},
+        {"at_ms": 10000, "gesture": "const_hound"},
+        {"at_ms": 15000, "gesture": "const_kettle"},
+        {"at_ms": 20000, "gesture": "const_hound"},
+        {"at_ms": 25000, "gesture": "const_kettle"},
+        {"at_ms": 30000, "gesture": "const_hound"}
+      ] },
+    {"at_secs": 288, "kind": "demonstrate", "gesture": "const_owl", "duration_ms": 2400, "line": "The Owl: ear to ear across its brow, then down and around its body."},
+    {"at_secs": 296, "kind": "practice", "round": 3, "window_ms": 900, "beats": [
+        {"at_ms": 5000, "gesture": "const_owl"},
+        {"at_ms": 10000, "gesture": "const_lantern"},
+        {"at_ms": 15000, "gesture": "const_owl"},
+        {"at_ms": 20000, "gesture": "const_heron"},
+        {"at_ms": 25000, "gesture": "const_owl"},
+        {"at_ms": 30000, "gesture": "const_kettle"}
+      ] },
+    {"at_secs": 335, "kind": "demonstrate", "gesture": "const_hound", "duration_ms": 2000, "line": "Now the whole sky, a little faster. Keep your lines clean."},
+    {"at_secs": 345, "kind": "practice", "round": 4, "window_ms": 800, "beats": [
+        {"at_ms": 5000, "gesture": "const_lantern"},
+        {"at_ms": 9800, "gesture": "const_hound"},
+        {"at_ms": 14600, "gesture": "const_owl"},
+        {"at_ms": 19400, "gesture": "const_heron"},
+        {"at_ms": 24200, "gesture": "const_kettle"},
+        {"at_ms": 29000, "gesture": "const_lantern"},
+        {"at_ms": 33800, "gesture": "const_owl"},
+        {"at_ms": 38600, "gesture": "const_hound"}
+      ] },
+    {"at_secs": 392, "kind": "say", "line": "Lovely. Look up once more before you go: they are all still there."},
+    {"at_secs": 405, "kind": "results", "line": "Well charted. Bring a warm cloak next time; the tower never gets any warmer."},
+    {"at_secs": 410, "kind": "emote", "emote": "bow"},
+    {"at_secs": 500, "kind": "say", "line": "Off to bed, or wherever the night takes you. Quietly on the stairs, please."}
+  ],
+  "rewards": {
+    "attend_skill_xp": 30,
+    "bonus_skill_xp_max": 40,
+    "min_answers": 3,
+    "house_points": [{"min_pct": 60, "points": 1}, {"min_pct": 75, "points": 3}, {"min_pct": 90, "points": 5}],
+    "crowns": {"attend": 10, "bonus_max": 10},
+    "items": [
+      {"item": 3027, "quantity": [1, 1], "min_pct": 70},
+      {"item": 3427, "quantity": [1, 1], "min_pct": 85, "draw": true},
+      {"item": 3428, "quantity": [1, 1], "min_pct": 85, "draw": true},
+      {"item": 3429, "quantity": [1, 1], "min_pct": 90, "draw": true}
+    ],
+    "teaches": [{"recipe": 331, "skill": 2}, {"recipe": 332, "skill": 3}, {"recipe": 333, "skill": 4}]
+  }
+}

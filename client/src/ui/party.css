@@ -1,0 +1,124 @@
+/* The party list (ui/party.ts): the HUD's top left, which nothing else
+   holds (the corners: ui/hud.ts). Below the F3 performance overlay when it
+   shows. Party blue is `--party` (style.css). */
+
+.party-list {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: min(220px, calc(100% - 24px));
+  padding: 6px 8px 8px;
+  pointer-events: auto;
+  border-color: color-mix(in srgb, var(--party) 45%, transparent);
+}
+
+.perf:not([hidden]) ~ .party-list {
+  top: 120px;
+}
+
+.party-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0 2px 4px;
+  font-family: var(--display);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--party);
+}
+
+.party-count {
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.party-members {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+
+.party-member {
+  border-left: 3px solid var(--member-house, var(--gilt));
+  padding-left: 4px;
+}
+
+.party-row {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  padding: 2px 2px;
+  border: 0;
+  background: transparent;
+  color: var(--party);
+  font: inherit;
+  font-size: 0.92rem;
+  text-align: left;
+  cursor: pointer;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.party-row:hover,
+.party-row:focus-visible {
+  background: rgba(108, 207, 255, 0.1);
+  outline: none;
+}
+
+.party-self .party-name {
+  font-weight: 600;
+}
+
+.party-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.party-level {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.party-crown {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: var(--gilt-bright);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.party-where {
+  display: block;
+  padding: 0 2px 2px 20px;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* In another zone: still blue, a little dimmer, their place under the name. */
+.party-elsewhere .party-row {
+  color: color-mix(in srgb, var(--party) 70%, var(--text-dim) 30%);
+}
+
+/* Offline: grey, their last level kept. */
+.party-offline .party-row {
+  color: var(--text-dim);
+  opacity: 0.75;
+}
+
+.party-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  padding: 2px 2px 4px 20px;
+  font-size: 0.8rem;
+}

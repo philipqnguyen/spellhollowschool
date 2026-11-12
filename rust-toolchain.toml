@@ -1,0 +1,6 @@
+# The pinned Rust release. Upgrading is a deliberate change: update this,
+# rust-version in Cargo.toml and the rust image in docker/Dockerfile together.
+[toolchain]
+channel = "1.99.1"
+components = ["clippy", "rustfmt"]
+targets = ["wasm32-unknown-unknown"]

@@ -1,0 +1,70 @@
+# What is never committed, and why: docs/repo-hygiene.md. The pre-commit hook
+# and CI enforce it with scripts/check-committed-files.mjs; this file only keeps
+# `git status` quiet. Do not force-add (`git add -f`) anything ignored here.
+
+# Build outputs
+/target
+node_modules/
+dist/
+# Exported by the Blender build (world cells, characters, gear, furniture, ...);
+# fetched as the asset release or rebuilt (tools/blender/README.md)
+/client/public/assets/
+# The wasm bindings (scripts/build-wasm.sh)
+/client/src/wasm/
+/loadtest-results/
+__pycache__/
+*.pyc
+*.log
+
+# Art (art/README.md): the sources under art/ are committed; what the Blender
+# build saves back under art/ is generated and never committed (the .blend
+# scenes and review renders; docs/art/repo-layout.md lists each with its command)
+/art/renders/
+# Every .blend is a build output (tools/blender/build_art_blends.sh remakes the
+# scenes), and .blend1/.blend2 are Blender's automatic backups
+*.blend
+*.blend1
+*.blend2
+
+# Screenshots: playtest and review screenshots go to .out/screenshots/
+/docs/screenshots/
+screenshots/
+*.screenshot.png
+# Screen recordings and videos (share them outside git, like screenshots)
+*.mp4
+*.webm
+*.mov
+*.mkv
+*.avi
+*.m4v
+# Browser automation scratch output (Playwright MCP snapshots, screenshots, logs)
+/.playwright-mcp/
+# Local build and review outputs (screenshots, renders, downloads, logs)
+/.out/
+
+# Local-only inputs
+.env
+.env.*
+!.env.example
+# Kamal: each destination's settings and secrets (.kamal/deploy.env.example is the template)
+/.kamal/deploy.*.env
+/.kamal/secrets.*
+# Third-party source assets (licenses and credits kept beside each asset; not committed)
+/vendor_assets
+# Isolated Blender user dir with the MPFB extension (character builds)
+/.blender-user/
+
+# OS and editor files
+.DS_Store
+.AppleDouble
+._*
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Agent worktrees (Claude Code)
+/.claude/worktrees/

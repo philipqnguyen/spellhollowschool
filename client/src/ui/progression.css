@@ -1,0 +1,214 @@
+/* The level badge in the HUD bar and the level-up flourish (progression.ts). */
+
+.lvl-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 2px 8px 2px 2px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.lvl-badge:hover,
+.lvl-badge:focus-visible {
+  border-color: var(--smoke-edge);
+  background: rgba(201, 154, 69, 0.1);
+}
+
+.lvl-num {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--gilt);
+  background: radial-gradient(circle at 35% 30%, #5b3d16, #24170a 75%);
+  color: var(--gilt-bright);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.lvl-text {
+  display: grid;
+  gap: 2px;
+  font-size: 0.78rem;
+  line-height: 1.1;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.lvl-bar {
+  display: block;
+  width: 72px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.lvl-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #c99a45, #ffe08a);
+  transition: width 0.6s ease-out;
+}
+
+.lvl-gains {
+  position: absolute;
+  left: 4px;
+  top: 100%;
+  display: grid;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.lvl-gain {
+  white-space: nowrap;
+  padding: 1px 7px;
+  border-radius: 3px;
+  background: rgba(10, 8, 12, 0.6);
+  color: #ffe08a;
+  font-size: 0.8rem;
+  text-shadow: 0 1px 2px #000;
+  animation: lvl-rise 2.6s ease-out forwards;
+}
+
+.lvl-gain.capped {
+  color: var(--text-dim);
+}
+
+@keyframes lvl-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+/* ------------------------------------------------------------------ level up */
+
+.levelup {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  transform: translateX(-50%);
+  pointer-events: none !important;
+}
+
+.levelup-card {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 14px 36px 16px;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.levelup-rays {
+  position: absolute;
+  inset: -40px -60px;
+  z-index: -1;
+  background:
+    radial-gradient(closest-side, rgba(255, 214, 120, 0.55), rgba(255, 170, 60, 0.18) 55%, transparent),
+    repeating-conic-gradient(from 0deg, rgba(255, 230, 160, 0.22) 0 6deg, transparent 6deg 18deg);
+  mask: radial-gradient(closest-side, #000 40%, transparent);
+  -webkit-mask: radial-gradient(closest-side, #000 40%, transparent);
+}
+
+.levelup-kicker {
+  font-family: var(--display);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  color: #fff3c8;
+}
+
+.levelup-level {
+  font-family: var(--display);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: #ffe08a;
+  -webkit-text-stroke: 1px #7a4d12;
+}
+
+.levelup-year {
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.levelup-note {
+  font-size: 0.9rem;
+  color: #d9f4ff;
+}
+
+.levelup.play .levelup-card {
+  animation: levelup-in 4.2s ease-out forwards;
+}
+
+.levelup.play .levelup-rays {
+  animation: levelup-spin 4.2s linear forwards;
+}
+
+@keyframes levelup-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  18% {
+    transform: scale(1);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes levelup-spin {
+  to {
+    transform: rotate(40deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .lvl-text {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .levelup.play .levelup-card,
+  .levelup.play .levelup-rays,
+  .lvl-gain {
+    animation: none;
+  }
+  .lvl-fill {
+    transition: none;
+  }
+}

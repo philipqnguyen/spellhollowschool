@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "class": "transfiguration",
+  "answers": {
+    "teacup_giant": "grow",
+    "key_tiny": "shrink",
+    "quill_silver": "to_silver",
+    "candle_glass": "to_glass",
+    "spoon_wood": "to_wood",
+    "button_red": "to_red",
+    "matchbox_blue": "to_blue",
+    "pincushion_round": "make_round",
+    "teacup_saucer": "flatten",
+    "candle_tall": "stretch",
+    "quill_tiny_silver_1": "to_silver",
+    "quill_tiny_silver_2": "shrink",
+    "matchbox_round_glass_1": "to_glass",
+    "matchbox_round_glass_2": "make_round",
+    "button_big_green_1": "grow",
+    "button_big_green_2": "to_green"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "starting_purse": 100,
+  "exchange": {
+    "listing_fee": 3,
+    "sales_tax_pct": 5,
+    "listing_secs": 432000,
+    "active_listings_max": 20,
+    "price_min": 1,
+    "price_max": 1000000,
+    "search_burst": 20,
+    "search_refill_secs": 2
+  },
+  "mail": {
+    "postage": 1,
+    "subject_max_chars": 80,
+    "body_max_chars": 2000,
+    "attachments_max": 6,
+    "crowns_max": 100000,
+    "send_burst": 10,
+    "send_refill_secs": 30,
+    "retention_days": 30
+  },
+  "trade": {
+    "distance_m": 5.0,
+    "leave_slack_m": 2.0,
+    "crowns_max": 1000000
+  },
+  "effects": {
+    "glow": { "duration_secs": 900 },
+    "chameleon": { "duration_secs": 900, "cycle_ms": 1500 },
+    "shrinking": { "duration_secs": 600, "scale_pct": 50 },
+    "swelling": { "duration_secs": 600, "scale_pct": 130 },
+    "babbling": { "duration_secs": 300 },
+    "mimic_draught": { "duration_secs": 600, "range_m": 10.0 },
+    "fortunes_draught": { "duration_secs": 1200, "extra_rolls": 1, "rare_weight_pct": 300 },
+    "pick_me_up_tonic": { "duration_secs": 600, "speed_pct": 115 },
+    "invisibility": { "duration_secs": 300 },
+    "fortune": { "duration_secs": 3600, "luck_extra_rolls": 0, "luck_rare_weight_pct": 200,
+                 "quick_hands_pct": 25, "keen_mind_pct": 10 },
+    "featherlight": { "duration_secs": 600, "broom_pct": 115 }
+  }
+}

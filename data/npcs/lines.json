@@ -1,0 +1,4215 @@
+{
+  "_doc": "Every line an NPC says (sim_core::npcs::LinesFile), by roster id (students share `students`). Picked and shown on the talking player's screen only (LinesFile::pick: seeded, weighted among the lines whose conditions hold); no message carries a line. when: pass (portraits, walking past; at most 90 characters), talk (on interact), hint (portraits: a VAGUE hint toward `secret`, said only while the player has not found it; never a precise place), gift (with today's gift; `gift` narrows it to lore | item | house_point | hint), given (today's gift already given), shop (a shopkeeper's greeting as the shop opens). Conditions, each optional: house (same | other, relative to the NPC's house, or a list of house ids), period ([morning, afternoon, night]), cup (yours_leads | other_leads | tied), wears (a catalog tag the player wears), weight 1-10. Placeholders {name} {house}, and in gift lines of their kind {place} {item} {lore} {points}. At most 160 characters. Our own invented, in-world text; adults; never sexualised. LinesFile::check_counts is the content gate (portraits 20-30 lines). docs/architecture.md 'NPCs'.",
+  "version": 1,
+  "npcs": {
+    "portrait_gs_l1": [
+      {
+        "text": "Make way! A scholar ascends!",
+        "when": "pass"
+      },
+      {
+        "text": "Hark, a fine figure on the stair!",
+        "when": "pass"
+      },
+      {
+        "text": "Ta-ra! Onward and upward!",
+        "when": "pass"
+      },
+      {
+        "text": "Announcing... oh, you've gone already.",
+        "when": "pass"
+      },
+      {
+        "text": "Hark... quietly. Even heralds whisper after dark.",
+        "when": "pass",
+        "period": [
+          "night"
+        ]
+      },
+      {
+        "text": "Presenting {name} of {house}, bold of heart and loud of boot! Ta-ra! Forgive me, I never could resist a fanfare.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Behold {name} of {house}, steadfast and true! The finest fanfare is the one you've earned, and you've earned several.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Announcing {name} of {house}, keen of mind! I'd list your accomplishments, but I suspect you'd correct the order.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Presenting {name} of {house}, who arrives exactly when intended! A herald does admire a dignified entrance.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Good morning! A herald's first duty is to announce the day. Day, you are announced. Splendid.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The afternoon procession! Half the castle climbs these stairs after lunch, and the other half comes down looking for it.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Late on the stairs, are we? I shall announce you very softly. Ta-ra. There. Most discreet.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "These stairs began to wander one cold winter, after an architect tried to make them easier. Easier, yes. Predictable, never.",
+        "when": "talk"
+      },
+      {
+        "text": "The poor architect of these stairs wrote apology after apology. I once tried to announce the last one. Far too short for a fanfare.",
+        "when": "talk"
+      },
+      {
+        "text": "One flight in this castle has never moved an inch. I like to think it heard the charm coming and stood its ground. Admirable.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup! I've been practising a victory fanfare. It's mostly trumpets.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Your house trails in the Cup this week. Chin up! A good herald can make third place sound like a coronation.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "The hourglasses are neck and neck! I've prepared a fanfare for every outcome, and one for a draw.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Dress robes! Now there's an outfit worth announcing. Stand still a moment while I find the right trumpet.",
+        "when": "talk",
+        "wears": "formal",
+        "weight": 2
+      },
+      {
+        "text": "Velvet! A herald knows velvet. You look ready to be presented at court.",
+        "when": "talk",
+        "wears": "velvet",
+        "weight": 2
+      },
+      {
+        "text": "I announced a king once. Well, a man named King. He was a cooper, but he took it very graciously.",
+        "when": "talk"
+      },
+      {
+        "text": "I've announced people coming down from floors they never walked up to. There's more than one way between the upper storeys.",
+        "when": "hint",
+        "secret": "weavers_stair"
+      },
+      {
+        "text": "I once announced a gentleman who swore he'd stepped clean through marble. I took him for a poet. Now I'm not so sure.",
+        "when": "hint",
+        "secret": "sculptors_gap"
+      }
+    ],
+    "portrait_gs_l3": [
+      {
+        "text": "Shoulders back. Better.",
+        "when": "pass"
+      },
+      {
+        "text": "Boots: passable. Carry on.",
+        "when": "pass"
+      },
+      {
+        "text": "Seven out of ten for posture.",
+        "when": "pass"
+      },
+      {
+        "text": "Punctual, I hope?",
+        "when": "pass"
+      },
+      {
+        "text": "Walk, don't scurry.",
+        "when": "pass"
+      },
+      {
+        "text": "{house}. Courage earns full marks; pausing at the top of the stairs before charging on earns more. Do try it.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. Diligent, honest, reliable. I'd mark you higher if you stopped apologising to the banisters.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. Your answers are usually right. Your handwriting, I suspect, is not. Neatness counts, {name}.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. Ambition is a fine subject. Mind it doesn't crowd out the others; I examine all of them.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Good morning. You're up and dressed, which already puts you ahead of a third of the castle.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The afternoon is when attention wanders. I shall be watching for yawns. That was very nearly one.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "It is late. I'd deduct marks for the hour, but I'm retired, and nobody will let me.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The old timetables rang a bell for every lesson. Eighteen in a day! I always thought the bell ringer had a point.",
+        "when": "talk"
+      },
+      {
+        "text": "Every classroom once kept a spare chair for a late professor. Sit in one and you'll get the hardest question. I set a few myself.",
+        "when": "talk"
+      },
+      {
+        "text": "The oldest inkwells refill themselves at midnight. I still say a student should mix her own ink. It builds character, and blue fingers.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup. Satisfactory. Now keep it there; leading is easy, staying is the examination.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Your house is behind this week. Not a failing grade. Merely a note in the margin: could do better.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie at the top. In my day we'd have settled it with a written paper. Three hours, no talking.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Correct school dress, neatly worn. You'd be surprised how rarely I can say that. Full marks.",
+        "when": "talk",
+        "wears": "school"
+      },
+      {
+        "text": "Knitwear. Sensible on these stairs; the draught on this landing is a disgrace. Check your cuffs for loose threads.",
+        "when": "talk",
+        "wears": "knitwear",
+        "weight": 2
+      },
+      {
+        "text": "I examined for forty years. The most common wrong answer? Panic. Never panic. Then think.",
+        "when": "talk"
+      },
+      {
+        "text": "Polished things rarely hide anything, except when they do. If you're ever downstairs among the cups, examine closely.",
+        "when": "hint",
+        "secret": "trophy_cabinet_stair"
+      },
+      {
+        "text": "The best scholars find the quickest route between their books and their lessons. Some routes appear on no timetable.",
+        "when": "hint",
+        "secret": "readers_shortcut"
+      }
+    ],
+    "portrait_gs_l4": [
+      {
+        "text": "Mm. Looks like rain.",
+        "when": "pass"
+      },
+      {
+        "text": "Shh, they're biting.",
+        "when": "pass"
+      },
+      {
+        "text": "Mornin'... or is it?",
+        "when": "pass"
+      },
+      {
+        "text": "Had a bite once. Lost it.",
+        "when": "pass"
+      },
+      {
+        "text": "Mind the drips.",
+        "when": "pass"
+      },
+      {
+        "text": "{house}, eh? Bold lot. You'd wade straight in after a pike. I'd wait for it to come to me. That's why I've still got all my toes.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}, is it? Patient folk. You'd make good anglers. Sit, wait, eat your sandwich. Mostly the sandwich.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. You'll want to know how deep the lake is. Deeper than my line, that's how. Never found the bottom. Never wanted to.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. You sleep down by the lake windows, don't you? Tell me, do the fish look in at you? Always wondered.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Best fishing's at first light. Mist on the water, kettle on the bank. Then the fish wake up and spoil it.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon's for dozing. Fish doze too. That's what I tell myself when nothing bites.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Night fishing? Can't see the float. Can't see the fish. Can't see the point. Off to bed with you.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Some autumn mornings the mist comes off the lake in the shape of this very castle. Saw it once. Nearly dropped my pike.",
+        "when": "talk"
+      },
+      {
+        "text": "First frost, the lake goes silver for an hour. Lovely to look at. Nothing'll bite on a silver morning, mind.",
+        "when": "talk"
+      },
+      {
+        "text": "My grandad said the shallows turned purple once a summer, when the castle dyed its robes by the lake. Fish came out lavender.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house is winning, they say. Don't let it go to your head. The big ones always get away at the last moment.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Bah. Fishing's taught me one thing: sit tight, keep your line wet, and the tide turns.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "All square at the top, I hear. Like two lads hooking the same fish. Someone's going in the lake.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Good thick cloak, that. You'd do for a day on the bank. Rain runs straight off. Wish I'd been painted in one.",
+        "when": "talk",
+        "wears": "outerwear",
+        "weight": 2
+      },
+      {
+        "text": "Rolled sleeves? Proper fishing look, that. All you need is a worm and a great deal of patience.",
+        "when": "talk",
+        "wears": "casual",
+        "weight": 2
+      },
+      {
+        "text": "This pike? Caught him myself. The one I wanted was twice the size. Got away. He's still out there, laughing at me.",
+        "when": "talk"
+      },
+      {
+        "text": "Down where it's damp, there's a breeze that smells of old apples and barrels. Breezes come from somewhere, don't they?",
+        "when": "hint",
+        "secret": "cellarers_way"
+      },
+      {
+        "text": "Seen folk come down from the floor above without touching the stairs. Didn't ask. A good fisherman never asks where the fish came from.",
+        "when": "hint",
+        "secret": "weavers_stair"
+      }
+    ],
+    "portrait_gs_l5": [
+      {
+        "text": "Oh! Have you heard?",
+        "when": "pass"
+      },
+      {
+        "text": "Psst. Later, darling.",
+        "when": "pass"
+      },
+      {
+        "text": "Don't look now. Actually, do.",
+        "when": "pass"
+      },
+      {
+        "text": "Scandal, darling. Simply scandal.",
+        "when": "pass"
+      },
+      {
+        "text": "Out at this hour? How delicious.",
+        "when": "pass",
+        "period": [
+          "night"
+        ]
+      },
+      {
+        "text": "A {house}! Your lot are always in the thick of something. Do come back and tell me what. Embellish freely; I always do.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}! You're the ones who know everything and say nothing. Utterly maddening. Tell me one small thing. Anything.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}! You lot read the old records. Is it true about the founding prefects? No, don't tell me. I prefer my version.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}! You appreciate the value of a well-placed secret. We should trade, darling. I'll go first. Eventually.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Morning gossip is the freshest, darling. Things happened overnight. They always do.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The afternoon lull. Nobody has done anything scandalous since lunch. I'm reduced to inventing it.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Out at this hour? Darling, how delightfully suspicious. I shan't tell a soul. Well, one soul.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The prefects once signed a promise to keep every corridor lit, then hid the parchment so nobody could find it. Scandalous! I adore them.",
+        "when": "talk"
+      },
+      {
+        "text": "The painter of half these portraits painted herself in forty different hats. Which one am I? A lady never says.",
+        "when": "talk"
+      },
+      {
+        "text": "The losing houses used to sew pennants for the winners. The stitches grew smaller and nastier every year. Such delicious spite.",
+        "when": "talk"
+      },
+      {
+        "text": "One spring the hall clock ran backwards for a week. Students claimed they'd handed in essays before writing them. I believed every word.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup! Everyone's talking about it. Well, I am. Which is the same thing.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup, darling? I hear the leaders are getting smug. Smugness always comes before a fall. I'll save you a seat.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie at the top! The tension, darling. I haven't been this thrilled since the business with the moving stairs and the vicar.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "That hair ornament! Who are you trying to impress? No, don't say. Let me guess for a week.",
+        "when": "talk",
+        "wears": "accessory",
+        "weight": 2
+      },
+      {
+        "text": "Darling, that outfit. Bold. Very bold. People will talk. I'll make sure of it.",
+        "when": "talk",
+        "wears": "fashion"
+      },
+      {
+        "text": "Two hundred years on this wall and I've never spread a false rumour. Exaggerated, yes. Improved, often.",
+        "when": "talk"
+      },
+      {
+        "text": "They say a lovesick sculptor walked through one of his own statues and came out somewhere far below. I say it's true. It's romantic.",
+        "when": "hint",
+        "secret": "sculptors_gap"
+      },
+      {
+        "text": "Someone once vanished among the trophies and turned up for supper on time. Nobody has ever explained it. I have six theories.",
+        "when": "hint",
+        "secret": "trophy_cabinet_stair"
+      }
+    ],
+    "portrait_gs_l6": [
+      {
+        "text": "Which way is north today?",
+        "when": "pass"
+      },
+      {
+        "text": "Lost? Me too. Splendid!",
+        "when": "pass"
+      },
+      {
+        "text": "Left! No, right. No...",
+        "when": "pass"
+      },
+      {
+        "text": "Mind the stairs, they cheat.",
+        "when": "pass"
+      },
+      {
+        "text": "Ahoy! Is this the sixth?",
+        "when": "pass"
+      },
+      {
+        "text": "{house}! You charge up these stairs like they owe you money. They do, in a way. They've stolen hours from all of us.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}! Reliable people. If I'd had one of you on my expeditions, someone would have remembered to pack the map.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}! Splendid, you'll know which floor this is. I've had it as the sixth, the ninth and once, briefly, the cellar.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}! You lot live down under everything, don't you? I tried to map the dungeons once. I ended up in the kitchens.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Morning! The stairs are usually calm before breakfast. I say usually. I've been wrong about everything else.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon! A fine time to get lost. Plenty of daylight left to be found by.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The stairs move most at dusk, you know. By night they're positively playful. Hold the rail and trust nothing.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "An architect charmed these stairs to be easier and they've been impossible ever since. I've drawn sixty maps of them. All wrong.",
+        "when": "talk"
+      },
+      {
+        "text": "There's meant to be a whole wing nobody can find. It's on the plans. I've looked for it for a century. Found several cupboards.",
+        "when": "talk"
+      },
+      {
+        "text": "The stairs refused to lead anywhere as unpredictable as the fortune-telling room, so a ladder was hired. I respect that ladder.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup, I'm told! By whose map? Never mind. Congratulations, whichever way you're facing.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? A good navigator knows you can be lost for weeks and still arrive first.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "All the hourglasses level? Like a compass that points everywhere at once. Exciting, and not much use.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "A proper travelling coat! Pockets for maps, I trust? Use them. Mine are full of compasses that disagree.",
+        "when": "talk",
+        "wears": "outerwear",
+        "weight": 2
+      },
+      {
+        "text": "School robes, eh? Sensible. If you get lost, at least everyone will know where to send you back to.",
+        "when": "talk",
+        "wears": "school"
+      },
+      {
+        "text": "My finest map shows the castle exactly as it is. Unfortunately, the castle moved. I keep it for sentimental reasons.",
+        "when": "talk"
+      },
+      {
+        "text": "I once took a wrong turn and found a stair the moving ones know nothing about. Somewhere below me. Rather woolly, as I recall.",
+        "when": "hint",
+        "secret": "weavers_stair"
+      },
+      {
+        "text": "There's a quick way from the reading rooms to a classroom, so I'm told. Never found it. Then again, I've never found anything.",
+        "when": "hint",
+        "secret": "readers_shortcut"
+      }
+    ],
+    "portrait_great_hall_n": [
+      {
+        "text": "Elbows off the tables, please.",
+        "when": "pass"
+      },
+      {
+        "text": "Napkin, dear. Napkin.",
+        "when": "pass"
+      },
+      {
+        "text": "Walk, don't sprint, in my hall.",
+        "when": "pass"
+      },
+      {
+        "text": "I've got your tally right here.",
+        "when": "pass"
+      },
+      {
+        "text": "Feast's not ready. Shoo.",
+        "when": "pass"
+      },
+      {
+        "text": "{house} table, yes? Lively. Last feast one of yours knocked a whole trifle over with a victory wave. I still have it in the ledger.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}! Your table always finishes everything and thanks the kitchens. I told the cooks. They wept.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. Your table argues about the puddings with footnotes. I'm not complaining. I'm noting.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. The tidiest table in the hall, I'll give you that. Also the most careful with the salt. Suspiciously careful.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Breakfast is the most important meal. Says me. Porridge first, then toast, and no reading at the table.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Lunch cleared, supper not yet laid. The most peaceful hour in my hall. Don't spoil it.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The hall's closed for the night. The candles stay up there only to keep me company.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The four tables came from one oak, split four ways so nobody got the better wood. They still argue about it. I've heard every side.",
+        "when": "talk"
+      },
+      {
+        "text": "The first Cup was a pewter tankard. They drank warm milk from it until someone tried to brew in it. I'd have docked points.",
+        "when": "talk"
+      },
+      {
+        "text": "The hourglass sand came from four different shores, one chosen by each house. I can tell them apart by the sound. Truly.",
+        "when": "talk"
+      },
+      {
+        "text": "Beneath this hall hang the kitchen bells. A plate stays empty too long and its bell rings. I thoroughly approve of that bell.",
+        "when": "talk"
+      },
+      {
+        "text": "As of this morning your house leads the Cup. I keep the tallies in my head, so don't let me catch you slacking.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Your house is behind this week. Not by much. A few good lessons and some decent manners would close it.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "Tied at the top. I've counted twice. Someone at the high table will have to carve that cake very carefully.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Dress robes in my hall! Finally, someone who understands what a feast is for. Mind the gravy.",
+        "when": "talk",
+        "wears": "formal",
+        "weight": 2
+      },
+      {
+        "text": "A jumper at table. Practical. Do roll your sleeves up before the soup; wool and soup are old enemies.",
+        "when": "talk",
+        "wears": "knitwear",
+        "weight": 2
+      },
+      {
+        "text": "The cellarmen used to bring the feast barrels up in no time at all. Not by any stair I know of.",
+        "when": "hint",
+        "secret": "cellarers_way"
+      },
+      {
+        "text": "Some trophies have a way of travelling. Ask anyone who polishes them where the draught comes from.",
+        "when": "hint",
+        "secret": "trophy_cabinet_stair"
+      }
+    ],
+    "portrait_great_hall_s": [
+      {
+        "text": "A bow is never wasted.",
+        "when": "pass"
+      },
+      {
+        "text": "En garde! Only joking.",
+        "when": "pass"
+      },
+      {
+        "text": "Good form, there.",
+        "when": "pass"
+      },
+      {
+        "text": "Mind your footwork.",
+        "when": "pass"
+      },
+      {
+        "text": "Ah, a duellist's stride.",
+        "when": "pass"
+      },
+      {
+        "text": "{house}. Bravery is a duellist's first virtue. The second is knowing when to bow out. Learn the second; you have the first.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. You fight fair, always. Good. A clean duel lost is worth more than a grubby one won. I've lost a few. Cleanly.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. You'll be studying your opponent's habits. Clever. Mine was pausing to admire my own form. Fatal, mostly.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. Patient duellists, your lot. You wait for the opening. I respect it, though I prefer to make my own.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Good morning. A duellist warms up before breakfast: a stretch, a bow, a second bow. The second is the important one.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon is when the Club gets busy. Do go along. And bow, for my sake. I can always tell from here.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Late, isn't it? My last great match ran past midnight. Neither of us would concede. We both fell asleep standing up.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Two friends founded the Dueling Club to settle their arguments formally. The arguments never ended, but heavens, they bowed beautifully.",
+        "when": "talk"
+      },
+      {
+        "text": "The bow after a duel is deeper than the bow before. The winner owes a lesson; the loser owes a better duel. Remember that.",
+        "when": "talk"
+      },
+      {
+        "text": "In my day we duelled on this very floor. I won forty-one matches and lost forty-two. Do ask me about each one. I have time.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup! Win it graciously. A gracious winner is invited back; a gloating one is hexed.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? A setback, not a defeat. I once came back from three points down with a sprained wrist and a cold.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie! The most honourable result there is. Both bow, nobody sulks. It never lasts, of course.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Dress robes! In my day we duelled in them. Ruined a great many cuffs. Worth every one.",
+        "when": "talk",
+        "wears": "formal",
+        "weight": 2
+      },
+      {
+        "text": "Dragonhide boots! Grippy soles. You'll never slip mid-bow again. It took me thirty years to learn that.",
+        "when": "talk",
+        "wears": "rare",
+        "weight": 2
+      },
+      {
+        "text": "Bow from the waist, not the neck. The neck is for nodding at acquaintances. An opponent deserves the whole spine.",
+        "when": "talk"
+      },
+      {
+        "text": "My old rival once dodged behind some marble and simply wasn't there any more. Turned up downstairs for supper. Forfeited, technically.",
+        "when": "hint",
+        "secret": "sculptors_gap"
+      },
+      {
+        "text": "My old trophies sit somewhere near this hall. The caretaker swears one of the cases has a draught. A draught! Behind a cup!",
+        "when": "hint",
+        "secret": "trophy_cabinet_stair"
+      }
+    ],
+    "portrait_library_n": [
+      {
+        "text": "Shh.",
+        "when": "pass"
+      },
+      {
+        "text": "Shhhh. Footsteps.",
+        "when": "pass"
+      },
+      {
+        "text": "Whisper, please.",
+        "when": "pass"
+      },
+      {
+        "text": "Ah, a reader. Shh.",
+        "when": "pass"
+      },
+      {
+        "text": "Quietly, quietly.",
+        "when": "pass"
+      },
+      {
+        "text": "{house}. You read the way you duel: all at once. Try one chapter. Then a footnote. Then breathe.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. You return books on time. You have no idea how rare that is. I could weep. Quietly.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}! A kindred spirit. Have you read the appendix to the appendix? Nobody has. It's glorious.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}. You'll want the books that aren't on the shelves. They are on the shelves. Nobody looks properly.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Morning is the best time for reading. The ink is awake and the dust is still asleep.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The afternoon crowd. Pages turning like rain. Lovely. Until somebody sneezes.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The library at night. Every book holding its breath. Shouldn't you be in bed? Shouldn't I?",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The rule above the door asks for whispers. It was carved by a librarian with a very loud voice. A note to herself, I believe. Footnote three.",
+        "when": "talk"
+      },
+      {
+        "text": "The telescope lending book begins with a telescope that never came back. I've a few library books in much the same state.",
+        "when": "talk"
+      },
+      {
+        "text": "The archive holds forty-one letters of apology about the stairs. I've annotated all of them. The last one needs no annotation at all.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup. Congratulations. Silently, please.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Read more. Points follow knowledge as footnotes follow sentences.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie at the top. Both sides citing equal sources. Very scholarly. Very irritating.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "A good jumper for the stacks. The draught by the far shelves is centuries old. I've written a paper on it.",
+        "when": "talk",
+        "wears": "knitwear",
+        "weight": 2
+      },
+      {
+        "text": "Dress robes in the library? Bold. Mind the ink.",
+        "when": "talk",
+        "wears": "formal",
+        "weight": 2
+      },
+      {
+        "text": "May I recommend A Treatise on Damp? Nine volumes. Nobody has opened it in two centuries. It's riveting.",
+        "when": "talk"
+      },
+      {
+        "text": "Some books lead further than others. Some walls of books lead further still. That is all. Shh.",
+        "when": "hint",
+        "secret": "readers_shortcut"
+      },
+      {
+        "text": "Some lessons are closer to these shelves than the stairs would have you believe. A footnote, merely.",
+        "when": "hint",
+        "secret": "readers_shortcut"
+      }
+    ],
+    "portrait_library_s": [
+      {
+        "text": "Bless you, dear.",
+        "when": "pass"
+      },
+      {
+        "text": "Mind the ladder, dear.",
+        "when": "pass"
+      },
+      {
+        "text": "Catalogued you. Lovely.",
+        "when": "pass"
+      },
+      {
+        "text": "Gently with the spines.",
+        "when": "pass"
+      },
+      {
+        "text": "A {house}. Brave hearts make hasty readers. Take your time, dear; the castle's secrets keep, but library fines don't.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. You lot always help me reshelve. I keep a little card for each of you in my heart's own index.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. You'll want the old castle plans. Mind, dear, the castle doesn't always agree with them.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. The archive keeps quieter secrets than any common room. Patience opens them.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Good morning, dear. I've catalogued the dawn. It came in at a quarter past, as usual. A reliable sort.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Good afternoon. The library is at its busiest now, which means it's at its happiest. Books like being needed.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Out late, dear? I won't scold. Some of my best finds were made by candlelight, against the rules.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The plans show a wing the castle has forgotten. I've indexed it under 'missing'. Every few years someone finds the door. It's a cupboard.",
+        "when": "talk"
+      },
+      {
+        "text": "The common room rugs hide three rows of pattern, one from each generation of weavers. I've found two. Don't tell me the third.",
+        "when": "talk"
+      },
+      {
+        "text": "The first lamp warden named all four hundred lamps and noted which ones sulked. I have her list. One of them still sulks.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup, I see. I keep a record of every week's standings, centuries back. Yours will be a nice entry.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind this week, dear? My archive is full of houses that came back from further. Here's to being one of them.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie! I'll have to rule a new column. I do love a new column.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "A warm jumper, good. Archives are cold. Old paper likes the cold; old archivists less so.",
+        "when": "talk",
+        "wears": "knitwear",
+        "weight": 2
+      },
+      {
+        "text": "Proper school robes. The archive has paintings of students in nearly the same cut, four hundred years back. Some things are right first time.",
+        "when": "talk",
+        "wears": "school"
+      },
+      {
+        "text": "My index has a curious entry: 'stair, woven, upper floors'. That's all it says. I didn't write it, dear, and the castle won't explain.",
+        "when": "hint",
+        "secret": "weavers_stair"
+      },
+      {
+        "text": "There's an old note in my files: 'the polishers' stair, behind the shine'. Whoever wrote it was fond of riddles.",
+        "when": "hint",
+        "secret": "trophy_cabinet_stair"
+      },
+      {
+        "text": "An old reader's diary mentions a door made of paint and patience, somewhere only a reader would think to look. That's all she wrote, dear.",
+        "when": "hint",
+        "secret": "readers_shortcut"
+      },
+      {
+        "text": "One record speaks of marble that 'opens to the patient', somewhere among the castle's statues. Most records are less romantic.",
+        "when": "hint",
+        "secret": "sculptors_gap"
+      },
+      {
+        "text": "The old cellar accounts list deliveries far quicker than the stairs allow. The cellarmen had their own way down, dear. A damp one, I imagine.",
+        "when": "hint",
+        "secret": "cellarers_way"
+      }
+    ],
+    "portrait_common_a": [
+      {
+        "text": "Halt! Oh. Carry on.",
+        "when": "pass"
+      },
+      {
+        "text": "Who goes there? Ah, a friend!",
+        "when": "pass"
+      },
+      {
+        "text": "Was that a shadow? Stand fast!",
+        "when": "pass"
+      },
+      {
+        "text": "Forward! Er, after you.",
+        "when": "pass"
+      },
+      {
+        "text": "Eek! Ahem. Good evening.",
+        "when": "pass",
+        "period": [
+          "night"
+        ]
+      },
+      {
+        "text": "{house}! Comrade! Should any shadow trouble you in this corridor, call for me. I'll challenge it. From here. Loudly.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Ho, a {house} on the seventh floor! Loyal soul! Have you come to keep watch with me? I could use the company. For morale.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}, so high up? Tell me, scholar, is there a word for a shadow that moves when you're not looking? I wish to challenge it by name.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}, up here? I shall keep one eye on you and the other on that suit of armour. Both deeply suspicious.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Dawn! The shadows retreat! I'd like to think it's because of me. Let me think it.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The afternoon watch. Long, quiet, perilous. A fly landed on my helmet an hour ago. I bested it.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Night on the seventh floor. Every shadow a foe, every creak a charge. I've challenged that suit of armour nine times tonight.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Along this corridor your footsteps echo a moment late. I've stopped suddenly to catch it out. It stopped too. Fiend.",
+        "when": "talk"
+      },
+      {
+        "text": "Portraits guard the common rooms because the keys kept vanishing. We judge the passwords, you know. I'm a harsh judge. Harsh but startled.",
+        "when": "talk"
+      },
+      {
+        "text": "The hearths behind these walls have never gone out. Brave fires. They burn higher on cold nights. I like to think they're cheering me on.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup! Huzzah! I'd raise my sword, but the last time I did that I frightened myself.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Then we charge! Figuratively. Through lessons, mostly. Charge through your lessons!",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie! A standoff! Like two knights on a narrow bridge. Somebody has to blink. It's usually me.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "A sturdy dark cloak. Excellent for night patrols, or for startling knights. Please don't.",
+        "when": "talk",
+        "wears": "outerwear",
+        "weight": 2
+      },
+      {
+        "text": "A splendid hat! With a plume you'd pass for a herald. My friend on the first landing would be beside himself.",
+        "when": "talk",
+        "wears": "felt",
+        "weight": 2
+      },
+      {
+        "text": "I was painted mid-charge. My horse was painted mid-bolt. We have never agreed on which direction we were going.",
+        "when": "talk"
+      },
+      {
+        "text": "Somewhere below this floor a squire once stepped out of a wall-hanging. I challenged him from afar. He'd only taken a shortcut.",
+        "when": "hint",
+        "secret": "weavers_stair"
+      },
+      {
+        "text": "They say deep under the castle the walls breathe where the cellarmen once walked. I'm glad I'm up here.",
+        "when": "hint",
+        "secret": "cellarers_way"
+      }
+    ],
+    "portrait_common_b": [
+      {
+        "text": "Ey up, duck.",
+        "when": "pass"
+      },
+      {
+        "text": "Had your tea, duck?",
+        "when": "pass"
+      },
+      {
+        "text": "You look peaky. Eat something.",
+        "when": "pass"
+      },
+      {
+        "text": "Mind the barrels, duck.",
+        "when": "pass"
+      },
+      {
+        "text": "Kitchens are that way, love.",
+        "when": "pass"
+      },
+      {
+        "text": "{house}, duck? All that charging about. You'll want a proper breakfast in you. Charge on a full stomach, I always say.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Hello duck, home again! Wipe your feet, warm your hands. There's always something hot going in the kitchens.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house} down here, duck? You've been reading through supper again, haven't you. I can tell. Go and eat.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}, duck? You've come a long way from your chilly dungeon. Stop for a bite; nobody's watching.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Morning, duck! Porridge is on. Mind it doesn't stick. Mind you don't either; off to lessons after.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon, duck. Little something to keep you going till supper? Ask nicely in the kitchens; they'll find you a bun.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Up late, duck? Warm milk and bed, that's what you need. Not wandering about by the barrels.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "These barrels? A cellarman stacked 'em here because he was sick of rolling 'em back. A house moved in behind and never left. Can't blame 'em.",
+        "when": "talk"
+      },
+      {
+        "text": "The first cook here fed three hundred off a hearth meant for thirty, and there was always seconds. I'd have loved to brew for her.",
+        "when": "talk"
+      },
+      {
+        "text": "There's an old iron pot in the kitchens nobody can lift. A spoonful of something goes in it every feast day. I know what. I'll never tell, duck.",
+        "when": "talk"
+      },
+      {
+        "text": "Your lot's winning the Cup, duck! I knew it. It's all the good dinners.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup, duck? Never mind. Eat up, sleep well, and you'll catch them. Works for barley, works for houses.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "All tied up at the top, duck! Like a good brew: you wait, and wait, and then it's all ready at once.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Now that's a proper jumper, duck. Warm as toast. Did your gran knit it? Mine knitted this apron. Painted on, mind.",
+        "when": "talk",
+        "wears": "knitwear",
+        "weight": 2
+      },
+      {
+        "text": "All neat in your school things, duck. Don't get gravy on 'em. Or do, and tell the laundry it was me.",
+        "when": "talk",
+        "wears": "school"
+      },
+      {
+        "text": "I brewed a cordial once that made you hum for a week. Lovely tune. Nobody could stop. Not my best idea, duck.",
+        "when": "talk"
+      },
+      {
+        "text": "My old cellarman came up from the deep cellars quicker than any stair allows. Said the walls down there had a draught. Funny man.",
+        "when": "hint",
+        "secret": "cellarers_way"
+      },
+      {
+        "text": "There's an old walk under the ground floor, all robes and stone. Folk turn up there from upstairs without using any stair I know.",
+        "when": "hint",
+        "secret": "sculptors_gap"
+      }
+    ],
+    "portrait_common_c": [
+      {
+        "text": "What has eyes but sees no sky?",
+        "when": "pass"
+      },
+      {
+        "text": "Are you coming or going?",
+        "when": "pass"
+      },
+      {
+        "text": "Seen any stars today? No?",
+        "when": "pass"
+      },
+      {
+        "text": "Why hurry, when stars don't?",
+        "when": "pass"
+      },
+      {
+        "text": "Who walks past a riddle?",
+        "when": "pass"
+      },
+      {
+        "text": "A {house} at the foot of my tower? Which is braver: to leap into the dark, or to wait for your eyes to adjust? Think on it.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}! What grows stronger the more it's shared? Friendship? Bread? Both, I'd say. Have some of each.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Ah, {house}. What is always before you but never seen? The future, of course. And, today, your left bootlace.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}? What's the cleverest move in a game nobody else knows you're playing? Answer that and I'll answer you.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Morning? What use is morning to an astronomer? It's when we sleep. So why are you awake? Why am I?",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon. The stars are up there now, you know, merely hidden by the sun. Isn't that true of most things?",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Night at last! How many stars can I count from this frame? None. How many can I imagine? All of them.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Do you know the old charts' constellations? The Lantern, the Heron, the Kettle. Why a Kettle? Why not, I ask you.",
+        "when": "talk"
+      },
+      {
+        "text": "In one copy of the star charts the Heron wears a hat. Is that an error, or did the copyist see something we didn't?",
+        "when": "talk"
+      },
+      {
+        "text": "Lightning took the tower roof three times, so they left it open. Isn't that the wisest answer to a question you can't stop being asked?",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup. Is a lead a thing you hold, or a thing that holds you? Mind it doesn't.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Does the moon mind being behind the sun? It catches up every month.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie. Two stars of equal brightness. Which do you wish on? Both, naturally.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Velvet, like the night sky. Did you choose it, or did it choose you? Clothes often do.",
+        "when": "talk",
+        "wears": "velvet",
+        "weight": 2
+      },
+      {
+        "text": "Knitwear. Why do astronomers always own jumpers? Because towers are cold and wonder doesn't pay for coal.",
+        "when": "talk",
+        "wears": "knitwear",
+        "weight": 2
+      },
+      {
+        "text": "Why am I painted pointing at a star that isn't there? Perhaps it hasn't arrived yet. Perhaps I'm early.",
+        "when": "talk"
+      },
+      {
+        "text": "What travels from page to wand faster than any stair? A shortcut, perhaps, between a quiet room and a lesson far below me?",
+        "when": "hint",
+        "secret": "readers_shortcut"
+      },
+      {
+        "text": "What hangs on a wall, keeps out a draught, and lets a person through? Solve it on the floors below and you'll save your legs.",
+        "when": "hint",
+        "secret": "weavers_stair"
+      }
+    ],
+    "portrait_common_d": [
+      {
+        "text": "Oh. It's you.",
+        "when": "pass"
+      },
+      {
+        "text": "I wasn't watching. I saw everything.",
+        "when": "pass"
+      },
+      {
+        "text": "Do try not to drip.",
+        "when": "pass"
+      },
+      {
+        "text": "Fascinating. Truly.",
+        "when": "pass"
+      },
+      {
+        "text": "Mm. Your collar's crooked.",
+        "when": "pass"
+      },
+      {
+        "text": "A {house}, down here. How thrilling. Do your boots always squeak this heroically, or is it an occasion?",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. You're the only ones who ever ask how I am. Bored, darling. But thank you. It's... noted.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. Let me guess: you've come to study the damp. Fourteen kinds, at the last count. I counted. Out of boredom.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Ah, {house}. One of mine. Do come in out of the light; it does nobody any favours.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Morning. Such an energetic word. Down here it's mostly the same gloom with more yawning.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon. A procession to the Potions room, each student more nervous than the last. I give them marks. Silently.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Night. My favourite. Everyone creeps about thinking nobody's watching. Darling, I am always watching.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The Potions room was the castle's apple store once. On damp days you can still smell them. The only pleasant thing about the place.",
+        "when": "talk"
+      },
+      {
+        "text": "The castle always has the last word, they say. Doors close a moment after you pass. I find that terribly well-mannered.",
+        "when": "talk"
+      },
+      {
+        "text": "We portraits judge the passwords. I once turned away three prefects for poor pronunciation. One must keep standards.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup. How predictable. I mean that as the highest compliment.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? How very dull. Do something about it. Cleverly, if possible.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie. Everyone pretending not to care. Nobody cares more than when they pretend not to. I adore it.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Velvet. At last, someone with taste wanders past. I'd applaud, but I'm painted holding a glove.",
+        "when": "talk",
+        "wears": "velvet",
+        "weight": 2
+      },
+      {
+        "text": "Dress robes in a dungeon corridor. Either you're terribly lost or terribly stylish. I'll assume the second.",
+        "when": "talk",
+        "wears": "formal",
+        "weight": 2
+      },
+      {
+        "text": "I was painted in three sittings. The painter talked through all of them. I've been silent ever since, out of protest. Mostly.",
+        "when": "talk"
+      },
+      {
+        "text": "Somewhere down here a wall breathes. Cold air, old apples, older barrels. Not that I've noticed. I notice nothing.",
+        "when": "hint",
+        "secret": "cellarers_way"
+      },
+      {
+        "text": "Some robed stone upstairs is thinner than it looks. Don't ask how I know. I'm told things. I'm always told things.",
+        "when": "hint",
+        "secret": "sculptors_gap"
+      }
+    ],
+    "portrait_kitchens": [
+      {
+        "text": "Something smells lovely, eh?",
+        "when": "pass"
+      },
+      {
+        "text": "Peckish? Thought so.",
+        "when": "pass"
+      },
+      {
+        "text": "Mind the flour, pet.",
+        "when": "pass"
+      },
+      {
+        "text": "Don't touch the tarts!",
+        "when": "pass"
+      },
+      {
+        "text": "Back for seconds?",
+        "when": "pass"
+      },
+      {
+        "text": "A {house}! You eat like you mean it. I like that. There's a compliment for you. Now one for me?",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "{house}, pet! My best customers. The only ones who ever thank me for the crumble. I'd bake you a crown.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. You want the recipe, not the pie. Fine: two eggs, a lot of patience, and a pinch of not reading at the oven.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. Picky eaters, your lot, but you always come back for the treacle tart. Don't deny it. I've seen the crumbs.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Mornings, the ovens are hot and the bread's rising. So's the cook. Barely. Pass the tea.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Pastry for tonight's pudding. Cold hands, warm heart, that's the secret. Don't tell anyone.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Kitchens at night? You're after the leftover pie. I'm painted; I can't stop you. I can only tut.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Hear that bell? Some table upstairs has an empty plate. They ring all by themselves. Nobody knows who charmed them. Bless 'em.",
+        "when": "talk"
+      },
+      {
+        "text": "The first cook here made a stew that fed the whole castle and still left seconds. I've tried for two hundred years. I get firsts.",
+        "when": "talk"
+      },
+      {
+        "text": "Before there was a paddock, the creatures lived in the kitchens. One slept in a pudding basin on a feast morning. I made a new pudding.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house is top of the Cup, pet? I'll put an extra cherry on your table's trifle. Don't tell the others.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind, are you? Nothing a good pudding can't fix. Points are like pastry: let them rest, then roll on.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "Tied at the top! I'll make two cakes. No, four. No... one big one, cut very fairly.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Lovely jumper. Keep it away from my oven; I lost a cardigan in there once. Toasted right through.",
+        "when": "talk",
+        "wears": "knitwear",
+        "weight": 2
+      },
+      {
+        "text": "All dressed up in my kitchen! Mind the custard, pet. It goes for the good clothes first. No manners at all.",
+        "when": "talk",
+        "wears": "formal",
+        "weight": 2
+      },
+      {
+        "text": "Pay me a compliment, pet, and I'll pay you a recipe. That's the kitchen's rate. Has been for centuries.",
+        "when": "talk"
+      },
+      {
+        "text": "The cellarmen used to fetch the barrels faster than my bread could rise. Never took the stairs. Down where it's damp, they said.",
+        "when": "hint",
+        "secret": "cellarers_way"
+      },
+      {
+        "text": "A lad came down for cake once, smelling of polish, and said he'd come the quick way from among the cups. I gave him a bun anyway.",
+        "when": "hint",
+        "secret": "trophy_cabinet_stair"
+      }
+    ],
+    "portrait_passage_weaver": [
+      {
+        "text": "Hm-hm-hmm... oh, hello.",
+        "when": "pass"
+      },
+      {
+        "text": "Over, under, through.",
+        "when": "pass"
+      },
+      {
+        "text": "Mind my threads, dearie.",
+        "when": "pass"
+      },
+      {
+        "text": "Warp and weft, warp and weft.",
+        "when": "pass"
+      },
+      {
+        "text": "Every thread goes somewhere.",
+        "when": "pass"
+      },
+      {
+        "text": "A {house}. Bold threads, your lot. Always the first colour you notice in a pattern. Rarely the one holding it together.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}! The threads nobody notices that hold the whole cloth together. Don't blush, dearie. It's the best thing to be.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. You'll see the pattern before I've finished weaving it. Spoils my surprise, dearie, every time.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. You like a pattern with a hidden figure in it, don't you? So do I. Look closer at most things.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Morning light's best for colour, dearie. I've been at the loom since before the owls. Hm-hm-hmm.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon. Halfway down a long row. Don't make me lose count. Forty-one, forty-two...",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Night-weaving is all by feel, dearie. Like walking these corridors in the dark. You learn where the threads lead.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Three generations of weavers made the common room rugs, each slipping in a row nobody noticed. My cousins, dearie. Sneaky lot.",
+        "when": "talk"
+      },
+      {
+        "text": "Madder for red, weld for yellow, woad for blue, all grown here once. The dye vats by the lake turned the shallows purple. Glorious.",
+        "when": "talk"
+      },
+      {
+        "text": "One year the students knitted so many earmuffs for the gardeners that even the portraits got a pair. Mine's in a drawer.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup! A strong colour running right through the week's pattern. Keep it going, dearie.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Patterns turn, dearie. Under, over, and then you're on top.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "All the colours even at the top. A tartan of a week. I do like a tartan.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Oh, a knit! Let me see the stitch. Cable? Lovely. Somebody cared about that. Wear it in good health.",
+        "when": "talk",
+        "wears": "knitwear",
+        "weight": 2
+      },
+      {
+        "text": "Good wool in that cloak, dearie. Hooded, too. You'll be warm on any stair in that.",
+        "when": "talk",
+        "wears": "outerwear",
+        "weight": 2
+      },
+      {
+        "text": "Every thread goes somewhere, dearie. Follow one long enough and you'll end up where you never expected.",
+        "when": "talk"
+      },
+      {
+        "text": "Not every hanging is only for looking at, dearie. Some keep a draught out. Some let a person through. Hm-hm-hmm.",
+        "when": "hint",
+        "secret": "weavers_stair"
+      },
+      {
+        "text": "There's a stair in this castle dressed in wool. Nearer than you'd think, and warmer than stone.",
+        "when": "hint",
+        "secret": "weavers_stair"
+      },
+      {
+        "text": "Pictures and weavings are cousins, dearie. One of my cousins keeps a stair for readers, so I'm told.",
+        "when": "hint",
+        "secret": "readers_shortcut"
+      }
+    ],
+    "portrait_passage_trophy": [
+      {
+        "text": "Don't touch the glass!",
+        "when": "pass"
+      },
+      {
+        "text": "Fingerprints! Everywhere!",
+        "when": "pass"
+      },
+      {
+        "text": "Shiny, aren't they? I did that.",
+        "when": "pass"
+      },
+      {
+        "text": "Mind the cups, please.",
+        "when": "pass"
+      },
+      {
+        "text": "Dust. I can smell dust.",
+        "when": "pass"
+      },
+      {
+        "text": "A {house}. Your house has more dented trophies than any other. Won hard, dropped harder. I polish out every dent personally.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}! Your trophies are always the cleanest; you polish them yourselves. I've never been so moved, or so unemployed.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. Your cups are nearly all for written prizes. Very dignified. Very hard to dent. I approve.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. Your trophies stand at the front of every case. I don't know how. I put them at the back. Every morning.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Morning. First polish of the day. The light comes through just so, and every cup says good morning back.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon. Students on detention, polishing my cups. Badly. Up and down, not round and round! Honestly.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "At night the cups gleam on their own in the moonlight. Then the dust comes out. I see it, you know. Every speck.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The stair next door was built to show our trophies to visitors. The visitors stopped coming. The trophies didn't. Now it's detention's job.",
+        "when": "talk"
+      },
+      {
+        "text": "The first House Cup was a pewter tankard. Somebody tried to brew in it. I still have nightmares about the tarnish.",
+        "when": "talk"
+      },
+      {
+        "text": "Tankard, bowl, goblet, hourglasses. The prefects like the hourglasses because nobody can drink from them. I say nobody can polish them properly.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup! I've already cleared a space in the case. Well, I cleared one for everybody. Just in case.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Every trophy in here was won by somebody who was behind at some point. Except that one. Don't ask.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie! I'll need two polishing cloths. No, four. You never know.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Dragonhide boots. Lovely shine. May I? No? Just a quick buff? No? Fine.",
+        "when": "talk",
+        "wears": "rare",
+        "weight": 2
+      },
+      {
+        "text": "That comb catches the light nicely. Have you considered a polish? Everything's better with a polish.",
+        "when": "talk",
+        "wears": "accessory",
+        "weight": 2
+      },
+      {
+        "text": "There's a cup in here for the longest hiccups. Twenty-one days. The winner never came to collect it. Couldn't stop.",
+        "when": "talk"
+      },
+      {
+        "text": "Not every case in this room holds a cup, you know. I polish around one and it's always warm. Cases shouldn't be warm.",
+        "when": "hint",
+        "secret": "trophy_cabinet_stair"
+      },
+      {
+        "text": "Dust settles everywhere in here except along one stretch of wall, where a little draught keeps it clean. I'd thank it, if I knew where it went.",
+        "when": "hint",
+        "secret": "trophy_cabinet_stair"
+      },
+      {
+        "text": "Statues upstairs are never dusty. Suspicious, in my professional opinion. Something breathes behind marble.",
+        "when": "hint",
+        "secret": "sculptors_gap"
+      }
+    ],
+    "portrait_passage_gallery": [
+      {
+        "text": "Stand still. Like that. Lovely.",
+        "when": "pass"
+      },
+      {
+        "text": "You'd make a fine statue.",
+        "when": "pass"
+      },
+      {
+        "text": "Marble's warmer than people.",
+        "when": "pass"
+      },
+      {
+        "text": "Hush. The statues are thinking.",
+        "when": "pass"
+      },
+      {
+        "text": "Ah... a profile!",
+        "when": "pass"
+      },
+      {
+        "text": "A {house}. All motion and fire. You'd be impossible to sculpt. I'd have to carve you mid-leap and charge extra.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. A steady, kind face. I'd carve you in oak, not marble. Something that grows, something that keeps.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. You'd stand still for a portrait and think through all of it. I'd carve the thinking. The hardest part.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. Fine bones, a guarded look. You'd make an excellent bust. Busts never give anything away.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "In the morning the gallery's light comes in low and the statues wake up. Not really. Nearly.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon light flattens everything. Even marble looks bored. Come back at dusk; it's worth it.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "At night the statues are better company. They don't talk. Present company excepted, naturally.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Four robed figures stand in the niches here, and nobody knows who they are. Every year the students rename them. I call them my friends.",
+        "when": "talk"
+      },
+      {
+        "text": "On midsummer morning the round window throws a perfect rose of light on this floor. Stand in it and forget your homework. Worth it.",
+        "when": "talk"
+      },
+      {
+        "text": "The painter of my portrait painted herself forty times. I'd have carved myself once and stopped. Marble's dear.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup. I'd carve you a trophy, but they'd only put it with the others and dust it.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Sculpture is mostly taking things away until what's left is right. Keep chipping.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie. Symmetry. Every sculptor's dream, and every House Cup's nightmare.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Velvet drapes beautifully. I spent a year carving folds like those and nobody noticed. You'd notice.",
+        "when": "talk",
+        "wears": "velvet",
+        "weight": 2
+      },
+      {
+        "text": "A hood and cloak. You'd stand in a niche and nobody would know you from marble. Don't, mind. The students would name you.",
+        "when": "talk",
+        "wears": "outerwear",
+        "weight": 2
+      },
+      {
+        "text": "I prefer statues to people. No offence. Statues stay where you put them. Mostly.",
+        "when": "talk"
+      },
+      {
+        "text": "Some of these marble folk are more door than stone, if you're patient with them. I won't say which. They're shy.",
+        "when": "hint",
+        "secret": "sculptors_gap"
+      },
+      {
+        "text": "There's an old walk far below me, full of robed figures. Some of my statues miss it. They visit, I think, when nobody's looking.",
+        "when": "hint",
+        "secret": "sculptors_gap"
+      },
+      {
+        "text": "Stone remembers. Somewhere far below, one stretch of wall remembers being a doorway for cellarmen.",
+        "when": "hint",
+        "secret": "cellarers_way"
+      }
+    ],
+    "portrait_entrance": [
+      {
+        "text": "Welcome in! Wipe your feet.",
+        "when": "pass"
+      },
+      {
+        "text": "Mind the step, there.",
+        "when": "pass"
+      },
+      {
+        "text": "Back again? Good to see you.",
+        "when": "pass"
+      },
+      {
+        "text": "Doors are open, come in.",
+        "when": "pass"
+      },
+      {
+        "text": "Ah, a {house}! I remember you. Came through those doors like a gust of wind on your first day. Still do.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}! Welcome, welcome. You always say good morning to me. Not many do. It makes an old porter's day.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}, nose in a book, never looking where you're going. Mind the step. There. You're welcome.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "A {house}. Always know exactly where you're headed. I like that in a student. Saves me pointing.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 3
+      },
+      {
+        "text": "Morning! The owls have been and gone. Post's on the tables, breakfast's in the hall, and the day's wide open.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon. Busy, busy. Half the castle in and out of these doors. I count every one. Habit.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Late, isn't it? The halls stay lit all night; the prefects promised that long ago. Off to bed with you, mind.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The Owl Exchange started with three quills traded for a pair of socks, one cold January. Best trade ever made, I reckon.",
+        "when": "talk"
+      },
+      {
+        "text": "That clock once ran backwards for a whole week. Students swore they'd handed in essays before writing them. I had my doubts.",
+        "when": "talk"
+      },
+      {
+        "text": "In the great snow they dug these very doors out from the inside. The students built a snow castle on the lawn. It fell over by teatime.",
+        "when": "talk"
+      },
+      {
+        "text": "There used to be one notice board in here. So many notes it toppled one night like thunder. Next morning every common room had its own.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house is top of the Cup, I hear. Congratulations. I'll hold the doors a bit wider for you all week.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Never mind. I've seen the hourglasses turn right round in a single week. Keep at it.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "All square in the Cup! The whole hall's buzzing. Even the owls look excited, and owls never look anything.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Smart as paint in your school things. On your first day you had your robe on inside out. Don't worry, I never told.",
+        "when": "talk",
+        "wears": "school"
+      },
+      {
+        "text": "Today's tip: tired legs between the upper floors? Not every stair is stone. Keep an eye on what's hanging about.",
+        "when": "hint",
+        "secret": "weavers_stair"
+      },
+      {
+        "text": "Today's tip: the shiny room off the ground floor is older than it looks. The polishers used to come and go without the door.",
+        "when": "hint",
+        "secret": "trophy_cabinet_stair"
+      },
+      {
+        "text": "Today's tip: readers in a hurry once had a way up from their books that the moving stairs never knew about.",
+        "when": "hint",
+        "secret": "readers_shortcut"
+      },
+      {
+        "text": "Today's tip: the castle's statues hold more than the pigeons' attention. One or two hold a way down, so they say.",
+        "when": "hint",
+        "secret": "sculptors_gap"
+      },
+      {
+        "text": "Today's tip: the old cellarmen never rolled a barrel the long way round. Down where it's damp, there's a reason.",
+        "when": "hint",
+        "secret": "cellarers_way"
+      }
+    ],
+    "ghost_house_a": [
+      {
+        "text": "Ah, one of my own! {house} through and through. I can tell by the way you stand: ready to charge at something. Good.",
+        "when": "talk",
+        "house": "same",
+        "weight": 3
+      },
+      {
+        "text": "{name}! Did I ever tell you I rode in the great tournament? I did. For about four seconds. Glorious seconds.",
+        "when": "talk",
+        "house": "same",
+        "weight": 2
+      },
+      {
+        "text": "Hold your head up, {house}. I fell off a horse in front of three hundred people and I still have my pride. Somewhere.",
+        "when": "talk",
+        "house": "same",
+        "weight": 2
+      },
+      {
+        "text": "A {house}, all the way up here? Bold of you. I like bold. Mind you don't tell anyone I said so.",
+        "when": "talk",
+        "house": "other",
+        "weight": 3
+      },
+      {
+        "text": "You're not one of mine, but you've a rider's posture. Shoulders back, chin up. Now, never get on a horse.",
+        "when": "talk",
+        "house": "other",
+        "weight": 2
+      },
+      {
+        "text": "Morning! In life I was up at dawn to groom my horse. In death I'm up at dawn out of habit. And spite.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon was the hour I rode out. Trumpets, banners, a crowd. Then a very short fall. Then a very long silence.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Night on the seventh floor. I drift up and down and practise my lance-work. Nobody's watching. Thank goodness.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "There's a stretch up here where your footsteps echo a moment late. It isn't me. I don't have footsteps. I checked.",
+        "when": "talk"
+      },
+      {
+        "text": "The fire in our common room has never once gone out. I warm my hands at it. Pointless, I know. It's the gesture.",
+        "when": "talk"
+      },
+      {
+        "text": "If you duel, bow properly. I didn't bow before my joust. Some say that's why I fell. I say it was the horse.",
+        "when": "talk"
+      },
+      {
+        "text": "The portraits judge our passwords, ever since the keys kept vanishing. Speak up clearly. They're sticklers.",
+        "when": "talk"
+      },
+      {
+        "text": "On clear nights I float out to the balcony and look at the tower. Lightning took its roof three times. I admire anything that keeps getting up.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup! Well ridden. Stay in the saddle this time; it's the staying that counts.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Pah. I've been behind on horseback. You know what you do? You hold on.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie at the top! Like two riders meeting in the middle of the lists. Somebody's ending up in the mud.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Our hourglass leads! I knew it. I'd cheer, but the last time I cheered I startled a student into a suit of armour.",
+        "when": "talk",
+        "house": "same",
+        "cup": "yours_leads",
+        "weight": 2
+      },
+      {
+        "text": "Four seconds. That's how long my tournament lasted. Four magnificent seconds. I've been telling the story for four hundred years.",
+        "when": "talk"
+      },
+      {
+        "text": "My horse was called Valiant. He wasn't. He stopped dead at the barrier and I didn't. That's the whole story.",
+        "when": "talk"
+      },
+      {
+        "text": "People ask if it hurt. The fall, no. The laughter, a little. Four hundred years on, I've decided to laugh first.",
+        "when": "talk"
+      },
+      {
+        "text": "A good cloak! A rider needs a cloak. Mine billowed beautifully, right up until I met the ground.",
+        "when": "talk",
+        "wears": "outerwear",
+        "weight": 2
+      },
+      {
+        "text": "Dress robes! I wore my best to the tournament. You'd think falling off in them would have put me off. It hasn't.",
+        "when": "talk",
+        "wears": "formal",
+        "weight": 2
+      },
+      {
+        "text": "I never leave this floor. The view's good, the company's brave, and the moving stairs make me seasick.",
+        "when": "talk"
+      },
+      {
+        "text": "Shouldn't you be in bed, {house}? Go on. I'll keep watch. I'm very good at not sleeping.",
+        "when": "talk",
+        "house": "same",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Tell your house I said hello. And that I can still out-joust any of their ghosts. I've never tried. That's not the point.",
+        "when": "talk",
+        "house": "other"
+      },
+      {
+        "text": "Here's a tale for you, {house}: {lore}. I heard it from a ghost who heard it from a portrait. It's probably true.",
+        "when": "gift",
+        "gift": "lore"
+      },
+      {
+        "text": "Sit, listen. I'll tell you about {lore}. It isn't about me, for once. I know. I'm growing.",
+        "when": "gift",
+        "gift": "lore"
+      },
+      {
+        "text": "For good bearing and a brave heart: {points} to {house}. Don't spend it all at once.",
+        "when": "gift",
+        "gift": "house_point"
+      },
+      {
+        "text": "I've a little sway with the hourglass. {points} for {house}. Ride well.",
+        "when": "gift",
+        "gift": "house_point"
+      },
+      {
+        "text": "Every day one of mine rides past, I give them something. Today it's you. Here.",
+        "when": "gift"
+      },
+      {
+        "text": "I've given you something already today. Come back tomorrow, and bring a better story than mine. Impossible, but try.",
+        "when": "given"
+      },
+      {
+        "text": "Already had your gift today, {name}. Greedy! I like it. Tomorrow.",
+        "when": "given"
+      }
+    ],
+    "ghost_house_b": [
+      {
+        "text": "Hello, petal! Home sweet home. Warm feet, full tummy, and a ghost who's always glad to see you. That's me. I'm the ghost.",
+        "when": "talk",
+        "house": "same",
+        "weight": 3
+      },
+      {
+        "text": "{house}, my favourite! Don't tell the other houses. Actually, do. Wick-edly honest, I am. Sorry. Candle humour.",
+        "when": "talk",
+        "house": "same",
+        "weight": 2
+      },
+      {
+        "text": "You look tired, love. Sit by the fire. It never goes out, you know. I'd be jealous, as a candlemaker, if I weren't so fond of it.",
+        "when": "talk",
+        "house": "same",
+        "weight": 2
+      },
+      {
+        "text": "A {house} by the kitchens! Welcome, welcome. Nobody leaves down here hungry. Except me. I can't eat.",
+        "when": "talk",
+        "house": "other",
+        "weight": 3
+      },
+      {
+        "text": "Not one of mine, but you've a kind face. Pop into the kitchens before you go. Say Hester sent you. They'll pretend not to hear.",
+        "when": "talk",
+        "house": "other",
+        "weight": 2
+      },
+      {
+        "text": "Morning, petal! Smell that? Fresh bread. I can't eat it, but I can smell it, and that's half the joy. Well, a third.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon! The kitchens are rolling pastry for supper. I float through and supervise. Nobody asked me to. That's the fun.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Night already? I used to make the candles for nights like this. Now I'm too see-through to hold a match. Still, I glow a bit.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Why did the candle go to school? To get a little brighter. I've been saving that one for four hundred years.",
+        "when": "talk"
+      },
+      {
+        "text": "I'm told I've a flickering personality. I take it as a compliment. Candles that don't flicker are no fun at all.",
+        "when": "talk"
+      },
+      {
+        "text": "The barrels by our door were stacked there by a cellarman who got fed up. We moved in behind them. Best idea anyone ever had.",
+        "when": "talk"
+      },
+      {
+        "text": "The kitchen bells ring when a plate's been empty too long. I try to ring one when I'm bored. Nobody notices. I'm a very quiet bell.",
+        "when": "talk"
+      },
+      {
+        "text": "The first cook here, now there was a woman. Fed the whole castle from one pot. I made her candles. She said they smelled of honey. They did.",
+        "when": "talk"
+      },
+      {
+        "text": "One year our lot knitted earmuffs for the gardeners and made far too many. The owls got some. A suit of armour got some. Mine fall through.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup! Lovely. I'll light a candle for you. A pretend one. It's the thought that counts.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Never mind, petal. Slow and steady burns longest. Ask any candle.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "All tied up at the top! Like a good wick. Something's about to catch.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Our hourglass is ahead! I knew it. All that hard work and kindness adds up, you know. It always does.",
+        "when": "talk",
+        "house": "same",
+        "cup": "yours_leads",
+        "weight": 2
+      },
+      {
+        "text": "Oh, a lovely knit! Warm as a pantry. I was wearing a cardigan just like it when I took up haunting.",
+        "when": "talk",
+        "wears": "knitwear",
+        "weight": 2
+      },
+      {
+        "text": "Nice and neat in your school things! Mind the gravy. I can't, you know. Goes straight through me.",
+        "when": "talk",
+        "wears": "school"
+      },
+      {
+        "text": "Beeswax, that's what I smell of. Still. After all these years. I've decided it's my signature. Like perfume, but for ghosts.",
+        "when": "talk"
+      },
+      {
+        "text": "I made the biggest candle the castle had ever seen. Then I sat down to admire it, and I've been admiring it ever since. In a manner of speaking.",
+        "when": "talk"
+      },
+      {
+        "text": "Lost something? Ask me. I float through every drawer and cupboard down here. Hard to stop, once you start.",
+        "when": "talk"
+      },
+      {
+        "text": "The kitchen corridor at teatime smells of toast and treacle. If I'm ever not here, check the kitchens. I'm in the kitchens.",
+        "when": "talk"
+      },
+      {
+        "text": "Tell your house a ghost by the barrels says hello. And that she's very good company, and only a little bit chilly.",
+        "when": "talk",
+        "house": "other"
+      },
+      {
+        "text": "Here's a story to warm you, petal: {lore}. Better than a candle, and it'll never burn down.",
+        "when": "gift",
+        "gift": "lore"
+      },
+      {
+        "text": "Sit by me a minute. Let me tell you about {lore}. Someone told it to me, oh, a long time ago.",
+        "when": "gift",
+        "gift": "lore"
+      },
+      {
+        "text": "{points} for {house}! For being lovely. Don't argue; I've made up my mind, and I'm very stubborn for a candle.",
+        "when": "gift",
+        "gift": "house_point"
+      },
+      {
+        "text": "There we are: {points} to {house}. Every little light adds up.",
+        "when": "gift",
+        "gift": "house_point"
+      },
+      {
+        "text": "I always keep a little something back for our lot. Here, petal. With love from a waxy old ghost.",
+        "when": "gift"
+      },
+      {
+        "text": "I've already given you something today, petal. Come back tomorrow. I'll still be here. I'm always here.",
+        "when": "given"
+      },
+      {
+        "text": "No more today, love, or the others will think I have favourites. I do. But they mustn't think it.",
+        "when": "given"
+      }
+    ],
+    "ghost_house_c": [
+      {
+        "text": "Ah. One of ours. Have you seen a comet? Small, green, a little shy. It's been missing for three hundred years. No? Well. Keep looking.",
+        "when": "talk",
+        "house": "same",
+        "weight": 3
+      },
+      {
+        "text": "{house}. You have the look of someone thinking about something else. Good. That's where the best ideas are kept.",
+        "when": "talk",
+        "house": "same",
+        "weight": 2
+      },
+      {
+        "text": "Ask a good question today, {name}. Not a clever one. A good one. They're rarer, and they last longer.",
+        "when": "talk",
+        "house": "same",
+        "weight": 2
+      },
+      {
+        "text": "A {house}, all the way up here? Welcome. Mind the draught; it comes from the stars. Or the window. Probably the window.",
+        "when": "talk",
+        "house": "other",
+        "weight": 3
+      },
+      {
+        "text": "You're not one of ours, but you're looking up. That counts for a great deal, up here.",
+        "when": "talk",
+        "house": "other",
+        "weight": 2
+      },
+      {
+        "text": "Morning already? I was counting something. I've lost count. It was probably stars. It's always stars.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon. The sky is still up there, behind all that blue. People forget. I don't. I can't. I've tried.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "A clear night! If you see a small green comet, would you tell it I'm here? It'll know the name.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The old charts have a constellation called the Kettle. I drew a copy of it once and gave it a spout. They told me off.",
+        "when": "talk"
+      },
+      {
+        "text": "One copy of the star charts gives the Sleeping Hound two tails. I didn't do it. I might have done it. It was a long night.",
+        "when": "talk"
+      },
+      {
+        "text": "The telescope lending book begins with a telescope that was never returned. I'm not saying it was mine. I'm not saying it wasn't.",
+        "when": "talk"
+      },
+      {
+        "text": "Lightning struck the tower roof three times before they left it open. I was there for the third. Very bright. Very loud. Very wet.",
+        "when": "talk"
+      },
+      {
+        "text": "Moonflowers open only at night. I pressed one in a book once, between lessons. I've forgotten which book. Three hundred years of looking.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup. Like a bright star in a quiet sky. Enjoy it. Stars move, you know. Slowly.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? My comet was behind everything too. Then it wasn't. Then it was gone. Hm. Not a helpful story.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie. A conjunction! Two bodies sharing the same point in the sky. Very rare. Very temporary.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Our hourglass leads. I'd celebrate, but I've forgotten how. Is it a sort of jig? I'll float about a bit.",
+        "when": "talk",
+        "house": "same",
+        "cup": "yours_leads",
+        "weight": 2
+      },
+      {
+        "text": "Velvet. Like the sky just after sunset, before the stars come out. You wear it well.",
+        "when": "talk",
+        "wears": "velvet",
+        "weight": 2
+      },
+      {
+        "text": "A fine hat. The brim's wide enough to keep the starlight out of your eyes. Not that you'd want that.",
+        "when": "talk",
+        "wears": "felt",
+        "weight": 2
+      },
+      {
+        "text": "I've been searching for one comet for three centuries. People say I should give up. People said that to the comet, too.",
+        "when": "talk"
+      },
+      {
+        "text": "I once named a star after my cat. The cat didn't care. The star didn't either. But I did.",
+        "when": "talk"
+      },
+      {
+        "text": "If you're up the tower, look east after midnight. There's nothing there. That's where my comet was. It's a very nice nothing.",
+        "when": "talk"
+      },
+      {
+        "text": "The top of the tower has the best view in the castle. I drift up at midday to watch the owls. They pretend not to see me.",
+        "when": "talk"
+      },
+      {
+        "text": "Go to bed, {house}. The stars will be there tomorrow. I'll make sure. Well, I'll watch. Same thing, really.",
+        "when": "talk",
+        "house": "same",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Tell your house a ghost in the tower says the sky is lovely tonight. It's always lovely. Tell them anyway.",
+        "when": "talk",
+        "house": "other"
+      },
+      {
+        "text": "Here, a little knowledge kept for you: {lore}. I wrote it down somewhere. Then I remembered it instead. Better.",
+        "when": "gift",
+        "gift": "lore"
+      },
+      {
+        "text": "Let me tell you about {lore}. I've told it to the stars many times. They're poor listeners.",
+        "when": "gift",
+        "gift": "lore"
+      },
+      {
+        "text": "For a good question: {points} to {house}. You did ask one. I heard it. You may not have noticed.",
+        "when": "gift",
+        "gift": "house_point"
+      },
+      {
+        "text": "{points} for {house}. A small light, but small lights make constellations.",
+        "when": "gift",
+        "gift": "house_point"
+      },
+      {
+        "text": "I find one thing a day worth giving away. Today, it's this. Mind you don't lose it. I would.",
+        "when": "gift"
+      },
+      {
+        "text": "I've given you something already today, I think. Yes. I remember. Remarkable. Come back tomorrow.",
+        "when": "given"
+      },
+      {
+        "text": "Tomorrow, {name}. One gift a day, like one sunrise. I didn't make the rule. The sky did.",
+        "when": "given"
+      }
+    ],
+    "ghost_house_d": [
+      {
+        "text": "One of mine. Good. Sit down, think three moves ahead, and then make the fourth. Nobody expects the fourth.",
+        "when": "talk",
+        "house": "same",
+        "weight": 3
+      },
+      {
+        "text": "{house}. The quiet ones win more games than the loud ones. Remember that the next time someone is very loud at you.",
+        "when": "talk",
+        "house": "same",
+        "weight": 2
+      },
+      {
+        "text": "Every piece on the board matters, {name}. Even the pawns. Especially the pawns. They become something, if they get far enough.",
+        "when": "talk",
+        "house": "same",
+        "weight": 2
+      },
+      {
+        "text": "A {house} in the dungeons. A bold opening. Let's see whether you have a middle game.",
+        "when": "talk",
+        "house": "other",
+        "weight": 3
+      },
+      {
+        "text": "You're not one of mine. That's all right. I play all comers. I've lost only twice, and both times on purpose.",
+        "when": "talk",
+        "house": "other",
+        "weight": 2
+      },
+      {
+        "text": "Morning. Most people waste the first move of the day. Don't. Breakfast first, then strategy.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The afternoon is the middle game. Everyone is tired, careless, overconfident. Be none of those.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Night. A good time to think. A better time to sleep. I'd recommend the sleep, but I've never managed it.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The Potions room was once an apple store. On damp days you can still smell the apples. I find it helps me think. Most things do.",
+        "when": "talk"
+      },
+      {
+        "text": "The duelling bows are deep for a reason: the winner owes a lesson, the loser a better game. Chess has the same rule. I refined it.",
+        "when": "talk"
+      },
+      {
+        "text": "The castle always has the last word, they say. I've been trying to beat it at that for three hundred years. A patient opponent.",
+        "when": "talk"
+      },
+      {
+        "text": "Our hearth has never gone out. Some call it magic. I say it has simply never been given a reason. Everything needs a reason.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup. Good. Now is the dangerous moment. Leaders get careless. Don't.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Then your opponents will relax. Let them. That's when you move.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie at the top. A stalemate. Stalemates are only dull to people who can't see the next move.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Our hourglass leads. I'm not surprised. I am pleased. Those are different things, and I allow myself both.",
+        "when": "talk",
+        "house": "same",
+        "cup": "yours_leads",
+        "weight": 2
+      },
+      {
+        "text": "Dress robes in the dungeons. Either a statement or a mistake. I'll decide which once I've seen your next move.",
+        "when": "talk",
+        "wears": "formal",
+        "weight": 2
+      },
+      {
+        "text": "Velvet. Understated, expensive-looking. Excellent choice. It tells people nothing, which is the point.",
+        "when": "talk",
+        "wears": "velvet",
+        "weight": 2
+      },
+      {
+        "text": "I died in the middle of a game. My opponent is still considering his move. He's been gone longer than I have.",
+        "when": "talk"
+      },
+      {
+        "text": "Praise is rare from me. So: well done. For what? Work it out. That's the second half of the praise.",
+        "when": "talk"
+      },
+      {
+        "text": "Never play a move you can't explain afterwards. Explaining it beforehand is optional.",
+        "when": "talk"
+      },
+      {
+        "text": "I keep a board in the common room. The pieces move on their own at night. Mine. I'm winning.",
+        "when": "talk"
+      },
+      {
+        "text": "Down here the corridors are quiet enough to hear yourself plan. That's why we live here. That, and the view of the lake.",
+        "when": "talk"
+      },
+      {
+        "text": "Off to bed, {house}. A rested mind sees the whole board. A tired one sees only the piece in front of it.",
+        "when": "talk",
+        "house": "same",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Tell your house a ghost in the dungeons sends his regards, and will play any of them. Few accept twice.",
+        "when": "talk",
+        "house": "other"
+      },
+      {
+        "text": "Knowledge is a piece you keep off the board until you need it. Here's one: {lore}. Use it wisely.",
+        "when": "gift",
+        "gift": "lore"
+      },
+      {
+        "text": "Listen carefully; I'll say it once: {lore}. A story, and perhaps an advantage.",
+        "when": "gift",
+        "gift": "lore"
+      },
+      {
+        "text": "{points} to {house}. Earned, not given. I don't give. I recognise.",
+        "when": "gift",
+        "gift": "house_point"
+      },
+      {
+        "text": "A small advantage: {points} for {house}. Small advantages win long games.",
+        "when": "gift",
+        "gift": "house_point"
+      },
+      {
+        "text": "I reward cleverness. Today, you qualify. Don't make me regret it.",
+        "when": "gift"
+      },
+      {
+        "text": "You've had today's move from me already. Patience. Tomorrow.",
+        "when": "given"
+      },
+      {
+        "text": "Again? No. One a day. Greed is the commonest blunder, {name}.",
+        "when": "given"
+      }
+    ],
+    "staff_caretaker": [
+      {
+        "text": "Morning. Entrance Hall's been swept twice already. Somebody always walks mud in by eight. Don't be somebody.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Up early, are we? Good. Trophies are next on my rounds. If you see a fingerprint on the glass, it wasn't me.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Morning rounds: the undercroft, the trophies, the gallery, the hall. Same as yesterday. Same as tomorrow. Suits me.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon. Courtyard's full of leaves, fountain's full of coins, and the clock court's full of students sitting where they shouldn't.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "I'll be by the kitchens later, then the dungeons. Damp down there. Gets in the keys. Gets in the knees.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Locking up. Doors, windows, cupboards that think they're doors. Off to bed, before I lock you in by mistake.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "It's late. The lamps stay lit all night by old promise, but that's no excuse for wandering. Go on. I didn't see you.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Every night I check every lock on the ground floor. Every night they're fine. One night they won't be. That's why I check.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Hear that? Forty-two keys. I know every one by its jingle. That one's the broom cupboard. That one's a mystery.",
+        "when": "talk"
+      },
+      {
+        "text": "Mud. Always mud. From the grounds, the greenhouses, the paddock. Wipe your boots and you'll be my favourite. Briefly.",
+        "when": "talk"
+      },
+      {
+        "text": "Quiet, please. Not for me. For the portraits. They get headaches. Then they complain to me.",
+        "when": "talk"
+      },
+      {
+        "text": "Lost? Great Hall's that way, stairs are that way, and bed's up. You're all right.",
+        "when": "talk"
+      },
+      {
+        "text": "Anything dropped in this castle comes to me in the end. Lost and found. Mostly found. Ask, if you're missing something.",
+        "when": "talk"
+      },
+      {
+        "text": "The first lamp warden walked every floor twice a night and named every lamp. I don't name my keys. Well. A few.",
+        "when": "talk"
+      },
+      {
+        "text": "The Trophy Stair gets polished by students on detention. Good for the stair, good for the students. Bad for my rags.",
+        "when": "talk"
+      },
+      {
+        "text": "The courtyard portcullis hasn't come down in living memory. I still oil it. Habit. And the swallows like the smell.",
+        "when": "talk"
+      },
+      {
+        "text": "Every spring I clean the courtyard fountain and put every single coin back. Don't ask why. Tradition. And bad luck not to.",
+        "when": "talk"
+      },
+      {
+        "text": "That ladder up to the fortune-telling room has thirteen rungs. Students count twelve, or fourteen. Professors call it mystical. I call a carpenter.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house is top of the Cup. Doesn't mean you can walk mud through the hall. Winners wipe their boots too.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Hand your work in and stop running in corridors. The points will come. That's my advice, free.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "Tied at the top. Means a big feast and a big mess. Wonderful. More sweeping.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Dragonhide boots. Good soles. Very good soles. Wipe them anyway.",
+        "when": "talk",
+        "wears": "rare",
+        "weight": 2
+      },
+      {
+        "text": "A cloak trailing on the floor picks up every speck of dust in the castle. You're sweeping my corridors for me. Thank you.",
+        "when": "talk",
+        "wears": "outerwear",
+        "weight": 2
+      },
+      {
+        "text": "{house}, eh? Your lot leave the most mud. Loudest, too. Kind-hearted, mind. I'll give you that.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "{house}. The only ones who ever offer to help me sweep. I always say no. I always appreciate it.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "{house}. You leave books everywhere. Stairs, windowsills, the fountain once. I've a whole cupboard of them. Come and look.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "{house}. Tidy, quiet, never in the wrong place at the wrong time. I'm watching you all the same.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Here's something for nothing: I saw a likely spot in {place} this morning. Worth a look, if you're quick about it.",
+        "when": "gift",
+        "gift": "hint"
+      },
+      {
+        "text": "Keep this under your hat. Have a poke about in {place} today. I'd do it myself, but my knees.",
+        "when": "gift",
+        "gift": "hint"
+      },
+      {
+        "text": "Found this on my rounds and nobody's claimed it, so it's yours now: {item}. Don't tell anyone I'm soft.",
+        "when": "gift",
+        "gift": "item"
+      },
+      {
+        "text": "Lost property's overflowing. Take this off my hands: {item}. Go on.",
+        "when": "gift",
+        "gift": "item"
+      },
+      {
+        "text": "Here. You've wiped your boots every time this week. I notice these things.",
+        "when": "gift"
+      },
+      {
+        "text": "Already had something off me today. Don't push your luck. Tomorrow, maybe.",
+        "when": "given"
+      },
+      {
+        "text": "One a day, and you've had yours. Off you go. Mind the wet floor.",
+        "when": "given"
+      }
+    ],
+    "staff_librarian": [
+      {
+        "text": "Good morning. The first reader through the door always gets the best chair. Today, that could be you.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "The morning shelving is the most peaceful part of my day. Let's keep it that way. Thank you.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "At lunch I sit at the end of the staff table with a book propped on the teapot. The only quiet seat in the Great Hall.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ]
+      },
+      {
+        "text": "The afternoon rush. Every desk taken, every candle lit. I love it. Quietly, of course.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "If you're looking for something, ask. I know where everything is. Including the books people haven't returned.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "We're closing soon. Please bring everything back to the desk, including the books hidden behind the cushions.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Lights out in the library. I trim every lamp myself. The shelves go to sleep one row at a time. My favourite part.",
+        "when": "talk",
+        "period": [
+          "night"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Let me see... all your books are returned. Oh, well done. You've no idea how happy that makes me.",
+        "when": "talk"
+      },
+      {
+        "text": "A book returned late is a book someone else couldn't read. Please don't make me write you a polite little note. I will.",
+        "when": "talk"
+      },
+      {
+        "text": "You've been reading! I can tell. There's a look. A faraway look, with a little ink on the nose.",
+        "when": "talk"
+      },
+      {
+        "text": "If you have time, try the old castle histories. Dry as dust, but every so often a page surprises you.",
+        "when": "talk"
+      },
+      {
+        "text": "The rule above our door asks for whispers. It was carved by a librarian with a booming voice. I admire her self-awareness.",
+        "when": "talk"
+      },
+      {
+        "text": "The oldest inkwells refill themselves at midnight. Very convenient. Less so when a student leaves the lid off over a manuscript.",
+        "when": "talk"
+      },
+      {
+        "text": "We keep every one of the stair architect's apologies. The last is two words long. It's the most borrowed item in the archive.",
+        "when": "talk"
+      },
+      {
+        "text": "People come asking for the plans of the lost wing. They're in the archive. Please don't get your hopes up. The wing is very lost.",
+        "when": "talk"
+      },
+      {
+        "text": "They say the painter of half our portraits painted herself forty times. I've checked the archive. It's at least forty-three.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house leads the Cup. Reading helps, you know. I'm only saying. Quietly.",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? A good essay is worth a great many points, and I know where all the good books for essays are.",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A tie at the top. Everyone's studying twice as hard. My library has never been so full. I'm in heaven. Shh.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "A warm jumper. Good. The stacks are chilly, and readers who shiver turn pages too fast.",
+        "when": "talk",
+        "wears": "knitwear",
+        "weight": 2
+      },
+      {
+        "text": "Dress robes. Very smart. Do keep the ink at a safe distance; the library cannot be held responsible for spills.",
+        "when": "talk",
+        "wears": "formal",
+        "weight": 2
+      },
+      {
+        "text": "{house}. You read standing up, ready to rush off. Sit down. The book won't run away. Not the ones I keep, anyway.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "{house}. You return everything on time, with a little thank-you. I keep the thank-yous in a drawer.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "{house}. You've borrowed half my section on old charms. I'm thrilled. Bring them back all the same.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "{house}. You always find the one book nobody has asked for in a century. How? Never mind. I'm impressed.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "I've put something aside for you: a little piece of castle history, {lore}. Do read it slowly.",
+        "when": "gift",
+        "gift": "lore"
+      },
+      {
+        "text": "From the archive, for someone who'll appreciate it: {lore}. Please don't fold the corners.",
+        "when": "gift",
+        "gift": "lore"
+      },
+      {
+        "text": "A note someone left in a returned book mentions {place}. Something worth finding there today, I'd wager. Quietly, mind.",
+        "when": "gift",
+        "gift": "hint"
+      },
+      {
+        "text": "Between you and me, I'd have a look around {place} today. Readers notice things. So do librarians.",
+        "when": "gift",
+        "gift": "hint"
+      },
+      {
+        "text": "I've already given you something today. Tomorrow, perhaps. And do return what you borrowed.",
+        "when": "given"
+      },
+      {
+        "text": "That's enough for one day. Even the best readers must wait for the next chapter.",
+        "when": "given"
+      }
+    ],
+    "staff_groundskeeper": [
+      {
+        "text": "MORNING! Grand day for it! Whatever it is! I've fed the creatures, watered the beds and only fallen in the pond once.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Off to the greenhouses after this. The vines are lively this time of year. Lively means bitey. Wear gloves.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Morning rounds: paddock, greenhouses, courtyards. Then tea. Then the paddock again, because something's always got out.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Afternoon! Down to the lake, then the pitch, then up to the owls. These legs have walked the grounds more times than the path has.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "I'll stop by the owls on the knoll before I lock the greenhouses. They like a chat. Well, I like a chat.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Getting dark soon. The lantern's lit over the paddock gate. Follow it if you're ever lost out here.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Don't mind the mud! Good honest mud, this. Tell the caretaker it was me. He knows. He always knows.",
+        "when": "talk"
+      },
+      {
+        "text": "Talk kindly to the plants. I mean it. The ferns sulk if you don't, and a sulking fern is no use to anybody.",
+        "when": "talk"
+      },
+      {
+        "text": "Bow at the paddock gate. Some creatures don't care, but the ones that do care a great deal. Costs nothing, saves your eyebrows.",
+        "when": "talk"
+      },
+      {
+        "text": "That biting vine was bred to stop the mice. Works on mice. Works on gardeners too. Keep your sleeves rolled up. Trust me.",
+        "when": "talk"
+      },
+      {
+        "text": "The shrieking roots get a rota so only one of us hears them at a time. My name's at the top again. Funny, that.",
+        "when": "talk"
+      },
+      {
+        "text": "The greenhouses started with one pane of glass and one homesick lemon tree. Two hundred years later, look at 'em!",
+        "when": "talk"
+      },
+      {
+        "text": "The paddock cats always sit facing the gate. Counting who comes in, so they know who to blame later. Clever beasts.",
+        "when": "talk"
+      },
+      {
+        "text": "The potting shed clock runs on plant time. Slow in winter, quick in spring. I'm never on time for anything. I blame the clock.",
+        "when": "talk"
+      },
+      {
+        "text": "The lantern over the paddock gate has never gone out. Every keeper trims it before bed. I'll trim it tonight. Always do.",
+        "when": "talk"
+      },
+      {
+        "text": "Your house is top of the Cup! Ha! Like a prize marrow, that. Grew it yourselves, you did!",
+        "when": "talk",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Nothing grows overnight. Well, the glowcaps do. But nothing else. Keep watering!",
+        "when": "talk",
+        "cup": "other_leads"
+      },
+      {
+        "text": "All level at the top! Like the two prize pumpkins last autumn. We made 'em both into pies in the end. Everyone won.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Good thick jumper! You'll want that by the lake. The wind comes off the water like it's got somewhere to be.",
+        "when": "talk",
+        "wears": "knitwear",
+        "weight": 2
+      },
+      {
+        "text": "Smart robes! Don't come near the vegetable beds in those. Or do. Mud's good for the soul.",
+        "when": "talk",
+        "wears": "school"
+      },
+      {
+        "text": "Dragonhide boots! Those'll do for the paddock. Mind, the creatures can smell 'em. They'll want a word.",
+        "when": "talk",
+        "wears": "rare",
+        "weight": 2
+      },
+      {
+        "text": "{house}! Brave enough to pet anything with teeth. Do ask first, though. Ask the creature, I mean. Then me.",
+        "when": "talk",
+        "house": [
+          "roarwing"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "{house}! Best hands in the greenhouses, your lot. Gentle with the seedlings, firm with the vines. Perfect.",
+        "when": "talk",
+        "house": [
+          "burrowsby"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "{house}! You'll know the proper name of every plant out here. I just call 'em by how they bite. Works for me.",
+        "when": "talk",
+        "house": [
+          "skytalon"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "{house}! Patient lot. Good with the slow growers, and the ones that strike when you're not looking.",
+        "when": "talk",
+        "house": [
+          "serpentyne"
+        ],
+        "weight": 2
+      },
+      {
+        "text": "Here, the garden can spare this: {item}. Grew it myself. Well, it grew itself. I watched.",
+        "when": "gift",
+        "gift": "item"
+      },
+      {
+        "text": "Take this, it's going spare: {item}. Good for brewing, the professors tell me. I mostly put it in soup.",
+        "when": "gift",
+        "gift": "item"
+      },
+      {
+        "text": "Fresh from the beds: {item}. Still got the mud on. The mud's free.",
+        "when": "gift",
+        "gift": "item"
+      },
+      {
+        "text": "You've had your share today! The garden needs a day to grow some more. Back tomorrow!",
+        "when": "given"
+      },
+      {
+        "text": "Nothing more today, friend. Even the best beds need a rest. Tomorrow!",
+        "when": "given"
+      }
+    ],
+    "shop_owl_exchange": [
+      {
+        "text": "Owl Exchange, good day! Fair prices, clean ledgers, no haggling. Well, a little haggling.",
+        "when": "shop"
+      },
+      {
+        "text": "Ah, a customer! Buying, selling, browsing? Browsing's free. Everything else is very reasonable.",
+        "when": "shop"
+      },
+      {
+        "text": "Welcome to the Exchange. Prices up to the minute. Well, up to the owl.",
+        "when": "shop"
+      },
+      {
+        "text": "Good to see you, {name}. The ledger's open, the quills are sharpened, and so am I.",
+        "when": "shop"
+      },
+      {
+        "text": "Morning! The first trade of the day is the luckiest. Let's make it a good one.",
+        "when": "shop",
+        "period": [
+          "morning"
+        ]
+      },
+      {
+        "text": "Afternoon rush, but there's always room at the counter for you. What can I do?",
+        "when": "shop",
+        "period": [
+          "afternoon"
+        ]
+      },
+      {
+        "text": "Late trading, eh? The owls are asleep, but the ledger never is. Go ahead.",
+        "when": "shop",
+        "period": [
+          "night"
+        ]
+      },
+      {
+        "text": "Every trade written down, every coin accounted for. That's the Exchange's promise. Now, how can I help?",
+        "when": "shop"
+      },
+      {
+        "text": "Socks, quills, feathers, fancies. If it's worth having, it's worth trading. Have a look.",
+        "when": "shop"
+      },
+      {
+        "text": "Your house leads the Cup, I hear! Business always picks up for the winners. Celebrate with a purchase?",
+        "when": "shop",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "That's a fine outfit. Got the bits for it here? I've got the bits for most things.",
+        "when": "shop",
+        "wears": "fashion"
+      },
+      {
+        "text": "Fair price, fair deal. Have a look, take your time, and do mind the inkpot.",
+        "when": "shop"
+      },
+      {
+        "text": "The Exchange was founded to spare students the walk to the village. First trade on record: three quills for warm socks. Still the best deal in the ledger.",
+        "when": "talk"
+      },
+      {
+        "text": "A clean ledger is a happy ledger. Mine has never had a blot. Well, one. It was a very cold morning.",
+        "when": "talk"
+      },
+      {
+        "text": "Prices go up and prices go down. My advice? Buy when nobody wants it, sell when everybody does.",
+        "when": "talk"
+      },
+      {
+        "text": "I've never short-changed a soul. I've short-changed myself twice, by accident. Both written down.",
+        "when": "talk"
+      }
+    ],
+    "shop_owl_order_a": [
+      {
+        "text": "Catalogue's open! Everything's flying off the pages this week. Bold choices only, mind.",
+        "when": "shop"
+      },
+      {
+        "text": "Hello, {name}! Fancy something new? I've just the thing. I always have just the thing.",
+        "when": "shop"
+      },
+      {
+        "text": "Owl Order! Pick it, post it, wear it by Friday. Go on, be daring.",
+        "when": "shop"
+      },
+      {
+        "text": "The velvet's selling fast this week. Fastest thing I've seen since the fireworks. Have a look.",
+        "when": "shop"
+      },
+      {
+        "text": "Morning! The first owl's already been with today's catalogue. Hot off the press!",
+        "when": "shop",
+        "period": [
+          "morning"
+        ]
+      },
+      {
+        "text": "Afternoon! Half the common room's been in already. You're just in time.",
+        "when": "shop",
+        "period": [
+          "afternoon"
+        ]
+      },
+      {
+        "text": "Ordering at this hour? The owls fly at night anyway. Bold. I like it.",
+        "when": "shop",
+        "period": [
+          "night"
+        ]
+      },
+      {
+        "text": "Your house leads the Cup! Treat yourself. Winners deserve a new hat.",
+        "when": "shop",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup? Nothing lifts the spirits like a bold new look. Trust me.",
+        "when": "shop",
+        "cup": "other_leads"
+      },
+      {
+        "text": "Oh, I love that jumper. There's a new knit in the catalogue that'd go a treat with it.",
+        "when": "shop",
+        "wears": "knitwear"
+      },
+      {
+        "text": "Something bold for the common room? A banner? A rug? Something that says 'here I am'?",
+        "when": "shop"
+      },
+      {
+        "text": "What'll it be today? Don't think too long. That's not how this house shops.",
+        "when": "shop"
+      },
+      {
+        "text": "Know what's selling fastest? Anything with a bit of nerve to it. Your lot never buy anything shy.",
+        "when": "talk"
+      },
+      {
+        "text": "I've worked this stand for years. Never seen a common room that loves a bold colour more.",
+        "when": "talk"
+      },
+      {
+        "text": "Order today and the owl will have it with you before you can change your mind. That's rather the point.",
+        "when": "talk"
+      }
+    ],
+    "shop_owl_order_b": [
+      {
+        "text": "Hello, love. Take your time. There's no hurry here. There never is.",
+        "when": "shop"
+      },
+      {
+        "text": "Catalogue's open. Sit by the fire while you look. No rush at all.",
+        "when": "shop"
+      },
+      {
+        "text": "Something warm for the cold nights? We've just the thing. Several things, in fact.",
+        "when": "shop"
+      },
+      {
+        "text": "Hello, {name}. Browse all you like. I'll be right here. I'm always right here.",
+        "when": "shop"
+      },
+      {
+        "text": "Morning, love. Tea's brewing. Have a look while it steeps.",
+        "when": "shop",
+        "period": [
+          "morning"
+        ]
+      },
+      {
+        "text": "Afternoon. The quiet hour. Best time to pick something out properly.",
+        "when": "shop",
+        "period": [
+          "afternoon"
+        ]
+      },
+      {
+        "text": "Late, isn't it? Pick something cosy for bed. That's what the night's for.",
+        "when": "shop",
+        "period": [
+          "night"
+        ]
+      },
+      {
+        "text": "Your house leads the Cup! Well deserved. Something to celebrate with?",
+        "when": "shop",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "All tied up at the top. Nervous? Cosy socks help. Truly.",
+        "when": "shop",
+        "cup": "tied"
+      },
+      {
+        "text": "That's a lovely knit. Look after it and it'll look after you. I've a few more like it.",
+        "when": "shop",
+        "wears": "knitwear"
+      },
+      {
+        "text": "We've some new rugs in. Soft as a sheepdog. Have a feel of the swatches.",
+        "when": "shop"
+      },
+      {
+        "text": "Whatever you need, love. And if you don't need anything, that's fine too.",
+        "when": "shop"
+      },
+      {
+        "text": "I never hurry anybody. Things chosen slowly are worn longest. That's my whole philosophy.",
+        "when": "talk"
+      },
+      {
+        "text": "The best thing in the catalogue? A good warm pair of socks. Don't let anyone tell you otherwise.",
+        "when": "talk"
+      },
+      {
+        "text": "I like this stand. Warm hearth, kind folk, and nobody ever shouts. Well, almost nobody.",
+        "when": "talk"
+      }
+    ],
+    "shop_owl_order_c": [
+      {
+        "text": "Catalogue open. Every item measured, weighed and listed. Ask me anything about any of it.",
+        "when": "shop"
+      },
+      {
+        "text": "Good day, {name}. The cloak on page four? Excellent weave. Very tight. I counted.",
+        "when": "shop"
+      },
+      {
+        "text": "Welcome. I've annotated this week's catalogue. Only lightly. Forty pages.",
+        "when": "shop"
+      },
+      {
+        "text": "Looking for something specific? I can tell you its thread count, its dye and its likely lifespan.",
+        "when": "shop"
+      },
+      {
+        "text": "Morning. Clear head, clear choices. Shall we begin?",
+        "when": "shop",
+        "period": [
+          "morning"
+        ]
+      },
+      {
+        "text": "Good afternoon. I've reorganised the catalogue by fibre. It's far more sensible now.",
+        "when": "shop",
+        "period": [
+          "afternoon"
+        ]
+      },
+      {
+        "text": "Ordering by starlight? Very fitting. Do check the sizes twice. Starlight flatters.",
+        "when": "shop",
+        "period": [
+          "night"
+        ]
+      },
+      {
+        "text": "Your house leads the Cup. Statistically unsurprising. Shall we mark the occasion?",
+        "when": "shop",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup. A temporary variance. Meanwhile, the felt hats are on page six.",
+        "when": "shop",
+        "cup": "other_leads"
+      },
+      {
+        "text": "A felt hat. Good choice. Felt holds its shape far better than people credit. I've done tests.",
+        "when": "shop",
+        "wears": "felt"
+      },
+      {
+        "text": "Every piece here is exactly what it says. I insist on it. Accuracy is a form of kindness.",
+        "when": "shop"
+      },
+      {
+        "text": "Do take your time. Choosing well is a skill. Choosing quickly is merely a habit.",
+        "when": "shop"
+      },
+      {
+        "text": "People ask why I care about thread counts. Because a thing made well is a thing that lasts. That's all.",
+        "when": "talk"
+      },
+      {
+        "text": "I once sent back a whole order of scarves because the stripes were a millimetre off. The owl was very patient.",
+        "when": "talk"
+      },
+      {
+        "text": "The catalogue has three printing errors this week. I've circled them. You're welcome.",
+        "when": "talk"
+      }
+    ],
+    "shop_owl_order_d": [
+      {
+        "text": "Good evening. Or day. Whichever suits. The catalogue is open, and discreet.",
+        "when": "shop"
+      },
+      {
+        "text": "Ah, {name}. I've marked a few pieces you might like. Understated. Excellent value. Nobody will guess.",
+        "when": "shop"
+      },
+      {
+        "text": "Welcome. Everything here looks expensive. Not everything is. That's rather the point.",
+        "when": "shop"
+      },
+      {
+        "text": "Looking for something with presence? Velvet, perhaps. It does the talking so you needn't.",
+        "when": "shop"
+      },
+      {
+        "text": "Morning. A good choice made early saves a poor one made later.",
+        "when": "shop",
+        "period": [
+          "morning"
+        ]
+      },
+      {
+        "text": "Afternoon. The quiet hour. The best time for a considered purchase.",
+        "when": "shop",
+        "period": [
+          "afternoon"
+        ]
+      },
+      {
+        "text": "The late order. My favourite kind. Nobody sees what you chose until you wear it.",
+        "when": "shop",
+        "period": [
+          "night"
+        ]
+      },
+      {
+        "text": "Your house leads the Cup. One should look the part. May I suggest page nine?",
+        "when": "shop",
+        "cup": "yours_leads"
+      },
+      {
+        "text": "Behind in the Cup. Then look as though you aren't. Appearance is half of it.",
+        "when": "shop",
+        "cup": "other_leads"
+      },
+      {
+        "text": "Velvet. Impeccable. You already know what you're doing, so I'll merely hold the catalogue.",
+        "when": "shop",
+        "wears": "velvet"
+      },
+      {
+        "text": "Quality needn't shout. Take your time. The best pieces are rarely on the front page.",
+        "when": "shop"
+      },
+      {
+        "text": "I don't sell clothes. I sell impressions. The clothes come with them, naturally.",
+        "when": "shop"
+      },
+      {
+        "text": "The trick, if you must know, is restraint. One fine thing, worn well, beats ten loud ones.",
+        "when": "talk"
+      },
+      {
+        "text": "I've never told a customer something looks wonderful unless it did. That's why they believe me.",
+        "when": "talk"
+      },
+      {
+        "text": "Some call the dungeons gloomy. I call it flattering light. Everyone looks mysterious down here.",
+        "when": "talk"
+      }
+    ],
+    "students": [
+      {
+        "text": "Can't stop, late for class!",
+        "when": "talk",
+        "weight": 2
+      },
+      {
+        "text": "Have you done the essay? Me neither.",
+        "when": "talk"
+      },
+      {
+        "text": "Morning! Is it morning? Feels like morning.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ]
+      },
+      {
+        "text": "Oh, hello! See you in the common room later?",
+        "when": "talk",
+        "house": "same",
+        "weight": 2
+      },
+      {
+        "text": "Hey, {house}! Good to see a friendly face.",
+        "when": "talk",
+        "house": "same",
+        "weight": 2
+      },
+      {
+        "text": "Oi, {house}. No pinching our points, all right? Kidding. Mostly.",
+        "when": "talk",
+        "house": "other",
+        "weight": 2
+      },
+      {
+        "text": "Hello! Don't tell my house I was nice to you.",
+        "when": "talk",
+        "house": "other"
+      },
+      {
+        "text": "Do you know where the Charms classroom is? I always forget.",
+        "when": "talk"
+      },
+      {
+        "text": "The stairs moved on me again. Third time today.",
+        "when": "talk"
+      },
+      {
+        "text": "I'm starving. Is it lunch yet?",
+        "when": "talk",
+        "period": [
+          "morning"
+        ]
+      },
+      {
+        "text": "Sorry, sorry, wasn't looking!",
+        "when": "talk"
+      },
+      {
+        "text": "Lovely day for it. Whatever it is.",
+        "when": "talk"
+      },
+      {
+        "text": "Shh, I'm revising. Sort of.",
+        "when": "talk"
+      },
+      {
+        "text": "Have you seen my quill? Long, grey, slightly chewed?",
+        "when": "talk"
+      },
+      {
+        "text": "I think a portrait just winked at me.",
+        "when": "talk"
+      },
+      {
+        "text": "Potions next. Wish me luck.",
+        "when": "talk"
+      },
+      {
+        "text": "If anyone asks, I was in the library.",
+        "when": "talk"
+      },
+      {
+        "text": "Have you tried the treacle tart today? Go. Now.",
+        "when": "talk"
+      },
+      {
+        "text": "Shouldn't we both be in bed?",
+        "when": "talk",
+        "period": [
+          "night"
+        ]
+      },
+      {
+        "text": "Can't sleep. The castle creaks too much.",
+        "when": "talk",
+        "period": [
+          "night"
+        ]
+      },
+      {
+        "text": "Nearly done for the day. Nearly.",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ]
+      },
+      {
+        "text": "Breakfast first, lessons second. That's the rule.",
+        "when": "talk",
+        "period": [
+          "morning"
+        ]
+      },
+      {
+        "text": "We're top of the Cup! Did you see the hourglass?",
+        "when": "talk",
+        "house": "same",
+        "cup": "yours_leads",
+        "weight": 2
+      },
+      {
+        "text": "Your lot are top of the Cup this week. Enjoy it while it lasts!",
+        "when": "talk",
+        "house": "other",
+        "cup": "yours_leads",
+        "weight": 2
+      },
+      {
+        "text": "We're behind in the Cup. Better earn some points, eh?",
+        "when": "talk",
+        "house": "same",
+        "cup": "other_leads",
+        "weight": 2
+      },
+      {
+        "text": "Everyone's level for the Cup. The common room's in uproar.",
+        "when": "talk",
+        "cup": "tied"
+      },
+      {
+        "text": "Nice jumper! Where'd you get it?",
+        "when": "talk",
+        "wears": "knitwear"
+      },
+      {
+        "text": "Dress robes on a weekday? Bold.",
+        "when": "talk",
+        "wears": "formal"
+      },
+      {
+        "text": "Your tie's crooked. There. Better.",
+        "when": "talk",
+        "wears": "school"
+      },
+      {
+        "text": "The greenhouse vines bit me again.",
+        "when": "talk"
+      },
+      {
+        "text": "Did you hear the kitchen bells ringing last night?",
+        "when": "talk"
+      },
+      {
+        "text": "I'm off to the Dueling Club later. Want to come and watch me lose?",
+        "when": "talk"
+      },
+      {
+        "text": "The owls are being very loud today.",
+        "when": "talk"
+      },
+      {
+        "text": "Ugh, I've got ink all over my hands.",
+        "when": "talk"
+      },
+      {
+        "text": "Hi! Sorry, can't chat, I'll be late.",
+        "when": "talk"
+      },
+      {
+        "text": "Found anything good out on the grounds?",
+        "when": "talk"
+      },
+      {
+        "text": "I swear this corridor was shorter yesterday.",
+        "when": "talk"
+      },
+      {
+        "text": "Our ghost told me the same story again. I love it.",
+        "when": "talk"
+      },
+      {
+        "text": "Don't run, the caretaker's about.",
+        "when": "talk"
+      },
+      {
+        "text": "I'm off down to the lake. Want to come?",
+        "when": "talk",
+        "period": [
+          "afternoon"
+        ]
+      },
+      {
+        "text": "Still got two essays to write. Help.",
+        "when": "talk"
+      },
+      {
+        "text": "Mind the puddle. The caretaker's furious about it.",
+        "when": "talk"
+      }
+    ]
+  }
+}

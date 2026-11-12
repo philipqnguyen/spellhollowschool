@@ -1,0 +1,165 @@
+{
+  "version": 2,
+  "id": "potions",
+  "subject": "potions",
+  "professor": {
+    "id": "potions_professor",
+    "name": "Professor Lucan Greer",
+    "house": "serpentyne",
+    "appearance": {
+      "body_type": 0,
+      "height": 205,
+      "face": [
+        112,
+        150,
+        196,
+        96,
+        104
+      ],
+      "skin_tone": 1,
+      "hair_style": 16,
+      "hair_colour": 0,
+      "eye_colour": 0,
+      "outfit": {
+        "body": {
+          "item_def": 217,
+          "dyes": [
+            0,
+            0,
+            1
+          ],
+          "finish": "none"
+        },
+        "legs": {
+          "item_def": 308,
+          "dyes": [
+            0,
+            0,
+            0
+          ],
+          "finish": "none"
+        },
+        "shoes": {
+          "item_def": 403,
+          "dyes": [
+            0,
+            0,
+            1
+          ],
+          "finish": "none"
+        }
+      }
+    },
+    "pos": [
+      0,
+      0,
+      -6
+    ],
+    "yaw": 0
+  },
+  "picks": {"prompts": "potions_ingredients", "options": "potions_ingredients"},
+  "lesson": [
+    {"at_secs": 3, "kind": "say", "line": "Settle. Cauldrons cold, mouths closed, ears open."},
+    {"at_secs": 45, "kind": "say", "line": "Brewing is order and patience. Add the right thing at the right moment, or add nothing at all."},
+    {"at_secs": 90, "kind": "say", "line": "Your shelf holds more than you need. Choosing is the lesson."},
+    {"at_secs": 130, "kind": "say", "line": "Stragglers have very little time left to find a cauldron."},
+    {"at_secs": 170, "kind": "say", "line": "The door is closing. We begin."},
+    {"at_secs": 185, "kind": "demonstrate", "duration_ms": 2000, "line": "The Drowsy Hearth Tonic. Five ingredients. I name each one; you add it, on the beat."},
+    {"at_secs": 200, "kind": "practice", "round": 1, "window_ms": 1400, "beats": [
+        {"at_ms": 5000, "prompt": "valerian_sprigs", "options": ["oak_galls", "ginger_root", "moonstone_dust", "madder_root", "valerian_sprigs", "moonflower_petals"]},
+        {"at_ms": 8500, "prompt": "moonflower_petals", "options": ["oak_galls", "ginger_root", "moonstone_dust", "madder_root", "valerian_sprigs", "moonflower_petals"]},
+        {"at_ms": 12000, "prompt": "ginger_root", "options": ["oak_galls", "ginger_root", "moonstone_dust", "madder_root", "valerian_sprigs", "moonflower_petals"]},
+        {"at_ms": 15500, "prompt": "oak_galls", "options": ["oak_galls", "ginger_root", "moonstone_dust", "madder_root", "valerian_sprigs", "moonflower_petals"]},
+        {"at_ms": 19000, "prompt": "moonstone_dust", "options": ["oak_galls", "ginger_root", "moonstone_dust", "madder_root", "valerian_sprigs", "moonflower_petals"]}
+      ] },
+    {"at_secs": 235, "kind": "demonstrate", "duration_ms": 2000, "line": "Adequate. The Lantern Draught next: six ingredients, and the mushroom goes in first."},
+    {"at_secs": 245, "kind": "practice", "round": 2, "window_ms": 1400, "beats": [
+        {"at_ms": 5000, "prompt": "glowing_mushroom", "options": ["moonknot", "weld_flowers", "lacewing_flies", "moonstone_dust", "glowing_mushroom", "pearl_dust"]},
+        {"at_ms": 8500, "prompt": "moonstone_dust", "options": ["moonknot", "weld_flowers", "lacewing_flies", "moonstone_dust", "glowing_mushroom", "pearl_dust"]},
+        {"at_ms": 12000, "prompt": "weld_flowers", "options": ["moonknot", "weld_flowers", "lacewing_flies", "moonstone_dust", "glowing_mushroom", "pearl_dust"]},
+        {"at_ms": 15500, "prompt": "pearl_dust", "options": ["moonknot", "weld_flowers", "lacewing_flies", "moonstone_dust", "glowing_mushroom", "pearl_dust"]},
+        {"at_ms": 19000, "prompt": "lacewing_flies", "options": ["moonknot", "weld_flowers", "lacewing_flies", "moonstone_dust", "glowing_mushroom", "pearl_dust"]},
+        {"at_ms": 22500, "prompt": "moonknot", "options": ["moonknot", "weld_flowers", "lacewing_flies", "moonstone_dust", "glowing_mushroom", "pearl_dust"]}
+      ] },
+    {"at_secs": 285, "kind": "demonstrate", "duration_ms": 2000, "line": "The Bramble Ward Salve. Wrinklefig first. Its fumes are unkind to the careless."},
+    {"at_secs": 295, "kind": "practice", "round": 3, "window_ms": 1400, "beats": [
+        {"at_ms": 5000, "prompt": "wrinklefig", "options": ["rose_hips", "wrinklefig", "elderberries", "puffer_fish_eyes", "walnut_hulls", "oakmoss_lichen"]},
+        {"at_ms": 8500, "prompt": "rose_hips", "options": ["rose_hips", "wrinklefig", "elderberries", "puffer_fish_eyes", "walnut_hulls", "oakmoss_lichen"]},
+        {"at_ms": 12000, "prompt": "elderberries", "options": ["rose_hips", "wrinklefig", "elderberries", "puffer_fish_eyes", "walnut_hulls", "oakmoss_lichen"]},
+        {"at_ms": 15500, "prompt": "oakmoss_lichen", "options": ["rose_hips", "wrinklefig", "elderberries", "puffer_fish_eyes", "walnut_hulls", "oakmoss_lichen"]},
+        {"at_ms": 19000, "prompt": "puffer_fish_eyes", "options": ["rose_hips", "wrinklefig", "elderberries", "puffer_fish_eyes", "walnut_hulls", "oakmoss_lichen"]},
+        {"at_ms": 22500, "prompt": "walnut_hulls", "options": ["rose_hips", "wrinklefig", "elderberries", "puffer_fish_eyes", "walnut_hulls", "oakmoss_lichen"]}
+      ] },
+    {"at_secs": 335, "kind": "demonstrate", "duration_ms": 2000, "line": "The tonic again, and faster. The shelf has been rearranged. Look before you reach."},
+    {"at_secs": 345, "kind": "practice", "round": 4, "window_ms": 1200, "beats": [
+        {"at_ms": 4000, "prompt": "valerian_sprigs", "options": ["ginger_root", "woad_leaves", "moonstone_dust", "moonflower_petals", "oak_galls", "valerian_sprigs"]},
+        {"at_ms": 6800, "prompt": "moonflower_petals", "options": ["ginger_root", "woad_leaves", "moonstone_dust", "moonflower_petals", "oak_galls", "valerian_sprigs"]},
+        {"at_ms": 9600, "prompt": "ginger_root", "options": ["ginger_root", "woad_leaves", "moonstone_dust", "moonflower_petals", "oak_galls", "valerian_sprigs"]},
+        {"at_ms": 12400, "prompt": "oak_galls", "options": ["ginger_root", "woad_leaves", "moonstone_dust", "moonflower_petals", "oak_galls", "valerian_sprigs"]},
+        {"at_ms": 15200, "prompt": "moonstone_dust", "options": ["ginger_root", "woad_leaves", "moonstone_dust", "moonflower_petals", "oak_galls", "valerian_sprigs"]}
+      ] },
+    {"at_secs": 385, "kind": "say", "line": "Ladles down. Let us see what you have made of my lesson."},
+    {"at_secs": 400, "kind": "results", "line": "Some of you may yet be trusted with a cauldron. Bottle your work and go."},
+    {"at_secs": 405, "kind": "emote", "emote": "bow"},
+    {"at_secs": 500, "kind": "say", "line": "The lesson is over. Clean your station on the way out."}
+  ],
+  "rewards": {
+    "attend_skill_xp": 30,
+    "bonus_skill_xp_max": 40,
+    "min_answers": 3,
+    "house_points": [
+      {
+        "min_pct": 60,
+        "points": 1
+      },
+      {
+        "min_pct": 75,
+        "points": 3
+      },
+      {
+        "min_pct": 90,
+        "points": 5
+      }
+    ],
+    "crowns": {
+      "attend": 10,
+      "bonus_max": 10
+    },
+    "items": [
+      {
+        "item": 3021,
+        "quantity": [
+          1,
+          2
+        ],
+        "min_pct": 0
+      },
+      {
+        "item": 3020,
+        "quantity": [
+          1,
+          1
+        ],
+        "min_pct": 80
+      }
+    ],
+    "teaches": [
+      {
+        "recipe": 330,
+        "skill": 4
+      },
+      {
+        "recipe": 312,
+        "skill": 5
+      },
+      {
+        "recipe": 327,
+        "skill": 6
+      },
+      {
+        "recipe": 328,
+        "skill": 8
+      }
+    ]
+  }
+}

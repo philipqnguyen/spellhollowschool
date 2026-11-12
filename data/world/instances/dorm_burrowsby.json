@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "dorm_floor", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-1.2, -4.48], "max": [1.2, -3.88], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_2", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-2.24, -3.88], "max": [2.24, -3.28], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_3", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-3.28, -3.28], "max": [3.28, -2.24], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_4", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-3.88, -2.24], "max": [3.88, -1.2], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_5", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-4.48, -1.2], "max": [3.75, 0.0], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_6", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [3.75, -1.2], "max": [4.48, -0.75], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_7", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-4.48, 0.0], "max": [-4.333, 1.2], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_8", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-4.333, 0.0], "max": [-1.764, 0.585], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_9", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-1.764, 0.0], "max": [3.75, 1.2], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_10", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [3.75, 0.75], "max": [4.48, 1.2], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_11", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-1.764, 1.2], "max": [3.88, 2.24], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_12", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-3.28, 2.935], "max": [-1.764, 3.28], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_13", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-1.764, 2.24], "max": [3.28, 3.28], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_14", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-2.24, 3.28], "max": [2.24, 3.88], "y": 0, "ceiling": 2.9},
+    {"id": "dorm_floor_15", "kind": "room", "name": "Burrow Dormitory", "level": 0, "cell": "dorm_house_b", "min": [-1.2, 3.88], "max": [1.2, 4.48], "y": 0, "ceiling": 2.9}
+  ],
+  "spawns": [
+    {"id": "dorm_entry", "pos": [0.0, 0.0, 3.1], "yaw": 3.1415927}
+  ],
+  "interactables": [
+    {"id": "dorm_exit", "kind": "dorm_exit", "name": "Round Door", "pos": [0.0, 0.0, 3.9], "yaw": 3.1415927, "radius": 1.5}
+  ],
+  "place_areas": [
+    {"id": "floor", "surface": "floor", "min": [-1.764, 0, -3.94], "max": [2.275, 0, 3.3]},
+    {"id": "floor_2", "surface": "floor", "min": [-1.764, 0, -2.275], "max": [3.331, 0, 3.3]},
+    {"id": "floor_3", "surface": "floor", "min": [-3.94, 0, -2.275], "max": [3.75, 0, 0.585]},
+    {"id": "floor_4", "surface": "floor", "min": [2.275, 0, -2.275], "max": [3.75, 0, 2.275]},
+    {"id": "floor_5", "surface": "floor", "min": [-2.275, 0, -3.94], "max": [-1.0, 0, 0.585]},
+    {"id": "floor_6", "surface": "floor", "min": [-1.219, 0, -4.55], "max": [1.219, 0, -2.275]},
+    {"id": "wall_north", "surface": "wall", "min": [-1.113, 0.92, -4.6], "max": [1.113, 2.74, -4.6], "facing": 0.0},
+    {"id": "wall_west", "surface": "wall", "min": [-4.6, 0.92, -1.113], "max": [-4.6, 2.74, 1.113], "facing": 1.5707963}
+  ]
+}

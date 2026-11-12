@@ -1,0 +1,224 @@
+{
+  "_doc": "Where the talking portraits hang (sim_core::npcs::PortraitsFile; PortraitsFile::resolve gives each its wall point and facing). surface: a layout surface; edge: the wall at its x_min, x_max, z_min or z_max edge (the portrait faces into the surface); t: the canvas centre's metres along that edge from its lower-coordinate end; y: the centre's height above the floor; inset: metres the wall's face stands back from the surface edge (tuned to the built wall); size: the canvas [w, h] in metres inside the frame; backdrop: the painted backdrop 0-3. (Placements may move along their walls to clear doors, windows, wall tells and the decorative portrait clusters, which keep 0.3 m clear of a talking frame). docs/architecture.md 'NPCs'.",
+  "version": 1,
+  "portraits": [
+    {
+      "npc": "portrait_gs_l1",
+      "surface": "gs_l1_north",
+      "edge": "z_min",
+      "t": 18.0,
+      "y": 2.2,
+      "size": [
+        1.0,
+        1.3
+      ],
+      "backdrop": 0
+    },
+    {
+      "npc": "portrait_gs_l3",
+      "surface": "gs_l3_west",
+      "edge": "x_min",
+      "t": 21.0,
+      "y": 2.2,
+      "size": [
+        1.0,
+        1.3
+      ],
+      "backdrop": 1
+    },
+    {
+      "npc": "portrait_gs_l4",
+      "surface": "gs_l4_south",
+      "edge": "z_max",
+      "t": 18.0,
+      "y": 2.2,
+      "size": [
+        1.2,
+        1.0
+      ],
+      "backdrop": 2
+    },
+    {
+      "npc": "portrait_gs_l5",
+      "surface": "gs_l5_east",
+      "edge": "x_max",
+      "t": 8.0,
+      "y": 2.2,
+      "size": [
+        1.0,
+        1.4
+      ],
+      "backdrop": 0
+    },
+    {
+      "npc": "portrait_gs_l6",
+      "surface": "gs_l6_north",
+      "edge": "z_min",
+      "t": 18.0,
+      "y": 2.2,
+      "size": [
+        1.0,
+        1.3
+      ],
+      "backdrop": 2
+    },
+    {
+      "npc": "portrait_great_hall_n",
+      "surface": "gh_floor_north",
+      "edge": "z_min",
+      "t": 7.5,
+      "y": 2.1,
+      "inset": -0.05,
+      "size": [
+        1.0,
+        1.3
+      ],
+      "backdrop": 1
+    },
+    {
+      "npc": "portrait_great_hall_s",
+      "surface": "gh_floor_south",
+      "edge": "z_max",
+      "t": 7.5,
+      "y": 2.1,
+      "inset": -0.05,
+      "size": [
+        1.0,
+        1.3
+      ],
+      "backdrop": 1
+    },
+    {
+      "npc": "portrait_library_n",
+      "surface": "sf_library",
+      "edge": "x_max",
+      "t": 14.65,
+      "y": 2.2,
+      "size": [
+        0.7,
+        1.0
+      ],
+      "backdrop": 3
+    },
+    {
+      "npc": "portrait_library_s",
+      "surface": "sf_library",
+      "edge": "x_max",
+      "t": 18.6,
+      "y": 2.2,
+      "size": [
+        1.0,
+        1.3
+      ],
+      "backdrop": 3
+    },
+    {
+      "npc": "portrait_common_a",
+      "surface": "l7_corridor_north",
+      "edge": "z_min",
+      "t": 6.5,
+      "y": 2.2,
+      "size": [
+        1.0,
+        1.4
+      ],
+      "backdrop": 0
+    },
+    {
+      "npc": "portrait_common_b",
+      "surface": "kitchen_corridor",
+      "edge": "z_min",
+      "t": 31.5,
+      "y": 2.0,
+      "size": [
+        1.0,
+        1.3
+      ],
+      "backdrop": 0
+    },
+    {
+      "npc": "portrait_common_c",
+      "surface": "l6_vestibule",
+      "edge": "z_min",
+      "t": 4.0,
+      "y": 2.2,
+      "size": [
+        1.0,
+        1.4
+      ],
+      "backdrop": 3
+    },
+    {
+      "npc": "portrait_common_d",
+      "surface": "dungeon_corridor",
+      "edge": "x_min",
+      "t": 20.0,
+      "y": 2.0,
+      "size": [
+        1.0,
+        1.4
+      ],
+      "backdrop": 1
+    },
+    {
+      "npc": "portrait_kitchens",
+      "surface": "kitchens",
+      "edge": "z_max",
+      "t": 15.6,
+      "y": 2.0,
+      "size": [
+        1.2,
+        1.0
+      ],
+      "backdrop": 0
+    },
+    {
+      "npc": "portrait_passage_weaver",
+      "surface": "l5_corridor_west",
+      "edge": "z_min",
+      "t": 15.2,
+      "y": 2.0,
+      "size": [
+        1.0,
+        1.3
+      ],
+      "backdrop": 0
+    },
+    {
+      "npc": "portrait_passage_trophy",
+      "surface": "trophy_room",
+      "edge": "x_max",
+      "t": 12.9,
+      "y": 2.0,
+      "size": [
+        1.0,
+        1.3
+      ],
+      "backdrop": 1
+    },
+    {
+      "npc": "portrait_passage_gallery",
+      "surface": "ff_gallery_east",
+      "edge": "z_max",
+      "t": 28.5,
+      "y": 2.2,
+      "size": [
+        1.0,
+        1.4
+      ],
+      "backdrop": 1
+    },
+    {
+      "npc": "portrait_entrance",
+      "surface": "eh_floor_east",
+      "edge": "x_max",
+      "t": 11.8,
+      "y": 2.4,
+      "size": [
+        1.0,
+        1.4
+      ],
+      "backdrop": 2
+    }
+  ]
+}

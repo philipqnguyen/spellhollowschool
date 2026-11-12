@@ -1,0 +1,167 @@
+/* The wayfinding trail's HUD (wayfinding.ts): the trail chip at the top
+   centre (under the effect timers), the Wayfinder Charm window, and the class-door toasts. */
+
+.trail-chip {
+  pointer-events: auto;
+  position: absolute;
+  top: calc(var(--top-lane) + 56px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 24px);
+  padding: 4px 6px 4px 12px;
+  border-radius: 999px;
+  border-color: rgba(142, 181, 217, 0.65);
+  box-shadow: 0 0 14px rgba(142, 181, 217, 0.28);
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.trail-chip.waiting {
+  border-color: var(--smoke-edge);
+  box-shadow: none;
+}
+
+.trail-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+}
+
+.trail-dot {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f4f9ff 0%, #8eb5d9 60%, transparent 72%);
+  box-shadow: 0 0 8px rgba(142, 181, 217, 0.9);
+  animation: trail-breathe 1.8s ease-in-out infinite;
+}
+
+.trail-chip.waiting .trail-dot {
+  animation: none;
+  opacity: 0.5;
+}
+
+.trail-close {
+  flex: none;
+}
+
+@keyframes trail-breathe {
+  50% {
+    transform: scale(1.35);
+  }
+}
+
+.monstra-viam {
+  pointer-events: auto;
+  position: absolute;
+  top: calc(var(--top-lane) + 56px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(360px, calc(100% - 24px));
+  max-height: calc(100% - 180px - var(--top-lane));
+  overflow-y: auto;
+  padding: 12px 16px 14px;
+  display: grid;
+  gap: 8px;
+  z-index: 4;
+}
+
+.monstra-viam-sub {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.monstra-viam-group h3 {
+  margin: 4px 0 4px;
+  font-family: var(--display);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.monstra-viam-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.monstra-viam-place {
+  width: 100%;
+  display: grid;
+  gap: 1px;
+  padding: 6px 10px;
+  text-align: left;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.monstra-viam-place:hover,
+.monstra-viam-place:focus-visible {
+  border-color: var(--gilt);
+}
+
+.monstra-viam-place.on {
+  border-color: rgba(142, 181, 217, 0.8);
+  background: rgba(142, 181, 217, 0.12);
+}
+
+.monstra-viam-name {
+  color: var(--gilt-bright);
+}
+
+.monstra-viam-where {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.monstra-viam-stop {
+  justify-self: start;
+}
+
+.toasts.class-toasts {
+  z-index: 22;
+}
+
+/* The timetable's way button. */
+.sched-way {
+  justify-self: start;
+  margin-top: 2px;
+  padding: 2px 10px;
+  font-size: 0.82rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trail-dot {
+    animation: none;
+  }
+}
+
+/* The lore book (lore.ts) shares the Wayfinder Charm window's frame. */
+.lore-body {
+  display: grid;
+  gap: 10px;
+}
+
+.lore-entry h3 {
+  margin: 0 0 2px;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  color: var(--gilt-bright);
+}
+
+.lore-entry p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}

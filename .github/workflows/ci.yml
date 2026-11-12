@@ -1,0 +1,162 @@
+# Mirrors scripts/check.sh step by step (the files job is its first two
+# commands), plus a Postgres service for the server's integration tests and a
+# container build check (with a greybox client build).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  # No Blender here: prepare.mjs (before the client typecheck and build) would
+  # otherwise download the asset release for every run; empty turns fetching off.
+  SHS_ASSETS_URL: ""
+
+jobs:
+  # The committed-files policy (docs/repo-hygiene.md): no screenshots, renders,
+  # .blend files or build outputs in the tree. The pre-commit hook checks only
+  # the staged files; this checks every tracked file, so a commit made with
+  # --no-verify still fails here.
+  files:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 25
+
+      - name: Committed-files policy
+        run: node scripts/check-committed-files.mjs --all
+
+      - name: Committed-files policy tests
+        run: node --test scripts/check-committed-files.test.mjs
+
+  # The asset release for this commit's build inputs is published
+  # (tools/blender/README.md, "Asset releases"): a change to what the Blender
+  # build reads fails here until `npm run assets:publish` uploads it. Node and
+  # gh only, nothing built or downloaded. Not in scripts/check.sh: it asks
+  # GitHub, and a local commit is never published yet.
+  asset-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 25
+
+      - name: Asset release published
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash tools/assets/check-release.sh
+
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: shs_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d shs_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/shs_test
+    steps:
+      - uses: actions/checkout@v4
+
+      # rustup reads rust-toolchain.toml (stable, clippy, rustfmt, wasm32 target).
+      - name: Install Rust toolchain
+        run: rustup toolchain install
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: cargo fmt
+        run: cargo fmt --all --check
+
+      - name: cargo clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: cargo test
+        run: cargo test --workspace
+
+      - name: wasm build
+        run: cargo build -p sim-wasm --target wasm32-unknown-unknown --release
+
+      - uses: actions/setup-node@v4
+        if: hashFiles('client/package.json') != ''
+        with:
+          node-version: 25
+
+      - name: Install client dependencies
+        if: hashFiles('client/package.json') != ''
+        run: if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+      - name: Client typecheck
+        if: hashFiles('client/package.json') != ''
+        run: npm run --workspace client typecheck
+
+      # vitest: the client's tests and client/scripts (the asset map and the
+      # asset uploader with its SigV4 signer, the asset fingerprint,
+      # step sources and release fetch). Tests that read built assets skip.
+      - name: Client tests
+        if: hashFiles('client/package.json') != ''
+        run: npm run --workspace client test
+
+      - name: Client build
+        if: hashFiles('client/package.json') != ''
+        run: npm run --workspace client build
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate compose file
+        run: POSTGRES_PASSWORD=ci docker compose -f docker/compose.yml config --quiet
+
+      # The image copies a built client (client/dist), as Kamal's pre-build
+      # hook makes it. Here it is built with greybox stand-ins: no Blender, and
+      # SHS_ASSETS_URL (above) is empty, so nothing is downloaded. Enough to
+      # check that the image builds; a deployed image gets the real assets.
+      - name: Install Rust toolchain
+        run: rustup toolchain install
+
+      - uses: Swatinem/rust-cache@v2
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 25
+
+      - name: Install client dependencies
+        run: npm ci
+
+      - name: Client build (greybox assets)
+        run: npm run --workspace client build
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build server image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: false
+          tags: shs-server:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

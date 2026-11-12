@@ -1,0 +1,148 @@
+{
+  "version": 2,
+  "clock": {
+    "epoch_unix_ms": 1767225600000,
+    "day_real_secs": 7200,
+    "periods": [
+      { "period": "morning", "starts": "06:00" },
+      { "period": "afternoon", "starts": "14:00" },
+      { "period": "night", "starts": "22:00" }
+    ]
+  },
+  "subjects": {
+    "charms": "Charms",
+    "transfiguration": "Transfiguration",
+    "potions": "Potions",
+    "defence": "Defensive Magic",
+    "history": "History of Magic",
+    "divination": "Divination",
+    "astronomy": "Astronomy",
+    "herbology": "Herbology",
+    "creatures": "Creature Keeping",
+    "flying": "Flying"
+  },
+  "slots": ["01:00", "08:00", "10:30", "14:30", "17:00", "22:30"],
+  "classes": [
+    {
+      "id": "charms",
+      "name": "Charms",
+      "sessions": ["08:00", "17:00"],
+      "duration_secs": 540,
+      "join_secs": 180,
+      "instance_cap": 30,
+      "max_sections": 16,
+      "door": "charms_classroom_door",
+      "layout": "class_charms",
+      "landmark": "classroom_door_1"
+    },
+    {
+      "id": "potions",
+      "name": "Potions",
+      "sessions": ["08:00", "17:00"],
+      "duration_secs": 540,
+      "join_secs": 180,
+      "instance_cap": 30,
+      "max_sections": 16,
+      "door": "potions_classroom_door",
+      "layout": "class_potions",
+      "landmark": "potions_classroom"
+    },
+    {
+      "id": "transfiguration",
+      "name": "Transfiguration",
+      "sessions": ["10:30", "17:00"],
+      "duration_secs": 540,
+      "join_secs": 180,
+      "instance_cap": 30,
+      "max_sections": 16,
+      "door": "transfiguration_classroom_door",
+      "layout": "class_classroom",
+      "landmark": "classroom_door_2"
+    },
+    {
+      "id": "defence",
+      "name": "Defensive Magic",
+      "sessions": ["14:30", "22:30"],
+      "duration_secs": 540,
+      "join_secs": 180,
+      "instance_cap": 30,
+      "max_sections": 16,
+      "door": "defence_classroom_door",
+      "layout": "class_defence",
+      "landmark": "classroom_door_3"
+    },
+    {
+      "id": "history",
+      "name": "History of Magic",
+      "sessions": ["10:30", "14:30"],
+      "duration_secs": 540,
+      "join_secs": 180,
+      "instance_cap": 30,
+      "max_sections": 16,
+      "door": "history_classroom_door",
+      "layout": "class_charms",
+      "landmark": "history_classroom"
+    },
+    {
+      "id": "divination",
+      "name": "Divination",
+      "sessions": ["10:30", "22:30"],
+      "duration_secs": 540,
+      "join_secs": 180,
+      "instance_cap": 30,
+      "max_sections": 16,
+      "door": "divination_classroom_door",
+      "layout": "class_divination",
+      "landmark": "divination_classroom"
+    },
+    {
+      "id": "astronomy",
+      "name": "Astronomy",
+      "sessions": ["01:00", "22:30"],
+      "duration_secs": 540,
+      "join_secs": 180,
+      "instance_cap": 30,
+      "max_sections": 16,
+      "door": "astronomy_tower_door",
+      "layout": "class_astronomy",
+      "landmark": "astronomy_tower",
+      "night_only": true
+    },
+    {
+      "id": "herbology",
+      "name": "Herbology",
+      "sessions": ["01:00", "08:00"],
+      "duration_secs": 540,
+      "join_secs": 180,
+      "instance_cap": 30,
+      "max_sections": 16,
+      "door": "greenhouse_gate",
+      "layout": "class_greenhouse",
+      "landmark": "greenhouses"
+    },
+    {
+      "id": "creatures",
+      "name": "Creature Keeping",
+      "sessions": ["01:00", "14:30"],
+      "duration_secs": 540,
+      "join_secs": 180,
+      "instance_cap": 30,
+      "max_sections": 16,
+      "door": "paddock_gate",
+      "layout": "class_paddock",
+      "landmark": "paddock"
+    },
+    {
+      "id": "flying",
+      "name": "Flying",
+      "sessions": ["10:30", "14:30"],
+      "duration_secs": 540,
+      "join_secs": 180,
+      "instance_cap": 30,
+      "max_sections": 16,
+      "door": "pitch_gate",
+      "layout": "class_pitch",
+      "landmark": "flying_pitch"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "class": "divination",
+  "answers": {
+    "cup_key": "m_door",
+    "ball_key": "m_door",
+    "cup_bird": "m_news",
+    "ball_bird": "m_news",
+    "cup_moon": "m_secret",
+    "ball_moon": "m_secret",
+    "cup_ladder": "m_progress",
+    "ball_ladder": "m_progress",
+    "cup_anchor": "m_calm",
+    "ball_anchor": "m_calm",
+    "cup_lantern": "m_guide",
+    "ball_lantern": "m_guide",
+    "cup_snail": "m_patience",
+    "ball_snail": "m_patience",
+    "cup_bridge": "m_reunion",
+    "ball_bridge": "m_reunion",
+    "cup_star": "m_wish",
+    "ball_star": "m_wish",
+    "cup_acorn": "m_beginning",
+    "ball_acorn": "m_beginning"
+  }
+}

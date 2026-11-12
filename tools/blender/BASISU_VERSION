@@ -1,0 +1,7 @@
+# basisu (Basis Universal), the KTX2 encoder of the castle textures and the
+# portrait backdrops: major.minor. Optional for a local build (without it the
+# textures are PNG only, which the client also loads); required by
+# tools/assets/publish.sh so a published asset release is complete.
+# macOS: brew install basis_universal. Elsewhere: build or download it from
+# https://github.com/BinomialLLC/basis_universal/releases
+2.50

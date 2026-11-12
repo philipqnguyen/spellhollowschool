@@ -1,0 +1,24 @@
+[package]
+name = "sim-wasm"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+protocol.workspace = true
+sim-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+# scripts/build-wasm.sh installs the wasm-bindgen-cli whose version equals the
+# wasm-bindgen version locked in Cargo.lock; keep these two crates in step.
+wasm-bindgen = "0.2.100"
+js-sys = "0.3.77"
+
+[dev-dependencies]
+# Runs tests/web.rs under Node: `scripts/build-wasm.sh --test`.
+wasm-bindgen-test = "0.3.50"

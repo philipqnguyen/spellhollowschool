@@ -1,0 +1,188 @@
+<%
+  # Deploys the game with Kamal 2 (https://kamal-deploy.org) to one server:
+  # the game server (which also serves the built client) behind kamal-proxy,
+  # with automatic HTTPS, and Postgres as an accessory on the same machine.
+  # docs/deploy.md is the guide.
+  #
+  # Every command names a destination (kamal deploy -d production), and
+  # config/deploy.<destination>.yml must exist. Nothing in these files is
+  # specific to one deployment: each destination's settings live in
+  # .kamal/deploy.<destination>.env (gitignored; copy .kamal/deploy.env.example),
+  # loaded here. A variable the file leaves out can come from your shell; one
+  # the file sets wins over the shell, so one destination never picks up
+  # another's settings by accident.
+  require "dotenv"
+  destination = ENV["KAMAL_DESTINATION"].to_s
+  if destination.empty?
+    raise "Name a destination: kamal <command> -d production (docs/deploy.md)"
+  end
+  settings_file = ".kamal/deploy.#{destination}.env"
+  unless File.exist?(settings_file)
+    raise "#{settings_file} is missing: copy .kamal/deploy.env.example to it and fill it in (docs/deploy.md)"
+  end
+  Dotenv.overload(settings_file)
+
+  setting = lambda do |name, default = nil|
+    value = ENV[name].to_s
+    next value unless value.empty?
+    next default unless default.nil?
+    raise "#{name} is not set in #{settings_file} (docs/deploy.md)"
+  end
+
+  host = setting.("DEPLOY_HOST")
+  domain = setting.("DEPLOY_DOMAIN")
+  # How players reach the server. "direct": kamal-proxy listens on ports 80 and
+  # 443 with a Let's Encrypt certificate. "cloudflare-tunnel": cloudflared (an
+  # accessory) carries every request from Cloudflare to kamal-proxy over the
+  # Docker network; kamal-proxy publishes no ports and Cloudflare does TLS.
+  edge = setting.("DEPLOY_EDGE", "direct")
+  unless %w[direct cloudflare-tunnel].include?(edge)
+    raise "DEPLOY_EDGE must be direct or cloudflare-tunnel, not #{edge.inspect}"
+  end
+  tunnel = edge == "cloudflare-tunnel"
+  ssl = !tunnel && setting.("DEPLOY_SSL", "true") == "true"
+  public_scheme = tunnel || ssl ? "https" : "http"
+  registry = setting.("DEPLOY_REGISTRY", "localhost:5555")
+  local_registry = registry.start_with?("localhost")
+  builder_remote = setting.("DEPLOY_BUILDER_REMOTE", "")
+  # The game assets from an S3-compatible bucket (Cloudflare R2...) behind a
+  # CDN, by content-addressed keys (docs/deploy.md, "Assets from a bucket").
+  # The pre-deploy hook uploads them (client/scripts/upload-assets.mjs, with
+  # the DEPLOY_ASSETS_* settings and keys); the image leaves them out and the
+  # server tells the client where they are. Unset: the image carries them and
+  # the server serves them.
+  assets_bucket = setting.("DEPLOY_ASSETS_BUCKET", "")
+  assets_url = assets_bucket.empty? ? "" : setting.("DEPLOY_ASSETS_PUBLIC_URL")
+  unless assets_url.empty? || assets_url.match?(%r{\Ahttps?://[^/\s"'<>?#]+[^\s"'<>?#]*\z})
+    raise "DEPLOY_ASSETS_PUBLIC_URL must be the bucket's public URL, e.g. https://assets.example.org, not #{assets_url.inspect}"
+  end
+%>
+# The local registry, the builder's local context and proxy path options need these.
+minimum_version: 2.12.0
+
+# Always deploy to a named destination (production, staging...).
+require_destination: true
+
+# The service name prefixes every container (spellhollow-web-..., spellhollow-db);
+# .kamal/secrets-common builds DATABASE_URL with the database's container name.
+service: spellhollow
+
+image: <%= setting.("DEPLOY_IMAGE", "spellhollow") %>
+
+servers:
+  web:
+    hosts:
+      - <%= host %>
+
+ssh:
+  user: <%= setting.("DEPLOY_SSH_USER", "root") %>
+<% port = setting.("DEPLOY_SSH_PORT", "22") %><% if port != "22" %>
+  port: <%= port %>
+<% end %>
+
+proxy:
+  host: <%= domain %>
+  ssl: <%= ssl %>
+  app_port: 8080
+  # Rate limits key on the client address the proxy appends (SHS_TRUST_PROXY).
+  forward_headers: true
+<% if tunnel %>
+  # Behind the tunnel kamal-proxy listens only on the Docker network
+  # (kamal-proxy:80), never on the host: cloudflared is its only way in.
+  run:
+    publish: false
+<% end %>
+  healthcheck:
+    path: /api/health
+    interval: 2
+    timeout: 3
+  # Stream the large game assets and the WebSocket instead of buffering them.
+  buffering:
+    requests: false
+    responses: false
+
+registry:
+  server: <%= registry %>
+<% unless local_registry %>
+  username: <%= setting.("DEPLOY_REGISTRY_USERNAME") %>
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+<% end %>
+
+builder:
+  arch: <%= setting.("DEPLOY_ARCH", "amd64") %>
+  dockerfile: docker/Dockerfile
+  # The working tree, not a clean git clone: the image takes the built client
+  # (client/dist, gitignored), which the pre-build hook makes.
+  context: .
+  args:
+    # 1: the image leaves out the game assets the bucket serves (docker/Dockerfile).
+    ASSETS_FROM_BUCKET: "<%= assets_url.empty? ? 0 : 1 %>"
+<% unless builder_remote.empty? %>
+  remote: <%= builder_remote %>
+<% end %>
+
+env:
+  clear:
+    SHS_PUBLIC_URL: <%= public_scheme %>://<%= domain %>
+    SHS_TRUST_PROXY: "1"
+<% if tunnel %>
+    # Cloudflare names the client in CF-Connecting-IP; X-Forwarded-For's last
+    # entry would be cloudflared's own address.
+    SHS_CLIENT_IP_HEADER: cf-connecting-ip
+<% end %>
+<% unless assets_url.empty? %>
+    # Where the client loads the game assets (the server names it in index.html).
+    SHS_ASSETS_CDN_URL: "<%= assets_url %>"
+<% end %>
+    SHS_PLAYER_CAP: "<%= setting.("SHS_PLAYER_CAP", "1000") %>"
+    SHS_MAIL_FROM: "<%= setting.("SHS_MAIL_FROM", "") %>"
+    RUST_LOG: <%= setting.("RUST_LOG", "info") %>
+  secret:
+    - DATABASE_URL
+    - SHS_SMTP_URL
+
+# One game server is one world: the new container starts, passes the health
+# check and takes the traffic, then the old one stops, saving its players.
+deploy_timeout: 60
+drain_timeout: 30
+# Old containers kept for `kamal rollback`: as many versions as the asset
+# bucket keeps files for (DEPLOY_ASSETS_PRUNE_KEEP, .kamal/hooks/post-deploy).
+retain_containers: 3
+
+accessories:
+  db:
+    image: postgres:18
+    host: <%= host %>
+    # Reachable only on the kamal Docker network (as spellhollow-db), never
+    # published on the host.
+    env:
+      clear:
+        POSTGRES_USER: shs
+        POSTGRES_DB: shs
+      secret:
+        - POSTGRES_PASSWORD
+    volumes:
+      # Postgres 18 keeps its data under /var/lib/postgresql/18/docker, so the
+      # volume goes on the parent (major upgrades then sit side by side).
+      - spellhollow_pgdata:/var/lib/postgresql
+    options:
+      shm-size: 256m
+<% if tunnel %>
+  # The Cloudflare Tunnel connector: dials out to Cloudflare (no inbound port)
+  # and forwards to kamal-proxy. Its public hostname and target
+  # (http://kamal-proxy:80) are set in the Cloudflare dashboard (docs/deploy.md).
+  tunnel:
+    image: cloudflare/cloudflared:2026.10.7
+    host: <%= host %>
+    cmd: tunnel --no-autoupdate run
+    env:
+      secret:
+        - TUNNEL_TOKEN:CLOUDFLARE_TUNNEL_TOKEN
+<% end %>
+
+aliases:
+  console: app exec --interactive --reuse "sh"
+  logs: app logs --follow
+  ledger-audit: app exec --reuse "shs-server audit"
+  psql: accessory exec db --interactive --reuse "psql -U shs shs"

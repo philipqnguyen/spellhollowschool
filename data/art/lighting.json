@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "comment": "Lighting for the anime (toon) look. Format: docs/art/style-guide.md, 'Lighting data'. Colours are sRGB hex; directions are world Y-up unit vectors pointing from the light into the scene (Babylon DirectionalLight.direction); x east, z south. Castle keys are interpolated linearly by game hour, wrapping at 24.",
+  "castle": {
+    "keys": [
+      {
+        "hour": 0.0,
+        "name": "night",
+        "sun": { "body": "moon", "direction": [0.3, -0.8, -0.52], "color": "#9CB2FF", "intensity": 0.38 },
+        "hemi": { "sky": "#5465B8", "ground": "#2E2848", "intensity": 0.5 },
+        "sky": { "zenith": "#0D1640", "horizon": "#2C3A7A" },
+        "fog": "#22306A"
+      },
+      {
+        "hour": 5.5,
+        "name": "before_dawn",
+        "sun": { "body": "moon", "direction": [0.45, -0.7, -0.55], "color": "#A4AEFF", "intensity": 0.34 },
+        "hemi": { "sky": "#6470BE", "ground": "#3A2E4C", "intensity": 0.5 },
+        "sky": { "zenith": "#16205A", "horizon": "#5A4E96" },
+        "fog": "#3E3C7A"
+      },
+      {
+        "hour": 6.5,
+        "name": "sunrise",
+        "sun": { "body": "sun", "direction": [-0.82, -0.34, -0.46], "color": "#FFB27E", "intensity": 0.8 },
+        "hemi": { "sky": "#F2C9B6", "ground": "#6E4A3E", "intensity": 0.55 },
+        "sky": { "zenith": "#5E82CE", "horizon": "#FFC39E" },
+        "fog": "#EDBCA6"
+      },
+      {
+        "hour": 8.5,
+        "name": "morning",
+        "sun": { "body": "sun", "direction": [-0.55, -0.62, -0.56], "color": "#FFEBCB", "intensity": 0.95 },
+        "hemi": { "sky": "#C4DCFF", "ground": "#8A6E52", "intensity": 0.6 },
+        "sky": { "zenith": "#3E86E8", "horizon": "#C8E6FF" },
+        "fog": "#D2E8FF"
+      },
+      {
+        "hour": 13.0,
+        "name": "noon",
+        "sun": { "body": "sun", "direction": [-0.12, -0.84, -0.53], "color": "#FFF5E2", "intensity": 1.0 },
+        "hemi": { "sky": "#BEDAFF", "ground": "#8E7656", "intensity": 0.62 },
+        "sky": { "zenith": "#3A80E6", "horizon": "#C2E4FF" },
+        "fog": "#CFE6FF"
+      },
+      {
+        "hour": 18.5,
+        "name": "afternoon",
+        "sun": { "body": "sun", "direction": [0.52, -0.6, -0.6], "color": "#FFE6C2", "intensity": 0.95 },
+        "hemi": { "sky": "#C8D8FA", "ground": "#8E6E50", "intensity": 0.6 },
+        "sky": { "zenith": "#4282E0", "horizon": "#D6E4F8" },
+        "fog": "#D8E2F4"
+      },
+      {
+        "hour": 21.25,
+        "name": "golden_hour",
+        "sun": { "body": "sun", "direction": [0.84, -0.3, -0.45], "color": "#FFAE6E", "intensity": 0.82 },
+        "hemi": { "sky": "#F0C4AC", "ground": "#704838", "intensity": 0.55 },
+        "sky": { "zenith": "#4E6AC2", "horizon": "#FFB28C" },
+        "fog": "#F0B496"
+      },
+      {
+        "hour": 22.25,
+        "name": "dusk",
+        "sun": { "body": "moon", "direction": [0.2, -0.78, -0.6], "color": "#ACA6FF", "intensity": 0.36 },
+        "hemi": { "sky": "#6A62B8", "ground": "#3A2C48", "intensity": 0.5 },
+        "sky": { "zenith": "#1C2260", "horizon": "#6E4E92" },
+        "fog": "#3E3672"
+      },
+      {
+        "hour": 23.0,
+        "name": "night",
+        "sun": { "body": "moon", "direction": [0.3, -0.8, -0.52], "color": "#9CB2FF", "intensity": 0.38 },
+        "hemi": { "sky": "#5465B8", "ground": "#2E2848", "intensity": 0.5 },
+        "sky": { "zenith": "#0D1640", "horizon": "#2C3A7A" },
+        "fog": "#22306A"
+      }
+    ]
+  },
+  "rim": { "color": "#FFF2DE", "comment": "Rim light colour (the per-material rim strength scales it); at night the client may tint it with the moon colour." },
+  "lights": {
+    "candle": "#FFC46E",
+    "torch": "#FFA04A",
+    "fire": "#FF8238",
+    "fire_low": "#FF9440",
+    "lantern": "#FFAE5C",
+    "lamp_warm": "#FFE3A0",
+    "board": "#FFD596",
+    "window": "#BFD6FF",
+    "window_day": "#D6E8FF",
+    "window_cool": "#A8C6F0",
+    "magic_green": "#55F59A",
+    "lake": "#78AEC8",
+    "brew": "#A4E276",
+    "stage_blue": "#8CC8FF",
+    "rose": "#B49CFF"
+  }
+}

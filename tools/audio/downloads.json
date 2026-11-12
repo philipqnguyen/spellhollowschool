@@ -1,0 +1,419 @@
+{
+ "about": "Every CC0 download fetched (each into its own folder under .out/audio-downloads/<name>/, gitignored), vetted on its OpenGameArt page as CC0. tools/audio/convert.py reads these to write data/audio/sources.json. Not every download is used; see tools/audio/README.md.",
+ "downloads": {
+  "kenney_rpg": {
+   "page": "https://opengameart.org/content/50-rpg-sound-effects",
+   "url": "https://opengameart.org/sites/default/files/RPGsounds_Kenney.zip",
+   "file": "RPGsounds_Kenney.zip",
+   "sha256": "3ae398ad63e293f9c450bda22d5d81c3af69c74df66fc1400f33c012c0bbc231",
+   "retrieved": "2026-11-02",
+   "author": "Kenney (Kenney Vleugels, kenney.nl)",
+   "licence": "CC0-1.0"
+  },
+  "tinyworlds_steps": {
+   "page": "https://opengameart.org/content/different-steps-on-wood-stone-leaves-gravel-and-mud",
+   "url": "https://opengameart.org/sites/default/files/%5Bkdd%5DDifferentSteps_0.zip",
+   "file": "[kdd]DifferentSteps_0.zip",
+   "sha256": "987d072b7deaa65177e005ddd8185f2351be7c9a76cd7575dea560549c39b33b",
+   "retrieved": "2026-11-02",
+   "author": "TinyWorlds",
+   "licence": "CC0-1.0"
+  },
+  "mikeask_woodsteps": {
+   "page": "https://opengameart.org/content/steps-in-wood-floor",
+   "url": "https://opengameart.org/sites/default/files/steps%20in%20wood%20floor.wav",
+   "file": "steps in wood floor.wav",
+   "sha256": "aae50329e6b702c23a2e6e21f0eb673a0bca5aa9386fb9eb4ea6e9acdcb05536",
+   "retrieved": "2026-11-02",
+   "author": "mikeask",
+   "licence": "CC0-1.0"
+  },
+  "fantozzi_steps": {
+   "page": "https://opengameart.org/content/fantozzis-footsteps-grasssand-stone",
+   "url": "https://opengameart.org/sites/default/files/Fantozzi-footsteps.7z",
+   "file": "Fantozzi-footsteps.7z",
+   "sha256": "415d360e0911c1c1c5355ee94023b772e6f4044f59b9b580610e7dbffd1840fd",
+   "retrieved": "2026-11-02",
+   "author": "Fantozzi (recordings, freesound.org pack 10338, CC0); cut by qubodup (Iwan Gabovitch)",
+   "licence": "CC0-1.0"
+  },
+  "haeldb_steps": {
+   "page": "https://opengameart.org/content/footsteps-leather-cloth-armor",
+   "url": "https://opengameart.org/sites/default/files/footsteps.zip",
+   "file": "footsteps.zip",
+   "sha256": "94b5155d119d9378315c2b4457c00098d78a36f2a2c436d5145687d1d3bad257",
+   "retrieved": "2026-11-02",
+   "author": "HaelDB",
+   "licence": "CC0-1.0"
+  },
+  "qubodup_doorset": {
+   "page": "https://opengameart.org/content/door-open-door-close-set",
+   "url": "https://opengameart.org/sites/default/files/qubodup-DoorSet.7z",
+   "file": "qubodup-DoorSet.7z",
+   "sha256": "88502c82451a646fa4bc1b9021a26bbd3441b2850a613784a05336067b11a25d",
+   "retrieved": "2026-11-02",
+   "author": "qubodup (Iwan Gabovitch)",
+   "licence": "CC0-1.0"
+  },
+  "rubberduck_metalwood": {
+   "page": "https://opengameart.org/content/100-cc0-metal-and-wood-sfx",
+   "url": "https://opengameart.org/sites/default/files/100-CC0-wood-metal-SFX.zip",
+   "file": "100-CC0-wood-metal-SFX.zip",
+   "sha256": "be6eba63b03409ac0c77787a956b1503a7c186403d04aef9725c52644a4b7878",
+   "retrieved": "2026-11-02",
+   "author": "rubberduck",
+   "licence": "CC0-1.0"
+  },
+  "rubberduck_100v2": {
+   "page": "https://opengameart.org/content/100-cc0-sfx-2",
+   "url": "https://opengameart.org/sites/default/files/sfx_100_v2.zip",
+   "file": "sfx_100_v2.zip",
+   "sha256": "0fc61b4494e2e893c0c015ced4877b3f689c7d84a48cb61daecd7ddb52db797b",
+   "retrieved": "2026-11-02",
+   "author": "rubberduck",
+   "licence": "CC0-1.0"
+  },
+  "rubberduck_100": {
+   "page": "https://opengameart.org/content/100-cc0-sfx",
+   "url": "https://opengameart.org/sites/default/files/100-CC0-SFX_0.zip",
+   "file": "100-CC0-SFX_0.zip",
+   "sha256": "a5c135878c132f1c59cca54e60061c296cd0ac27ad031ca2c41b8cd5cab3c706",
+   "retrieved": "2026-11-02",
+   "author": "rubberduck",
+   "licence": "CC0-1.0"
+  },
+  "rubberduck_rpg80": {
+   "page": "https://opengameart.org/content/80-cc0-rpg-sfx",
+   "url": "https://opengameart.org/sites/default/files/80-CC0-RPG-SFX_0.zip",
+   "file": "80-CC0-RPG-SFX_0.zip",
+   "sha256": "1c2f06ff4e8563b5b8b745b23cf213c1474142a69bb82bd8f5e10d9b3f7a7bbd",
+   "retrieved": "2026-11-02",
+   "author": "rubberduck",
+   "licence": "CC0-1.0"
+  },
+  "rubberduck_loops": {
+   "page": "https://opengameart.org/content/30-cc0-sfx-loops",
+   "url": "https://opengameart.org/sites/default/files/sfx_loops.zip",
+   "file": "sfx_loops.zip",
+   "sha256": "9c013474c7e56192a0d1b2840535a1e1d8b93166948d4a9f7136bb6c3d5421cd",
+   "retrieved": "2026-11-02",
+   "author": "rubberduck",
+   "licence": "CC0-1.0"
+  },
+  "bonebrah_stonedoor": {
+   "page": "https://opengameart.org/content/stone-door",
+   "url": "https://opengameart.org/sites/default/files/stone_door.ogg",
+   "file": "stone_door.ogg",
+   "sha256": "97e05a01ba45c324094f0f51a5094dc23fbb6f915db6c39154d9cac34939149c",
+   "retrieved": "2026-11-02",
+   "author": "bonebrah",
+   "licence": "CC0-1.0"
+  },
+  "qubodup_door": {
+   "page": "https://opengameart.org/content/door-open-door-close",
+   "url": "https://opengameart.org/sites/default/files/door.7z",
+   "file": "door.7z",
+   "sha256": "81e87d4f7ea2227076b25dc6e595378d3a35ae7e6a45817a051cfbcd17b13ea1",
+   "retrieved": "2026-11-02",
+   "author": "qubodup (Iwan Gabovitch)",
+   "licence": "CC0-1.0"
+  },
+  "thimras_park_birds": {
+   "page": "https://opengameart.org/content/park-ambiences",
+   "url": "https://opengameart.org/sites/default/files/park_ambience_birds.wav",
+   "file": "park_ambience_birds.wav",
+   "sha256": "dc1a5ac34b89cab7f8f261b53a23da7c1c5e3cc895aae4cb6fb4a1a04001b2af",
+   "retrieved": "2026-11-02",
+   "author": "Thimras",
+   "licence": "CC0-1.0"
+  },
+  "thimras_park_river": {
+   "page": "https://opengameart.org/content/park-ambiences",
+   "url": "https://opengameart.org/sites/default/files/park_ambience_river.wav",
+   "file": "park_ambience_river.wav",
+   "sha256": "da0c0c9b1249a83a1611cc116d5737b0864a8db9f45f1ae8dcc079d0f7c0bbbf",
+   "retrieved": "2026-11-02",
+   "author": "Thimras",
+   "licence": "CC0-1.0"
+  },
+  "thimras_park_wind": {
+   "page": "https://opengameart.org/content/park-ambiences",
+   "url": "https://opengameart.org/sites/default/files/park_ambience_wind.wav",
+   "file": "park_ambience_wind.wav",
+   "sha256": "5c381856745b4706e7eba55eb9271a61a530e90c05df8126adb2db89ecfa6c5a",
+   "retrieved": "2026-11-02",
+   "author": "Thimras",
+   "licence": "CC0-1.0"
+  },
+  "isaiah_birds": {
+   "page": "https://opengameart.org/content/ambient-bird-sounds",
+   "url": "https://opengameart.org/sites/default/files/birds-isaiah658.ogg",
+   "file": "birds-isaiah658.ogg",
+   "sha256": "359e4e3f9da9d75aac64cede511c7e3ef8b461f9d9f8c230f8f80e44c4b3e35f",
+   "retrieved": "2026-11-02",
+   "author": "isaiah658",
+   "licence": "CC0-1.0"
+  },
+  "zeroisnotnull_crow": {
+   "page": "https://opengameart.org/content/crow-caw",
+   "url": "https://opengameart.org/sites/default/files/crow_caw.wav",
+   "file": "crow_caw.wav",
+   "sha256": "bba22883209b435905471d057160f1badae59b89a62e9a8b3199d7e327b17339",
+   "retrieved": "2026-11-02",
+   "author": "zeroisnotnull",
+   "licence": "CC0-1.0"
+  },
+  "ignasd_crows": {
+   "page": "https://opengameart.org/content/crows-singing",
+   "url": "https://opengameart.org/sites/default/files/Crows.ogg",
+   "file": "Crows.ogg",
+   "sha256": "c2ac86edfe858402a5440488ad8bfa17921e2f4831b58facb544a928f20c3cad",
+   "retrieved": "2026-11-02",
+   "author": "IgnasD",
+   "licence": "CC0-1.0"
+  },
+  "wolfgang_crickets": {
+   "page": "https://opengameart.org/content/crickets-ambient-noise-loopable",
+   "url": "https://opengameart.org/sites/default/files/crickets_1.mp3",
+   "file": "crickets_1.mp3",
+   "sha256": "5b5bd1f744087888c5623543c3ff80be9c2ce106093993e7c8a8492b0280b2c0",
+   "retrieved": "2026-11-02",
+   "author": "Wolfgang_",
+   "licence": "CC0-1.0"
+  },
+  "ez_croak1": {
+   "page": "https://opengameart.org/content/frog-croaks",
+   "url": "https://opengameart.org/sites/default/files/croak_01.mp3",
+   "file": "croak_01.mp3",
+   "sha256": "a514e4d52a99efcd4ae2af9ccdedd4293ebb2f63d033697907c379c2a3eefaa5",
+   "retrieved": "2026-11-02",
+   "author": "EZduzziteh",
+   "licence": "CC0-1.0"
+  },
+  "ez_ribbit1": {
+   "page": "https://opengameart.org/content/ribbit-frog-sounds",
+   "url": "https://opengameart.org/sites/default/files/ribbit_01.mp3",
+   "file": "ribbit_01.mp3",
+   "sha256": "7945c278615a483caf7f4707b403939ff632549d554e04cddb2a9b845b46347c",
+   "retrieved": "2026-11-02",
+   "author": "EZduzziteh",
+   "licence": "CC0-1.0"
+  },
+  "antum_fire": {
+   "page": "https://opengameart.org/content/fire-crackling",
+   "url": "https://opengameart.org/sites/default/files/fire-1.wav",
+   "file": "fire-1.wav",
+   "sha256": "26702de8a195bcbafeae72034861d875a1b7917168a25106f4e1957ecdddf7e5",
+   "retrieved": "2026-11-02",
+   "author": "AntumDeluge (Jordan Irwin)",
+   "licence": "CC0-1.0"
+  },
+  "pagdev_fire": {
+   "page": "https://opengameart.org/content/fireplace-sound-loop",
+   "url": "https://opengameart.org/sites/default/files/fire.wav",
+   "file": "fire.wav",
+   "sha256": "85ca0cc60d0c037fff8b185e31ad1fcdbda6ce45eee17c3ee1318d1b8f59e330",
+   "retrieved": "2026-11-02",
+   "author": "PagDev",
+   "licence": "CC0-1.0"
+  },
+  "transitking_waves": {
+   "page": "https://opengameart.org/content/water-waves",
+   "url": "https://opengameart.org/sites/default/files/wave_01_cc0-11505__transitking__wavesound.flac",
+   "file": "wave_01_cc0-11505__transitking__wavesound.flac",
+   "sha256": "0bd84b2061a82c234470bd4e16efc6ab24851928d3f93e1757bfea048b2d7a33",
+   "retrieved": "2026-11-02",
+   "author": "transitking; cut by qubodup",
+   "licence": "CC0-1.0"
+  },
+  "randommind_vistula": {
+   "page": "https://opengameart.org/content/sea-and-river-wave-sounds",
+   "url": "https://opengameart.org/sites/default/files/VistulaShort.mp3",
+   "file": "VistulaShort.mp3",
+   "sha256": "8c24607e41edd6f018ec3582a07e5a8dbc57347276339cb68440951a0fb4cfb1",
+   "retrieved": "2026-11-02",
+   "author": "RandomMind",
+   "licence": "CC0-1.0"
+  },
+  "qubodup_drip": {
+   "page": "https://opengameart.org/content/dripping-water-loop",
+   "url": "https://opengameart.org/sites/default/files/atmosbasement.mp3_.flac",
+   "file": "atmosbasement.mp3_.flac",
+   "sha256": "247c0ef181c8ba8d190a6194f6ea02d9defb23b70194c52c7f9187b5b7b1cc61",
+   "retrieved": "2026-11-02",
+   "author": "qubodup (Iwan Gabovitch)",
+   "licence": "CC0-1.0"
+  },
+  "ignasd_wind": {
+   "page": "https://opengameart.org/content/wind",
+   "url": "https://opengameart.org/sites/default/files/wind.zip",
+   "file": "wind.zip",
+   "sha256": "8f6185f6eb836a5c35c492e8dabd276e507ba3e4dca0e7d551d04c689d0c0d63",
+   "retrieved": "2026-11-02",
+   "author": "IgnasD",
+   "licence": "CC0-1.0"
+  },
+  "bashar_wind": {
+   "page": "https://opengameart.org/content/mild-wind-background-noise",
+   "url": "https://opengameart.org/sites/default/files/wind%20background%20noise%202.wav",
+   "file": "wind background noise 2.wav",
+   "sha256": "9f1fd5c8b37949e6889a7f6acbd822f66e0ab4e918d72bda58d8d8c2c7e85a80",
+   "retrieved": "2026-11-02",
+   "author": "Bashar3A",
+   "licence": "CC0-1.0"
+  },
+  "qubodup_drink": {
+   "page": "https://opengameart.org/content/liquid-bottle-drink-set",
+   "url": "https://opengameart.org/sites/default/files/qubodup-bottle-and-drink-sounds.7z",
+   "file": "qubodup-bottle-and-drink-sounds.7z",
+   "sha256": "6d2b9dade6ff4c20cbe2b2a7c405cd219b901bfce7045b28f5ba8b8683c7a5e7",
+   "retrieved": "2026-11-02",
+   "author": "qubodup (Iwan Gabovitch)",
+   "licence": "CC0-1.0"
+  },
+  "antum_wings": {
+   "page": "https://opengameart.org/content/large-wings-flap",
+   "url": "https://opengameart.org/sites/default/files/wings_flap_large.zip",
+   "file": "wings_flap_large.zip",
+   "sha256": "f0907c3639f1cc828ac54c9527e8e458d0ca173626d050a8eb8df54a9e36c1b5",
+   "retrieved": "2026-11-02",
+   "author": "AntumDeluge (Jordan Irwin), from 'fast simple chop 5' by dave.des (freesound 127197, CC0)",
+   "licence": "CC0-1.0"
+  },
+  "starninjas_book": {
+   "page": "https://opengameart.org/content/10-book-page-flips",
+   "url": "https://opengameart.org/sites/default/files/book_flips_-_starninjas.zip",
+   "file": "book_flips_-_starninjas.zip",
+   "sha256": "0ff49c3677ea0e64544aeda3a0aa2ce71ee5d42b266da9e54421252a5ca5f20f",
+   "retrieved": "2026-11-02",
+   "author": "StarNinjas",
+   "licence": "CC0-1.0"
+  },
+  "voltiment_book": {
+   "page": "https://opengameart.org/content/book-flip-sounds",
+   "url": "https://opengameart.org/sites/default/files/BookFlip_SFX.zip",
+   "file": "BookFlip_SFX.zip",
+   "sha256": "aa59a4f7a1f0aa1d1cbcb9561cf1120f2cc66a07ff49b7cc7dc8810ccb9646fe",
+   "retrieved": "2026-11-02",
+   "author": "Voltiment555",
+   "licence": "CC0-1.0"
+  },
+  "luckius_paper": {
+   "page": "https://opengameart.org/content/various-paper-sound-effects",
+   "url": "https://opengameart.org/sites/default/files/sounds_6.zip",
+   "file": "sounds_6.zip",
+   "sha256": "aa1889414310c7cfdd8dc291c19d4e4fc21ec987e9238b0d961fb72449c263a4",
+   "retrieved": "2026-11-02",
+   "author": "Luckius",
+   "licence": "CC0-1.0"
+  },
+  "amarikah_gold": {
+   "page": "https://opengameart.org/content/sack-of-gold",
+   "url": "https://opengameart.org/sites/default/files/gold_sack.wav",
+   "file": "gold_sack.wav",
+   "sha256": "f3f8aaafefa1db77b69a584abd16355f2a04c5c3b24d6551f32a3e042370f958",
+   "retrieved": "2026-11-02",
+   "author": "Amarikah",
+   "licence": "CC0-1.0"
+  },
+  "owlish_more": {
+   "page": "https://opengameart.org/content/202-more-sound-effects",
+   "url": "https://opengameart.org/sites/default/files/MoreSounds.zip",
+   "file": "MoreSounds.zip",
+   "sha256": "9428c1437137d9ea06ba94e13da12488d4c57990a1c32d83db9e7707e69fb3af",
+   "retrieved": "2026-11-02",
+   "author": "OwlishMedia",
+   "licence": "CC0-1.0"
+  },
+  "owlish_sfx": {
+   "page": "https://opengameart.org/content/sound-effects-pack",
+   "url": "https://opengameart.org/sites/default/files/Owlish%20Media%20Sound%20Effects.zip",
+   "file": "Owlish Media Sound Effects.zip",
+   "sha256": "57d7059fe2c0ea5f47c7554ace22a538ea22ab40bfc0906b71aa259afffd3d18",
+   "retrieved": "2026-11-02",
+   "author": "OwlishMedia",
+   "licence": "CC0-1.0"
+  },
+  "rubberduck_water": {
+   "page": "https://opengameart.org/content/40-cc0-water-splash-slime-sfx",
+   "url": "https://opengameart.org/sites/default/files/water-splash-slime-sfx.zip",
+   "file": "water-splash-slime-sfx.zip",
+   "sha256": "7cd39abb49d4362a37ba18dc0e454c7dc1d08029d4e5b683149046bc237b2eba",
+   "retrieved": "2026-11-02",
+   "author": "rubberduck",
+   "licence": "CC0-1.0"
+  },
+  "gbox_step01": {
+   "page": "https://opengameart.org/content/footsteps-0",
+   "url": "https://opengameart.org/sites/default/files/01-footstep.ogg",
+   "file": "01-footstep.ogg",
+   "sha256": "33c9bef5e8aeb1069455699a34a0c5e1ef1787fd3f61594b0859d7e6bb9f9dec",
+   "retrieved": "2026-11-02",
+   "author": "GboxMikeFozzy",
+   "licence": "CC0-1.0"
+  },
+  "gbox_step02": {
+   "page": "https://opengameart.org/content/footsteps-0",
+   "url": "https://opengameart.org/sites/default/files/02-footstep.ogg",
+   "file": "02-footstep.ogg",
+   "sha256": "f05396c807eb8eaecffb2a1ead611ec971c5a7914d1d081c91d7796e852692a2",
+   "retrieved": "2026-11-02",
+   "author": "GboxMikeFozzy",
+   "licence": "CC0-1.0"
+  },
+  "gbox_step03": {
+   "page": "https://opengameart.org/content/footsteps-0",
+   "url": "https://opengameart.org/sites/default/files/03-footstep.ogg",
+   "file": "03-footstep.ogg",
+   "sha256": "9817cc93897ed1de5da87675b26be4196bfda3daa6f1de9dc4398a68d250cdb9",
+   "retrieved": "2026-11-02",
+   "author": "GboxMikeFozzy",
+   "licence": "CC0-1.0"
+  },
+  "gbox_step04": {
+   "page": "https://opengameart.org/content/footsteps-0",
+   "url": "https://opengameart.org/sites/default/files/04-footstep.ogg",
+   "file": "04-footstep.ogg",
+   "sha256": "b373ff981e44d6f7ba2291225a4803078771029615ed81606136fdb9599906d5",
+   "retrieved": "2026-11-02",
+   "author": "GboxMikeFozzy",
+   "licence": "CC0-1.0"
+  },
+  "gbox_step05": {
+   "page": "https://opengameart.org/content/footsteps-0",
+   "url": "https://opengameart.org/sites/default/files/05-footstep.ogg",
+   "file": "05-footstep.ogg",
+   "sha256": "f1b4893dd3cebe23438567a0dcaf047848a52b594e7eb03e5c212d99e83d2298",
+   "retrieved": "2026-11-02",
+   "author": "GboxMikeFozzy",
+   "licence": "CC0-1.0"
+  },
+  "gbox_step06": {
+   "page": "https://opengameart.org/content/footsteps-0",
+   "url": "https://opengameart.org/sites/default/files/06-footstep.ogg",
+   "file": "06-footstep.ogg",
+   "sha256": "39147cc1b98abb4b5378ad07b15d50d18f2aa0f0fd2f5514f078c1e574d14773",
+   "retrieved": "2026-11-02",
+   "author": "GboxMikeFozzy",
+   "licence": "CC0-1.0"
+  },
+  "corsica_snow": {
+   "page": "https://opengameart.org/content/42-snow-and-gravel-footsteps",
+   "url": "https://opengameart.org/sites/default/files/corsica_s-walking_in_snow.7z",
+   "file": "corsica_s-walking_in_snow.7z",
+   "sha256": "206306b51f8eeedf82043d6628174ec8ff9b16230dffb5192a5c74688e62abd4",
+   "retrieved": "2026-11-02",
+   "author": "Corsica_S (recordings, released as CC0 with permission); cut by qubodup (Iwan Gabovitch)",
+   "licence": "CC0-1.0"
+  },
+  "haeldb_crickets": {
+   "page": "https://opengameart.org/content/random-sounds-samples",
+   "url": "https://opengameart.org/sites/default/files/cricket%20ambienc276.ogg",
+   "file": "cricket ambienc276.ogg",
+   "sha256": "0d672c93843afc5785cbf4eeb6df696a73188016724ff59bcbd9c623b8d223bf",
+   "retrieved": "2026-11-02",
+   "author": "HaelDB",
+   "licence": "CC0-1.0"
+  }
+ }
+}

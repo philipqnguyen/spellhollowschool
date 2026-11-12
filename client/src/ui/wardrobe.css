@@ -1,0 +1,561 @@
+/* The wardrobe window: a mirror on the left, drawers and dyes on the right. */
+
+.hud-icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: middle;
+}
+
+.wardrobe {
+  pointer-events: auto;
+  position: absolute;
+  top: 62px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(940px, calc(100% - 24px));
+  height: min(640px, calc(100% - 150px));
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px 12px;
+  z-index: 3;
+}
+
+.wardrobe-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wardrobe-head h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--gilt-bright);
+}
+
+.wardrobe-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(220px, 34%) 1fr;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+/* ---------------------------------------------------------------- mirror */
+
+.wardrobe-mirror {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+
+.mirror-frame {
+  position: relative;
+  flex: 1;
+  min-height: 200px;
+  border: 1px solid rgba(201, 154, 69, 0.55);
+  border-radius: 46% 46% 6px 6px / 22% 22% 6px 6px;
+  overflow: hidden;
+  /* Old glass in a gilt frame, lit warmly from the front. */
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 38%, rgba(255, 214, 160, 0.16), transparent 70%),
+    linear-gradient(#2a2330, #15111a 70%, #0e0b10);
+  box-shadow:
+    inset 0 0 0 3px rgba(20, 14, 10, 0.8),
+    inset 0 0 0 4px rgba(201, 154, 69, 0.35),
+    inset 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+.wardrobe-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  touch-action: none;
+  cursor: grab;
+}
+
+.wardrobe-canvas:active {
+  cursor: grabbing;
+}
+
+.mirror-note {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  margin: 0;
+  text-align: center;
+  font-style: italic;
+  color: var(--gilt-bright);
+  text-shadow: 0 1px 3px #000;
+  pointer-events: none;
+}
+
+.worn-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.worn-tile {
+  display: grid;
+  gap: 2px;
+  justify-items: start;
+  min-width: 0;
+  padding: 5px 6px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.worn-tile:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.worn-tile:hover:not(:disabled) {
+  border-color: var(--gilt);
+}
+
+.worn-slot {
+  font-family: var(--display);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.worn-name {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.82rem;
+}
+
+/* ---------------------------------------------------------------- drawers */
+
+.wardrobe-side {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+.wardrobe-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--smoke-edge);
+}
+
+.wardrobe-tab {
+  flex: 1;
+  padding: 5px 4px 6px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--text-dim);
+  font-family: var(--display);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+}
+
+.wardrobe-tab[aria-selected="true"] {
+  color: var(--gilt-bright);
+  border-bottom-color: var(--gilt);
+}
+
+.wardrobe-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 8px 0 2px;
+}
+
+.wardrobe .chip {
+  padding: 3px 10px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 12px;
+  background: none;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.wardrobe .chip[aria-pressed="true"] {
+  border-color: var(--gilt);
+  color: var(--text);
+  background: rgba(201, 154, 69, 0.15);
+}
+
+.wardrobe-list {
+  flex: 1;
+  min-height: 90px;
+  overflow-y: auto;
+  margin-top: 6px;
+  padding-right: 2px;
+  scrollbar-width: thin;
+}
+
+.muted-line {
+  margin: 14px 4px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item-card {
+  position: relative;
+  display: grid;
+  gap: 5px;
+  justify-items: start;
+  width: 100%;
+  min-height: 62px;
+  padding: 7px 8px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--text);
+  font-size: 0.86rem;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item-card:hover {
+  border-color: rgba(201, 154, 69, 0.7);
+}
+
+.item-card[aria-pressed="true"] {
+  border-color: var(--gilt-bright);
+  background: rgba(201, 154, 69, 0.16);
+}
+
+.item-name {
+  overflow-wrap: anywhere;
+}
+
+/* A piece this body may not wear (kept, dyed and traded freely). */
+.item-card.unwearable {
+  opacity: 0.55;
+}
+
+.item-card .wear-tag {
+  margin-left: 0;
+}
+
+.wear-refusal {
+  color: var(--gilt-bright);
+}
+
+.badge-worn,
+.badge-room {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  font-family: var(--display);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gilt-bright);
+}
+
+.badge-room {
+  color: var(--text-dim);
+}
+
+.swatches {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.swatch {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--swatch);
+  border: 1px solid rgba(255, 240, 210, 0.35);
+  box-shadow: inset 0 -2px 3px rgba(0, 0, 0, 0.25);
+}
+
+.load-more {
+  display: block;
+  margin: 8px auto 2px;
+  text-align: center !important;
+}
+
+/* ---------------------------------------------------------------- detail and dyes */
+
+.wardrobe-detail {
+  flex-shrink: 0;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--smoke-edge);
+}
+
+.wardrobe-detail h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.detail-sub,
+.detail-note,
+.detail-label {
+  margin: 2px 0 6px;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+.detail-label {
+  margin: 8px 0 4px;
+  font-family: var(--display);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.wardrobe button.primary {
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+}
+
+.wardrobe button.secondary {
+  padding: 5px 10px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.wardrobe button.secondary:disabled,
+.wardrobe button.primary:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.wardrobe button.danger {
+  padding: 5px 10px;
+  border: 1px solid #c4473f;
+  border-radius: 3px;
+  background: rgba(155, 29, 29, 0.35);
+  color: #f8e9cf;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.dye-channels {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.dye-channel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px 3px 5px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 12px;
+  background: none;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.dye-channel[aria-checked="true"] {
+  border-color: var(--gilt);
+  color: var(--text);
+  background: rgba(201, 154, 69, 0.15);
+}
+
+.dye-channel .swatch {
+  width: 15px;
+  height: 15px;
+}
+
+.palette {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 3px;
+  margin-bottom: 8px;
+}
+
+.palette-colour {
+  aspect-ratio: 1;
+  min-width: 0;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.45);
+  border-radius: 3px;
+  background: var(--swatch);
+  cursor: pointer;
+}
+
+.palette-colour:hover:not(:disabled) {
+  transform: scale(1.15);
+  border-color: var(--parchment);
+}
+
+.palette-colour[aria-selected="true"] {
+  outline: 2px solid var(--gilt-bright);
+  outline-offset: 1px;
+}
+
+.palette-colour:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Colours that cost no dye carry a small gilt dot. */
+.palette-colour.free {
+  position: relative;
+}
+
+.palette-colour.free::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gilt-bright);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+
+.dye-cost {
+  margin: 8px 0 2px;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.dye-cost.free {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.dye-cost.short {
+  color: #e6a08f;
+}
+
+.dye-cost-line {
+  white-space: nowrap;
+}
+
+.dye-cost-line .swatch {
+  margin: 0 4px 0 2px;
+  vertical-align: -1px;
+}
+
+.dye-cost-have {
+  color: var(--text-dim);
+}
+
+.finish-section {
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(201, 154, 69, 0.18);
+}
+
+/* ---------------------------------------------------------------- outfits */
+
+.outfit-save,
+.outfit-rename {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.outfit-save input,
+.outfit-rename input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 8px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--text);
+}
+
+.outfit-save input:focus,
+.outfit-rename input:focus {
+  outline: none;
+  border-color: var(--gilt);
+}
+
+.outfit-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.outfit {
+  display: grid;
+  gap: 4px;
+  padding: 8px 10px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.outfit-name {
+  font-family: var(--display);
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+}
+
+.outfit-pieces {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+.wardrobe-error {
+  margin: 8px 0 0;
+  padding: 5px 10px;
+  border-left: 3px solid #c4473f;
+  background: rgba(155, 29, 29, 0.25);
+  font-size: 0.88rem;
+}
+
+@media (max-width: 700px) {
+  .wardrobe-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: 220px 1fr;
+  }
+
+  .palette {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}

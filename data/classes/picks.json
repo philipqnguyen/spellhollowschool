@@ -1,0 +1,225 @@
+{
+  "version": 1,
+  "sets": [
+    {
+      "id": "potions_ingredients",
+      "items": [
+        {"key": "madder_root", "label": "Madder Root", "icon": "icons/material/madder_root", "item": 3011},
+        {"key": "weld_flowers", "label": "Weld Flowers", "icon": "icons/material/weld_flowers", "item": 3012},
+        {"key": "woad_leaves", "label": "Woad Leaves", "icon": "icons/material/woad_leaves", "item": 3013},
+        {"key": "oakmoss_lichen", "label": "Oakmoss Lichen", "icon": "icons/material/oakmoss_lichen", "item": 3014},
+        {"key": "elderberries", "label": "Elderberries", "icon": "icons/material/elderberries", "item": 3015},
+        {"key": "walnut_hulls", "label": "Walnut Hulls", "icon": "icons/material/walnut_hulls", "item": 3016},
+        {"key": "moonflower_petals", "label": "Moonflower Petals", "icon": "icons/material/moonflower_petals", "item": 3017},
+        {"key": "oak_galls", "label": "Oak Galls", "icon": "icons/material/oak_galls", "item": 3018},
+        {"key": "rose_hips", "label": "Rose Hips", "icon": "icons/material/rose_hips", "item": 3019},
+        {"key": "moonknot", "label": "Moonknot", "icon": "icons/material/moonknot", "item": 3020},
+        {"key": "moonstone_dust", "label": "Moonstone Dust", "icon": "icons/material/moonstone_dust", "item": 3021},
+        {"key": "lacewing_flies", "label": "Lacewing Flies", "icon": "icons/material/lacewing_flies", "item": 3022},
+        {"key": "puffer_fish_eyes", "label": "Puffer-Fish Eyes", "icon": "icons/material/puffer_fish_eyes", "item": 3023},
+        {"key": "wrinklefig", "label": "Wrinklefig", "icon": "icons/material/wrinklefig", "item": 3024},
+        {"key": "ginger_root", "label": "Ginger Root", "icon": "icons/material/ginger_root", "item": 3025},
+        {"key": "glowing_mushroom", "label": "Glowing Mushroom", "icon": "icons/material/glowing_mushroom", "item": 3026},
+        {"key": "pearl_dust", "label": "Pearl Dust", "icon": "icons/material/pearl_dust", "item": 3027},
+        {"key": "valerian_sprigs", "label": "Valerian Sprigs", "icon": "icons/material/valerian_sprigs", "item": 3029}
+      ]
+    },
+    {
+      "id": "transfiguration_puzzles",
+      "items": [
+        {"key": "teacup_giant", "label": "Teacup → giant teacup", "icon": "icons/class/teacup"},
+        {"key": "key_tiny", "label": "Key → tiny key", "icon": "icons/class/key"},
+        {"key": "quill_silver", "label": "Quill → silver quill", "icon": "icons/class/quill"},
+        {"key": "candle_glass", "label": "Candle → glass candle", "icon": "icons/class/candle"},
+        {"key": "spoon_wood", "label": "Spoon → wooden spoon", "icon": "icons/class/spoon"},
+        {"key": "button_red", "label": "Button → red button", "icon": "icons/class/button"},
+        {"key": "matchbox_blue", "label": "Matchbox → blue matchbox", "icon": "icons/class/matchbox"},
+        {"key": "pincushion_round", "label": "Square pincushion → round pincushion", "icon": "icons/class/pincushion"},
+        {"key": "teacup_saucer", "label": "Teacup → flat saucer", "icon": "icons/class/teacup"},
+        {"key": "candle_tall", "label": "Candle stub → tall candle", "icon": "icons/class/candle"},
+        {"key": "quill_tiny_silver_1", "label": "Quill → tiny silver quill (1 of 2)", "icon": "icons/class/quill"},
+        {"key": "quill_tiny_silver_2", "label": "Quill → tiny silver quill (2 of 2)", "icon": "icons/class/quill"},
+        {"key": "matchbox_round_glass_1", "label": "Matchbox → round glass box (1 of 2)", "icon": "icons/class/matchbox"},
+        {"key": "matchbox_round_glass_2", "label": "Matchbox → round glass box (2 of 2)", "icon": "icons/class/matchbox"},
+        {"key": "button_big_green_1", "label": "Button → big green button (1 of 2)", "icon": "icons/class/button"},
+        {"key": "button_big_green_2", "label": "Button → big green button (2 of 2)", "icon": "icons/class/button"}
+      ]
+    },
+    {
+      "id": "transfiguration_changes",
+      "items": [
+        {"key": "grow", "label": "Make it larger", "icon": "icons/class/change_size"},
+        {"key": "shrink", "label": "Make it smaller", "icon": "icons/class/change_size"},
+        {"key": "to_silver", "label": "Turn it to silver", "icon": "icons/class/change_material"},
+        {"key": "to_glass", "label": "Turn it to glass", "icon": "icons/class/change_material"},
+        {"key": "to_wood", "label": "Turn it to wood", "icon": "icons/class/change_material"},
+        {"key": "to_red", "label": "Turn it red", "icon": "icons/class/change_colour"},
+        {"key": "to_blue", "label": "Turn it blue", "icon": "icons/class/change_colour"},
+        {"key": "to_green", "label": "Turn it green", "icon": "icons/class/change_colour"},
+        {"key": "make_round", "label": "Make it round", "icon": "icons/class/change_shape"},
+        {"key": "flatten", "label": "Flatten it", "icon": "icons/class/change_shape"},
+        {"key": "stretch", "label": "Stretch it tall", "icon": "icons/class/change_shape"}
+      ]
+    },
+    {
+      "id": "history_questions",
+      "items": [
+        {"key": "q_accord_year", "label": "In which year was the Lantern Accord signed?", "icon": "icons/class/quill"},
+        {"key": "q_accord_hall", "label": "Where was the Lantern Accord signed?", "icon": "icons/class/quill"},
+        {"key": "q_accord_promise", "label": "What did the Lantern Accord promise?", "icon": "icons/class/quill"},
+        {"key": "q_lamp_keeper", "label": "Who was the first keeper of the castle lamps?", "icon": "icons/class/quill"},
+        {"key": "q_lamp_fuel", "label": "What do the oldest castle lamps still burn?", "icon": "icons/class/quill"},
+        {"key": "q_stairs_year", "label": "When did the staircases first begin to wander?", "icon": "icons/class/quill"},
+        {"key": "q_stairs_architect", "label": "Whose charm set the staircases wandering?", "icon": "icons/class/quill"},
+        {"key": "q_stairs_when", "label": "When do the staircases move the most?", "icon": "icons/class/quill"},
+        {"key": "q_stairs_steady", "label": "Which flight never moves at all?", "icon": "icons/class/quill"},
+        {"key": "q_stairs_count", "label": "How many steps did students count before each landing?", "icon": "icons/class/quill"},
+        {"key": "q_owls_keeper", "label": "Who raised the first castle owls?", "icon": "icons/class/quill"},
+        {"key": "q_owls_tower", "label": "Where were the first castle owls kept?", "icon": "icons/class/quill"},
+        {"key": "q_exchange_year", "label": "When was the Owl Exchange founded?", "icon": "icons/class/quill"},
+        {"key": "q_owl_oldest", "label": "What was the oldest owl on record called?", "icon": "icons/class/quill"},
+        {"key": "q_owl_years", "label": "How long did Old Tamsin carry the post?", "icon": "icons/class/quill"}
+      ]
+    },
+    {
+      "id": "history_answers",
+      "items": [
+        {"key": "a_1311", "label": "1311", "icon": "icons/class/quill"},
+        {"key": "a_1407", "label": "1407", "icon": "icons/class/quill"},
+        {"key": "a_1588", "label": "1588", "icon": "icons/class/quill"},
+        {"key": "a_1640", "label": "1640", "icon": "icons/class/quill"},
+        {"key": "a_1702", "label": "1702", "icon": "icons/class/quill"},
+        {"key": "a_1762", "label": "1762", "icon": "icons/class/quill"},
+        {"key": "a_1815", "label": "1815", "icon": "icons/class/quill"},
+        {"key": "a_great_hall", "label": "The Great Hall", "icon": "icons/class/quill"},
+        {"key": "a_boathouse", "label": "The boathouse", "icon": "icons/class/quill"},
+        {"key": "a_library", "label": "The library", "icon": "icons/class/quill"},
+        {"key": "a_lit_corridors", "label": "Corridors lit all night", "icon": "icons/class/quill"},
+        {"key": "a_friday_feast", "label": "A feast every Friday", "icon": "icons/class/quill"},
+        {"key": "a_no_running", "label": "No running on the stairs", "icon": "icons/class/quill"},
+        {"key": "a_fenwright", "label": "Warden Isolde Fenwright", "icon": "icons/class/quill"},
+        {"key": "a_merrow", "label": "Aldous Merrow", "icon": "icons/class/quill"},
+        {"key": "a_hollins", "label": "Bram Hollins", "icon": "icons/class/quill"},
+        {"key": "a_moonstone_oil", "label": "Moonstone oil", "icon": "icons/class/quill"},
+        {"key": "a_beeswax", "label": "Beeswax", "icon": "icons/class/quill"},
+        {"key": "a_tallow", "label": "Tallow", "icon": "icons/class/quill"},
+        {"key": "a_dusk", "label": "At dusk", "icon": "icons/class/quill"},
+        {"key": "a_dawn", "label": "At dawn", "icon": "icons/class/quill"},
+        {"key": "a_midnight", "label": "At midnight", "icon": "icons/class/quill"},
+        {"key": "a_steadfast", "label": "The Steadfast Flight", "icon": "icons/class/quill"},
+        {"key": "a_marble", "label": "The Marble Staircase", "icon": "icons/class/quill"},
+        {"key": "a_trophy", "label": "The Trophy Stair", "icon": "icons/class/quill"},
+        {"key": "a_seven", "label": "Seven", "icon": "icons/class/quill"},
+        {"key": "a_three", "label": "Three", "icon": "icons/class/quill"},
+        {"key": "a_twelve", "label": "Twelve", "icon": "icons/class/quill"},
+        {"key": "a_west_tower", "label": "The West Tower", "icon": "icons/class/quill"},
+        {"key": "a_north_tower", "label": "The North Tower", "icon": "icons/class/quill"},
+        {"key": "a_dungeons", "label": "The dungeons", "icon": "icons/class/quill"},
+        {"key": "a_old_tamsin", "label": "Old Tamsin", "icon": "icons/class/quill"},
+        {"key": "a_greywick", "label": "Greywick", "icon": "icons/class/quill"},
+        {"key": "a_little_pip", "label": "Little Pip", "icon": "icons/class/quill"},
+        {"key": "a_forty", "label": "Forty years", "icon": "icons/class/quill"},
+        {"key": "a_ten", "label": "Ten years", "icon": "icons/class/quill"},
+        {"key": "a_ninety", "label": "Ninety years", "icon": "icons/class/quill"}
+      ]
+    },
+    {
+      "id": "divination_symbols",
+      "items": [
+        {"key": "cup_key", "label": "A key in the leaves", "icon": "icons/class/sym_key"},
+        {"key": "cup_bird", "label": "A bird in the leaves", "icon": "icons/class/sym_bird"},
+        {"key": "cup_moon", "label": "A crescent moon in the leaves", "icon": "icons/class/sym_moon"},
+        {"key": "cup_ladder", "label": "A ladder in the leaves", "icon": "icons/class/sym_ladder"},
+        {"key": "cup_anchor", "label": "An anchor in the leaves", "icon": "icons/class/sym_anchor"},
+        {"key": "cup_lantern", "label": "A lantern in the leaves", "icon": "icons/class/sym_lantern"},
+        {"key": "cup_snail", "label": "A snail in the leaves", "icon": "icons/class/sym_snail"},
+        {"key": "cup_bridge", "label": "A bridge in the leaves", "icon": "icons/class/sym_bridge"},
+        {"key": "cup_star", "label": "A star in the leaves", "icon": "icons/class/sym_star"},
+        {"key": "cup_acorn", "label": "An acorn in the leaves", "icon": "icons/class/sym_acorn"},
+        {"key": "ball_key", "label": "A key in the mist", "icon": "icons/class/sym_key"},
+        {"key": "ball_bird", "label": "A bird in the mist", "icon": "icons/class/sym_bird"},
+        {"key": "ball_moon", "label": "A crescent moon in the mist", "icon": "icons/class/sym_moon"},
+        {"key": "ball_ladder", "label": "A ladder in the mist", "icon": "icons/class/sym_ladder"},
+        {"key": "ball_anchor", "label": "An anchor in the mist", "icon": "icons/class/sym_anchor"},
+        {"key": "ball_lantern", "label": "A lantern in the mist", "icon": "icons/class/sym_lantern"},
+        {"key": "ball_snail", "label": "A snail in the mist", "icon": "icons/class/sym_snail"},
+        {"key": "ball_bridge", "label": "A bridge in the mist", "icon": "icons/class/sym_bridge"},
+        {"key": "ball_star", "label": "A star in the mist", "icon": "icons/class/sym_star"},
+        {"key": "ball_acorn", "label": "An acorn in the mist", "icon": "icons/class/sym_acorn"}
+      ]
+    },
+    {
+      "id": "divination_meanings",
+      "items": [
+        {"key": "m_door", "label": "A door will open for you", "icon": "icons/class/teacup"},
+        {"key": "m_news", "label": "News is on its way", "icon": "icons/class/teacup"},
+        {"key": "m_secret", "label": "A secret comes to light", "icon": "icons/class/teacup"},
+        {"key": "m_progress", "label": "Steady progress, step by step", "icon": "icons/class/teacup"},
+        {"key": "m_calm", "label": "Calm days and loyal friends", "icon": "icons/class/teacup"},
+        {"key": "m_guide", "label": "Someone will light your way", "icon": "icons/class/teacup"},
+        {"key": "m_patience", "label": "Patience will be rewarded", "icon": "icons/class/teacup"},
+        {"key": "m_reunion", "label": "An old friend returns", "icon": "icons/class/teacup"},
+        {"key": "m_wish", "label": "A wish draws near", "icon": "icons/class/teacup"},
+        {"key": "m_beginning", "label": "A small start, a great end", "icon": "icons/class/teacup"}
+      ]
+    },
+    {
+      "id": "herbology_plants",
+      "items": [
+        {"key": "vine_lunge", "label": "The Gnashvine snaps at your sleeve", "icon": "icons/class/plant_vine"},
+        {"key": "vine_sprawl", "label": "The Gnashvine sprawls across the bench", "icon": "icons/class/plant_vine"},
+        {"key": "vine_wilt", "label": "The Gnashvine's leaves hang limp and dry", "icon": "icons/class/plant_vine"},
+        {"key": "root_wail", "label": "The Shriekroot opens its mouth to wail", "icon": "icons/class/plant_root"},
+        {"key": "root_dry", "label": "Cracks run through the Shriekroot's soil", "icon": "icons/class/plant_root"},
+        {"key": "root_shiver", "label": "The Shriekroot shivers in its thin, tired soil", "icon": "icons/class/plant_root"},
+        {"key": "briar_bristle", "label": "The Needlebriar bristles every thorn", "icon": "icons/class/plant_briar"},
+        {"key": "briar_overgrown", "label": "The Needlebriar's thorns reach across the path", "icon": "icons/class/plant_briar"},
+        {"key": "briar_scorch", "label": "The Needlebriar's leaves curl brown in the sun", "icon": "icons/class/plant_briar"},
+        {"key": "fern_curl", "label": "The Shiverfern curls up tight", "icon": "icons/class/plant_fern"},
+        {"key": "fern_lean", "label": "The Shiverfern leans out of its pot", "icon": "icons/class/plant_fern"},
+        {"key": "fern_pale", "label": "The Shiverfern turns pale and thin", "icon": "icons/class/plant_fern"}
+      ]
+    },
+    {
+      "id": "herbology_tools",
+      "items": [
+        {"key": "t_water", "label": "Watering can", "icon": "icons/class/tool_water"},
+        {"key": "t_shears", "label": "Pruning shears", "icon": "icons/class/tool_shears"},
+        {"key": "t_earmuffs", "label": "Earmuffs", "icon": "icons/class/tool_earmuffs"},
+        {"key": "t_stake", "label": "Stake and twine", "icon": "icons/class/tool_stake"},
+        {"key": "t_gloves", "label": "Thick gloves", "icon": "icons/class/tool_gloves"},
+        {"key": "t_compost", "label": "Fresh compost", "icon": "icons/class/tool_compost"},
+        {"key": "t_shade", "label": "Shade cloth", "icon": "icons/class/tool_shade"},
+        {"key": "t_duster", "label": "Feather duster", "icon": "icons/class/tool_duster"}
+      ]
+    },
+    {
+      "id": "creatures_needs",
+      "items": [
+        {"key": "puff_hungry", "label": "The Fluffbell hums and sticks out its long tongue", "icon": "icons/class/need_hungry"},
+        {"key": "puff_scared", "label": "The Fluffbell shrinks into a tight, trembling ball", "icon": "icons/class/need_scared"},
+        {"key": "puff_muddy", "label": "The Fluffbell's fluff is matted with mud", "icon": "icons/class/need_muddy"},
+        {"key": "puff_bored", "label": "The Fluffbell rolls in slow, sulky circles", "icon": "icons/class/need_bored"},
+        {"key": "puff_cold", "label": "The Fluffbell shivers in the wind", "icon": "icons/class/need_cold"},
+        {"key": "lynxkit_hungry", "label": "The Lynxkit paces beside its empty dish", "icon": "icons/class/need_hungry"},
+        {"key": "lynxkit_thirsty", "label": "The Lynxkit licks at the dry trough", "icon": "icons/class/need_thirsty"},
+        {"key": "lynxkit_wary", "label": "The Lynxkit flattens its ears at you", "icon": "icons/class/need_scared"},
+        {"key": "lynxkit_burr", "label": "The Lynxkit tugs at a burr in its tail", "icon": "icons/class/need_muddy"},
+        {"key": "lynxkit_limp", "label": "The Lynxkit holds up one front paw", "icon": "icons/class/need_hurt"}
+      ]
+    },
+    {
+      "id": "creatures_care",
+      "items": [
+        {"key": "c_feed", "label": "Offer a little food", "icon": "icons/class/care_feed"},
+        {"key": "c_water", "label": "Fill the water bowl", "icon": "icons/class/care_water"},
+        {"key": "c_hum", "label": "Hum softly", "icon": "icons/class/care_hum"},
+        {"key": "c_hand", "label": "Hold out a still hand", "icon": "icons/class/care_hand"},
+        {"key": "c_brush", "label": "Brush it gently", "icon": "icons/class/care_brush"},
+        {"key": "c_ball", "label": "Roll it a ball", "icon": "icons/class/care_ball"},
+        {"key": "c_blanket", "label": "Wrap it in a blanket", "icon": "icons/class/care_blanket"},
+        {"key": "c_paw", "label": "Check its paw", "icon": "icons/class/care_paw"}
+      ]
+    }
+  ]
+}

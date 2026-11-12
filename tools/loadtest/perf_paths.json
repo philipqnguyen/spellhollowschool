@@ -1,0 +1,68 @@
+{
+  "_doc": "The castle's fixed perf camera paths (docs/art/castle-kit.md 'Budgets'). A measuring script (Playwright with the client's ?probe hook, client/src/game/perf-probe.ts) teleports the viewer to each stop's `pos` with the dev API (/api/dev/teleport), waits for the cells to settle, then runs `shsProbe.run` at it: an `orbit` sweeps the follow camera's heading once round at that pitch (beta, radians) over `seconds`; a `camera` holds the view at `pos` looking at `target` instead. A path with several stops (the tower climb) runs them in order and its numbers are taken over all of them. Positions are [x, y, z] in metres on the walkable surface of `cell` (tools/loadtest checks that). The first five are castle D1's (docs/perf/castle-d1.md); castle M5a adds the second- and fourth-floor west corridor orbits, the west tower climb from L3 to L6, the Long Gallery's long view to the rose window and the Undercroft Walk's long view; castle M5b (26.8) adds an orbit in each common room, the Potions classroom, the Kitchens, the library and the Trophy Room; castle M5c (30.8) adds the courtyard sweep (the old toon-pass grounds view, now inside the courtyard), the front facade held from the courtyard gate, the Exchange Yard and the Owl Gate held from the Owl Exchange court looking out to the yard. A common room's path names its `house`: the server lets only that house's characters stand there, so the viewer must be of that house.",
+  "paths": [
+    { "id": "eh", "name": "Entrance Hall", "cell": "entrance_hall", "seconds": 6, "stops": [{ "pos": [16, 0, 30], "orbit": 1.22 }] },
+    { "id": "gh", "name": "Great Hall", "cell": "great_hall", "seconds": 6, "stops": [{ "pos": [45, 0, 20], "orbit": 1.25 }] },
+    { "id": "gs_l0", "name": "Grand Staircase L0", "cell": "grand_staircase", "seconds": 6, "stops": [{ "pos": [-48, 0, 8], "orbit": 1.2 }] },
+    { "id": "gs_l3", "name": "Grand Staircase L3", "cell": "grand_staircase", "seconds": 6, "stops": [{ "pos": [-62, 27, 16], "orbit": 1.2 }] },
+    {
+      "id": "gs_up",
+      "name": "Grand Staircase look-up",
+      "cell": "grand_staircase",
+      "seconds": 6,
+      "stops": [{ "pos": [-50.5, 0, 2], "camera": { "pos": [-50.5, 1.6, 2], "target": [-50, 60, 2] } }]
+    },
+    { "id": "sf", "name": "Second-floor west corridor", "cell": "sf_corridor_west", "seconds": 6, "stops": [{ "pos": [-80, 18, 2.5], "orbit": 1.2 }] },
+    { "id": "l4", "name": "Portrait Gallery (L4 west)", "cell": "l4_corridor_west", "seconds": 6, "stops": [{ "pos": [-78, 36, 2.5], "orbit": 1.2 }] },
+    {
+      "id": "tower_climb",
+      "name": "West tower climb, L3 to L6",
+      "cell": "west_tower_stair",
+      "seconds": 3,
+      "stops": [
+        { "pos": [-96, 27, 2], "orbit": 1.2 },
+        { "pos": [-96, 36, -2], "orbit": 1.2 },
+        { "pos": [-96, 45, -2], "orbit": 1.2 },
+        { "pos": [-100, 54, -2], "orbit": 1.2 }
+      ]
+    },
+    {
+      "id": "gallery_long",
+      "name": "Long Gallery to the rose window",
+      "cell": "ff_gallery_east",
+      "seconds": 6,
+      "stops": [{ "pos": [44, 9, -9], "camera": { "pos": [43.2, 10.7, -9], "target": [96, 13, -9] } }]
+    },
+    {
+      "id": "undercroft_walk",
+      "name": "Undercroft Walk long view",
+      "cell": "gf_undercroft",
+      "seconds": 6,
+      "stops": [{ "pos": [-25, 0, -8], "camera": { "pos": [-26.5, 1.7, -8], "target": [32, 3, -8] } }]
+    },
+    { "id": "cr_a", "name": "Common room A", "cell": "common_room_house_a", "house": "roarwing", "seconds": 6, "stops": [{ "pos": [-49.5, 63, -40.5], "orbit": 1.2 }] },
+    { "id": "cr_b", "name": "Common room B", "cell": "common_room_house_b", "house": "burrowsby", "seconds": 6, "stops": [{ "pos": [77.5, -9, 17], "orbit": 1.2 }] },
+    { "id": "cr_c", "name": "Common room C", "cell": "common_room_house_c", "house": "skytalon", "seconds": 6, "stops": [{ "pos": [-100, 54, -14], "orbit": 1.2 }] },
+    { "id": "cr_d", "name": "Common room D", "cell": "common_room_house_d", "house": "serpentyne", "seconds": 6, "stops": [{ "pos": [8, -18, 77], "orbit": 1.2 }] },
+    { "id": "potions", "name": "Potions classroom", "cell": "dungeon_classroom", "seconds": 6, "stops": [{ "pos": [-12, -9, 36], "orbit": 1.2 }] },
+    { "id": "kitchens", "name": "Kitchens", "cell": "kitchens", "seconds": 6, "stops": [{ "pos": [47.5, -9, 39], "orbit": 1.2 }] },
+    { "id": "library", "name": "Second-Floor Library", "cell": "sf_library", "seconds": 6, "stops": [{ "pos": [-103, 18, 6], "orbit": 1.2 }] },
+    { "id": "trophy_room", "name": "Trophy Room", "cell": "trophy_room", "seconds": 6, "stops": [{ "pos": [4, 0, -23], "orbit": 1.2 }] },
+    { "id": "courtyard", "name": "Courtyard sweep", "cell": "courtyard", "seconds": 6, "stops": [{ "pos": [16, 0, 74], "orbit": 1.35 }] },
+    {
+      "id": "facade_front",
+      "name": "Front facade from the courtyard gate",
+      "cell": "courtyard",
+      "seconds": 6,
+      "stops": [{ "pos": [16, 0, 87], "camera": { "pos": [16, 1.7, 87.5], "target": [16, 14, 42] } }]
+    },
+    { "id": "yard", "name": "Exchange Yard", "cell": "courtyard", "seconds": 6, "stops": [{ "pos": [-3, 0, 47], "orbit": 1.3 }] },
+    {
+      "id": "owl_gate",
+      "name": "Owl Gate, from the court to the yard",
+      "cell": "entrance_hall",
+      "seconds": 6,
+      "stops": [{ "pos": [3, 0, 33], "camera": { "pos": [3.2, 1.7, 32.5], "target": [-4, 2, 56] } }]
+    }
+  ]
+}

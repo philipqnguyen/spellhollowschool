@@ -1,0 +1,351 @@
+{
+  "_doc": "NPCs in the open castle (docs/architecture.md 'NPCs'; sim_core::npcs::Roster). Every name and title is our own invention, not taken from any existing work; display text lives only in data. kind: portrait (client-only talking portrait, placed by portraits.json), ghost (one per house, drifts through its common room), staff (resident staff on a routine), shopkeeper (stands at its `station` interactable; the client's interact sends Interact { target: station }), student (background student, routine generated from the schedule; no nameplate; lines from the shared pool `lines`), clerk (stands at its desk on a one-step routine and talks through its feature's own dialogue instead of lines.json: clerk_clubs, the clubs secretary, data/clubs.json). rules: the numbers every NPC rule uses; the portrait anti-annoyance rules are binding, so portraits never nag (a pass-by gets at most one short line or a nod, at most once per pass_cooldown_s per portrait per player, at most one line per pass_gap_s on one screen; talk only on interact; lines are local to the player).",
+  "version": 1,
+  "rules": {
+    "talk_radius_m": 3.0,
+    "talk_reach_m": 4.5,
+    "pass_radius_m": 4.0,
+    "pass_cooldown_s": 300,
+    "pass_gap_s": 20,
+    "pass_line_pct": 40,
+    "alive_radius_m": 14.0,
+    "look_radius_m": 7.0,
+    "subtitle_ms": 4000,
+    "talk_lines_max": 4,
+    "hint_pct": 15,
+    "students_max": 12,
+    "students_in_view_max": 4,
+    "student_view_penalty_m": 20.0,
+    "walk_speed_mps": 1.3,
+    "ghost_speed_mps": 0.6,
+    "ghost_float_m": 0.25
+  },
+  "npcs": [
+    {
+      "id": "portrait_gs_l1",
+      "kind": "portrait",
+      "name": "Sir Corwin Ashgrove",
+      "title": "Herald",
+      "personality": "A retired herald who announces everyone who climbs past as if they were royalty; pompous, warm, loves a fanfare."
+    },
+    {
+      "id": "portrait_gs_l3",
+      "kind": "portrait",
+      "name": "Dame Hesper Quill",
+      "title": "Examiner",
+      "personality": "A former examiner who grades your posture, punctuality and boots; precise, dry, secretly proud of every student."
+    },
+    {
+      "id": "portrait_gs_l4",
+      "kind": "portrait",
+      "name": "Bartholomew Rook",
+      "title": "Fisherman",
+      "personality": "A drowsy lake fisherman painted holding a pike; mumbles about the weather and the fish that got away."
+    },
+    {
+      "id": "portrait_gs_l5",
+      "kind": "portrait",
+      "name": "Lady Imelda Farrow",
+      "personality": "A gossip with a painted fan who knows every old scandal of the castle and embroiders them shamelessly."
+    },
+    {
+      "id": "portrait_gs_l6",
+      "kind": "portrait",
+      "name": "Captain Tobias Frey",
+      "title": "Mapmaker",
+      "personality": "A cheerful mapmaker who is always lost and blames the moving stairs; generous with useless directions."
+    },
+    {
+      "id": "portrait_great_hall_n",
+      "kind": "portrait",
+      "name": "Petronella Brisk",
+      "title": "Feast Steward",
+      "personality": "A brisk feast steward who keeps the House Cup tallies in her head and judges everyone's table manners."
+    },
+    {
+      "id": "portrait_great_hall_s",
+      "kind": "portrait",
+      "name": "Ewan Haldane",
+      "title": "Duelling Champion",
+      "personality": "A courtly old duelling champion who insists on proper bows and tells long stories of matches long ago."
+    },
+    {
+      "id": "portrait_library_n",
+      "kind": "portrait",
+      "name": "Ambrose Fell",
+      "title": "Scholar",
+      "personality": "A whispering scholar who shushes everyone, adores footnotes and recommends books nobody has opened in a century."
+    },
+    {
+      "id": "portrait_library_s",
+      "kind": "portrait",
+      "name": "Sister Maud Crewe",
+      "title": "Archivist",
+      "personality": "A kindly archivist who has catalogued every corner of the castle and drops one gentle hint each day.",
+      "daily_hint": true
+    },
+    {
+      "id": "portrait_common_a",
+      "kind": "portrait",
+      "name": "Sir Gareth Emberly",
+      "title": "Knight",
+      "personality": "A brave but easily startled knight who guards the seventh-floor corridor and challenges passing shadows."
+    },
+    {
+      "id": "portrait_common_b",
+      "kind": "portrait",
+      "name": "Nell Barrowby",
+      "title": "Brewer",
+      "personality": "A cheerful brewer by the barrels who calls everyone 'duck' and worries that nobody eats enough."
+    },
+    {
+      "id": "portrait_common_c",
+      "kind": "portrait",
+      "name": "Leander Pike",
+      "title": "Astronomer",
+      "personality": "A riddling stargazer who answers questions with questions and counts the stars he can't see from his frame."
+    },
+    {
+      "id": "portrait_common_d",
+      "kind": "portrait",
+      "name": "Countess Seraphine Mordaunt",
+      "personality": "A cool, dry-witted countess by the dungeon wall who pretends to be bored and notices everything."
+    },
+    {
+      "id": "portrait_kitchens",
+      "kind": "portrait",
+      "name": "Winifred Plum",
+      "title": "Pastry Cook",
+      "personality": "A flour-dusted pastry cook who rates everyone by appetite and swaps recipes for compliments."
+    },
+    {
+      "id": "portrait_passage_weaver",
+      "kind": "portrait",
+      "name": "Agathe Loom",
+      "title": "Weaver",
+      "personality": "A tapestry weaver who talks in threads and patterns and hums while she works her painted loom."
+    },
+    {
+      "id": "portrait_passage_trophy",
+      "kind": "portrait",
+      "name": "Jasper Gleam",
+      "title": "Trophy Polisher",
+      "personality": "A fussy trophy polisher who knows every cup in the room and the dust behind each one."
+    },
+    {
+      "id": "portrait_passage_gallery",
+      "kind": "portrait",
+      "name": "Oriel Stone",
+      "title": "Sculptor",
+      "personality": "A dreamy sculptor who prefers statues to people and admires what the gallery hides behind its marble."
+    },
+    {
+      "id": "portrait_entrance",
+      "kind": "portrait",
+      "name": "Hobb Whitlow",
+      "title": "Porter",
+      "personality": "A friendly old porter who welcomes newcomers, remembers every face and gives one useful tip a day.",
+      "daily_hint": true
+    },
+    {
+      "id": "ghost_house_a",
+      "kind": "ghost",
+      "name": "Isolde Vale",
+      "title": "The Unhorsed Rider",
+      "house": "roarwing",
+      "personality": "A tournament rider who fell at her very first joust and never lived it down; brave, boastful, warm, and still a little embarrassed."
+    },
+    {
+      "id": "ghost_house_b",
+      "kind": "ghost",
+      "name": "Hester Tallow",
+      "title": "The Candlemaker",
+      "house": "burrowsby",
+      "personality": "A jolly candlemaker who loves warm kitchens, good company and terrible puns, and still smells faintly of beeswax."
+    },
+    {
+      "id": "ghost_house_c",
+      "kind": "ghost",
+      "name": "Tycho Merrin",
+      "title": "The Star Reader",
+      "house": "skytalon",
+      "personality": "A soft-spoken astronomer who still searches for one lost comet; thoughtful, absent-minded, quietly funny."
+    },
+    {
+      "id": "ghost_house_d",
+      "kind": "ghost",
+      "name": "Malachi Thorne",
+      "title": "The Chess Master",
+      "house": "serpentyne",
+      "personality": "A dry-witted chess master who speaks softly, plans three moves ahead and rewards cleverness with rare praise."
+    },
+    {
+      "id": "staff_caretaker",
+      "kind": "staff",
+      "name": "Grisholm Tapp",
+      "title": "Caretaker",
+      "personality": "The caretaker: grumbles about mud and noise, jingles his keys, and is kind underneath it all."
+    },
+    {
+      "id": "staff_librarian",
+      "kind": "staff",
+      "name": "Constance Wren",
+      "title": "Librarian",
+      "personality": "The librarian: soft-spoken, strict about returns and silence, delighted by anyone who loves reading."
+    },
+    {
+      "id": "staff_groundskeeper",
+      "kind": "staff",
+      "name": "Rowan Thistlewood",
+      "title": "Groundskeeper",
+      "personality": "The groundskeeper: booming voice, muddy boots, loves plants and creatures and shares what the garden spares."
+    },
+    {
+      "id": "shop_owl_exchange",
+      "kind": "shopkeeper",
+      "name": "Tibbs Ledgerwood",
+      "title": "Owl Exchange Clerk",
+      "personality": "A neat, quick-talking clerk who loves a fair price and keeps every ledger spotless.",
+      "station": "owl_exchange"
+    },
+    {
+      "id": "shop_owl_order_a",
+      "kind": "shopkeeper",
+      "name": "Hattie Crumb",
+      "title": "Owl Order Agent",
+      "house": "roarwing",
+      "personality": "A cheerful catalogue agent who tells you what is selling fast and loves a bold choice.",
+      "station": "owl_order_house_a"
+    },
+    {
+      "id": "shop_owl_order_b",
+      "kind": "shopkeeper",
+      "name": "Pip Saltmarsh",
+      "title": "Owl Order Agent",
+      "house": "burrowsby",
+      "personality": "A patient catalogue agent who knows what keeps you warm and never hurries a customer.",
+      "station": "owl_order_house_b"
+    },
+    {
+      "id": "shop_owl_order_c",
+      "kind": "shopkeeper",
+      "name": "Odile Fairweather",
+      "title": "Owl Order Agent",
+      "house": "skytalon",
+      "personality": "A precise catalogue agent who can tell you the thread count of everything in the book.",
+      "station": "owl_order_house_c"
+    },
+    {
+      "id": "shop_owl_order_d",
+      "kind": "shopkeeper",
+      "name": "Silas Wexford",
+      "title": "Owl Order Agent",
+      "house": "serpentyne",
+      "personality": "A smooth, understated catalogue agent who recommends what looks expensive but isn't.",
+      "station": "owl_order_house_d"
+    },
+    {
+      "id": "clerk_clubs",
+      "kind": "clerk",
+      "name": "Miss Odette Penrose",
+      "title": "Secretary of Clubs and Societies",
+      "personality": "The school's secretary of clubs and societies: brisk and warm, delighted by any enthusiasm, and keeps the register of clubs in immaculate copperplate."
+    },
+    {
+      "id": "student_a1",
+      "kind": "student",
+      "name": "Tamsin Hale",
+      "house": "roarwing",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    },
+    {
+      "id": "student_a2",
+      "kind": "student",
+      "name": "Rafe Dunmore",
+      "house": "roarwing",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    },
+    {
+      "id": "student_a3",
+      "kind": "student",
+      "name": "Kit Ellery",
+      "house": "roarwing",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    },
+    {
+      "id": "student_b1",
+      "kind": "student",
+      "name": "Bryony Fallow",
+      "house": "burrowsby",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    },
+    {
+      "id": "student_b2",
+      "kind": "student",
+      "name": "Owen Pell",
+      "house": "burrowsby",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    },
+    {
+      "id": "student_b3",
+      "kind": "student",
+      "name": "Marigold Ashe",
+      "house": "burrowsby",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    },
+    {
+      "id": "student_c1",
+      "kind": "student",
+      "name": "Iris Calloway",
+      "house": "skytalon",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    },
+    {
+      "id": "student_c2",
+      "kind": "student",
+      "name": "Felix Harrow",
+      "house": "skytalon",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    },
+    {
+      "id": "student_c3",
+      "kind": "student",
+      "name": "Anya Morrow",
+      "house": "skytalon",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    },
+    {
+      "id": "student_d1",
+      "kind": "student",
+      "name": "Edmund Hartwell",
+      "house": "serpentyne",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    },
+    {
+      "id": "student_d2",
+      "kind": "student",
+      "name": "Clemence Rourke",
+      "house": "serpentyne",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    },
+    {
+      "id": "student_d3",
+      "kind": "student",
+      "name": "Leo Marchetti",
+      "house": "serpentyne",
+      "personality": "A student going about the day: short, friendly barks only.",
+      "lines": "students"
+    }
+  ]
+}

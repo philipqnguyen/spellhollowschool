@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "class_floor", "kind": "grounds", "name": "Creature Paddock", "level": 0, "cell": "class_paddock", "min": [-10.0, -8.0], "max": [10.0, 8.0], "y": 0.0}
+  ],
+  "spawns": [
+    {"id": "class_entry_a", "pos": [-1.0, 0.0, 5.5], "yaw": 3.1415927},
+    {"id": "class_entry_b", "pos": [1.0, 0.0, 5.5], "yaw": 3.1415927}
+  ],
+  "landmarks": [
+    {"id": "class_professor", "name": "Professor's Desk", "pos": [0.0, 0.0, -6.0]},
+    {"id": "beast_puff", "name": "Fluffbell", "pos": [-2.0, 0.0, -3.0]},
+    {"id": "beast_lynxkit", "name": "Lynxkit", "pos": [2.0, 0.0, -3.0]}
+  ],
+  "interactables": [
+    {"id": "class_exit", "kind": "instance_exit", "name": "Paddock Gate", "pos": [0.0, 0.0, 7.5], "yaw": 3.1415927, "radius": 1.5}
+  ],
+  "solids": [
+    {"id": "class_paddock/crates", "at": [-8.6, 5.975], "half": [0.37, 0.875], "y": [-0.3, 1.376]},
+    {"id": "class_paddock/hay_e", "at": [8.9, 4.6], "half": [0.255, 0.5], "y": [-0.3, 0.455]},
+    {"id": "class_paddock/hay_pen", "at": [-3.9, -4.2], "half": [0.5, 0.255], "y": [-0.3, 0.455], "yaw": 0.35},
+    {"id": "class_paddock/hay_w0", "at": [-9, -6.6], "half": [0.255, 0.5], "y": [-0.3, 0.455]},
+    {"id": "class_paddock/hay_w1", "at": [-9, -6.4], "half": [0.5, 0.255], "y": [-0.3, 0.905], "yaw": -1.3708},
+    {"id": "class_paddock/hay_w2", "at": [-8.4, -5.4], "half": [0.5, 0.255], "y": [-0.3, 0.455], "yaw": 0.1},
+    {"id": "class_paddock/pen_e", "at": [5, -3.1], "half": [0.06, 1.81], "y": [-0.3, 0.75]},
+    {"id": "class_paddock/pen_n", "at": [0, -5], "half": [5.06, 0.06], "y": [-0.3, 0.75]},
+    {"id": "class_paddock/pen_s", "at": [0, -1.2], "half": [5.06, 0.06], "y": [-0.3, 0.75]},
+    {"id": "class_paddock/pen_w", "at": [-5, -3.1], "half": [0.06, 1.81], "y": [-0.3, 0.75]},
+    {"id": "class_paddock/trough", "at": [3.9, -3.9], "half": [0.27, 0.82], "y": [-0.3, 0.7]}
+  ]
+}

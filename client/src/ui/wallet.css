@@ -1,0 +1,86 @@
+/* The purse in the HUD bar: a coin, the balance, and a brief +/- flourish. */
+
+.wallet {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px 2px 4px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: var(--gilt-bright);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.wallet .coin-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.coin-icon circle {
+  fill: #d9a83b;
+  stroke: #7a5418;
+  stroke-width: 1.2;
+}
+
+.coin-icon .coin-rim {
+  fill: none;
+  stroke: #f6d27a;
+  stroke-width: 1;
+}
+
+.wallet-amount {
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.wallet-delta {
+  /* Above the amount (the purse is in the menu bar along the bottom edge), never over the buttons beside it. */
+  position: absolute;
+  left: 26px;
+  bottom: 100%;
+  margin-bottom: 6px;
+  padding: 0 6px;
+  border-radius: 3px;
+  background: rgba(18, 14, 20, 0.8);
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  pointer-events: none;
+  text-shadow: 0 1px 2px #000;
+  animation: wallet-delta 2.4s ease-out forwards;
+}
+
+.wallet-delta.gain {
+  color: #9fdc8c;
+}
+
+.wallet-delta.loss {
+  color: #f0a08c;
+}
+
+@keyframes wallet-delta {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wallet-delta {
+    animation: none;
+  }
+}

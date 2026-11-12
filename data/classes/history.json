@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "id": "history",
+  "subject": "history",
+  "professor": {
+    "id": "history_professor", "name": "Professor Edwy Marlow", "house": "burrowsby",
+    "appearance": {
+      "body_type": 0,
+      "height": 120,
+      "face": [118, 110, 150, 140, 120],
+      "skin_tone": 0,
+      "hair_style": 15,
+      "hair_colour": 11,
+      "eye_colour": 6,
+      "outfit": {
+        "body": {"item_def": 217, "dyes": [4, 6, 5], "finish": "none"},
+        "legs": {"item_def": 308, "dyes": [3, 3, 3], "finish": "none"},
+        "shoes": {"item_def": 401, "dyes": [1, 1, 4], "finish": "none"}
+      }
+    },
+    "pos": [0, 0, -6.5], "yaw": 0
+  },
+  "picks": {"prompts": "history_questions", "options": "history_answers"},
+  "lesson": [
+    {"at_secs": 3, "kind": "say", "line": "Good day. Please be seated. Today's lecture concerns the history of this castle."},
+    {"at_secs": 45, "kind": "say", "line": "There will be questions. The questions will be about the lecture. This surprises someone every year."},
+    {"at_secs": 90, "kind": "say", "line": "Listen for names, years and places. Each question waits a generous while for its answer."},
+    {"at_secs": 130, "kind": "say", "line": "Latecomers may still slip in. Quietly, if you please."},
+    {"at_secs": 170, "kind": "say", "line": "The door is closing. We begin."},
+    {"at_secs": 185, "kind": "demonstrate", "duration_ms": 2000, "line": "The Lantern Accord. In the year 1311 the prefects of all four houses met in the Great Hall and signed it."},
+    {"at_secs": 191, "kind": "say", "line": "The Accord promised one thing only: that the castle's corridors would stay lit all night."},
+    {"at_secs": 197, "kind": "say", "line": "The first keeper of the lamps was Warden Isolde Fenwright, who walked every floor twice a night."},
+    {"at_secs": 203, "kind": "say", "line": "The oldest lamps still burn moonstone oil. It smells faintly of rain, if one stands close enough."},
+    {"at_secs": 209, "kind": "say", "line": "Questions now. Take your time; I shall wait. I am rather good at waiting."},
+    {"at_secs": 215, "kind": "practice", "round": 1, "window_ms": 6000, "beats": [
+        {"at_ms": 6000, "prompt": "q_accord_year", "options": ["a_1311", "a_1407", "a_1588"]},
+        {"at_ms": 15000, "prompt": "q_accord_promise", "options": ["a_friday_feast", "a_lit_corridors", "a_no_running"]},
+        {"at_ms": 24000, "prompt": "q_accord_hall", "options": ["a_boathouse", "a_great_hall", "a_library"]},
+        {"at_ms": 33000, "prompt": "q_lamp_fuel", "options": ["a_moonstone_oil", "a_beeswax", "a_tallow"]},
+        {"at_ms": 42000, "prompt": "q_lamp_keeper", "options": ["a_merrow", "a_fenwright", "a_hollins"]}
+      ] },
+    {"at_secs": 266, "kind": "demonstrate", "duration_ms": 2000, "line": "The staircases. They first began to wander in the winter of 1640, after a charm by the architect Aldous Merrow went astray."},
+    {"at_secs": 272, "kind": "say", "line": "They move most at dusk, when the castle settles. Only one flight never moves at all: the Steadfast Flight."},
+    {"at_secs": 278, "kind": "say", "line": "Students of the time crossed by counting seven steps before each landing. Some still do."},
+    {"at_secs": 284, "kind": "say", "line": "Merrow spent the rest of his life writing apologies to the prefects. Forty-one of his letters survive."},
+    {"at_secs": 290, "kind": "say", "line": "Questions."},
+    {"at_secs": 296, "kind": "practice", "round": 2, "window_ms": 6000, "beats": [
+        {"at_ms": 6000, "prompt": "q_stairs_architect", "options": ["a_merrow", "a_fenwright", "a_hollins"]},
+        {"at_ms": 15000, "prompt": "q_stairs_year", "options": ["a_1640", "a_1702", "a_1588"]},
+        {"at_ms": 24000, "prompt": "q_stairs_when", "options": ["a_dawn", "a_dusk", "a_midnight"]},
+        {"at_ms": 33000, "prompt": "q_stairs_count", "options": ["a_three", "a_twelve", "a_seven"]},
+        {"at_ms": 42000, "prompt": "q_stairs_steady", "options": ["a_steadfast", "a_marble", "a_trophy"]}
+      ] },
+    {"at_secs": 347, "kind": "demonstrate", "duration_ms": 2000, "line": "The castle owls. The first were raised by a gamekeeper named Bram Hollins, in the West Tower, before there was any Owl Loft."},
+    {"at_secs": 353, "kind": "say", "line": "The Owl Exchange was founded in 1762, so that students could trade without leaving the castle."},
+    {"at_secs": 359, "kind": "say", "line": "The oldest owl on record, Old Tamsin, carried the post for forty years and never lost a letter."},
+    {"at_secs": 365, "kind": "say", "line": "She is said to have preferred toast crusts to mice. History does not record why."},
+    {"at_secs": 371, "kind": "say", "line": "Questions."},
+    {"at_secs": 377, "kind": "practice", "round": 3, "window_ms": 6000, "beats": [
+        {"at_ms": 6000, "prompt": "q_owls_keeper", "options": ["a_fenwright", "a_merrow", "a_hollins"]},
+        {"at_ms": 15000, "prompt": "q_exchange_year", "options": ["a_1815", "a_1762", "a_1702"]},
+        {"at_ms": 24000, "prompt": "q_owl_oldest", "options": ["a_greywick", "a_old_tamsin", "a_little_pip"]},
+        {"at_ms": 33000, "prompt": "q_owls_tower", "options": ["a_west_tower", "a_north_tower", "a_dungeons"]},
+        {"at_ms": 42000, "prompt": "q_owl_years", "options": ["a_ten", "a_forty", "a_ninety"]}
+      ] },
+    {"at_secs": 428, "kind": "demonstrate", "duration_ms": 2000, "line": "And a short review of all three, because repetition is the mother of memory."},
+    {"at_secs": 434, "kind": "practice", "round": 4, "window_ms": 6000, "beats": [
+        {"at_ms": 6000, "prompt": "q_accord_promise", "options": ["a_lit_corridors", "a_friday_feast", "a_no_running"]},
+        {"at_ms": 15000, "prompt": "q_stairs_steady", "options": ["a_marble", "a_trophy", "a_steadfast"]},
+        {"at_ms": 24000, "prompt": "q_exchange_year", "options": ["a_1815", "a_1702", "a_1762"]},
+        {"at_ms": 33000, "prompt": "q_lamp_keeper", "options": ["a_merrow", "a_fenwright", "a_hollins"]}
+      ] },
+    {"at_secs": 478, "kind": "say", "line": "That concludes the lecture. Your answers have been noted."},
+    {"at_secs": 485, "kind": "results", "line": "Adequate. The castle's past is longer than any of us. Your lore book has a new page."},
+    {"at_secs": 490, "kind": "emote", "emote": "bow"},
+    {"at_secs": 520, "kind": "say", "line": "You may go. The lecture continues next time from exactly where it stopped."}
+  ],
+  "rewards": {
+    "attend_skill_xp": 30,
+    "bonus_skill_xp_max": 40,
+    "min_answers": 3,
+    "house_points": [{"min_pct": 60, "points": 1}, {"min_pct": 75, "points": 3}, {"min_pct": 90, "points": 5}],
+    "crowns": {"attend": 10, "bonus_max": 10},
+    "lore": true
+  }
+}

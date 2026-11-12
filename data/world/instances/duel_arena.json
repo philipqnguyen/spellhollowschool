@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "surfaces": [
+    {"id": "arena_stage", "kind": "room", "name": "Dueling Stage", "level": 0, "cell": "duel_arena", "min": [-8.0, -1.0], "max": [8.0, 1.0], "y": 0.9, "ceiling": 11.1},
+    {"id": "arena_floor_north", "kind": "room", "name": "Dueling Club", "level": 0, "cell": "duel_arena", "min": [-17.0, -10.0], "max": [17.0, -1.0], "y": 0, "ceiling": 12.0},
+    {"id": "arena_floor_south", "kind": "room", "name": "Dueling Club", "level": 0, "cell": "duel_arena", "min": [-17.0, 1.0], "max": [17.0, 10.0], "y": 0, "ceiling": 12.0},
+    {"id": "arena_floor_west", "kind": "room", "name": "Dueling Club", "level": 0, "cell": "duel_arena", "min": [-17.0, -1.0], "max": [-8.0, 1.0], "y": 0, "ceiling": 12.0},
+    {"id": "arena_floor_east", "kind": "room", "name": "Dueling Club", "level": 0, "cell": "duel_arena", "min": [8.0, -1.0], "max": [17.0, 1.0], "y": 0, "ceiling": 12.0}
+  ],
+  "spawns": [
+    {"id": "arena_spectators_north", "pos": [0.0, 0.0, -4.0], "yaw": 0.0},
+    {"id": "arena_spectators_south", "pos": [0.0, 0.0, 4.0], "yaw": 3.1415927},
+    {"id": "arena_duelist_a", "pos": [-5.5, 0.9, 0.0], "yaw": 1.5707964},
+    {"id": "arena_duelist_b", "pos": [5.5, 0.9, 0.0], "yaw": 4.712389}
+  ],
+  "landmarks": [
+    {"id": "arena_stage", "name": "Dueling Stage", "pos": [0.0, 0.9, 0.0]}
+  ],
+  "interactables": [
+    {"id": "arena_exit", "kind": "instance_exit", "name": "Back to the Club", "pos": [0.0, 0.0, -9.4], "yaw": 0.0, "radius": 1.5}
+  ],
+  "solids": [
+    {"id": "duel_arena/part_0", "at": [-14.375, -9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]},
+    {"id": "duel_arena/part_1", "at": [-14.375, 9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]},
+    {"id": "duel_arena/part_10", "at": [2.875, -9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]},
+    {"id": "duel_arena/part_11", "at": [2.875, 9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]},
+    {"id": "duel_arena/part_12", "at": [6.5, -7.5], "half": [3, 0.2], "y": [-0.3, 0.48]},
+    {"id": "duel_arena/part_13", "at": [6.5, 7.5], "half": [3, 0.2], "y": [-0.3, 0.48]},
+    {"id": "duel_arena/part_14", "at": [7.908, -0.891], "half": [0.152, 0.134], "y": [-0.3, 1.86]},
+    {"id": "duel_arena/part_15", "at": [7.908, 0.891], "half": [0.152, 0.134], "y": [-0.3, 1.86]},
+    {"id": "duel_arena/part_16", "at": [8.625, -9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]},
+    {"id": "duel_arena/part_17", "at": [8.625, 9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]},
+    {"id": "duel_arena/part_18", "at": [14.375, -9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]},
+    {"id": "duel_arena/part_19", "at": [14.375, 9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]},
+    {"id": "duel_arena/part_2", "at": [-6.5, -7.5], "half": [3, 0.2], "y": [-0.3, 0.48]},
+    {"id": "duel_arena/part_3", "at": [-6.5, 7.5], "half": [3, 0.2], "y": [-0.3, 0.48]},
+    {"id": "duel_arena/part_4", "at": [-8.625, -9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]},
+    {"id": "duel_arena/part_5", "at": [-8.625, 9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]},
+    {"id": "duel_arena/part_6", "at": [-7.908, -0.891], "half": [0.152, 0.134], "y": [-0.3, 1.86]},
+    {"id": "duel_arena/part_7", "at": [-7.908, 0.891], "half": [0.152, 0.134], "y": [-0.3, 1.86]},
+    {"id": "duel_arena/part_8", "at": [-2.875, -9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]},
+    {"id": "duel_arena/part_9", "at": [-2.875, 9.9], "half": [0.24, 0.1], "y": [-0.3, 1.9]}
+  ]
+}

@@ -1,0 +1,476 @@
+/* What the economy windows share: the window frame, tabs, chips, item rows
+   and icons, Crown amounts, pagers, fields and the trunk picker. The look
+   follows the HUD: smoked glass, gilt edges, candlelit text. */
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hud-purse {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.hud-purse:empty {
+  display: none;
+}
+
+.hud-mail {
+  position: relative;
+}
+
+/* ---------------------------------------------------------------- windows */
+
+.econ-window {
+  pointer-events: auto;
+  position: absolute;
+  top: 62px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(900px, calc(100% - 24px));
+  max-height: calc(100% - 150px);
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px 12px;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.econ-window[aria-busy="true"] {
+  cursor: progress;
+}
+
+.econ-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.econ-head h2 {
+  margin: 0;
+  flex: 1;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--gilt-bright);
+}
+
+.econ-intro {
+  margin: 4px 0 2px;
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 0.92rem;
+}
+
+.econ-tabs {
+  display: flex;
+  margin: 8px 0;
+  border-bottom: 1px solid var(--smoke-edge);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.econ-tab {
+  flex: 0 0 auto;
+  padding: 5px 12px 6px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--text-dim);
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.econ-tab[aria-selected="true"] {
+  color: var(--gilt-bright);
+  border-bottom-color: var(--gilt);
+}
+
+.econ-tab:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.econ-error {
+  margin: 4px 0;
+  padding: 5px 10px;
+  border-left: 3px solid var(--wax);
+  background: rgba(141, 31, 27, 0.25);
+  color: #f8d9cf;
+  font-size: 0.92rem;
+}
+
+.econ-hint {
+  margin: 4px 0 0;
+  color: #f0b49c;
+  font-size: 0.9rem;
+}
+
+.econ-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.econ-window button.primary {
+  margin-top: 0;
+  padding: 7px 14px;
+  font-size: 0.85rem;
+}
+
+.econ-window button.primary.small {
+  padding: 4px 10px;
+}
+
+.econ-window button.secondary {
+  text-align: center;
+}
+
+.econ-window button.danger {
+  padding: 7px 10px;
+  border: 1px solid var(--wax);
+  border-radius: 3px;
+  background: rgba(141, 31, 27, 0.35);
+  color: #f8e9cf;
+  cursor: pointer;
+}
+
+.econ-window button:disabled {
+  opacity: 0.45;
+  filter: grayscale(0.7);
+  cursor: not-allowed;
+}
+
+.econ-window button.link,
+.player-menu button.link {
+  border: 0;
+  background: none;
+  color: var(--gilt);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.econ-window .muted,
+.econ-window .muted-line {
+  color: var(--text-dim);
+}
+
+.econ-window .muted-line {
+  list-style: none;
+  padding: 10px 2px;
+  font-style: italic;
+}
+
+.econ-window input[type="text"],
+.econ-window input[type="search"],
+.econ-window textarea,
+.econ-window select {
+  padding: 5px 8px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 3px;
+  background: rgba(10, 8, 12, 0.6);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.econ-window input:focus,
+.econ-window textarea:focus,
+.econ-window select:focus {
+  outline: 2px solid var(--gilt);
+  outline-offset: 0;
+}
+
+.econ-window textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+.whole-input {
+  width: 7.5em;
+  font-variant-numeric: tabular-nums;
+}
+
+.econ-field {
+  display: grid;
+  gap: 3px;
+  margin-top: 8px;
+}
+
+.econ-field > span:first-child {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.econ-field.inline {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.econ-field.inline > span:first-child {
+  min-width: 7em;
+}
+
+.field-count {
+  float: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.detail-label {
+  margin: 8px 0 4px;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------- chips, pager */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 2px 0 6px;
+}
+
+.chips:empty {
+  display: none;
+}
+
+.chip {
+  padding: 3px 10px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 12px;
+  background: none;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.chip[aria-pressed="true"] {
+  border-color: var(--gilt);
+  color: var(--text);
+  background: rgba(201, 154, 69, 0.15);
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.pager .secondary {
+  padding: 4px 10px;
+  font-size: 0.88rem;
+}
+
+.pager-label {
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------- items and money */
+
+.item-icon {
+  position: relative;
+  flex: 0 0 auto;
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(201, 154, 69, 0.3);
+  border-radius: 4px;
+  background: radial-gradient(circle at 40% 30%, rgba(255, 230, 190, 0.12), rgba(10, 8, 12, 0.4));
+}
+
+.item-icon svg,
+.item-icon img {
+  width: 84%;
+  height: 84%;
+}
+
+.item-icon-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+}
+
+/* An instance dyed away from its icon art: its own three colours. */
+.icon-dyes {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  width: 38%;
+  height: 38%;
+  border: 1px solid rgba(20, 14, 10, 0.85);
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(255, 236, 200, 0.55);
+  background: linear-gradient(135deg, var(--dye-p) 0 50%, var(--dye-s) 50% 78%, var(--dye-t) 78% 100%);
+}
+
+.item-icon-large .icon-dyes {
+  width: 26%;
+  height: 26%;
+  right: 6px;
+  bottom: 6px;
+  border-radius: 5px;
+}
+
+/* A finished garment (shimmer, colour-shift). */
+.icon-finish {
+  position: absolute;
+  top: -2px;
+  right: 1px;
+  font-size: 11px;
+  line-height: 1;
+  color: #ffe9a8;
+  text-shadow: 0 0 3px rgba(255, 210, 120, 0.9), 0 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.icon-finish-colour_shift {
+  color: #c9f2ff;
+  text-shadow: 0 0 3px rgba(190, 120, 255, 0.95), 0 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.item-icon-large .icon-finish {
+  top: 4px;
+  right: 8px;
+  font-size: 20px;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.item-row-text {
+  display: grid;
+  min-width: 0;
+}
+
+.item-row-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-row-line {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-qty {
+  color: var(--gilt-bright);
+  font-variant-numeric: tabular-nums;
+}
+
+.crowns {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gilt-bright);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.crowns .coin-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.crowns.price {
+  justify-self: end;
+}
+
+.swatches {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.swatches .swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background: var(--swatch);
+}
+
+/* ---------------------------------------------------------------- trunk picker */
+
+.picker {
+  margin-top: 6px;
+  padding: 8px;
+  border: 1px solid var(--smoke-edge);
+  border-radius: 4px;
+  background: rgba(10, 8, 12, 0.35);
+}
+
+.picker-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 260px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.picker-item + .picker-item {
+  border-top: 1px solid rgba(201, 154, 69, 0.12);
+}
+
+.picker-choose {
+  display: flex;
+  width: 100%;
+  padding: 4px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.picker-choose:hover:not(:disabled),
+.picker-choose[aria-pressed="true"] {
+  border-color: var(--smoke-edge);
+  background: rgba(201, 154, 69, 0.1);
+}
+
+.picker-quantity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 4px 8px 44px;
+}
+
+.picker-used {
+  margin-left: auto;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
