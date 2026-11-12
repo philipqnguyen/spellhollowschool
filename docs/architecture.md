@@ -488,11 +488,22 @@ gesture.
   over 256 characters), `NoChannel` (party chat outside a party, club chat
   outside a club).
 - The client shows each channel in its own colour with a label: house lines
-  tinted by the house colour and labelled with its name, whispers pink,
-  party lines blue (`--party`, a bright azure) labelled "[Party]", club
-  lines spring green (`--club`) labelled with the club's tag ("[OWL]").
-  `/h`, `/w` (or `/tell`), `/r`, `/p` (or `/party`) and `/c` (or `/club`)
-  pick the channel.
+  soft citron (`--house-chat`, the same for every house) labelled with the
+  house's name, whispers pink, party lines blue (`--party`, a bright azure)
+  labelled "[Party]", club lines spring green (`--club`) labelled with the
+  club's tag ("[OWL]"). Residents' words in the log (a professor in class,
+  `NpcEvent::Say`) are their own kind, warm apricot (`--npc`): the client
+  makes them only from NPC events, never from a `Chat` message, so no player
+  name can borrow the colour. `/s`, `/h`, `/w` (or `/tell`), `/r`, `/p` (or
+  `/party`) and `/c` (or `/club`) pick the channel.
+- Tabs over the log (`client/src/ui/chat-state.ts`, `chat.ts`): All, House,
+  Party, Club and Whisper, views over one log (its 120-line cap). A channel
+  tab shows only its channel's lines (Whisper: sent and received), and a line
+  typed there without a command goes to that channel (Whisper: the last
+  whisper partner); All sends say. The tab is remembered per browser
+  (`shs.chatTab`). Settings > Chats picks which of house, party, club and
+  whisper lines All shows (`shs.settings` `chatAll`); say, residents' words
+  and notices always show there.
 
 ### Kicks
 

@@ -60,6 +60,20 @@ describe("parseChat", () => {
     expect(parseChat("/r thanks", { ...ctx, lastWhisperFrom: "Tom" })).toEqual({ ok: true, cmd: { channel: "whisper", to: "Tom", text: "thanks" } });
   });
 
+  it("sends a plain line to the chat tab's channel, commands overriding it", () => {
+    expect(parseChat("hi all", { ...ctx, defaultChannel: "party" })).toEqual({ ok: true, cmd: { channel: "party", text: "hi all" } });
+    expect(parseChat("hi all", { ...ctx, defaultChannel: "club" })).toEqual({ ok: true, cmd: { channel: "club", text: "hi all" } });
+    expect(parseChat("hi all", { ...ctx, defaultChannel: "house" })).toEqual({ ok: true, cmd: { channel: "house", text: "hi all" } });
+    expect(parseChat("/s hi", { ...ctx, defaultChannel: "party" })).toEqual({ ok: true, cmd: { channel: "say", text: "hi" } });
+    expect(parseChat("/c hi", { ...ctx, defaultChannel: "party" })).toEqual({ ok: true, cmd: { channel: "club", text: "hi" } });
+    expect(parseChat("/w Tom hi", { ...ctx, defaultChannel: "house" })).toEqual({ ok: true, cmd: { channel: "whisper", to: "Tom", text: "hi" } });
+  });
+
+  it("whispers a plain line on the Whisper tab to the last partner", () => {
+    expect(parseChat("see you", { ...ctx, defaultChannel: "whisper", whisperTo: "Anne Marie" })).toEqual({ ok: true, cmd: { channel: "whisper", to: "Anne Marie", text: "see you" } });
+    expect(parseChat("see you", { ...ctx, defaultChannel: "whisper", whisperTo: null })).toEqual({ ok: false, error: "Nobody to whisper to yet. Use /w Name message." });
+  });
+
   it("rejects unknown commands", () => {
     const r = parseChat("/dance", ctx);
     expect(r.ok).toBe(false);
