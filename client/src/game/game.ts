@@ -722,6 +722,7 @@ class Game implements RunningGame {
         return !!name && this.isSpellAlly(name);
       },
       onLevel: (level) => this.characters.setLevel(level),
+      inDuel: () => this.dueling.inDuel,
       viewProjection: () => this.view.scene.getTransformMatrix().m,
       canvasSize: () => [this.canvas.clientWidth, this.canvas.clientHeight],
     });

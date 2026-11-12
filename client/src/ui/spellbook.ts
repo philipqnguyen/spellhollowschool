@@ -8,6 +8,11 @@
 // aim them. A locked one says the level it needs and where it is taught.
 // Dueling spells in your loadout are marked; the loadout itself is set at
 // the Dueling Club. The model is spellbook-state.ts.
+//
+// The social hotbar (ui/hotbar.ts): each spell that can go on it has its
+// glyph by the Cast button, to drag onto a hotbar slot (or click: the first
+// empty slot); a locked spell's glyph won't move, and a flourish-only spell
+// has none. Rows on the bar say which key casts them.
 
 import "./spellbook.css";
 import type { Progress } from "../wasm/sim_wasm";
@@ -16,10 +21,15 @@ import { focusOrigin, h, restoreFocus } from "./dom";
 import { lineIcon, SPELLBOOK_ICON } from "./effects-icons";
 import { levelFraction, xpText } from "./progression-state";
 import { spellbookGroups, type SpellRow } from "./spellbook-state";
+import { dragRefusal, isHotbarSpell, normalize, slotKey } from "./hotbar-state";
+import { startSpellDrag } from "./hotbar";
+import { spellIcon } from "./spell-icons";
 
 export interface SpellbookOptions {
   /** Cast `spell` (as outside duels). */
   onCast: (spell: SpellDef) => void;
+  /** The hotbar's new layout (a glyph clicked: its spell into the first empty slot). */
+  onHotbar: (slots: (number | null)[]) => void;
 }
 
 export interface SpellbookView {
@@ -31,6 +41,8 @@ export interface SpellbookView {
   lit: boolean;
   /** Our guardian is out (its button dismisses it); absent: not out. */
   guardian?: boolean;
+  /** The social hotbar's slots (spell id or null); absent: empty. */
+  hotbar?: readonly (number | null)[];
 }
 
 const KIND_LABELS: Record<SpellDef["kind"], string> = {
@@ -105,7 +117,7 @@ export class SpellbookWindow {
     const v = this.view;
     const p = v.progress;
     const guardian = v.guardian ?? false;
-    const key = `${p?.level}|${p?.xp}|${v.learned.join(",")}|${v.loadout.join(",")}|${v.slots}|${v.lit}|${guardian}`;
+    const key = `${p?.level}|${p?.xp}|${v.learned.join(",")}|${v.loadout.join(",")}|${v.slots}|${v.lit}|${guardian}|${(v.hotbar ?? []).join(",")}`;
     if (key === this.key) return;
     this.key = key;
     const level = p?.level ?? 1;
@@ -128,7 +140,9 @@ export class SpellbookWindow {
     const g = gestureByKey(s.gesture);
     const [red, green, blue] = spellRgb(s);
     const colour = `rgb(${Math.round(red * 255)} ${Math.round(green * 255)} ${Math.round(blue * 255)})`;
-    const action = r.button ? h("button", { type: "button", class: "secondary spell-cast", title: r.aim ?? undefined, onclick: () => this.opts.onCast(s) }, r.button) : null;
+    const cast = r.button ? h("button", { type: "button", class: "secondary spell-cast", title: r.aim ?? undefined, onclick: () => this.opts.onCast(s) }, r.button) : null;
+    const slot = (this.view.hotbar ?? []).indexOf(s.id);
+    const action = h("div", { class: "spell-actions" }, this.hotbarHandle(s), cast);
     return h(
       "li",
       { class: `spell-row${r.learned ? " learned" : " locked"}`, style: `--spell: ${colour}` },
@@ -143,6 +157,7 @@ export class SpellbookWindow {
           h("span", { class: "spell-kind" }, KIND_LABELS[s.kind]),
           h("span", { class: "spell-level", title: r.where }, r.tag),
           r.inLoadout ? h("span", { class: "spell-chip" }, "In your loadout") : null,
+          slot >= 0 ? h("span", { class: "spell-chip", title: "On your hotbar" }, `Hotbar key ${slotKey(slot)}`) : null,
         ),
         r.learned ? h("span", { class: "spell-incant" }, `“${s.incantation}” · ${g?.name ?? "a wand movement"}`) : null,
         h("span", { class: "spell-what" }, r.outside),
@@ -152,6 +167,40 @@ export class SpellbookWindow {
         r.learned ? null : h("span", { class: "detail-sub spell-where locked" }, r.where),
       ),
       action,
+    );
+  }
+
+  /** The row's hotbar glyph: dragged onto a slot, or clicked into the first empty one; locked ones stay put. None for a flourish-only spell. */
+  private hotbarHandle(s: SpellDef): HTMLElement | null {
+    if (!isHotbarSpell(s)) return null;
+    const refusal = dragRefusal(s, this.view.learned);
+    if (refusal) return h("span", { class: "spell-hotbar locked", title: refusal, "aria-hidden": "true" }, spellIcon(s));
+    const bar = normalize(this.view.hotbar ?? []);
+    const at = bar.indexOf(s.id);
+    const title =
+      at >= 0
+        ? `On your hotbar (key ${slotKey(at)}): drag it to another slot`
+        : bar.includes(null)
+          ? "Drag onto a hotbar slot, or click to put it in the first empty one"
+          : "Your hotbar is full: drag this onto a slot to replace its spell";
+    return h(
+      "button",
+      {
+        type: "button",
+        class: "spell-hotbar",
+        draggable: "true",
+        title,
+        "aria-label": at >= 0 ? `${s.name} is on your hotbar, key ${slotKey(at)}` : `Put ${s.name} on your hotbar`,
+        ondragstart: (e: Event) => startSpellDrag(e as DragEvent, s),
+        onclick: () => {
+          if (at >= 0) return;
+          const free = bar.indexOf(null);
+          if (free < 0) return;
+          bar[free] = s.id;
+          this.opts.onHotbar(bar);
+        },
+      },
+      spellIcon(s),
     );
   }
 }

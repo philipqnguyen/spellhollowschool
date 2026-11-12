@@ -814,6 +814,8 @@ impl WorldSim {
             positions: vec![self.resume_point(i)],
             // The map's reveals not saved yet.
             reveals: self.explore_left(cid, how == Leaving::Replaced),
+            // Hotbars are saved as they change.
+            hotbars: Vec::new(),
         };
         let removed = self.ents.remove(id).expect("checked live");
         if self.by_character.get(&cid) == Some(&id) {
