@@ -238,7 +238,8 @@ zone. Instances run in the same process and thread as the castle.
 Four houses (`client/src/content/houses.json`, `protocol::House`):
 Roarwing, Burrowsby, Skytalon and Serpentyne. Asset keys and art use
 `house_a`..`house_d` in that order. Each has a gated common room in the
-castle with its dorm door, crafting stations and owl-order stand.
+castle with its dorm door (Burrowsby's has two, each a `dorm_door`
+interactable), crafting stations and owl-order stand.
 
 ## Content data
 
