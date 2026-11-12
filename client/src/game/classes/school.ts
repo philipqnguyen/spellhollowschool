@@ -575,6 +575,11 @@ export class SchoolHub {
     return this.spells.aiming;
   }
 
+  /** Tracing wand gestures in class (the practice pad is up, or a stroke is being drawn): our wand stays out. */
+  get tracing(): boolean {
+    return this.classes.tracing;
+  }
+
   /** Characters look at their target: our class's professor (null: none) and when we last answered a beat in class (`performance.now()` ms). */
   get answering(): { professor: number | null; at: number } {
     return { professor: this.classes.professor, at: this.classes.answeredAt };

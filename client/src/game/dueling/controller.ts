@@ -21,6 +21,7 @@
 // `frame` every frame (VFX, HUD) and `hudTick` on its HUD tick.
 
 import type { Camera } from "@babylonjs/core/Cameras/camera";
+import { Vector3 } from "@babylonjs/core/Maths/math.vector";
 import type { Scene } from "@babylonjs/core/scene";
 import { audio } from "../../audio";
 import { project } from "../../economy/pick";
@@ -94,10 +95,14 @@ export interface DuelingOptions {
   castAnimMs: number;
   /** A duelist's Guardian ward stopped a spell (their entity): the guardian flares. */
   onWardBlock?: (entity: number) => void;
+  /** Where a drawn character's wand tip is (characters/renderer.ts `wandTip`): charges and bolts start there. False: not drawn (estimated). */
+  wandTip?: (id: number, out: Vector3) => boolean;
 }
 
 /** A key pressed this much before its spell is ready is held and sent on time (ms). */
 const BUFFER_MS = 250;
+/** A duelist as drawn this frame: its entity, and its wand tip (`at`, pointed to by `tip` when known). */
+type SeenPose = DuelistPose & { seen: boolean; id: number; tip: [number, number, number] | null; at: [number, number, number] };
 /** A prediction the server has not answered after this (plus two round trips) is dropped (ms). */
 const PENDING_GRACE_MS = 600;
 /** Callouts float no higher than this (px from the top: below the HUD bar). */
@@ -125,10 +130,11 @@ export class DuelingController {
   /** The duelists' cast animations (from `CastStarted`) run until then (local ms). */
   private readonly sideAnimUntil: [number, number] = [0, 0];
   /** Where each duelist is drawn this frame (filled by `pose`). */
-  private readonly poses: [DuelistPose & { seen: boolean }, DuelistPose & { seen: boolean }] = [
-    { x: 0, y: 0, z: 0, yaw: 0, seen: false },
-    { x: 0, y: 0, z: 0, yaw: 0, seen: false },
+  private readonly poses: [SeenPose, SeenPose] = [
+    { x: 0, y: 0, z: 0, yaw: 0, seen: false, id: -1, tip: null, at: [0, 0, 0] },
+    { x: 0, y: 0, z: 0, yaw: 0, seen: false, id: -1, tip: null, at: [0, 0, 0] },
   ];
+  private readonly tipScratch = new Vector3();
   private readonly anchors: [{ x: number; y: number } | null, { x: number; y: number } | null] = [null, null];
   private readonly anchorPool: [{ x: number; y: number }, { x: number; y: number }] = [
     { x: 0, y: 0 },
@@ -510,12 +516,23 @@ export class DuelingController {
     s.z = p.z;
     s.yaw = p.yaw;
     s.seen = true;
+    s.id = id;
   }
 
   /** Where `side` is drawn, or its mark on the stage when it is not drawn. */
   private drawnPose(side: DuelSide): DuelistPose | null {
     const s = this.poses[sideIndex(side)];
-    if (s.seen) return s;
+    if (s.seen) {
+      // The drawn wand's tip, as posed this frame (characters/renderer.ts `wandTip`).
+      const t = this.tipScratch;
+      if (this.opts.wandTip?.(s.id, t)) {
+        s.at[0] = t.x;
+        s.at[1] = t.y;
+        s.at[2] = t.z;
+        s.tip = s.at;
+      } else s.tip = null;
+      return s;
+    }
     const mark = venue(this.zone?.kind === "arena" ? this.zone.venue : "dueling_club")?.duelists[sideIndex(side)];
     return mark ? { x: mark.pos[0], y: mark.pos[1], z: mark.pos[2], yaw: mark.yaw } : null;
   }

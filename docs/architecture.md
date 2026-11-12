@@ -964,6 +964,18 @@ green (`--club`); someone in the player's party and club shows party blue
   keyed by the spell's `key`; client `ui/spell-icons.ts`, tests check each
   spell has one and no two match), shown on the hotbar, the spellbook, the
   duel spell bar and the loadout.
+- **The wand** (client only, `game/characters/wand-state.ts`, `wands.ts`):
+  not an item and never equipped. It grows into a character's right hand
+  (about 100 ms) while the character casts (the `Cast` anim: our own
+  predicted cast, the server's for everyone else and for professors'
+  demonstrations, a duelist's telegraph), and stays out while its wand is
+  lit (Lucerna), while we trace gestures in class and while we aim
+  Elevara; it is never drawn on a broom. It hangs under the body's
+  `socket_hand.R` joint by the transform the asset build fitted
+  (`vfx/manifest.json` `wand.attach`), so spell effects, wand lights and
+  duel charges start at its drawn tip (`renderer.ts` `wandTip`). Every wand
+  out is one thin instance of one mesh (one draw call). Without the built
+  assets (or on a greybox rig) a stand-in wand hangs along `DEF-hand.R`.
 - **Dueling** (`sim_core::duel`, fully server-side): two players in the
   Dueling Club's area challenge each other; the duel runs in an arena
   instance. Each duelist has Poise 100; the first at 0 loses, or the higher

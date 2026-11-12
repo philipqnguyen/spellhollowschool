@@ -117,6 +117,8 @@ export class ClassController {
   private lesson: LessonState | null = null;
   private classId: string | null = null;
   private pending: PendingTrace | null = null;
+  /** The pad shows a practice beat's gesture (set each frame by `update`). */
+  private practicePad = false;
   private watch: { gesture: GestureDef; colour: string; start: number; duration: number } | null = null;
   /** The last gesture demonstrated, shown faintly between demonstrations. */
   private lastDemo: GestureDef | null = null;
@@ -166,6 +168,11 @@ export class ClassController {
   /** The session id being attended, if any. */
   get session(): number | null {
     return this.lesson?.info?.session ?? null;
+  }
+
+  /** Whether we trace wand gestures now (the practice pad is up for a beat, or a stroke is in progress): our wand is out (characters/wand-state.ts). */
+  get tracing(): boolean {
+    return this.lesson !== null && (this.pending !== null || this.practicePad);
   }
 
   /** Whether a drill draws in the room this frame (the spell VFX must be begun and ended around `update`). */
@@ -534,6 +541,7 @@ export class ClassController {
       for (const b of expired) this.stageNow.missed(b, now);
       this.stageNow.frame(l.practising && l.round ? { windowMs: l.round.windowMs, beats: l.round.beats } : null, now);
     }
+    this.practicePad = false;
     if (this.ringClass) {
       this.pad.show(null);
       this.tray.show(null);
@@ -543,7 +551,9 @@ export class ClassController {
       this.tray.show(this.trayScene(l, now));
     } else {
       this.tray.show(null);
-      this.pad.show(this.padScene(l, now, nowLocal));
+      const scene = this.padScene(l, now, nowLocal);
+      this.practicePad = scene?.mode === "practice";
+      this.pad.show(scene);
       this.pad.frame(nowLocal, dt * 1000);
     }
     this.panelTimer -= dt;
