@@ -939,7 +939,10 @@ green (`--club`); someone in the player's party and club shows party blue
   only then (`progression::learn_spells`, and the world for one learned
   online), so a spell taken off stays off. A slot casts as the spellbook's
   Cast button does. In a duel the bar hides and the duel's spell bar has the
-  number keys.
+  number keys. Every spell has its own line glyph (`data/spell_glyphs.json`,
+  keyed by the spell's `key`; client `ui/spell-icons.ts`, tests check each
+  spell has one and no two match), shown on the hotbar, the spellbook, the
+  duel spell bar and the loadout.
 - **Dueling** (`sim_core::duel`, fully server-side): two players in the
   Dueling Club's area challenge each other; the duel runs in an arena
   instance. Each duelist has Poise 100; the first at 0 loses, or the higher

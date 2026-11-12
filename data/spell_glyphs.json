@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "about": "One line glyph per spell of data/spells.json, keyed by its `key`: stroke-only SVG path data in a 24 x 24 box (the HUD icon style, client/src/ui/effects-icons.ts `lineIcon`), stroked in the spell's colour wherever a spell shows an icon (the social hotbar, the spellbook, the duel spell bar and the loadout). Original drawings. client/src/ui/spell-icons.ts reads it; spell-icons.test.ts checks every spell has one and no two share one.",
+  "glyphs": {
+    "lucerna": {
+      "about": "a wand whose tip shines",
+      "paths": ["M4 20 12.2 11.8", "M13 9a2 2 0 1 0 4 0 2 2 0 1 0-4 0Z", "M15 3.2v1.6M15 13.2v1.6M9.2 9h1.6M19.2 9h1.6M10.9 4.9l1.1 1.1M18 12l1.1 1.1M19.1 4.9 18 6"]
+    },
+    "elevara": {
+      "about": "a chest lifted off the floor, rising",
+      "paths": ["M7 4.5h10v6.5H7Z", "M7 7.5h10", "M12 6.5v2", "M9 16.5l3-2.5 3 2.5", "M4.5 20.5h15"]
+    },
+    "scutara": {
+      "about": "a curved barrier turning a bolt back the way it came",
+      "paths": ["M9 3c3.6 2.3 5.4 5.3 5.4 9s-1.8 6.7-5.4 9", "M5.5 5.6c2.3 1.8 3.4 4 3.4 6.4s-1.1 4.6-3.4 6.4", "M21.5 5.5 15.9 12l5.6 6.5", "M21.5 18.5h-3.1M21.5 18.5v-3.1"]
+    },
+    "torpeo": {
+      "about": "a stunning bolt striking",
+      "paths": ["M14 2.5 6.5 13.2h5.2L10 21.5l7.5-11h-5.3Z"]
+    },
+    "dimitto": {
+      "about": "a wand spinning away out of reach",
+      "paths": ["M6 6l8.2 8.2", "M13.4 15 15 13.4l4.2 4.2-1.6 1.6Z", "M13.6 2.6A9.5 9.5 0 0 1 21.4 10.4", "M22.5 8l-1.1 2.4-1.9-1.9", "M10.4 21.4A9.5 9.5 0 0 1 2.6 13.6", "M1.5 16l1.1-2.4 1.9 1.9"]
+    },
+    "titillara": {
+      "about": "a feather, and the giggles it brings",
+      "paths": ["M19.5 3c-6.8.4-11.4 5-12.4 12.6 7.6-1 12.1-5.6 12.4-12.6Z", "M7.1 15.6 14.6 8", "M7.1 15.6 4 18.7", "M14 17.2c.8.9 1.6.9 2.4 0s1.6-.9 2.4 0 1.6.9 2.4 0", "M16 20.8c.8.9 1.6.9 2.4 0s1.6-.9 2.4 0"]
+    },
+    "repulsa": {
+      "about": "a wave rolling out and knocking back",
+      "paths": ["M5.7 8.8a4.5 4.5 0 0 1 0 6.4", "M8.5 6a8.5 8.5 0 0 1 0 12", "M11.3 3.2a12.5 12.5 0 0 1 0 17.6", "M16.5 12H22", "M19.5 9.5 22 12l-2.5 2.5"]
+    },
+    "tinctura": {
+      "about": "a robe with a swash of new colour across it",
+      "paths": ["M9.5 3.5h5l4.5 3.5-2.3 3.2-2.2-1.4V20.5H9.5V8.8L7.3 10.2 5 7Z", "M9.5 14.2c1.6-1.4 3.4.9 5-.6"]
+    },
+    "rigora": {
+      "about": "two links of a chain",
+      "paths": ["M10.3 13.7 8.2 15.8a2.9 2.9 0 0 1-4.1-4.1l3-3a2.9 2.9 0 0 1 4.1 0", "M13.7 10.3l2.1-2.1a2.9 2.9 0 0 1 4.1 4.1l-3 3a2.9 2.9 0 0 1-4.1 0", "M9.5 14.5l5-5"]
+    },
+    "volucra": {
+      "about": "three small birds on the wing",
+      "paths": ["M2.5 11c1.6-2 3.4-2 4.5 0 1.1-2 2.9-2 4.5 0", "M12 6c1.3-1.6 2.7-1.6 3.6 0 .9-1.6 2.3-1.6 3.6 0", "M11.5 17.5c1.3-1.6 2.7-1.6 3.6 0 .9-1.6 2.3-1.6 3.6 0"]
+    },
+    "adveni": {
+      "about": "a horseshoe magnet that draws",
+      "paths": ["M6 4v8a6 6 0 0 0 12 0V4", "M10 4v8a2 2 0 0 0 4 0V4", "M6 8h4M14 8h4"]
+    },
+    "dissolvo": {
+      "about": "a ring of magic coming undone",
+      "paths": ["M6.3 8A7 7 0 0 1 12 5", "M16.2 6.4A7 7 0 0 1 19 12", "M17.7 16A7 7 0 0 1 12 19", "M7.8 17.6A7 7 0 0 1 5 12", "M10.3 10.3l3.4 3.4M13.7 10.3l-3.4 3.4"]
+    },
+    "aperio": {
+      "about": "a hidden doorway that shines",
+      "paths": ["M7.5 20.5v-9a4.5 4.5 0 0 1 9 0v9", "M4 20.5h16", "M12 13.5v4", "M12 2.5v2M5.2 5.4l1.3 1.3M18.8 5.4l-1.3 1.3M3 11h1.8M19.2 11H21"]
+    },
+    "tardara": {
+      "about": "an hourglass",
+      "paths": ["M6.5 3.5h11M6.5 20.5h11", "M8 3.5c0 4.5 4 5.5 4 8.5s-4 4-4 8.5", "M16 3.5c0 4.5-4 5.5-4 8.5s4 4 4 8.5", "M10 18.5h4"]
+    },
+    "custodio": {
+      "about": "a shield with the guardian's light in it",
+      "paths": ["M12 3l7 3v5.2c0 4.4-2.9 7.7-7 9.8-4.1-2.1-7-5.4-7-9.8V6Z", "M12 8.2l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9Z"]
+    }
+  }
+}

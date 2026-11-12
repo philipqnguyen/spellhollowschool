@@ -9,10 +9,11 @@
 // Dueling spells in your loadout are marked; the loadout itself is set at
 // the Dueling Club. The model is spellbook-state.ts.
 //
-// The social hotbar (ui/hotbar.ts): each spell that can go on it has its
-// glyph by the Cast button, to drag onto a hotbar slot (or click: the first
-// empty slot); a locked spell's glyph won't move, and a flourish-only spell
-// has none. Rows on the bar say which key casts them.
+// Every row shows its spell's glyph (spell-icons.ts) by the Cast button.
+// The social hotbar (ui/hotbar.ts): a spell that can go on it drags its
+// glyph onto a hotbar slot (or clicks it into the first empty slot); a
+// locked spell's glyph won't move, nor a flourish-only (dueling) spell's.
+// Rows on the bar say which key casts them.
 
 import "./spellbook.css";
 import type { Progress } from "../wasm/sim_wasm";
@@ -142,7 +143,7 @@ export class SpellbookWindow {
     const colour = `rgb(${Math.round(red * 255)} ${Math.round(green * 255)} ${Math.round(blue * 255)})`;
     const cast = r.button ? h("button", { type: "button", class: "secondary spell-cast", title: r.aim ?? undefined, onclick: () => this.opts.onCast(s) }, r.button) : null;
     const slot = (this.view.hotbar ?? []).indexOf(s.id);
-    const action = h("div", { class: "spell-actions" }, this.hotbarHandle(s), cast);
+    const action = h("div", { class: "spell-actions" }, this.glyph(s, r.learned), cast);
     return h(
       "li",
       { class: `spell-row${r.learned ? " learned" : " locked"}`, style: `--spell: ${colour}` },
@@ -170,10 +171,10 @@ export class SpellbookWindow {
     );
   }
 
-  /** The row's hotbar glyph: dragged onto a slot, or clicked into the first empty one; locked ones stay put. None for a flourish-only spell. */
-  private hotbarHandle(s: SpellDef): HTMLElement | null {
-    if (!isHotbarSpell(s)) return null;
+  /** The row's glyph: a hotbar spell's drags onto a slot, or clicks into the first empty one; locked and flourish-only ones stay put. */
+  private glyph(s: SpellDef, learned: boolean): HTMLElement {
     const refusal = dragRefusal(s, this.view.learned);
+    if (!isHotbarSpell(s)) return h("span", { class: `spell-hotbar static${learned ? "" : " locked"}`, title: refusal ?? undefined, "aria-hidden": "true" }, spellIcon(s));
     if (refusal) return h("span", { class: "spell-hotbar locked", title: refusal, "aria-hidden": "true" }, spellIcon(s));
     const bar = normalize(this.view.hotbar ?? []);
     const at = bar.indexOf(s.id);

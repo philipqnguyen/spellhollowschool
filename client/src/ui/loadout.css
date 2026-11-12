@@ -120,12 +120,23 @@
   gap: 8px;
 }
 
-.loadout-swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--spell);
-  box-shadow: 0 0 8px var(--spell);
+/* Each spell's glyph (spell-icons.ts) in its colour: before its name, and in a slot's top corner. */
+.loadout-window .spell-icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--spell);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--spell) 45%, transparent));
+}
+
+.loadout-slot .spell-icon {
+  position: absolute;
+  top: 6px;
+  right: 8px;
 }
 
 .loadout-kind {
