@@ -1145,14 +1145,22 @@ mod tests {
             .iter()
             .map(|s| (format!("spawn {}", s.id), s.pos))
             .collect();
+        // A common room may have more than one dorm door (Burrowsby's two):
+        // the trail reaches everything from each of them.
         let dorms: Vec<_> = world
             .interactables()
             .iter()
             .filter(|i| i.kind == InteractableKind::DormDoor)
             .collect();
-        assert_eq!(dorms.len(), 1, "{house:?} sees its own dorm door only");
-        assert_eq!(dorms[0].house.as_deref(), Some(house.id()));
-        out.push((format!("dorm {}", dorms[0].id), dorms[0].pos));
+        assert!(!dorms.is_empty(), "{house:?} has a dorm door");
+        for d in dorms {
+            assert_eq!(
+                d.house.as_deref(),
+                Some(house.id()),
+                "{house:?} sees its own dorm doors only"
+            );
+            out.push((format!("dorm {}", d.id), d.pos));
+        }
         out
     }
 

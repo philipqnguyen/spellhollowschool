@@ -14,6 +14,7 @@ import { audio } from "../audio";
 import { fullscreen, showEnterFullscreen, type Fullscreen } from "../fullscreen";
 import { QUALITY_HINTS, VIEW_LIMITS, type AudioBus, type AudioSettings, type Quality, type Settings, type ViewLimit } from "../settings";
 import type { ChatterMode } from "../game/npc/chatter";
+import { ALL_FILTERABLE, ALWAYS_IN_ALL, CHAT_TAB_LABELS, type ChatAllFilter } from "./chat-state";
 import { h } from "./dom";
 import { SHORTCUTS } from "./shortcuts";
 import { hudCorners, type Box } from "./hud-corners";
@@ -39,6 +40,8 @@ export interface HudOptions {
   onResetWindows?: () => void;
   /** NPCs: Portrait chatter changed (On / Quiet / Off). */
   onChatter?: (c: ChatterMode) => void;
+  /** Settings > Chats: the channels the chat's All tab shows changed (saved by the caller). */
+  onChatAll?: (f: ChatAllFilter) => void;
 }
 
 /** NPCs: the Portrait chatter choices and what each means. */
@@ -66,10 +69,11 @@ const VOLUMES: { bus: AudioBus; label: string }[] = [
  * The Settings window's tabs. The keys are listed there, not on the screen all
  * the time. "credits" is a page without a tab: the Credits button opens it.
  */
-type SettingsTab = "graphics" | "audio" | "keys" | "credits";
+type SettingsTab = "graphics" | "audio" | "chats" | "keys" | "credits";
 const SETTINGS_TABS: { id: SettingsTab; label: string }[] = [
   { id: "graphics", label: "Graphics" },
   { id: "audio", label: "Audio" },
+  { id: "chats", label: "Chats" },
   { id: "keys", label: "Keyboard shortcuts" },
 ];
 
@@ -237,6 +241,7 @@ export class Hud {
           : null,
       ),
       audio: h("div", { class: "settings-page", role: "tabpanel", "aria-label": "Audio", hidden: true }, this.buildSound()),
+      chats: h("div", { class: "settings-page", role: "tabpanel", "aria-label": "Chats", hidden: true }, this.buildChats()),
       keys: h("div", { class: "settings-page shortcuts", role: "tabpanel", "aria-label": "Keyboard shortcuts", hidden: true }, ...buildShortcuts()),
       // Filled from ui/credits.ts (loaded on demand) when first shown.
       credits: h("div", { class: "settings-page settings-credits", role: "region", "aria-label": "Credits", hidden: true }),
@@ -269,6 +274,7 @@ export class Hud {
       tabs,
       pages.graphics,
       pages.audio,
+      pages.chats,
       pages.keys,
       pages.credits,
       this.fullscreenButton,
@@ -314,6 +320,38 @@ export class Hud {
       return h("label", { class: "volume" }, h("span", {}, label), input, value);
     });
     return h("fieldset", { class: "sound-settings" }, h("legend", {}, "Sound"), h("label", { class: "mute" }, mute, h("span", {}, "Mute all")), ...rows);
+  }
+
+  /**
+   * Chats: a box per channel the chat's All tab may leave out (house, party,
+   * club, whisper; each keeps its own tab), then say, NPC and system lines,
+   * ticked and disabled: All always shows them. A change applies at once.
+   */
+  private buildChats(): HTMLElement {
+    const f = this.opts.settings.chatAll;
+    const row = (kind: string, label: string, box: HTMLInputElement, note?: string) =>
+      h("label", { class: "mute chat-kind", "data-kind": kind }, box, h("span", {}, label), note ? h("small", { class: "muted" }, note) : null);
+    const rows = ALL_FILTERABLE.map((kind) => {
+      const box = h("input", {
+        type: "checkbox",
+        checked: f[kind],
+        onchange: () => {
+          f[kind] = box.checked;
+          audio.play("ui.toggle");
+          this.opts.onChatAll?.({ ...f });
+        },
+      }) as HTMLInputElement;
+      return row(kind, CHAT_TAB_LABELS[kind], box);
+    });
+    const always = ALWAYS_IN_ALL.map(({ kind, label }) => row(kind, label, h("input", { type: "checkbox", checked: true, disabled: true }) as HTMLInputElement, "always shown"));
+    return h(
+      "fieldset",
+      { class: "sound-settings chat-settings" },
+      h("legend", {}, "Shown in the All tab"),
+      ...rows,
+      ...always,
+      h("p", { class: "muted quality-hint" }, "A channel left out of All still shows on its own tab."),
+    );
   }
 
   /** Where the top-right stack is (px from the window's top left: the name, counts, level and clock); null before layout. */

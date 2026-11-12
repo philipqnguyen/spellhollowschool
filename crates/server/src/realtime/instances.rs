@@ -1028,7 +1028,8 @@ impl WorldSim {
     }
 
     /// Where an owner reappears when leaving their dorm: their house's
-    /// `dorm_door` in the castle, on the ground, facing its `yaw`.
+    /// `dorm_door` in the castle (the first listed, where a common room has
+    /// two), on the ground, facing its `yaw`.
     fn dorm_door(&self, house: House) -> Option<([f32; 3], u8)> {
         let door = self.castle.interactables().iter().find(|it| {
             it.kind == InteractableKind::DormDoor && it.house.as_deref() == Some(house.id())

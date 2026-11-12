@@ -1,4 +1,4 @@
-// Settings > Portrait chatter is remembered per viewer (localStorage, every
+// Settings > Portrait chatter and Settings > Chats are remembered per viewer (localStorage, every
 // access guarded: a private window or blocked storage still plays).
 
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -48,5 +48,25 @@ describe("Portrait chatter", () => {
     });
     expect(loadSettings().chatter).toBe("on");
     expect(() => saveSettings({ ...loadSettings(), chatter: "off" })).not.toThrow();
+  });
+});
+
+describe("Settings > Chats", () => {
+  afterEach(() => vi.unstubAllGlobals());
+
+  it("shows every channel in All at first, and remembers one taken out", () => {
+    vi.stubGlobal("localStorage", memoryStorage());
+    const s = loadSettings();
+    expect(s.chatAll).toEqual({ house: true, party: true, club: true, whisper: true });
+    s.chatAll.party = false;
+    saveSettings(s);
+    expect(loadSettings().chatAll).toEqual({ house: true, party: false, club: true, whisper: true });
+  });
+
+  it("keeps say, NPC and system lines whatever is stored", () => {
+    const store = memoryStorage();
+    store.setItem("shs.settings", JSON.stringify({ chatAll: { say: false, npc: false, system: false, club: "no", whisper: false } }));
+    vi.stubGlobal("localStorage", store);
+    expect(loadSettings().chatAll).toEqual({ house: true, party: true, club: true, whisper: false });
   });
 });
