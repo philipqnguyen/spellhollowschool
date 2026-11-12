@@ -6,9 +6,10 @@
 // friend, Whisper and Challenge to a duel reuse what exists (game.ts). The
 // words are in players-state.ts.
 //
-// Spells to level 20: on a friend's card, a "Cast on <name>" row of the
-// learned spells that can be aimed at a friend (Colour Charm, Binding Curse,
-// Summoning Charm, Unweaving, Slowing Jinx); the cast goes through the spells' own rules.
+// Spells to level 20: on the card of a friend, party member or club member,
+// a "Cast on <name>" row of the learned spells that can be aimed at them
+// (Colour Charm, Binding Curse, Summoning Charm, Unweaving, Slowing Jinx); the
+// cast goes through the spells' own rules.
 
 import "./players.css";
 import { ApiError, authedRequest } from "../api";
@@ -25,13 +26,15 @@ export interface PlayerCardOptions {
   subjectName: (id: string) => string;
   /** Whether `name` is already a friend (the Add friend button says so). */
   isFriend: (name: string) => boolean;
+  /** Spells L20: whether spells may be cast on `name`: a friend, party member or club member (the server decides). */
+  isAlly?: (name: string) => boolean;
   /** Whether `name` is in our party (the card's "Invite to party" then says so). */
   isPartyMember?: (name: string) => boolean;
   /** Whether we may invite to our club (an officer or its owner), and whether `name` is in it. */
   canClubInvite?: () => boolean;
   isClubMember?: (name: string) => boolean;
   onAction: (action: PlayerAction, name: string) => void;
-  /** Spells L20: the learned spells that can be cast on a friend (none: no row). */
+  /** Spells L20: the learned spells that can be cast on an ally (none: no row). */
   castable?: () => readonly SpellDef[];
   /** Spells L20: cast `spell` on the character called `name`. */
   onCast?: (spell: SpellDef, name: string) => void;
@@ -168,8 +171,9 @@ export class PlayerCardWindow {
       ...(this.opts.canClubInvite?.() ? [this.clubButton(button, c)] : []),
       button("challenge", "secondary"),
     );
-    // Spells L20: friends only (the spells aimed at someone else are).
-    const spells = friend ? (this.opts.castable?.() ?? []) : [];
+    // Spells L20: friends, party and club members only (the spells aimed at someone else are).
+    const ally = this.opts.isAlly?.(c.name) ?? friend;
+    const spells = ally ? (this.opts.castable?.() ?? []) : [];
     if (spells.length && this.opts.onCast) {
       const cast = this.opts.onCast;
       this.actions.append(

@@ -113,8 +113,8 @@ export interface SchoolHubOptions {
   onSelfCast: () => void;
   /** Spells L20 (SOCIAL): the character selected in the world (Tab/E), or null. */
   selected: () => number | null;
-  /** Spells L20 (SOCIAL): whether character `id` is a friend (only for the refusal's words; the server decides). */
-  isFriend: (id: number) => boolean;
+  /** Spells L20 (SOCIAL): whether character `id` is a friend, party member or club member (only for the refusal's words; the server decides). */
+  isAlly: (id: number) => boolean;
   /** Our level changed (the wardrobe shows required levels against it). */
   onLevel: (level: number) => void;
   /** Projection for the speech bubbles: the scene's view-projection and the canvas size. */
@@ -245,7 +245,7 @@ export class SchoolHub {
       onSelfCast: opts.onSelfCast,
       // Spells L20 (SOCIAL).
       selected: opts.selected,
-      isFriend: opts.isFriend,
+      isAlly: opts.isAlly,
     });
     this.spells.onChange(() => this.refreshBook());
     // Under the name and counts at the top right (in the HUD layer, first in the HUD, so toasts and windows cover it).

@@ -405,14 +405,15 @@ pub enum SpellErrorCode {
     BadTarget,
     /// The target is out of range.
     TooFar,
-    /// That piece is already floating. Protocol v11: also that friend was
+    /// That piece is already floating. Protocol v11: also that target was
     /// hindered a moment ago (immune for a while), or the caster is bound.
     Busy,
     /// Too many casts; slow down.
     RateLimited,
-    /// Protocol v11: the target must be a friend (no block either way).
+    /// Protocol v11: the target must be a friend, party member or club
+    /// member (no block either way).
     NotFriend,
-    /// Protocol v11: the spell needs a target (a selected friend) and got
+    /// Protocol v11: the spell needs a target (a selected ally) and got
     /// none, or got the caster.
     NeedsTarget,
     /// Protocol v11: the target is sitting, in class, trading, dueling, on

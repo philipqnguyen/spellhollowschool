@@ -4,7 +4,7 @@
 // shows its incantation, its wand gesture (drawn from the gesture's
 // template), what it does outside a duel and, for dueling spells, in one,
 // and a button to cast it (its words from `castLabel`: "Light (L)",
-// "Recolour", "Summon guardian"...); spells aimed at a friend say how to
+// "Recolour", "Summon guardian"...); spells aimed at someone else say how to
 // aim them. A locked one says the level it needs and where it is taught.
 // Dueling spells in your loadout are marked; the loadout itself is set at
 // the Dueling Club. The model is spellbook-state.ts.

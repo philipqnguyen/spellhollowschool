@@ -709,11 +709,11 @@ class Game implements RunningGame {
       room: () => this.dorm.room,
       liftFurniture: (itemId, dy) => this.dorm.liftFurniture(itemId, dy),
       onSelfCast: () => this.characters.playCast(world.protocol.castAnimMs),
-      // Spells L20 (SOCIAL): spells aimed at the selected character; friendship only words the refusal (the server decides).
+      // Spells L20 (SOCIAL): spells aimed at the selected character; being an ally only words the refusal (the server decides).
       selected: () => this.selection.selected?.id ?? null,
-      isFriend: (id) => {
+      isAlly: (id) => {
         const name = this.remotes?.byId.get(id)?.name;
-        return !!name && this.friendState.friendList().some((f) => sameName(f.name, name));
+        return !!name && this.isSpellAlly(name);
       },
       onLevel: (level) => this.characters.setLevel(level),
       viewProjection: () => this.view.scene.getTransformMatrix().m,
@@ -795,9 +795,10 @@ class Game implements RunningGame {
       isPartyMember: (name) => this.party.isMember(name),
       canClubInvite: () => this.club.mayInvite,
       isClubMember: (name) => this.club.isMember(name),
+      isAlly: (name) => this.isSpellAlly(name),
       onAction: (a, name) => this.playerAction(a, name),
       // Spells L20 (SOCIAL): the card's "Cast on" row.
-      castable: () => this.school.spells.friendSpells(),
+      castable: () => this.school.spells.allySpells(),
       onCast: (spell, name) => this.school.spells.castOnName(spell, name, (n) => this.remoteByName(n)),
     });
     this.selection = new WorldSelection({
@@ -1308,6 +1309,11 @@ class Game implements RunningGame {
       // opens from its button.
       this.hud.toggleMenu(false);
     }
+  }
+
+  /** Spells may be aimed at `name` (a friend, party member or club member; the server decides, blocks included). */
+  private isSpellAlly(name: string): boolean {
+    return this.friendState.friendList().some((f) => sameName(f.name, name)) || this.party.isMember(name) || this.club.isMember(name);
   }
 
   /** Spells L20 (SOCIAL): a character in view by name (the card casts on them), or null. */

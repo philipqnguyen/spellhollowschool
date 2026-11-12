@@ -268,6 +268,31 @@ impl WorldCtx<'_> {
         s.is_friend(other) && !s.any_block(other)
     }
 
+    /// `a` may aim a spell at `b` (spells outside duels): `b` is a friend,
+    /// in `a`'s party or in `a`'s club, with no block either way.
+    pub fn spell_ally(&self, a: EntityId, b: EntityId) -> bool {
+        let (Some(i), Some(me), Some(other)) =
+            (self.index(a), self.character_id(a), self.character_id(b))
+        else {
+            return false;
+        };
+        let s = &self.sim.ents.social[i];
+        if s.any_block(other) {
+            return false;
+        }
+        s.is_friend(other)
+            || self
+                .sim
+                .parties
+                .of(me)
+                .is_some_and(|p| p.member(other).is_some())
+            || self
+                .sim
+                .clubs
+                .of(me)
+                .is_some_and(|c| c.member(other).is_some())
+    }
+
     /// A block between `a` and `b`, either way.
     pub fn blocked_either(&self, a: EntityId, b: EntityId) -> bool {
         match (self.index(a), self.character_id(b)) {
