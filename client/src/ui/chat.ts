@@ -1,18 +1,25 @@
-// The chat panel: a scrolling log and an input line. Enter opens the input,
-// Enter again sends, Escape closes it. Say is the default channel; see
-// chatparse.ts for /h, /p, /c, /w and /r. Local commands (/wave, /bow, /sit,
-// /invite, /leave, /cinvite, /cleave) go to `ChatOptions.localCommand` first
-// and are never sent as chat. Party lines are blue with a "[Party]" label
-// (style.css `--party`); club lines spring green with the club's tag,
-// "[TAG]" (`--club`).
+// The chat panel: tabs, a scrolling log and an input line. Enter opens the
+// input, Enter again sends, Escape closes it. A line without a command goes
+// to the selected tab's channel (All: say; Whisper: the last whisper
+// partner); see chatparse.ts for /s, /h, /p, /c, /w and /r, which work on
+// every tab. Local commands (/wave, /bow, /sit, /invite, /leave, /cinvite,
+// /cleave) go to `ChatOptions.localCommand` first and are never sent as chat.
+// Each kind of line has its colour (style.css `--say`, `--house-chat`,
+// `--whisper`, `--party`, `--club`, `--npc`, `--system`): party lines carry a
+// "[Party]" label, club lines the club's tag, "[TAG]", house lines the
+// house's name. Residents' words (a professor in class) come in through
+// `npc()` only. Which tab shows what, and the rest of the logic: chat-state.ts.
 //
 // Our own lines show at once. The server refuses a line with `ChatRejected
 // { clientSeq, reason }` (docs/architecture.md, "Chat"); the panel then takes
 // the echo back out and says why, so a refused line never looks sent.
 
-import type { ChatChannelName, ChatRejectReason, KickCode } from "../wasm/sim_wasm";
+import type { ChatRejectReason, KickCode } from "../wasm/sim_wasm";
 import { h } from "./dom";
 import { parseChat, utf8Length, type ChatCommand } from "./chatparse";
+import { CHAT_TAB_LABELS, CHAT_TABS, channelLabel, emptyTabText, inputChannel, lineView, npcLineView, ownTab, parseTab, shownOn, stepTab, tabChannel, type ChatAllFilter, type ChatLine, type ChatLineKind, type ChatTab, type LineView } from "./chat-state";
+
+export type { ChatLine } from "./chat-state";
 
 const MAX_LINES = 120;
 
@@ -28,6 +35,7 @@ export const CHAT_MIN_SIZE: ChatSize = { width: 280, height: 90 };
 const CHAT_MARGIN_X = 24;
 const CHAT_MARGIN_Y = 210;
 const SIZE_KEY = "shs.chatSize";
+const TAB_KEY = "shs.chatTab";
 
 /** `size` within the minimum and what the window has room for. Pure. */
 export function clampChatSize(size: ChatSize, viewport: { width: number; height: number }): ChatSize {
@@ -59,19 +67,24 @@ function saveChatSize(size: ChatSize): void {
     // Not remembered; the size still applies until the page closes.
   }
 }
+function loadChatTab(): ChatTab {
+  try {
+    return parseTab(localStorage.getItem(TAB_KEY));
+  } catch {
+    return "all"; // no storage (a private window)
+  }
+}
+
+function saveChatTab(tab: ChatTab): void {
+  try {
+    localStorage.setItem(TAB_KEY, tab);
+  } catch {
+    // Not remembered; the tab still applies until the page closes.
+  }
+}
+
 /** Own lines remembered for a possible `ChatRejected` (the reply comes within a round trip). */
 const MAX_PENDING = 32;
-
-export interface ChatLine {
-  channel: ChatChannelName | "system";
-  from?: string;
-  /** Whisper partner: recipient of ours, sender of theirs. */
-  to?: string;
-  outgoing?: boolean;
-  text: string;
-  /** Our own line's `Chat.client_seq`, so a `ChatRejected` can find it. */
-  clientSeq?: number;
-}
 
 /** Why a line of ours was not delivered, for the log. */
 export function rejectionText(reason: ChatRejectReason, line?: Pick<ChatLine, "channel" | "to">): string {
@@ -117,9 +130,9 @@ export function kickNotice(code: KickCode, reason: string): { heading: string; b
 
 export interface ChatOptions {
   maxBytes: number;
-  /** House colour for the house channel. */
-  houseColour: string;
   houseName: string;
+  /** Settings > Chats: the kinds the All tab shows (`setAllFilter` changes it). */
+  allFilter: ChatAllFilter;
   knownNames: () => Iterable<string>;
   /** Sends a parsed command; return an error string to show instead. */
   send: (cmd: ChatCommand) => string | null;
@@ -138,9 +151,15 @@ export interface ChatOptions {
 export class ChatPanel {
   readonly root: HTMLElement;
   private readonly log: HTMLOListElement;
+  private readonly empty: HTMLElement;
   private readonly input: HTMLInputElement;
   private readonly hint: HTMLElement;
+  private readonly tabButtons = new Map<ChatTab, HTMLButtonElement>();
+  private tab: ChatTab = loadChatTab();
+  private allFilter: ChatAllFilter;
   private lastWhisperFrom: string | null = null;
+  /** Whom we last whispered with, either way: where a line typed on the Whisper tab goes. */
+  private lastWhisperWith: string | null = null;
   /** Our recent lines by `clientSeq`, oldest first. */
   private readonly pending = new Map<number, { li: HTMLElement; line: ChatLine }>();
   /** The size chosen (unclamped: a smaller window clamps it without forgetting it). */
@@ -148,7 +167,9 @@ export class ChatPanel {
   private readonly onResize = () => this.applySize();
 
   constructor(private readonly opts: ChatOptions) {
-    this.log = h("ol", { class: "chat-log", "aria-live": "polite", "aria-label": "Chat" });
+    this.allFilter = { ...opts.allFilter };
+    this.log = h("ol", { class: "chat-log", id: "chat-log", role: "tabpanel", "aria-live": "polite" });
+    this.empty = h("p", { class: "chat-empty", "aria-hidden": "true" });
     this.input = h("input", {
       class: "chat-input",
       type: "text",
@@ -162,11 +183,13 @@ export class ChatPanel {
     this.hint = h("span", { class: "chat-channel" }, "Say");
     this.root = h(
       "section",
-      { class: "chat panel", style: `--house: ${opts.houseColour}` },
+      { class: "chat panel" },
       this.buildGrip(),
-      this.log,
+      this.buildTabs(),
+      h("div", { class: "chat-view" }, this.log, this.empty),
       h("form", { class: "chat-form", onsubmit: (e: Event) => (e.preventDefault(), this.submit()) }, this.hint, this.input),
     );
+    this.selectTab(this.tab, false);
     this.applySize();
     window.addEventListener("resize", this.onResize);
     this.input.addEventListener("focus", () => opts.onFocusChange(true));
@@ -182,6 +205,69 @@ export class ChatPanel {
       if (e.key === "Tab" && !e.ctrlKey && !e.metaKey && !e.altKey) e.preventDefault();
       e.stopPropagation(); // typing never reaches the game's key handlers
     });
+  }
+
+  /** The tabs over the log (ARIA tabs: the arrow keys, Home and End move and select). */
+  private buildTabs(): HTMLElement {
+    const list = h("div", { class: "chat-tabs", role: "tablist", "aria-label": "Chat channels" });
+    for (const tab of CHAT_TABS) {
+      const b = h(
+        "button",
+        { type: "button", class: "chat-tab", role: "tab", id: `chat-tab-${tab}`, "aria-controls": "chat-log", "data-tab": tab, onclick: () => this.selectTab(tab, false) },
+        CHAT_TAB_LABELS[tab],
+      );
+      this.tabButtons.set(tab, b);
+      list.append(b);
+    }
+    list.addEventListener("keydown", (e) => {
+      const next = stepTab(this.tab, e.key);
+      if (!next) return;
+      e.preventDefault();
+      e.stopPropagation(); // the arrows turn the camera otherwise
+      this.selectTab(next, true);
+    });
+    return list;
+  }
+
+  /** Shows `tab`'s lines and makes it where typed lines go; remembered in this browser. */
+  private selectTab(tab: ChatTab, focus: boolean): void {
+    this.tab = tab;
+    saveChatTab(tab);
+    this.root.dataset.tab = tab;
+    for (const [t, b] of this.tabButtons) {
+      const on = t === tab;
+      b.setAttribute("aria-selected", String(on));
+      b.tabIndex = on ? 0 : -1;
+      if (on && focus) b.focus();
+    }
+    this.log.setAttribute("aria-labelledby", `chat-tab-${tab}`);
+    this.refilter();
+    this.log.scrollTop = this.log.scrollHeight;
+    this.updateHint();
+  }
+
+  /** Settings > Chats changed: the log, history included, follows at once. */
+  setAllFilter(filter: ChatAllFilter): void {
+    this.allFilter = { ...filter };
+    this.refilter();
+  }
+
+  private refilter(): void {
+    for (const li of this.log.children) this.place(li as HTMLElement);
+    this.updateEmpty();
+  }
+
+  /** Shows or hides log line `li` for the tab and All's filter (its kind and `about` are in its data set). */
+  private place(li: HTMLElement): void {
+    li.hidden = !shownOn(this.tab, li.dataset.kind as ChatLineKind, li.dataset.about as ChatTab | undefined, this.allFilter);
+  }
+
+  /** "No party messages yet." while the tab shows nothing. */
+  private updateEmpty(): void {
+    let any = false;
+    for (const li of this.log.children) if (!(li as HTMLElement).hidden) any = true;
+    this.empty.textContent = emptyTabText(this.tab);
+    this.empty.hidden = any;
   }
 
   /**
@@ -266,9 +352,9 @@ export class ChatPanel {
   }
 
   private updateHint(): void {
-    const v = this.input.value.trimStart().toLowerCase();
-    const channel = /^\/(h|house)\b/.test(v) ? "house" : /^\/(w|whisper|tell|r|reply)\b/.test(v) ? "whisper" : /^\/(p|party)\s/.test(v) ? "party" : /^\/(c|club)\s/.test(v) ? "club" : "say";
-    this.hint.textContent = channel === "house" ? this.opts.houseName || "House" : channel === "whisper" ? "Whisper" : channel === "party" ? "Party" : channel === "club" ? "Club" : "Say";
+    const channel = inputChannel(this.input.value, this.tab);
+    const byTab = !this.input.value.trimStart().startsWith("/");
+    this.hint.textContent = channelLabel(channel, this.opts.houseName, byTab && channel === "whisper" ? this.lastWhisperWith : null);
     this.hint.dataset.channel = channel;
   }
 
@@ -279,9 +365,15 @@ export class ChatPanel {
       this.input.blur();
       return;
     }
-    const result = parseChat(this.input.value, { knownNames: this.opts.knownNames(), lastWhisperFrom: this.lastWhisperFrom });
+    const result = parseChat(this.input.value, {
+      knownNames: this.opts.knownNames(),
+      lastWhisperFrom: this.lastWhisperFrom,
+      defaultChannel: tabChannel(this.tab),
+      whisperTo: this.lastWhisperWith,
+    });
+    // Our own mistakes show on the tab we are typing on as well as All.
     if (!result.ok) {
-      this.system(result.error);
+      this.system(result.error, this.tab);
       return;
     }
     if (!result.cmd) {
@@ -289,12 +381,12 @@ export class ChatPanel {
       return;
     }
     if (utf8Length(result.cmd.text) > this.opts.maxBytes) {
-      this.system(`That message is too long (at most ${this.opts.maxBytes} bytes).`);
+      this.system(`That message is too long (at most ${this.opts.maxBytes} bytes).`, this.tab);
       return;
     }
     const error = this.opts.send(result.cmd);
     if (error) {
-      this.system(error);
+      this.system(error, this.tab);
       return;
     }
     this.input.value = "";
@@ -302,35 +394,40 @@ export class ChatPanel {
     this.input.blur();
   }
 
-  system(text: string): void {
-    this.add({ channel: "system", text });
+  /** A notice: on All, and on the tab `about` too. */
+  system(text: string, about?: ChatTab): void {
+    this.add({ channel: "system", text, about });
   }
 
+  /** A player's line (ours, or one the server sent) or a notice. */
   add(line: ChatLine): void {
-    if (line.channel === "whisper" && !line.outgoing && line.from) this.lastWhisperFrom = line.from;
-    const who =
-      line.channel === "system"
-        ? null
-        : line.channel === "whisper"
-          ? line.outgoing
-            ? `To ${line.to}: `
-            : `${line.from} whispers: `
-          : line.channel === "house"
-            ? `[${this.opts.houseName || "House"}] ${line.from}: `
-            : line.channel === "party"
-              ? `[Party] ${line.from}: `
-              : line.channel === "club"
-                ? `[${this.opts.clubTag?.() ?? "Club"}] ${line.from}: `
-                : `${line.from}: `;
-    const li = h("li", { class: `chat-line chat-${line.channel}` }, who ? h("span", { class: "chat-who" }, who) : null, line.text);
-    const atBottom = this.log.scrollHeight - this.log.scrollTop - this.log.clientHeight < 24;
-    this.log.append(li);
-    while (this.log.childElementCount > MAX_LINES) this.log.firstElementChild?.remove();
-    if (atBottom) this.log.scrollTop = this.log.scrollHeight;
+    if (line.channel === "whisper") {
+      if (!line.outgoing && line.from) this.lastWhisperFrom = line.from;
+      const partner = line.outgoing ? line.to : line.from;
+      if (partner) this.lastWhisperWith = partner;
+      if (this.tab === "whisper") this.updateHint();
+    }
+    const li = this.append(lineView(line, { houseName: this.opts.houseName, clubTag: this.opts.clubTag?.() ?? null }), line.text, line.about);
     if (line.outgoing && line.clientSeq !== undefined) {
       this.pending.set(line.clientSeq, { li, line });
       if (this.pending.size > MAX_PENDING) this.pending.delete(this.pending.keys().next().value!);
     }
+  }
+
+  /** A resident's words (a professor in class): the NPC colour, never a player's. */
+  npc(from: string, text: string): void {
+    this.append(npcLineView(from), text);
+  }
+
+  private append(view: LineView, text: string, about?: ChatTab): HTMLElement {
+    const li = h("li", { class: `chat-line chat-${view.kind}`, "data-kind": view.kind, "data-about": about }, view.who ? h("span", { class: "chat-who" }, view.who) : null, text);
+    this.place(li);
+    const atBottom = this.log.scrollHeight - this.log.scrollTop - this.log.clientHeight < 24;
+    this.log.append(li);
+    while (this.log.childElementCount > MAX_LINES) this.log.firstElementChild?.remove();
+    if (atBottom) this.log.scrollTop = this.log.scrollHeight;
+    this.updateEmpty();
+    return li;
   }
 
   /**
@@ -341,7 +438,9 @@ export class ChatPanel {
     const entry = this.pending.get(clientSeq);
     this.pending.delete(clientSeq);
     entry?.li.remove();
-    this.system(rejectionText(reason, entry?.line));
+    this.updateEmpty();
+    const channel = entry?.line.channel;
+    this.system(rejectionText(reason, entry?.line), channel && channel !== "system" ? (ownTab(channel) ?? undefined) : undefined);
     if (entry && reason === "rate_limited" && !this.input.value) {
       const l = entry.line;
       this.input.value = l.channel === "house" ? `/h ${l.text}` : l.channel === "party" ? `/p ${l.text}` : l.channel === "club" ? `/c ${l.text}` : l.channel === "whisper" && l.to ? `/w ${quoteName(l.to)} ${l.text}` : l.text;

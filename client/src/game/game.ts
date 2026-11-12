@@ -501,11 +501,16 @@ class Game implements RunningGame {
         this.settings.chatter = c;
         saveSettings(this.settings);
       },
+      onChatAll: (f) => {
+        this.settings.chatAll = f;
+        saveSettings(this.settings);
+        this.chat.setAllFilter(f);
+      },
     });
     this.chat = new ChatPanel({
       maxBytes: world.protocol.chatMaxLen,
-      houseColour: house.colour,
       houseName: house.name,
+      allFilter: this.settings.chatAll,
       knownNames: () => [...(this.remotes?.names() ?? []), ...this.friendState.friendList().map((f) => f.name)],
       send: (cmd) => {
         if (!this.conn.isOpen) return "You are not connected right now.";
@@ -692,7 +697,8 @@ class Game implements RunningGame {
       castle: world,
       send: (frame) => this.conn.send(frame),
       notify: (text) => this.chat.system(text),
-      say: (from, text) => this.chat.add({ channel: "say", from, text }),
+      // A professor's words: the NPC line kind (apricot, All only), never a player's say.
+      say: (from, text) => this.chat.npc(from, text),
       selfId: () => this.selfId,
       zone: () => (this.zones.ready ? this.zones.zone : null),
       openSky: (layout) => this.zones.scenes.isOpenSky(layout),
