@@ -567,10 +567,17 @@ locomotion clips play at `speed / (speed_mps * scale)`.
 (rate 1 at 3.0 m/s), `run` (rate 1 at 6.5 m/s), `wave`, `bow`, `sit_down`,
 `sit`, `floor_rest`, `floor_sit`, `broom_ride`, `broom_hover`, and the spell
 and class clips in `charlib/anim_spells.py`: `gesture_<key>` (the wand
-gestures of `data/classes/gestures.json`), `cast`, `duel_ready`,
+gestures of `data/classes/gestures.json`), `cast`, `wand_light` (the right
+arm holding a lit wand up like a lantern, which the client lays over idle
+and walk), `duel_ready`,
 `shield_raise`, `hit_react`, `knockback`, `stun_fall`, `stun_rise`,
 `disarmed`, `professor_stand`, `professor_demonstrate`, `desk_rest`,
-`desk_practice`, `spectator_cheer`.
+`desk_practice`, `spectator_cheer`. Every clip holding the wand holds it in
+a diagonal grip (`charlib/wand_grip.py`: the handle across the palm from
+the heel of the hand to between the thumb and index finger, the fingers
+solved to close round it) and solves the arm so the wrist stays nearly
+straight and untwisted on the forearm (`anim_spells.wand_hand`; the rig has
+no forearm twist bones, so a wrung wrist would show in the skin).
 
 **Clothing rules.** `hides` lists the body regions not drawn under an item.
 Robes are worn open over a jumper, shirt and tie that are part of the robe

@@ -415,6 +415,8 @@ export const STEPS = [
       "data/spells.json",
       "tools/blender/vfx",
       "tools/blender/characters/charlib/anim_spells.py",
+      // The grip the wand is fitted to (anim_spells imports it).
+      "tools/blender/characters/charlib/wand_grip.py",
       "client/public/assets/characters/manifest.json",
     ],
     script: "tools/blender/vfx/build_vfx.py",

@@ -6,9 +6,12 @@ Every clip that holds a wand holds it in the right hand. The wand is not
 part of the body: the client attaches `vfx/wand.glb` to `socket_hand.R`
 (tools/blender/vfx). Here the wand only exists as geometry the right arm is
 solved for: `Grip` describes where it sits in the rest-pose hand (the grip
-point inside the fist and the shaft direction, between the thumb and the
-fingers), and `wand_pose` places the wand tip somewhere, pointing some way,
-by solving the arm with a two-bone IK on the FK controls. The gesture clips
+point inside the fist and the shaft direction, a diagonal grip:
+charlib/wand_grip.py), and `wand_pose` places the wand tip somewhere,
+pointing some way, by solving the arm with a two-bone IK on the FK
+controls, with the hand's roll about the shaft chosen so the wrist stays as
+straight and untwisted on the forearm as the aim allows (`wand_hand`); the
+fingers close round the handle (`grip_hand`). The gesture clips
 trace the templates of `data/classes/gestures.json` with the wand tip, so
 the professor demonstrates, and duelists telegraph, exactly the shapes the
 players trace on the pad.
@@ -28,6 +31,10 @@ animations, except `cast`, which is protocol v5's `Anim::Cast`):
   `knockback`, `stun_fall` (ends lying on the back), `stun_rise` (from that
   pose back to standing) and `disarmed` (the wand leaves the hand at
   `wand_drop_s`; the client hides it).
+* `wand_light` (looping, still): the right arm holding a lit wand up and
+  forward like a lantern, the hand closed round it. The client lays this
+  arm and hand over idle, walk and run while a wand is held out (Lucerna)
+  and takes the hand's grip from it whenever a wand is drawn.
 * Class: `professor_stand` and `professor_demonstrate` (both looping),
   `desk_rest` and `desk_practice` (looping, seated like `anim.seated`: the
   root on the bench top, the hands in the lap; desk_practice is seated wand
@@ -46,6 +53,7 @@ import numpy as np
 from mathutils import Matrix, Quaternion, Vector
 
 from . import skeleton as K
+from . import wand_grip as WG
 from .anim import FPS, Clip, Poser, ease, stand
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
@@ -118,20 +126,19 @@ def update() -> None:
 
 
 class Grip:
-    """The wand in the rest-pose right hand: the grip point (the socket's
-    head, `rig.py`), the shaft direction (between the thumb and the
-    fingers, the way a pen leaves a loose fist) and the palm normal."""
+    """The wand in the rest-pose right hand (charlib/wand_grip.py): the
+    grip point inside the fist, the shaft direction (diagonally across the
+    palm, out between the thumb and the index finger), the hand's axis and
+    the palm normal."""
 
-    def __init__(self, body, side: int = RIGHT):
-        hf = K.hand_frame(body)
-        hs = K.hand_scale(body)
-        m = (lambda v: v) if side > 0 else K.mirror
-        self.wrist = Vector(m(hf.wrist))
-        self.grip = Vector(m(hf.wrist + hf.axis * 0.07 * hs + hf.palm_normal * 0.028 * hs))
-        self.axis = Vector(m(hf.axis))
-        self.palm = Vector(m(hf.palm_normal))
-        self.thumb = Vector(m(hf.thumb_side))
-        self.wand = (self.thumb + 0.35 * self.axis).normalized()
+    def __init__(self, body):
+        f = WG.grip_frame(body)
+        self.wrist = Vector(f.wrist)
+        self.grip = Vector(f.grip)
+        self.axis = Vector(f.axis)
+        self.palm = Vector(f.palm)
+        self.thumb = Vector(f.thumb)
+        self.wand = Vector(f.wand)
 
 
 def reach(p: Poser, side: int, wrist: Vector, pole: Vector, hand: Quaternion | None = None) -> None:
@@ -225,16 +232,115 @@ def place_hand(p: Poser, side: int, wrist, axis, palm, pole) -> None:
     reach(p, side, Vector(wrist), Vector(pole), hand_rot(p, side, Vector(axis), Vector(palm)))
 
 
-def wand_pose(p: Poser, tip, direction, palm=(0.75, 0.0, -0.65), pole=(-0.55, 0.35, -0.75)) -> None:
+# Choosing the hand's roll about the wand (wand_pose): candidates every
+# ROLL_STEP degrees, then refined; the wrist's bend and its twist about the
+# forearm from straight are what is kept small (twist counts more: the rig
+# has no forearm twist bones, so a twisted wrist wrings the skin).
+ROLL_STEP, ROLL_FINE = 15.0, 2.5
+TWIST_WEIGHT = 2.0
+# A mild preference for the palm facing in and down (toward the body's left
+# and the floor), the way a wand hand rests: it keeps the choice of roll
+# from flipping between equally good wrists from one frame to the next.
+PALM_PREFERRED = Vector((0.7, 0.0, -0.7)).normalized()
+PALM_WEIGHT = 0.4
+
+
+def _swing_twist_deg(q: Quaternion, axis: Vector) -> tuple[float, float]:
+    """A rotation's swing (degrees off `axis`'s direction) and twist about `axis` (degrees, signed)."""
+    p = Vector((q.x, q.y, q.z)).dot(axis)
+    twist = math.degrees(2.0 * math.atan2(p, q.w))
+    twist = (twist + 180.0) % 360.0 - 180.0
+    swing = math.degrees((q @ axis).angle(axis)) if axis.length > 0 else 0.0
+    return swing, twist
+
+
+class _Arm:
+    """The right arm's rest geometry, for the analytic elbow of `wand_pose`."""
+
+    def __init__(self, p: Poser):
+        rh = p.rest_head
+        up, fo, ha = (p.side(n, RIGHT) for n in ("upper_arm_fk", "forearm_fk", "hand_fk"))
+        self.up = up
+        self.a = (rh[fo] - rh[up]).length
+        self.b = (rh[ha] - rh[fo]).length
+        self.fore = (rh[ha] - rh[fo]).normalized()
+        self.hinge = p.elbow_axis[RIGHT].copy()
+        bone = p.pb[ha].bone
+        self.hand = (bone.tail_local - bone.head_local).normalized()
+
+    def forearm(self, shoulder: Vector, wrist: Vector, pole: Vector) -> tuple[Quaternion, bool]:
+        """The forearm's rotation from rest when the wrist is at `wrist` (the
+        elbow bent toward `pole`, as `reach` solves it), and whether it reaches."""
+        t = wrist - shoulder
+        d = t.length
+        tn = t / d if d > 1e-6 else Vector((0.0, 0.0, -1.0))
+        ok = d <= (self.a + self.b) * 0.995
+        d = min(max(d, abs(self.a - self.b) + 0.02), (self.a + self.b) * 0.995)
+        x = (self.a * self.a - self.b * self.b + d * d) / (2.0 * d)
+        h = math.sqrt(max(self.a * self.a - x * x, 0.0))
+        u = pole - tn * pole.dot(tn)
+        u = u.normalized() if u.length > 1e-6 else tn.orthogonal().normalized()
+        elbow = shoulder + tn * x + u * h
+        fore = (shoulder + tn * d - elbow).normalized()
+        hinge = u.cross(tn).normalized()
+        return basis_rot(self.fore, self.hinge, fore, hinge), ok
+
+
+def wand_hand(p: Poser, tip: Vector, d: Vector, pole: Vector) -> Quaternion:
+    """The hand's rotation that points the wand along `d` with its tip at
+    `tip` and the wrist as straight as the arm allows: the roll about the
+    shaft that keeps the wrist's bend and twist off the forearm smallest."""
+    g = Grip(p.body)
+    arm = _Arm(p)
+    update()
+    shoulder = p.pb[arm.up].head.copy()
+    r0 = g.wand.rotation_difference(d)
+    grip = tip - d * WAND_TIP
+
+    def score(roll: float) -> tuple[float, Quaternion]:
+        r = Quaternion(d, math.radians(roll)) @ r0
+        fq, ok = arm.forearm(shoulder, grip - r @ (g.grip - g.wrist), pole)
+        _, twist = _swing_twist_deg(fq.inverted() @ r, arm.fore)
+        bend = math.degrees((fq.inverted() @ r @ arm.hand).angle(arm.hand))
+        palm = math.degrees((r @ g.palm).angle(PALM_PREFERRED))
+        cost = bend * bend + TWIST_WEIGHT * twist * twist + PALM_WEIGHT * palm * palm + (0.0 if ok else 1e6)
+        return cost, r
+
+    best = min((score(k * ROLL_STEP) + (k * ROLL_STEP,) for k in range(int(360 / ROLL_STEP))), key=lambda c: c[0])
+    roll = best[2]
+    fine = min((score(roll + k * ROLL_FINE) + (roll + k * ROLL_FINE,) for k in range(-6, 7)), key=lambda c: c[0])
+    return fine[1]
+
+
+def grip_hand(p: Poser, side: int = RIGHT) -> None:
+    """The right hand closed round the wand's handle (wand_grip.grip_curls)."""
+    if side != RIGHT:
+        raise ValueError("the wand is held in the right hand")
+    f = WG.grip_frame(p.body)
+    curls = WG.grip_curls(p.body)
+    for name, chain in WG.finger_chains(p.body).items():
+        axes = WG.curl_axes(chain, f.palm)
+        ang = curls[name]
+        for j in range(3):
+            q = _qd(axes[j], ang[j])
+            if name == "thumb" and j == 0:
+                q = _qd(WG.thumb_oppose_axis(f), curls["thumb_oppose"][0]) @ q
+            p.rot(p.side(f"{name}.0{j + 1}", side), q)
+
+
+def wand_pose(p: Poser, tip, direction, palm=None, pole=(-0.55, 0.35, -0.75)) -> None:
     """Right hand holding the wand with its tip at `tip`, pointing along
-    `direction`, the palm turned toward `palm` (armature space)."""
+    `direction` (armature space), the elbow bent toward `pole`. The hand's
+    roll about the shaft is chosen for the most natural wrist (`wand_hand`);
+    `palm` is accepted for older callers and ignored."""
     g = Grip(p.body)
     d = Vector(direction).normalized()
-    r = basis_rot(g.wand, g.palm, d, Vector(palm))
-    grip = Vector(tip) - d * WAND_TIP
-    wrist = grip - r @ (g.grip - g.wrist)
-    reach(p, RIGHT, wrist, Vector(pole), r)
-    p.fingers(RIGHT, 68.0, thumb=34.0)
+    tip = Vector(tip)
+    pole = Vector(pole)
+    r = wand_hand(p, tip, d, pole)
+    grip = tip - d * WAND_TIP
+    reach(p, RIGHT, grip - r @ (g.grip - g.wrist), pole, r)
+    grip_hand(p, RIGHT)
 
 
 # ----------------------------------------------------------------------------
@@ -285,8 +391,12 @@ class Plane:
         s = body.height / 1.78
         self.s = s
         # The character faces -Y; its right is -X.
-        self.centre = Vector((-0.2 * s, -0.6 * s, 1.44 * s))
-        self.pivot = Vector((-0.18 * s, 0.25 * s, 1.3 * s))
+        # Far enough out that the arm is half extended (the elbow about 60-90
+        # degrees), and the wand aimed up from a pivot below the shoulder: a
+        # diagonal grip on a straight wrist points the shaft that much above
+        # the forearm, so the wrist barely bends to aim.
+        self.centre = Vector((-0.2 * s, -0.78 * s, 1.42 * s))
+        self.pivot = Vector((-0.16 * s, 0.05 * s, 0.98 * s))
         self.scale = PAD_M * s
 
     def tip(self, x: float, y: float, depth: float = 0.0) -> Vector:
@@ -354,6 +464,11 @@ def gesture_clip(g: dict) -> Clip:
 # ----------------------------------------------------------------------------
 
 
+# The cast's release: the wand thrust out at arm's length, aimed a little
+# above the arm (the diagonal grip on a straight wrist carries it so).
+OUT_DIR = Vector((0.05, -1.0, 0.36)).normalized()
+
+
 def cast(p: Poser, frame: float) -> None:
     """Generic forward cast: draw the wand back by the ear, thrust it at
     arm's length (release at frame 13), hold, recover."""
@@ -363,7 +478,7 @@ def cast(p: Poser, frame: float) -> None:
     s = plane.s
     rx, ry, rd = READY
     ready_tip = plane.tip(rx, ry, rd)
-    back_tip = Vector((-0.24 * s, -0.18 * s, 1.62 * s))
+    back_tip = Vector((-0.27 * s, -0.27 * s, 1.68 * s))
     out_tip = Vector((-0.12 * s, -0.95 * s, 1.36 * s))
     if frame < 8:
         k = smooth(frame / 8)
@@ -372,11 +487,11 @@ def cast(p: Poser, frame: float) -> None:
     elif frame < 13:
         k = ((frame - 8) / 5) ** 1.6
         tip = back_tip.lerp(out_tip, k)
-        d = Vector((0.1, -0.5, 0.86)).normalized().lerp(Vector((0.05, -1.0, 0.05)).normalized(), k).normalized()
+        d = Vector((0.1, -0.5, 0.86)).normalized().lerp(OUT_DIR, k).normalized()
     else:
         k = smooth((frame - 17) / 10)
         tip = out_tip.lerp(ready_tip, k)
-        d = Vector((0.05, -1.0, 0.05)).normalized().lerp(plane.direction(ready_tip), k).normalized()
+        d = OUT_DIR.lerp(plane.direction(ready_tip), k).normalized()
     lunge = window(frame, 6, 13, 16, 27)
     p.loc("torso", (0.0, -0.06 * lunge * s, -0.02 * lunge))
     p.rot("chest", _qd((0, 0, 1), 9.0 * lunge) @ _qd((1, 0, 0), 2.0 + 5.0 * lunge))
@@ -412,9 +527,9 @@ def duel_aim(p: Poser, k: float = 1.0, dx: float = 0.0, dz: float = 0.0) -> tupl
     s = plane.s
     rx, ry, rd = READY
     ready_tip = plane.tip(rx, ry, rd)
-    aim_tip = Vector((-0.08 * s + dx, -0.78 * s, 1.38 * s + dz))
+    aim_tip = Vector((-0.08 * s + dx, -0.94 * s, 1.36 * s + dz))
     tip = ready_tip.lerp(aim_tip, k)
-    d = plane.direction(ready_tip).lerp(Vector((0.08, -1.0, 0.12)).normalized(), k).normalized()
+    d = plane.direction(ready_tip).lerp(Vector((0.08, -1.0, 0.38)).normalized(), k).normalized()
     return tip, d
 
 
@@ -685,8 +800,22 @@ def disarmed(p: Poser, frame: float) -> None:
     grip = target - direction.normalized() * WAND_TIP
     reach(p, RIGHT, grip - r @ (g.grip - g.wrist), Vector((-0.55, 0.35, -0.75)), r)
     open_k = window(frame, 2, 4, 30, 31)
-    p.fingers(RIGHT, mix(68.0, 6.0, open_k), thumb=mix(34.0, 4.0, open_k), spread=14.0 * jolt)
+    if open_k < 1e-3:
+        grip_hand(p, RIGHT)
+    else:
+        p.fingers(RIGHT, mix(68.0, 6.0, open_k), thumb=mix(34.0, 4.0, open_k), spread=14.0 * jolt)
     p.arm(LEFT, abduct=22.0 + 20.0 * jolt, flex=-10.0 - 10.0 * jolt, twist=-30.0, elbow=70.0 - 30.0 * jolt, wrist=-10.0)
+
+
+def wand_light(p: Poser, frame: float) -> None:
+    """A lit wand held up like a lantern (Lucerna): the right hand a little
+    forward of the chest, the wand rising forward from it, the hand closed
+    round the handle. Still: the client lays this arm over idle and walk."""
+    stand(p, 0.0, breathe=0.0)
+    s = p.body.height / 1.78
+    d = Vector((0.12, -0.55, 0.83)).normalized()
+    grip = Vector((-0.2 * s, -0.3 * s, 1.13 * s))
+    wand_pose(p, grip + d * WAND_TIP, d, palm=(0.6, 0.2, -0.75), pole=(-0.7, 0.45, -0.55))
 
 
 # ----------------------------------------------------------------------------
@@ -780,7 +909,7 @@ def desk_practice(p: Poser, frame: float) -> None:
     # Between the lap (y = -50: about 0.12 m over the thighs) and the chest
     # (y = +50: about 0.4 m above the seat), a little to the right, in front.
     centre = Vector((-0.08 * s, -p.body.hip_joint[1] - 0.42 * s, hip_z + 0.27 * s))
-    tip = centre + Vector((-x * 0.0016 * s, 0.0, y * 0.0024 * s))
+    tip = centre + Vector((-x * 0.0018 * s, 0.0, y * 0.003 * s))
     pivot = centre + Vector((0.0, 0.42 * s, -0.12 * s))
     p.rot("head", _qd((0, 0, 1), -4.0 * x / 50.0) @ _qd((1, 0, 0), -14.0))
     wand_pose(p, tip, (tip - pivot).normalized(), pole=(-0.8, 0.5, -0.2))
@@ -845,6 +974,7 @@ def clips() -> list[Clip]:
         Clip("stun_fall", 40, False, stun_fall),
         Clip("stun_rise", 48, False, stun_rise),
         Clip("disarmed", 30, False, disarmed, meta={"wand_drop_s": round(3 / FPS, 3)}),
+        Clip("wand_light", 30, True, wand_light, meta={"hands": "wand_right", "bones": "right_arm"}),
         Clip("professor_stand", 120, True, professor_stand),
         Clip("professor_demonstrate", 90, True, professor_demonstrate),
         Clip("desk_rest", 90, True, desk_rest, meta={"root": "seat_top", "seat_m": SEAT_HEIGHT, "hands": "lap"}),

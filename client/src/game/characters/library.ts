@@ -14,7 +14,8 @@
 import type { BodyType } from "../../content/catalog";
 import { Gltf, isGlb } from "./gltf";
 import { partFromGltf, type ClipData, type PartData } from "./parts";
-import { clipSet, Rig, type BakedClip, type ClipKey } from "./clips";
+import { bakeClip, clipSet, Rig, type BakedClip, type ClipKey } from "./clips";
+import { HOLD_CLIP, wandHold, type WandHold } from "./wand-hold";
 import { greyboxKind, greyboxPart, greyboxSkeleton } from "./greybox";
 import { underFile, type PartRequest, type Recipe } from "./recipe";
 import type { PartInput } from "./assemble";
@@ -36,6 +37,8 @@ export interface RigKit {
   body: PartData;
   /** The body's face texture pair (URLs), from the manifest's body entry; null without one. */
   face: FaceTextureUrls | null;
+  /** The right arm and hand holding the wand (wand-hold.ts), from the `wand_light` clip; null without it (greybox, older art). */
+  hold: WandHold | null;
 }
 
 /** A body's face textures (docs/art/character-look.md section 3.1), as URLs. */
@@ -184,11 +187,13 @@ export class PartLibrary {
       // The face textures only fit a head built for them.
       const faced = part.primitives.some((p) => p.faceTexture);
       const face = faced ? faceTextureUrls(this.baseUrl, (await this.manifestEntries()).get(body.asset)) : null;
-      return { key: body.id, rig, clips: clipSet(rig, clips, this.speeds), greybox: false, body: part, face };
+      const holdClip = clips.find((c) => c.name.replace(/^.*\|/, "") === HOLD_CLIP);
+      const hold = holdClip ? wandHold(rig, bakeClip(rig, holdClip, true)) : null;
+      return { key: body.id, rig, clips: clipSet(rig, clips, this.speeds), greybox: false, body: part, face, hold };
     }
     const rig = new Rig(greyboxSkeleton(body.index));
     const key = `${body.id}/greybox`;
-    return { key, rig, clips: clipSet(rig, [], this.speeds), greybox: true, body: this.greyboxFor(key, rig, { role: "base", asset: body.asset, files: [] }), face: null };
+    return { key, rig, clips: clipSet(rig, [], this.speeds), greybox: true, body: this.greyboxFor(key, rig, { role: "base", asset: body.asset, files: [] }), face: null, hold: null };
   }
 
   private greyboxFor(rigKey: string, rig: Rig, req: PartRequest, under = false, body?: PartData): PartData {

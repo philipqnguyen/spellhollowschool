@@ -61,6 +61,9 @@
 // wand out for a lit wand, a trace or an aim (`holdWand`), the wand grows
 // into its right hand, posed with it every frame (one thin instance each,
 // one draw for all). Spell effects start at its drawn tip (`wandTip`).
+// While it is drawn the right hand closes round it, and while it is held out
+// without a cast the arm holds it up in front (wand-hold.ts layers, from the
+// rig's `wand_light` clip, over whatever clip plays).
 
 import { Bone } from "@babylonjs/core/Bones/bone";
 import { Skeleton } from "@babylonjs/core/Bones/skeleton";
@@ -92,7 +95,8 @@ import { recipeFor, type Recipe } from "./recipe";
 import { applySway, extendRig, resetSway, swayState, type SwayRig } from "./sway";
 import { kneeLift, legBones, liftKnees, measureSeatedLegs, seatShift, type SeatedLegs } from "./seated";
 import { anglesTo, applyLook, bodyToWorld, eyeInBody, lookBones, lookState, modelMatrix, resetLook, stepLook, worldToBody, type LookState } from "./look";
-import { fallbackMatrix, STAND_IN_TIP, stepWand, WAND_HAND, wandMatrix, wandSize, wandTipOf, type WandFit, type WandRoot } from "./wand-state";
+import { fallbackMatrix, STAND_IN_TIP, stepRaise, stepWand, WAND_HAND, wandMatrix, wandSize, wandTipOf, type WandFit, type WandRoot } from "./wand-state";
+import { applyHold } from "./wand-hold";
 import type { Wands } from "./wands";
 import { BlobShadows } from "./blobs";
 import { characterAllowance, characterFloor, drawnTriangles, governTiers, LOD_RULES, PROTECT_NEAREST, SELECT_INTERVAL, TIER_COUNT, tierFor, WORLD_WINDOW, type LodRule, type Tier } from "./lod";
@@ -360,6 +364,8 @@ interface View {
   /** Holds its wand out apart from casting (`holdWand`), and the wand's growth now (0 away .. 1 in the hand; wand-state.ts). */
   wandHeld: boolean;
   wandGrow: number;
+  /** The arm holding a held-out wand up in front (0 .. 1; wand-state.ts `stepRaise`). */
+  wandRaise: number;
 }
 
 /** A seat's reach along the sitter's facing (castle/seats.ts `SeatPlace`): ahead to its front edge, behind to its back, its drop to the floor (m). */
@@ -780,9 +786,14 @@ export class CharacterRenderer {
     return r;
   }
 
-  /** Grows or shrinks `v`'s wand by `dt` and, while it is out and near, adds it to this frame's wands. */
-  private poseWand(v: View, dt: number): void {
-    v.wandGrow = stepWand(v.wandGrow, v.anim, v.wandHeld, dt);
+  /** Seconds into `id`'s cast animation while it plays, else -1 (a spell's effects wait for its release). */
+  castTime(id: number): number {
+    const v = this.views.get(id);
+    return v?.enabled && v.animator ? v.animator.timeIn("cast") : -1;
+  }
+
+  /** While `v`'s wand is out and near, adds it to this frame's wands (its growth is stepped before posing). */
+  private poseWand(v: View): void {
     const wands = this.opts.wands;
     if (!wands || v.wandGrow <= 0 || v.dist > WAND_DRAW_M) return;
     const fit = this.wandFit(v);
@@ -889,6 +900,7 @@ export class CharacterRenderer {
       style: null,
       wandHeld: false,
       wandGrow: 0,
+      wandRaise: 0,
     };
   }
 
@@ -1188,6 +1200,7 @@ export class CharacterRenderer {
     for (const v of this.views.values()) {
       if (!v.shownThisFrame) {
         v.wandGrow = 0;
+        v.wandRaise = 0;
         if (v.enabled) {
           v.root.setEnabled(false);
           v.enabled = false;
@@ -1203,6 +1216,7 @@ export class CharacterRenderer {
       }
       if (!ready) {
         v.wandGrow = 0;
+        v.wandRaise = 0;
         continue;
       }
       list.push(v);
@@ -1228,6 +1242,8 @@ export class CharacterRenderer {
       const animator = v.animator!;
       animator.set(v.anim !== "sit" ? v.anim : v.floorSeat ? "floor_sit" : v.seated ? "sit" : "sit_floor", v.speed);
       v.poseClock += dt;
+      v.wandGrow = stepWand(v.wandGrow, v.anim, v.wandHeld, dt);
+      v.wandRaise = stepRaise(v.wandRaise, v.anim, v.wandHeld, dt);
       const d = v.dist;
       const interval = d < LOD_DISTANCE ? 0 : d < POSE_FAR ? POSE_INTERVAL_MID : POSE_INTERVAL_FAR;
       if (v.poseClock >= interval) {
@@ -1236,6 +1252,12 @@ export class CharacterRenderer {
         animator.update(step * v.animRate);
         v.poseClock = 0;
         samplePose(v.poseRig!, animator.layers, v.pose, POSE_SCRATCH);
+        // The wand's hand and arm over the clip (wand-hold.ts).
+        const hold = v.showing!.kit.hold;
+        if (hold && (v.wandGrow > 0 || v.wandRaise > 0)) {
+          applyHold(v.pose, hold.arm, wandSize(v.wandRaise));
+          applyHold(v.pose, hold.grip, wandSize(Math.max(v.wandGrow, v.wandRaise)));
+        }
         animator.drapeWeights(v.drape);
         // Seats fit the sitter's legs: the feet rest on the floor, the knees risen.
         if (v.kneeLift > 0 && v.legBones && v.anim === "sit" && v.seated && !v.floorSeat) liftKnees(v.poseRig!, v.pose, v.legBones, v.kneeLift);
@@ -1252,7 +1274,7 @@ export class CharacterRenderer {
         }
         applyPose(v.skeleton!, v.pose);
       }
-      this.poseWand(v, dt);
+      this.poseWand(v);
       this.updateHull(v);
       const p = v.root.position;
       const m = v.shadowed ? v.meshes[v.drawn] : null;

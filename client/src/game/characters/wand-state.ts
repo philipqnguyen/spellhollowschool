@@ -59,6 +59,24 @@ export function stepWand(t: number, anim: Anim, held: boolean, dt: number): numb
   return wandWanted(anim, held) ? Math.min(1, t + step) : Math.max(0, t - step);
 }
 
+/** How long the arm takes to raise a held-out wand, or to let it down (s). */
+export const WAND_RAISE_S = 0.3;
+
+/**
+ * Whether the arm holds the wand up in front (wand-hold.ts, the lantern
+ * pose): held out without a cast (a lit wand, an aim) while standing,
+ * walking or running. A cast, a sit, an emote or a broom keep their own arm.
+ */
+export function raiseWanted(anim: Anim, held: boolean): boolean {
+  return held && (anim === "idle" || anim === "walk" || anim === "run");
+}
+
+/** The raise (0 down .. 1 held up) after `dt` seconds, from `t`, over `WAND_RAISE_S`. */
+export function stepRaise(t: number, anim: Anim, held: boolean, dt: number): number {
+  const step = dt / WAND_RAISE_S;
+  return raiseWanted(anim, held) ? Math.min(1, t + step) : Math.max(0, t - step);
+}
+
 /** The drawn size for growth `t` (eased in and out). */
 export function wandSize(t: number): number {
   const c = Math.max(0, Math.min(1, t));

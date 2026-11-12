@@ -714,6 +714,7 @@ class Game implements RunningGame {
       headHeight: (id) => this.characters.headHeight(id),
       plateHeight: (id) => this.characters.plateHeight(id),
       wandTip: (id, out) => this.characters.wandTip(id, out),
+      castTime: (id) => this.characters.castTime(id),
       feet: () => [this.player.x, this.player.y, this.player.z],
       look: () => this.camera.lookDirection(),
       room: () => this.dorm.room,

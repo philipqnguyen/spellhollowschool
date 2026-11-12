@@ -110,6 +110,43 @@ class WandIkTests(unittest.TestCase):
                 want = plane.tip(x, y)
                 self.assertLess((self.tip(rig, body) - want).length, 0.02, (bid, k))
 
+    def wrist(self, rig) -> tuple[float, float]:
+        """The right wrist as posed: its bend from straight on the forearm and
+        its twist about the forearm (degrees; rest is straight, untwisted)."""
+        bpy.context.view_layer.update()
+        fo, ha = rig.pose.bones["forearm_fk.R"], rig.pose.bones["hand_fk.R"]
+        df, dh = SP._delta(fo), SP._delta(ha)
+        rel = df.inverted() @ dh
+        fore = (fo.bone.tail_local - fo.bone.head_local).normalized()
+        hand = (ha.bone.tail_local - ha.bone.head_local).normalized()
+        _, twist = SP._swing_twist_deg(rel, fore)
+        return math.degrees((rel @ hand).angle(hand)), twist
+
+    def test_wrist_stays_natural_holding_the_wand(self):
+        """The arm is solved so the hand holds the wand on a natural wrist
+        (no hand folded back to aim, no wrist wrung about the forearm): the
+        clips the game plays with a wand out, and the gestures and stance."""
+        names = ["cast", "wand_light", "duel_ready", "gesture_circle", "gesture_jab", "gesture_rising_spiral"]
+        for name in names:
+            clip = next(c for c in SP.CLIPS if c.name == name)
+            for bid, (rig, body) in self.rigs.items():
+                for k in range(0, clip.frames + 1, 2):
+                    AN.pose_rig(rig, body, clip, float(k))
+                    bend, twist = self.wrist(rig)
+                    self.assertLess(bend, 62.0, (name, bid, k))
+                    self.assertLess(abs(twist), 25.0, (name, bid, k))
+
+    def test_grip_closes_the_hand(self):
+        """Every clip holding the wand keys the grip's finger curls."""
+        clip = next(c for c in SP.CLIPS if c.name == "wand_light")
+        for bid, (rig, body) in self.rigs.items():
+            AN.pose_rig(rig, body, clip, 0.0)
+            bpy.context.view_layer.update()
+            curls = SP.WG.grip_curls(body)
+            for f in ("f_index", "f_middle", "f_ring", "f_pinky"):
+                pb = rig.pose.bones[f"{f}.02.R"]
+                self.assertGreater(math.degrees(pb.rotation_quaternion.angle), curls[f][1] - 1.0, (bid, f))
+
     def test_seated_clips_sit_on_the_seat_hands_in_lap(self):
         """Character adoption: every seated clip has its sit bones on the root
         (the seat top), the knees forward and level-ish, the heels on a floor

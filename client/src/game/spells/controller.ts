@@ -38,6 +38,17 @@ import { SpellFx } from "./vfx";
 
 /** Ask the skeleton for the wand hand of this many nearest lit wands; the rest are estimated. */
 const BONE_TIPS = 8;
+/**
+ * A cast's effects start when the caster's wand reaches its release in the
+ * `cast` animation (tools/blender/characters/charlib/anim_spells.py `cast`,
+ * `release_s`: frame 13 at 30 fps), at the drawn tip there, not where the
+ * hand hung when the message came. A caster whose cast animation never shows
+ * (moved, out of view) releases after `RELEASE_WAIT_MS`.
+ */
+export const CAST_RELEASE_S = 13 / 30;
+export const RELEASE_WAIT_MS = 900;
+/** The traced gesture's size in the air (m from the centre to the pad's edge). */
+const TRAIL_SIZE = 0.32;
 
 export interface SpellbookState {
   learned: number[];
@@ -67,6 +78,8 @@ export interface SpellControllerOptions {
   headHeight: (id: number) => number;
   /** The wand hand of a drawn character from its skeleton; false when it has none yet. */
   wandTip: (id: number, out: Vector3) => boolean;
+  /** Seconds into a drawn character's cast animation while it plays, else -1 (absent: effects start at once). */
+  castTime?: (id: number) => number;
   /** Our feet. */
   feet: () => [number, number, number];
   /** The camera's horizontal look direction (x, z). */
@@ -104,6 +117,8 @@ export class SpellController {
   private readonly casterAt = (id: number): WandHolder | null => this.opts.poseOf(id);
   private readonly reveals: RevealMarks;
   private readonly spot: Spot = { x: 0, y: 0, z: 0, head: 1.7 };
+  /** Casts heard but not yet released (their effects wait for the wand: `CAST_RELEASE_S`). */
+  private readonly pending: PendingCast[] = [];
   private readonly tipAt: [number, number, number] = [0, 0, 0];
 
   constructor(private readonly opts: SpellControllerOptions) {
@@ -345,10 +360,31 @@ export class SpellController {
 
   // ---------------------------------------------------------------- effects
 
-  private spellCast(caster: number, spellId: number, target: Extract<ServerMessage, { type: "spellCast" }>["target"]): void {
+  private spellCast(caster: number, spellId: number, target: CastTarget): void {
+    if (caster === this.opts.selfId()) this.opts.onSelfCast();
+    if (!spellById(spellId) || !this.opts.poseOf(caster)) return;
+    // The light's sound says on or off as the light was when the cast came.
+    const pending = { caster, spellId, target, at: performance.now(), wasLit: hasWandLight(this.opts.effectsOf(caster)) };
+    if (this.opts.castTime) this.pending.push(pending);
+    else this.release(pending);
+  }
+
+  /** Casts whose wand has reached its release (or that waited long enough) start their effects now. */
+  private releaseCasts(now: number): void {
+    const castTime = this.opts.castTime;
+    for (let i = this.pending.length - 1; i >= 0; i--) {
+      const c = this.pending[i]!;
+      if ((castTime ? castTime(c.caster) : CAST_RELEASE_S) < CAST_RELEASE_S && now - c.at < RELEASE_WAIT_MS) continue;
+      this.pending.splice(i, 1);
+      this.release(c);
+    }
+  }
+
+  /** A cast's effects, at its caster's drawn wand tip now. */
+  private release(c: PendingCast): void {
+    const { caster, spellId, target } = c;
     const spell = spellById(spellId);
     const pose = this.opts.poseOf(caster);
-    if (caster === this.opts.selfId()) this.opts.onSelfCast();
     if (!spell || !pose) return;
     const now = performance.now();
     const rgb = spellRgb(spell);
@@ -357,20 +393,22 @@ export class SpellController {
     if (spell.social.kind === "light") {
       this.fx.burst(this.tip.x, this.tip.y, this.tip.z, rgb, now, 8, 0.35);
       // The cast turns the light on or off: the light is still as it was until the effect changes.
-      audio.playAt(hasWandLight(this.opts.effectsOf(caster)) ? "spell.lucerna_off" : "spell.lucerna", tip, { owner: caster });
+      audio.playAt(c.wasLit ? "spell.lucerna_off" : "spell.lucerna", tip, { owner: caster });
       return;
     }
     const id = `spell.${spell.key}`;
     if (isSoundId(id)) audio.playAt(id, tip, { owner: caster });
-    // The gesture drawn in the air in front of the caster, facing the camera.
+    // The gesture drawn in the air from the wand tip at its release, facing the
+    // camera: the shape is placed so its stroke starts at the tip.
     const g = gestureByKey(spell.gesture);
     const right = this.fx.cameraRight;
-    const fx = Math.sin(pose.yaw);
-    const fz = Math.cos(pose.yaw);
-    const head = this.opts.headHeight(caster);
-    if (g) {
-      this.fx.trail(g.points, pose.x + fx * 0.55, pose.y + head * 0.72, pose.z + fz * 0.55, right.x, right.z, 0.32, rgb, 650, now);
-      audio.playAt("spell.trail", [pose.x + fx * 0.55, pose.y + head * 0.72, pose.z + fz * 0.55], { owner: caster });
+    if (g && g.points.length) {
+      const [sx, sy] = g.points[0]!;
+      const len = Math.hypot(right.x, right.z) || 1;
+      const ox = (sx / 100) * TRAIL_SIZE;
+      const oy = (sy / 100) * TRAIL_SIZE;
+      this.fx.trail(g.points, this.tip.x - (right.x / len) * ox, this.tip.y - oy, this.tip.z - (right.z / len) * ox, right.x, right.z, TRAIL_SIZE, rgb, 650, now);
+      audio.playAt("spell.trail", tip, { owner: caster });
     }
     if (target.kind === "furniture") {
       const it = this.opts.room().items.get(target.itemId);
@@ -431,6 +469,7 @@ export class SpellController {
     const now = performance.now();
     this.bones = 0;
     this.fx.begin(this.opts.camera);
+    if (this.pending.length) this.releaseCasts(now);
     // Lit wands, nearest first.
     const lit = this.lit;
     lit.length = 0;
@@ -491,6 +530,19 @@ export class SpellController {
     this.fx.dispose();
     this.listeners = [];
   }
+}
+
+type CastTarget = Extract<ServerMessage, { type: "spellCast" }>["target"];
+
+/** A cast heard, its effects waiting for the caster's wand to reach the release. */
+interface PendingCast {
+  caster: number;
+  spellId: number;
+  target: CastTarget;
+  /** `performance.now()` when it came. */
+  at: number;
+  /** Whether the caster's wand was lit when it came (Lucerna's on or off sound). */
+  wasLit: boolean;
 }
 
 /** Whether a character's wand is lit (Lucerna), from its visible effects. */
