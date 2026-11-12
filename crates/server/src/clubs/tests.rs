@@ -96,7 +96,7 @@ fn secretary_lines_fill_to_the_approved_words() {
     for line in r.secretary_lines.values() {
         assert!(
             !line.to_lowercase().contains("year"),
-            "never school years: {line}"
+            "the game has no school years: {line}"
         );
     }
 }

@@ -1,35 +1,16 @@
 // Player levels as the client shows them (data/progression.json, the file
-// sim-core's `Progression` reads): the school year beside a level, the XP
-// bar's fill, the words for where XP came from, and what a level-up opens.
+// sim-core's `Progression` reads): the title beside a name, the XP bar's
+// fill, the words for where XP came from, and what a level-up opens.
 // The server decides levels (`Progress`, `LevelChanged`); this only
 // describes them. Pure, unit tested in progression.test.ts.
 
 import progressionJson from "../../../data/progression.json";
 import type { Progress, XpSource } from "../wasm/sim_wasm";
 
-interface YearDef {
-  year: number;
-  name: string;
-  from_level: number;
-}
-
-const YEARS: readonly YearDef[] = [...progressionJson.years].sort((a, b) => a.from_level - b.from_level);
 const SLOTS: readonly { level: number; slots: number }[] = [...progressionJson.loadout_slots].sort((a, b) => a.level - b.level);
 /** Total XP each level starts at (index 0 = level 1). */
 export const LEVEL_XP: readonly number[] = progressionJson.levels;
 export const LEVEL_MAX = LEVEL_XP.length;
-
-/** The school year (1-7) of `level`: Year 1 at levels 1-3, then one per three levels. */
-export function yearOf(level: number): number {
-  let year = YEARS[0]?.year ?? 1;
-  for (const y of YEARS) if (level >= y.from_level) year = y.year;
-  return year;
-}
-
-/** "Second Year". */
-export function yearName(year: number): string {
-  return YEARS.find((y) => y.year === year)?.name ?? `Year ${year}`;
-}
 
 /** Dueling loadout slots at `level` (3 at 1, 4 at 5, 5 at 10). */
 export function loadoutSlots(level: number): number {
@@ -38,10 +19,10 @@ export function loadoutSlots(level: number): number {
   return slots;
 }
 
-/** "Year 2 · Lv 5": the title beside a name. Empty for NPCs (level 0). */
+/** "Lv 5": the title beside a name. Empty for NPCs (level 0). */
 export function levelTitle(level: number): string {
   if (!Number.isFinite(level) || level < 1) return "";
-  return `Year ${yearOf(level)} · Lv ${level}`;
+  return `Lv ${level}`;
 }
 
 /** How far through its level `p` is (0..1; 1 at the cap). */
@@ -83,25 +64,21 @@ export function gainText(g: { source: XpSource; amount: number; capped: boolean 
 /** What reaching `after` from `before` brings, for the level-up flourish. */
 export interface LevelUp {
   level: number;
-  year: number;
-  /** The school year changed with it. */
-  newYear: boolean;
   /** Loadout slots now, when they grew. */
   slots: number | null;
 }
 
 export function levelUp(before: number, after: number): LevelUp | null {
   if (!(after > before)) return null;
-  const year = yearOf(after);
   const slots = loadoutSlots(after);
-  return { level: after, year, newYear: year !== yearOf(before), slots: slots > loadoutSlots(before) ? slots : null };
+  return { level: after, slots: slots > loadoutSlots(before) ? slots : null };
 }
 
-/** Two level-ups shown as one (the later level; a new year or new slots from either). */
+/** Two level-ups shown as one (the later level; new slots from either). */
 export function mergeLevelUps(a: LevelUp, b: LevelUp): LevelUp {
   const later = b.level >= a.level ? b : a;
   const slots = a.slots === null ? b.slots : b.slots === null ? a.slots : Math.max(a.slots, b.slots);
-  return { level: later.level, year: later.year, newYear: a.newYear || b.newYear, slots };
+  return { level: later.level, slots };
 }
 
 /**

@@ -3,7 +3,7 @@
 // searched on the server (`GET /api/players?q=&limit=&after=`: a
 // case-insensitive part of the name) a page at a time (the economy's
 // KeysetPager); the card (`GET /api/players/{name}/card`) is a player's
-// name, house, year, level, skill levels and worn outfit. The actions
+// name, house, level, skill levels and worn outfit. The actions
 // reuse what exists: Add friend (`POST /api/friends/requests`), Whisper
 // (the chat's whisper channel), Examine (the card), Challenge to a duel
 // (`DuelChallengeName`). Pure, unit tested in players.test.ts.
@@ -109,8 +109,6 @@ export interface PlayerCard {
   name: string;
   /** Lower-case house id. */
   house: string;
-  year: number;
-  yearName: string;
   level: number;
   /** Every subject, in the server's order, with its level. */
   skills: { subject: string; level: number }[];
@@ -128,8 +126,6 @@ export function parseCard(raw: unknown): PlayerCard {
   return {
     name: typeof r.name === "string" ? r.name : "",
     house: typeof r.house === "string" ? r.house.toLowerCase() : "",
-    year: num(r.year, 1),
-    yearName: typeof r.year_name === "string" ? r.year_name : "",
     level: num(r.level, 1),
     skills: skills
       .filter((s): s is { discipline: string; level?: unknown } => !!s && typeof (s as { discipline?: unknown }).discipline === "string")
@@ -144,11 +140,10 @@ function parseCardClub(raw: unknown): { name: string; tag: string } | null {
   return c && typeof c.name === "string" && typeof c.tag === "string" ? { name: c.name, tag: c.tag } : null;
 }
 
-/** "Skytalon · Second Year · Level 5". */
-export function cardSubtitle(c: Pick<PlayerCard, "house" | "year" | "yearName" | "level">): string {
+/** "Skytalon · Level 5". */
+export function cardSubtitle(c: Pick<PlayerCard, "house" | "level">): string {
   const house = houseInfo(c.house).name || c.house;
-  const year = c.yearName || `Year ${c.year}`;
-  return [house, year, `Level ${c.level}`].filter(Boolean).join(" · ");
+  return [house, `Level ${c.level}`].filter(Boolean).join(" · ");
 }
 
 /** The skill levels with their subjects' names ("History of Magic"). */

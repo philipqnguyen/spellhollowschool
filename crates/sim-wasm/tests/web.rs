@@ -742,7 +742,6 @@ fn decodes_the_school_and_dueling_messages() {
                 xp: 250,
                 level_xp: 200,
                 next_level_xp: Some(440),
-                year: 1,
             },
             gained: Some(XpGain {
                 source: XpSource::ClassAttend,
