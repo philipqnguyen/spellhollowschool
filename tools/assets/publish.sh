@@ -135,7 +135,7 @@ blender_pin="$(grep -v '^#' tools/blender/BLENDER_VERSION | head -n 1)"
 gh release create "$tag" "$archive" "$checksum" \
   --repo "$gh_repo" \
   --target "$head" \
-  --latest=false \
+  --latest \
   --title "Assets $fp" \
   --notes "Prebuilt client/public/assets for asset fingerprint \`$fp\` (built from $head with Blender $blender_pin). Downloaded by bin/dev and npm run dev when a checkout's fingerprint matches; see tools/blender/README.md, \"Asset releases\"."
 say "published $tag on $gh_repo"

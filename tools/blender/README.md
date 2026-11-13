@@ -212,9 +212,9 @@ Publishing requires all three pinned tools, so a release is complete
 (`node client/scripts/assets.mjs tools --strict`), and the GitHub CLI (`gh`)
 signed in. Before building it computes HEAD's fingerprint and stops if that
 release already exists, if HEAD is not pushed, or if `gh` is missing. It then
-runs `gh release create assets-<fp> ... --latest=false` against the
-repository `prepare.mjs` downloads from (`node client/scripts/assets.mjs
-release-repo`). Without a git remote it stops after packing; test the packed
+runs `gh release create assets-<fp> ... --latest` (so the newest asset release
+is marked Latest and listed first) against the repository `prepare.mjs`
+downloads from (`node client/scripts/assets.mjs release-repo`). Without a git remote it stops after packing; test the packed
 folder with:
 
 ```sh
