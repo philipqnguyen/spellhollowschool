@@ -285,6 +285,7 @@ impl WorldSim {
             Err(e) => {
                 if let StoreError::Db(db) = &e {
                     tracing::error!(character_id = actor, error = %db, "club change failed");
+                    crate::monitoring::capture_for_character(db, actor);
                 }
                 if let Some(i) = self.index_of_character(actor) {
                     self.club_error(i, e.code());
@@ -478,7 +479,10 @@ impl WorldSim {
                         before,
                         notices,
                     }),
-                    Err(e) => tracing::error!(club = id, error = %e, "reloading a club failed"),
+                    Err(e) => {
+                        tracing::error!(club = id, error = %e, "reloading a club failed");
+                        goodsorcery::capture_error(&e);
+                    }
                 }))
             })
         }));

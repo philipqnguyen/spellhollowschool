@@ -356,6 +356,8 @@ All of them go in the destination's `.kamal/deploy.<destination>.env`.
 | `DEPLOY_BUILDER_REMOTE` | empty | Build on another machine, e.g. `ssh://root@<host>` |
 | `SHS_PLAYER_CAP` | `1000` | Players in the castle at once; beyond it logins queue |
 | `RUST_LOG` | `info` | The server's log filter |
+| `GOODSORCERY_API_KEY` | empty | The Good Sorcery API key ("Error tracking and performance"). Empty: nothing is reported |
+| `GOODSORCERY_PERFORMANCE_MONITORING` | `1` | `0` reports errors only, without response times |
 | `DEPLOY_ALLOW_GREYBOX` | `0` | `1` deploys without the matching game assets |
 | `DEPLOY_ASSETS_BUCKET` | empty | The asset bucket ("Assets from a bucket"). Empty: the image carries the assets and the server serves them |
 | `DEPLOY_ASSETS_S3_ENDPOINT` | required with a bucket | Its S3 API endpoint: `https://<account id>.r2.cloudflarestorage.com` for R2 |
@@ -369,6 +371,30 @@ The server's own variables are listed in [configuration.md](configuration.md).
 `config/deploy.yml` sets `SHS_TRUST_PROXY=1` (rate limits key
 on the address kamal-proxy forwards), `SHS_CLIENT_IP_HEADER` behind the tunnel,
 `SHS_ASSETS_CDN_URL` with an asset bucket, and `SHS_PUBLIC_URL`.
+
+### Error tracking and performance
+
+Optional. The server can report its errors (panics, `500`s with their
+cause, failed database work in the game world and the background jobs) and
+the API's response times to [Good Sorcery](https://app.goodsorcery.com).
+Without a key nothing is sent and the deploy works the same.
+
+1. Create a project at [app.goodsorcery.com](https://app.goodsorcery.com) (or
+   on your own instance) and copy its API key from **Settings › Setup & API
+   keys**.
+2. Put it in `.kamal/deploy.<destination>.env`:
+   `GOODSORCERY_API_KEY=gs_live_…` (for your own instance, also
+   `GOODSORCERY_ENDPOINT=https://errors.example.org` there, and add
+   `GOODSORCERY_ENDPOINT` to `env.clear` in `config/deploy.yml`).
+3. `kamal deploy -d production` (or, without a new image,
+   `kamal app boot -d production`, which restarts the server with the new
+   settings).
+
+Each report names the deployed commit (Kamal's `KAMAL_VERSION`). Performance
+monitoring (`GOODSORCERY_PERFORMANCE_MONITORING`, default `1`) adds the
+API's response times per endpoint, sent once a minute; `0` turns it off.
+What is sent, and what never is (request bodies, headers, cookies, players'
+emails), is in [configuration.md](configuration.md#error-tracking-and-performance).
 
 ### Running things on the server
 

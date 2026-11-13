@@ -138,9 +138,15 @@ env:
     SHS_PLAYER_CAP: "<%= setting.("SHS_PLAYER_CAP", "1000") %>"
     SHS_MAIL_FROM: "<%= setting.("SHS_MAIL_FROM", "") %>"
     RUST_LOG: <%= setting.("RUST_LOG", "info") %>
+    # Error tracking (docs/deploy.md, "Error tracking and performance"):
+    # response times too, once GOODSORCERY_API_KEY is set. Kamal sets
+    # KAMAL_VERSION, which names the release.
+    GOODSORCERY_PERFORMANCE_MONITORING: "<%= setting.("GOODSORCERY_PERFORMANCE_MONITORING", "1") %>"
   secret:
     - DATABASE_URL
     - SHS_SMTP_URL
+    # Empty: nothing is reported.
+    - GOODSORCERY_API_KEY
 
 # One game server is one world: the new container starts, passes the health
 # check and takes the traffic, then the old one stops, saving its players.

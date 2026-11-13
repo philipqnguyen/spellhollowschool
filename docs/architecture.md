@@ -672,6 +672,12 @@ someone bought, a trade, letters it sent.
 | `GET /metrics` | Prometheus text format (`shs_*` metrics: HTTP responses and latency, auth, world players, tick time, instances) |
 | `POST /api/dev/bot-session`, `/api/dev/grant`, `/api/dev/teleport`, `/api/dev/clock`, `/api/dev/house-cup/close` | Only with `SHS_DEV=1`: throwaway bot accounts (the bot session selects the bot's character), granting items/Crowns/XP/spells, teleporting, shifting the game clock, closing the House Cup week. For playtests and load tests |
 
+With `GOODSORCERY_API_KEY` set, the server reports errors and API response
+times to Good Sorcery (`monitoring.rs`; [configuration.md](configuration.md#error-tracking-and-performance)):
+a layer on the matched routes names each request after its route pattern,
+`ApiError::internal_error` reports a `500`'s cause, and the world's and jobs'
+database failures are captured where they are logged.
+
 `shs-server audit [NAME ...]` replays the item, Crown and XP ledgers against
 current holdings (every character, or the named ones) in one read-only
 snapshot, prints any problem and exits 1 if they do not reconcile. It is

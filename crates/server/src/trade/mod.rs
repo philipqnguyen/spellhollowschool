@@ -89,6 +89,7 @@ pub async fn commit_with_balances(
         Err(Refusal::Code(code)) => Err(code),
         Err(Refusal::Db(e)) => {
             tracing::error!(error = %e, trade_key, "trade commit failed");
+            goodsorcery::capture_error(&e);
             Err(TradeErrorCode::Failed)
         }
     }

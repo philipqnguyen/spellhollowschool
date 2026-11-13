@@ -653,7 +653,7 @@ async fn restyle(
     m.prev_item_def = Some(item.item_def);
     ledger::record_item_move(conn, &m)
         .await
-        .map_err(ApiError::internal)?;
+        .map_err(|e| ApiError::internal_error(&e))?;
     Ok(())
 }
 

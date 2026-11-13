@@ -120,6 +120,7 @@ async fn execute(pool: &PgPool, job: Job) -> WorldCmd {
                 Ok(items) => Some(items),
                 Err(e) => {
                     tracing::error!(owner, error = %e, "loading a dorm room failed");
+                    crate::monitoring::capture_for_character(&e, owner);
                     None
                 }
             };
@@ -131,6 +132,7 @@ async fn execute(pool: &PgPool, job: Job) -> WorldCmd {
         Job::SetOpen { owner, open } => {
             if let Err(e) = store::set_open(pool, owner, open).await {
                 tracing::error!(owner, error = %e, "saving a dorm's open flag failed");
+                crate::monitoring::capture_for_character(&e, owner);
             }
             WorldCmd::RoomDone {
                 owner,
@@ -184,6 +186,7 @@ async fn run_edit(
     res.map_err(|e| {
         if let StoreError::Db(db) = &e {
             tracing::error!(owner, item, error = %db, "dorm edit failed");
+            crate::monitoring::capture_for_character(db, owner);
         }
         (e.code(), item)
     })

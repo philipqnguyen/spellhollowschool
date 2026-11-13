@@ -228,7 +228,7 @@ pub(crate) async fn use_up(
 /// An item-helper failure as an API error (nothing it reports is the
 /// player's fault once the checks above passed).
 pub(crate) fn item_error(e: ItemError) -> ApiError {
-    ApiError::internal(e)
+    ApiError::internal_error(&e)
 }
 
 #[cfg(test)]

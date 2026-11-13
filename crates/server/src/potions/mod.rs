@@ -179,8 +179,9 @@ fn potion_kind(def: i32, mimic_draught: bool) -> Result<EffectKind, PotionErrorC
     }
 }
 
-fn failed(e: impl std::fmt::Display) -> PotionErrorCode {
+fn failed(e: impl std::error::Error) -> PotionErrorCode {
     tracing::error!(error = %e, "drinking a potion failed");
+    goodsorcery::capture_error(&e);
     PotionErrorCode::Failed
 }
 

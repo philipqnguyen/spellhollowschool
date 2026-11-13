@@ -11,7 +11,8 @@
 //! - [`dev`]: dev-only endpoints (`SHS_DEV=1`).
 //! - [`realtime`]: the WebSocket gateway (`GET /ws`), the castle world and
 //!   instances; [`dorm`]: dorm persistence and placement rules.
-//! - [`email`], [`rate_limit`], [`metrics`]: supporting services.
+//! - [`email`], [`rate_limit`], [`metrics`], [`monitoring`] (error tracking
+//!   and performance): supporting services.
 //! - [`ledger`] (the append-only item and Crown
 //!   ledgers) and [`items`] (stack, move and consume helpers that record
 //!   them). Economy: [`wallet`], [`mail`] (owl mail), [`shop`] (the
@@ -60,6 +61,7 @@ pub mod mail;
 /// The map's reveals and the secrets found (`GET /api/map`).
 pub mod map;
 pub mod metrics;
+pub mod monitoring;
 pub mod npc;
 pub mod outfits;
 /// The players list and the player card.

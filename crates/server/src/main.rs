@@ -10,14 +10,13 @@
 //! (`ledger::audit::reconcile`, one read-only snapshot, safe while the game
 //! runs), prints each problem and exits 1 if the ledgers do not reconcile.
 
-use std::io::{IsTerminal, Read, Write};
+use std::io::{Read, Write};
 use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr, TcpStream};
 use std::process::ExitCode;
 use std::time::Duration;
 
 use server::realtime::{self, chat::WordFilter};
-use server::{AppState, Config, db, email, http};
-use tracing_subscriber::EnvFilter;
+use server::{AppState, Config, db, email, http, monitoring};
 
 fn main() -> ExitCode {
     match std::env::args().nth(1).as_deref() {
@@ -26,18 +25,17 @@ fn main() -> ExitCode {
         _ => {}
     }
 
-    tracing_subscriber::fmt()
-        .with_env_filter(
-            EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info")),
-        )
-        // Colour only on a terminal; container logs stay plain text.
-        .with_ansi(std::io::stdout().is_terminal())
-        .init();
+    // Error tracking and performance (server::monitoring): off without
+    // GOODSORCERY_API_KEY. Declared before the runtime, so it is dropped after
+    // it: dropping the guard sends what is still queued.
+    let _monitoring = goodsorcery::init(monitoring::config());
+    monitoring::init_tracing();
 
     let config = match Config::from_env() {
         Ok(c) => c,
         Err(e) => {
             tracing::error!("{e}");
+            goodsorcery::capture_error(&e);
             return ExitCode::FAILURE;
         }
     };
@@ -50,6 +48,7 @@ fn main() -> ExitCode {
         Ok(()) => ExitCode::SUCCESS,
         Err(e) => {
             tracing::error!("{e}");
+            goodsorcery::capture_error(&*e);
             ExitCode::FAILURE
         }
     }
@@ -104,68 +103,84 @@ async fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
 /// effects and find cooldowns are deleted (the world expires effects in
 /// memory on its own), and mail collected longer ago than
 /// `mail.retention_days` is cleaned up (never uncollected items or Crowns).
+/// Each run is one Good Sorcery job (`economy_jobs`): its errors carry that
+/// name, and with performance monitoring its database time is recorded.
 fn spawn_economy_jobs(pool: sqlx::PgPool, realtime: std::sync::Arc<realtime::Realtime>) {
     tokio::spawn(async move {
         let mut every = tokio::time::interval(Duration::from_secs(60));
         every.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
         loop {
             every.tick().await;
-            match server::exchange::expire_listings(&pool, Some(&realtime.world)).await {
-                Ok(0) => {}
-                Ok(n) => tracing::info!(listings = n, "expired Owl Exchange listings"),
-                Err(e) => tracing::error!(error = %e, "expiring Exchange listings failed"),
-            }
-            if let Err(e) = server::effects::cleanup_expired(&pool).await {
-                tracing::error!(error = %e, "cleaning up expired effects failed");
-            }
-            let retention = server::catalog::shipped().economy.mail.retention();
-            match server::mail::cleanup(&pool, retention).await {
-                Ok(c) => {
-                    if c.deleted > 0 {
-                        tracing::info!(mails = c.deleted, "cleaned up old mail");
-                    }
-                    for recipient in c.unread_changed {
-                        match server::mail::unread(&pool, recipient).await {
-                            Ok(n) => realtime.world.mail_changed(recipient, n),
-                            Err(e) => {
-                                tracing::warn!(error = %e, recipient, "counting unread mail failed")
-                            }
-                        }
-                    }
-                }
-                Err(e) => tracing::error!(error = %e, "cleaning up old mail failed"),
-            }
-            // Daily caps of days before yesterday (UTC).
-            let before = chrono::Utc::now().date_naive() - chrono::Days::new(1);
-            if let Err(e) = server::progression::caps::cleanup(&pool, before).await {
-                tracing::error!(error = %e, "cleaning up daily caps failed");
-            }
-            // ---- The House Cup's weekly close.
-            let now_ms = chrono::Utc::now().timestamp_millis();
-            match server::house_cup::close_due(&pool, now_ms).await {
-                Ok(None) => {}
-                Ok(Some(closed)) => {
-                    server::house_cup::forget_cached();
-                    tracing::info!(
-                        week_start_ms = closed.week.start_ms,
-                        winners = ?closed.winners,
-                        mailed = closed.mailed.len(),
-                        "closed the House Cup week"
-                    );
-                    for recipient in closed.mailed {
-                        match server::mail::unread(&pool, recipient).await {
-                            Ok(n) => realtime.world.mail_changed(recipient, n),
-                            Err(e) => {
-                                tracing::warn!(error = %e, recipient, "counting unread mail failed")
-                            }
-                        }
-                    }
-                }
-                Err(e) => tracing::error!(error = %e, "closing the House Cup week failed"),
-            }
-            // ---- end of the weekly close.
+            let _ = goodsorcery::job("economy_jobs", None, economy_jobs(&pool, &realtime)).await;
         }
     });
+}
+
+/// One run of [`spawn_economy_jobs`]. A failed step is logged and reported
+/// and the next one still runs; `Err` counts the failed steps (the run shows
+/// as failed in performance monitoring).
+async fn economy_jobs(pool: &sqlx::PgPool, realtime: &realtime::Realtime) -> Result<(), usize> {
+    let mut failed = 0;
+    let mut fail = |e: &dyn std::error::Error, what: &str| {
+        tracing::error!(error = %e, "{what} failed");
+        goodsorcery::capture_error(e);
+        failed += 1;
+    };
+    match server::exchange::expire_listings(pool, Some(&realtime.world)).await {
+        Ok(0) => {}
+        Ok(n) => tracing::info!(listings = n, "expired Owl Exchange listings"),
+        Err(e) => fail(&e, "expiring Exchange listings"),
+    }
+    if let Err(e) = server::effects::cleanup_expired(pool).await {
+        fail(&e, "cleaning up expired effects");
+    }
+    let retention = server::catalog::shipped().economy.mail.retention();
+    match server::mail::cleanup(pool, retention).await {
+        Ok(c) => {
+            if c.deleted > 0 {
+                tracing::info!(mails = c.deleted, "cleaned up old mail");
+            }
+            for recipient in c.unread_changed {
+                match server::mail::unread(pool, recipient).await {
+                    Ok(n) => realtime.world.mail_changed(recipient, n),
+                    Err(e) => {
+                        tracing::warn!(error = %e, recipient, "counting unread mail failed")
+                    }
+                }
+            }
+        }
+        Err(e) => fail(&e, "cleaning up old mail"),
+    }
+    // Daily caps of days before yesterday (UTC).
+    let before = chrono::Utc::now().date_naive() - chrono::Days::new(1);
+    if let Err(e) = server::progression::caps::cleanup(pool, before).await {
+        fail(&e, "cleaning up daily caps");
+    }
+    // ---- The House Cup's weekly close.
+    let now_ms = chrono::Utc::now().timestamp_millis();
+    match server::house_cup::close_due(pool, now_ms).await {
+        Ok(None) => {}
+        Ok(Some(closed)) => {
+            server::house_cup::forget_cached();
+            tracing::info!(
+                week_start_ms = closed.week.start_ms,
+                winners = ?closed.winners,
+                mailed = closed.mailed.len(),
+                "closed the House Cup week"
+            );
+            for recipient in closed.mailed {
+                match server::mail::unread(pool, recipient).await {
+                    Ok(n) => realtime.world.mail_changed(recipient, n),
+                    Err(e) => {
+                        tracing::warn!(error = %e, recipient, "counting unread mail failed")
+                    }
+                }
+            }
+        }
+        Err(e) => fail(&e, "closing the House Cup week"),
+    }
+    // ---- end of the weekly close.
+    if failed == 0 { Ok(()) } else { Err(failed) }
 }
 
 /// The database may still be starting (compose, reboots): retry for about a minute.

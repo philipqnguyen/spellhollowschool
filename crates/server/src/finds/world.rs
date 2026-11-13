@@ -73,9 +73,10 @@ impl Finds {
         let spot = spot.to_owned();
         ctx.spawn(Box::new(move |pool| {
             Box::pin(async move {
-                let result = super::search(&pool, cid, &spot, luck)
-                    .await
-                    .map_err(|e| e.to_string());
+                let result = super::search(&pool, cid, &spot, luck).await.map_err(|e| {
+                    crate::monitoring::capture_for_character(&e, cid);
+                    e.to_string()
+                });
                 ExtDone::Find(FindDone {
                     character_id: cid,
                     spot,

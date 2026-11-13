@@ -369,11 +369,14 @@ pub async fn record_no_contests(pool: &PgPool, unfinished: &[NoContest]) -> usiz
         match record_no_contest(pool, n).await {
             Ok(true) => written += 1,
             Ok(false) => {}
-            Err(e) => tracing::error!(
-                error = %e,
-                duel_key = n.duel_key,
-                "recording a duel cut short by the shutdown failed"
-            ),
+            Err(e) => {
+                tracing::error!(
+                    error = %e,
+                    duel_key = n.duel_key,
+                    "recording a duel cut short by the shutdown failed"
+                );
+                goodsorcery::capture_error(&e);
+            }
         }
     }
     written

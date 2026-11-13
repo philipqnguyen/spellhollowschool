@@ -313,7 +313,10 @@ impl WorldSim {
                     Box::pin(async move {
                         let result = crate::map::discover(&pool, cid, &secret)
                             .await
-                            .map_err(|e| e.to_string());
+                            .map_err(|e| {
+                                crate::monitoring::capture_for_character(&e, cid);
+                                e.to_string()
+                            });
                         ExtDone::Run(Box::new(move |ctx| {
                             let now = ctx.now();
                             ctx.sim.discovery_done(cid, k, result, now);
