@@ -89,7 +89,7 @@ pub async fn request(
         .await
     {
         tracing::error!(error = %e, account_id, "password reset email failed");
-        return Err(ApiError::internal(format!("password reset email: {e}")));
+        return Err(ApiError::internal_error(&e));
     }
     Ok(Json(ResetRequestResponse {
         dev_reset_url: state.config.dev.then_some(link),

@@ -121,6 +121,7 @@ async fn run(
                 Err(e) => {
                     metrics.position_save_errors.inc();
                     tracing::error!(error = %e, rows = rows.len(), reveals = reveals.len(), "saving positions failed, giving up on this batch");
+                    goodsorcery::capture_error(&e);
                 }
             }
         }

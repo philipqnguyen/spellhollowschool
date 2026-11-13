@@ -1138,6 +1138,10 @@ impl Duels {
                     .await
                     .map_err(|e| {
                         tracing::error!(error = %e, duel_key = finished.duel_key, "recording a duel failed");
+                        // RowNotFound: a duellist was deleted meanwhile.
+                        if !matches!(e, sqlx::Error::RowNotFound) {
+                            goodsorcery::capture_error(&e);
+                        }
                         e.to_string()
                     });
                 ExtDone::Duel(DuelDone::Recorded {

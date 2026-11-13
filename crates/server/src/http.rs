@@ -99,9 +99,28 @@ impl ApiError {
         )
     }
 
-    /// A 500. The cause is logged here and never sent to the client.
+    /// A 500. The cause is logged and reported (`monitoring.rs`) here and
+    /// never sent to the client. For an error value, [`ApiError::internal_error`]
+    /// reports its type and causes too.
+    #[track_caller]
     pub fn internal(cause: impl std::fmt::Display) -> Self {
+        let cause = cause.to_string();
         tracing::error!(error = %cause, "internal error");
+        goodsorcery::capture_message(cause, goodsorcery::Level::Error);
+        Self::internal_response()
+    }
+
+    /// A 500 for an error value: logged, and reported with its type and
+    /// `source()` chain. Once reported, the request's 500 is not reported
+    /// again by the Good Sorcery layer.
+    #[track_caller]
+    pub fn internal_error<E: std::error::Error + ?Sized>(error: &E) -> Self {
+        tracing::error!(error = %error, "internal error");
+        goodsorcery::capture_error(error);
+        Self::internal_response()
+    }
+
+    fn internal_response() -> Self {
         Self::new(
             StatusCode::INTERNAL_SERVER_ERROR,
             "internal",
@@ -130,8 +149,9 @@ impl IntoResponse for ApiError {
 }
 
 impl From<sqlx::Error> for ApiError {
+    #[track_caller]
     fn from(e: sqlx::Error) -> Self {
-        Self::internal(e)
+        Self::internal_error(&e)
     }
 }
 
@@ -250,6 +270,13 @@ pub fn router(state: AppState) -> Router {
                 tracing::debug_span!("request", method = %req.method(), path = %req.uri().path())
             }),
         )
+        // Error tracking and performance (monitoring.rs), outermost so the
+        // user the auth extractors set lands in the request's scope. Each
+        // request is named after its route pattern, `/api` included
+        // (`GET /api/players/{name}/card`). Only on the matched routes: the
+        // client's files and unknown paths stay out of it, so a page load's
+        // hundreds of asset requests open no scope (tests/monitoring.rs).
+        .route_layer(goodsorcery::axum::layer())
         .with_state(state)
 }
 

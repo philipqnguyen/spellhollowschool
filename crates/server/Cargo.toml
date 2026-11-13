@@ -40,6 +40,10 @@ rayon = "1.10"
 postcard.workspace = true
 # ServiceExt::oneshot: the static files call ServeDir per request (static_files.rs).
 tower = { version = "0.5", features = ["util"] }
+# Error tracking and performance (monitoring.rs). Sends with ureq over rustls
+# (ring), like lettre: still no OpenSSL in the cross-compiled image.
+goodsorcery = "0.1.0"
 
 [dev-dependencies]
+flate2 = "1"
 tokio-tungstenite = "0.29"

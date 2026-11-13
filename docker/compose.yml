@@ -65,6 +65,11 @@ services:
       SHS_CLIENT_IP_HEADER: ${SHS_CLIENT_IP_HEADER:-}
       SHS_ASSETS_CDN_URL: ${SHS_ASSETS_CDN_URL:-}
       RUST_LOG: ${RUST_LOG:-info}
+      # Error tracking and performance (docs/configuration.md); blank key: off.
+      GOODSORCERY_API_KEY: ${GOODSORCERY_API_KEY:-}
+      GOODSORCERY_PERFORMANCE_MONITORING: ${GOODSORCERY_PERFORMANCE_MONITORING:-1}
+      GOODSORCERY_ENDPOINT: ${GOODSORCERY_ENDPOINT:-}
+      GOODSORCERY_RELEASE: ${GOODSORCERY_RELEASE:-}
     ports:
       # Loopback by default: the proxy in front runs on this host. Publishing
       # on every interface lets clients skip the proxy (and, with

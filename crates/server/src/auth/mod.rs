@@ -58,7 +58,7 @@ impl From<RuleError> for ApiError {
 }
 
 fn blocking_failed(e: tokio::task::JoinError) -> ApiError {
-    ApiError::internal(format!("password task failed: {e}"))
+    ApiError::internal_error(&e)
 }
 
 #[derive(Debug, Deserialize)]
@@ -160,6 +160,7 @@ async fn send_verification(state: &AppState, to: &str, link: &str, account_id: i
         .await
     {
         tracing::error!(error = %e, account_id, "verification email failed");
+        goodsorcery::capture_error(&e);
     }
 }
 

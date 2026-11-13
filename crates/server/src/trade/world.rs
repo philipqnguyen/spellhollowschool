@@ -597,6 +597,7 @@ async fn load_offer(
 ) -> Result<TradeOffer, TradeErrorCode> {
     let failed = |e: sqlx::Error| {
         tracing::error!(error = %e, character_id, "loading a trade offer failed");
+        crate::monitoring::capture_for_character(&e, character_id);
         TradeErrorCode::Failed
     };
     let ids: Vec<i64> = items.iter().map(|i| i.item_id).collect();

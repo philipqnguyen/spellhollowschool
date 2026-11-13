@@ -33,6 +33,46 @@ it at start-up with a message naming the variable.
 | `RUST_LOG` | `info` | The log filter, in [tracing `EnvFilter`](https://docs.rs/tracing-subscriber/latest/tracing_subscriber/filter/struct.EnvFilter.html) syntax, e.g. `info` or `info,server=debug`. |
 | `TOKIO_WORKER_THREADS` | one per CPU core | Read by the async runtime, not by the server's code: caps its worker threads. Useful for load tests on a large machine (`tools/loadtest/README.md`). |
 
+### Error tracking and performance
+
+The server reports errors and, if you turn it on, request timings to
+[Good Sorcery](https://app.goodsorcery.com) (hosted, or your own instance)
+with the [`goodsorcery`](https://github.com/creativesorcery/goodsorcery-rust)
+crate (`crates/server/src/monitoring.rs`). Without an API key it is off:
+nothing is captured and nothing is sent, which is what development, the tests
+and CI run with.
+
+| Variable | Default | What it sets |
+| --- | --- | --- |
+| `GOODSORCERY_API_KEY` | unset (off) | The project's API key (`gs_live_…`), from the project's **Settings › Setup & API keys** page. A secret: keep it out of the repository. |
+| `GOODSORCERY_PERFORMANCE_MONITORING` | off (`1` under Kamal) | `1`: also send response times per endpoint, once a minute, and a trace of the slowest request per endpoint, with its database time. |
+| `GOODSORCERY_ENDPOINT` | `https://app.goodsorcery.com` | A self-hosted instance's URL instead of the hosted service. |
+| `GOODSORCERY_ENV` | `production` | Only decides whether this process reports: `development` and `test` never do. The environment the reports land in comes from the API key. |
+| `GOODSORCERY_ENABLED` | unset | `1` or `0` overrides `GOODSORCERY_ENV`: report from a development machine (with a key), or never report. |
+| `GOODSORCERY_RELEASE` | `KAMAL_VERSION`, else `shs-server@<version>` | The release each report names. Kamal sets `KAMAL_VERSION` (the deployed commit) in the container, so a Kamal deploy needs nothing here. |
+| `GOODSORCERY_DEBUG` | off | `1`: the client logs what it sends (on stderr, `[goodsorcery]` lines; the key masked). |
+
+What is reported:
+
+- **Errors that are ours, not the player's**: a panic anywhere; an HTTP
+  `500` (the error behind it, with its causes, when the handler had one);
+  a failed database write or load in the game world, the WebSocket gateway
+  or the dorm, club, trade, duel, find and potion jobs (tagged with the
+  character's id); a failed run of the once-a-minute economy jobs; a failed
+  confirmation or reset email; a failed start-up. A request's report names
+  the route (`GET /api/players/{name}/card`), its URL without the query string,
+  the method, and the signed-in account's id: no email, name, body, header
+  or cookie.
+- **Performance**: the HTTP API, timed per route pattern (the health check
+  and `/metrics` are left out, and so are the client's files and unknown
+  paths), and the economy jobs. SQL is sent with its values replaced by `?`.
+  The game itself runs over one long WebSocket per player, which is not a
+  request: its health is in `/metrics`.
+
+The log output does not change: the Good Sorcery layer filters what it reads
+on its own (`info`, plus sqlx's per-statement `DEBUG` events for database
+timing), whatever `RUST_LOG` says.
+
 ### Running without email
 
 New accounts must confirm their email address before they can sign in, and
@@ -126,7 +166,9 @@ build time, so edit it before building, or mount your own file over
 Compose sets `SHS_BIND=0.0.0.0:8080` inside the container and passes
 `SHS_PUBLIC_URL`, `SHS_PLAYER_CAP`, `SHS_DEV`, `SHS_SMTP_URL`,
 `SHS_MAIL_FROM`, `SHS_TRUST_PROXY`, `SHS_CLIENT_IP_HEADER`,
-`SHS_ASSETS_CDN_URL` and `RUST_LOG`. [deploy.md](deploy.md#docker-compose-behind-your-own-reverse-proxy)
+`SHS_ASSETS_CDN_URL`, `RUST_LOG` and the `GOODSORCERY_*` variables
+([above](#error-tracking-and-performance); blank `GOODSORCERY_API_KEY`
+leaves error tracking off). [deploy.md](deploy.md#docker-compose-behind-your-own-reverse-proxy)
 shows a full setup.
 
 ## Kamal
@@ -136,7 +178,11 @@ shows a full setup.
 `SHS_TRUST_PROXY=1` (kamal-proxy forwards the client address),
 `SHS_CLIENT_IP_HEADER=cf-connecting-ip` behind a Cloudflare Tunnel,
 `SHS_ASSETS_CDN_URL` from `DEPLOY_ASSETS_PUBLIC_URL`, and `SHS_PLAYER_CAP`,
-`SHS_SMTP_URL`, `SHS_MAIL_FROM` and `RUST_LOG` as you set them. The
+`SHS_SMTP_URL`, `SHS_MAIL_FROM` and `RUST_LOG` as you set them. It passes
+`GOODSORCERY_API_KEY` as a secret (blank: error tracking off) and
+`GOODSORCERY_PERFORMANCE_MONITORING` (default `1`, so performance is on as
+soon as there is a key); Kamal's own `KAMAL_VERSION` names the release
+([Error tracking and performance](#error-tracking-and-performance)). The
 `DEPLOY_*` settings are in [deploy.md](deploy.md#settings).
 
 ## Development

@@ -356,6 +356,7 @@ async fn serve(conn: &mut Conn, rt: &Arc<Realtime>) {
                         }
                         Err(e) => {
                             tracing::error!(error = %e, "reloading a queued character failed");
+                            crate::monitoring::capture_for_character(&e, character_id);
                             conn.kick(KickCode::ServerRestart).await;
                             return;
                         }
@@ -464,6 +465,7 @@ async fn load_joining(conn: &mut Conn, rt: &Realtime, character: Character) -> O
         }),
         Err(e) => {
             tracing::error!(error = %e, "loading friends for a join failed");
+            crate::monitoring::capture_for_character(&e, character.id);
             conn.kick(KickCode::ServerRestart).await;
             None
         }

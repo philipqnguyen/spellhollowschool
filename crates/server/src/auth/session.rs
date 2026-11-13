@@ -73,6 +73,7 @@ pub async fn validate_session(pool: &PgPool, token: &str) -> Option<SessionInfo>
         Ok(row) => row.map(SessionRow::into_info),
         Err(e) => {
             tracing::error!(error = %e, "session lookup failed");
+            goodsorcery::capture_error(&e);
             None
         }
     }
@@ -197,14 +198,19 @@ impl FromRequestParts<AppState> for AuthSession {
         .bind(&token_hash[..])
         .fetch_optional(&state.pool)
         .await?;
-        match row {
-            Some((account_id, character_id)) => Ok(Self {
-                account_id,
-                token_hash,
-                character_id,
-            }),
-            None => Err(ApiError::unauthorized()),
+        let Some((account_id, character_id)) = row else {
+            return Err(ApiError::unauthorized());
+        };
+        // Errors reported for this request name the account, by id only
+        // (monitoring.rs). Off without a key, which also keeps the tests quiet.
+        if goodsorcery::is_enabled() {
+            goodsorcery::set_user(Some(goodsorcery::User::new().id(account_id)));
         }
+        Ok(Self {
+            account_id,
+            token_hash,
+            character_id,
+        })
     }
 }
 

@@ -199,7 +199,9 @@ pub fn item_error(e: ItemError) -> ApiError {
         ItemError::NotEnough => crate::inventory::equip::item_unavailable(),
         ItemError::Ledger(l) => ledger_error(l),
         ItemError::Db(db) => db.into(),
-        other @ (ItemError::UnknownDef(_) | ItemError::OverStack(..)) => ApiError::internal(other),
+        other @ (ItemError::UnknownDef(_) | ItemError::OverStack(..)) => {
+            ApiError::internal_error(&other)
+        }
     }
 }
 
